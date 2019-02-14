@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule} from '@angular/material';
+import {MatButtonModule, MatInputModule, MatFormFieldModule, MatSelectModule, MatSlideToggleModule, MatToolbarModule, MatCardModule, MatExpansionModule, MatStepperModule, MatBadgeModule, MatIconModule, MatDialogModule, MatSnackBarModule, MatButtonToggleModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -15,6 +15,19 @@ import {MatButtonModule} from '@angular/material';
     BrowserModule,
     AppRoutingModule,
     MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatToolbarModule,
+    MatCardModule,
+    MatExpansionModule,
+    MatStepperModule,
+    MatBadgeModule,
+    MatIconModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatButtonToggleModule,
     BrowserAnimationsModule,
   ],
   providers: [],

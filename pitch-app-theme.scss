@@ -8,6 +8,6 @@ $pitch-app-accent:  mat-palette($mat-indigo);
 
 $pitch-app-warn:    mat-palette($mat-red);
 
-$pitch-app-theme: mat-dark-theme($pitch-app-primary, $pitch-app-accent, $pitch-app-warn);
+$pitch-app-theme: mat-light-theme($pitch-app-primary, $pitch-app-accent, $pitch-app-warn);
 
 @include angular-material-theme($pitch-app-theme);

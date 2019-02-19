@@ -1,0 +1,39 @@
+<h1>Pitch</h1>
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+	<mat-grid-list cols="2" rowHeight="80px">
+		<mat-grid-tile colspan="2">
+			<mat-button-toggle-group appearance="legacy" formControlName="userType" #group="matButtonToggleGroup">
+		  		<mat-button-toggle color="primary" value="venue">Venue</mat-button-toggle>
+	  			<mat-button-toggle color="primary" value="band">Band</mat-button-toggle>
+  			</mat-button-toggle-group>
+	  	</mat-grid-tile>
+	  	<mat-grid-tile>
+	  		<mat-form-field>
+    			<input matInput placeholder="Email" formControlName="email">
+    			<mat-error *ngIf="loginForm.controls.email.errors?.email && !loginForm.controls.email.errors?.required">
+			      	Invalid email address
+			    </mat-error>
+			    <mat-error *ngIf="loginForm.controls.email.errors?.required">
+			      	Email is <strong>required</strong>
+			    </mat-error>
+    		</mat-form-field>
+  		</mat-grid-tile>
+	  	<mat-grid-tile>
+			<button mat-raised-button color="primary" [routerLink]="['/sign-up']" type="button">Sign Up</button>
+		</mat-grid-tile>
+	  	<mat-grid-tile>
+	  		<mat-form-field>
+    			<input matInput placeholder="Password" type="password" formControlName="password">
+			    <mat-error *ngIf="loginForm.controls.password.errors?.required">
+			      	Password is <strong>required</strong>
+			    </mat-error>
+  			</mat-form-field>
+  		</mat-grid-tile>
+	  	<mat-grid-tile>
+	  		<button mat-raised-button color="primary" (click)="forgotPassword()" type="button">Forgot Password</button>
+	  	</mat-grid-tile>
+	  	<mat-grid-tile colspan="2">
+	  		<button mat-raised-button color="primary" type="submit">Login</button>
+	  	</mat-grid-tile>
+	</mat-grid-list>
+</form>

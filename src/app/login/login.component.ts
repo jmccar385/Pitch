@@ -30,9 +30,10 @@ export class LoginComponent implements OnInit {
 
 		if (this.loginForm.valid) {
 			this.snackBar.dismiss();
-      this.authService.login(this.loginForm.controls.email.value, this.loginForm.controls.password.value);
-      this.router.navigate(['/browse']);
-		}
+      this.authService.login(this.loginForm.controls.email.value, this.loginForm.controls.password.value).then((res) => {
+        this.router.navigate(['browse']);
+      });
+    }
 	}
 
   status(): void {

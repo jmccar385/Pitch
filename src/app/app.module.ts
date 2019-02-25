@@ -13,12 +13,16 @@ import { AuthService } from './services/auth.service';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { ForgotPasswordDialog } from './login/login.component';
+import { BrowseComponent } from './browse/browse.component';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     ForgotPasswordDialog,
+    BrowseComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,

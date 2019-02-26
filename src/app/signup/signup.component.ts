@@ -34,12 +34,6 @@ export class SignupComponent implements OnInit {
 		bandAddress: new FormControl('', [
 			Validators.required,
 		]),
-		venueAddress: new FormControl('', [
-			Validators.required,
-		]),
-		venueName: new FormControl('', [
-			Validators.required,
-		]),
 		bandName: new FormControl('', [
 			Validators.required,
 =======

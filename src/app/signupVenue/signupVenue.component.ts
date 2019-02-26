@@ -5,10 +5,10 @@ import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css']
+  templateUrl: './signupVenue.component.html',
+  styleUrls: ['./signupVenue.component.css']
 })
-export class SignupComponent implements OnInit {
+export class SignupVenueComponent implements OnInit {
 
 	constructor(private router: Router, private authService: AuthService) { }
 
@@ -29,16 +29,10 @@ export class SignupComponent implements OnInit {
 		password: new FormControl('', [
 			Validators.required,
 		]),
-		bandAddress: new FormControl('', [
-			Validators.required,
-		]),
 		venueAddress: new FormControl('', [
 			Validators.required,
 		]),
 		venueName: new FormControl('', [
-			Validators.required,
-		]),
-		bandName: new FormControl('', [
 			Validators.required,
 		])
 	});

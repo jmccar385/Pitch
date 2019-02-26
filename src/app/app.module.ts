@@ -15,6 +15,7 @@ import { LoginComponent } from './login/login.component';
 import { ForgotPasswordDialog } from './login/login.component';
 import { BrowseComponent } from './browse/browse.component';
 import { SignupComponent } from './signup/signup.component';
+import { AuthGuard } from './services/auth.guard';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { SignupComponent } from './signup/signup.component';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard],
   entryComponents: [ForgotPasswordDialog],
   bootstrap: [AppComponent]
 })

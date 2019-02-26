@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
   private authState: firebase.User = null;
 
   constructor(private afAuth: AngularFireAuth) {
@@ -31,7 +31,7 @@ export class AuthService {
   }
 
   get authenticated(): boolean {
-    return this.authState  !== null;
+    return this.authState !== null;
   }
 
   logout() {
@@ -42,7 +42,7 @@ export class AuthService {
     return this.authState ? this.authState : null;
   }
 
-  get currentUserObservable() {
+  get currentUserObservable(): Observable<firebase.User> {
     return this.afAuth.authState;
   }
 

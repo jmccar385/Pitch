@@ -1,14 +1,5 @@
 <form [formGroup]="signupForm" (ngSubmit)="signupForm.valid && signup()">
-	<h1>Band Signup</h1>
 	<mat-grid-list cols="1" rowHeight="80px">
-		<mat-grid-tile>
-			<mat-form-field>
-				<input matInput placeholder="Band Name" formControlName="bandName">
-			    <mat-error *ngIf="signupForm.controls.bandName.errors?.required">
-			      	Band Name is <strong>required</strong>
-			    </mat-error>
-			</mat-form-field>
-		</mat-grid-tile>
 		<mat-grid-tile>
 			<mat-form-field>
 				<input matInput placeholder="Email" formControlName="email">
@@ -26,31 +17,6 @@
 			    <mat-error *ngIf="signupForm.controls.password.errors?.required">
 			      	Password is <strong>required</strong>
 			    </mat-error>
-			</mat-form-field>
-		</mat-grid-tile>
-		<mat-grid-tile>
-			<mat-form-field>
-				<input matInput placeholder="Search Address" type="address" formControlName="bandAddress">
-			    <mat-error *ngIf="signupForm.controls.bandAddress.errors?.required">
-			      	Search Address is <strong>required</strong>
-			    </mat-error>
-			</mat-form-field>
-		</mat-grid-tile>
-		<mat-grid-tile>
-			<mat-form-field>
-				  <mat-select placeholder="Search Radius" [(value)]="selected">
-				    <mat-option>None</mat-option>
-				    <mat-option value="5">5mi</mat-option>
-				    <mat-option value="10">10mi</mat-option>
-				    <mat-option value="15">15mi</mat-option>
-   				    <mat-option value="20">20mi</mat-option>
-   				    <mat-option value="25">25mi</mat-option>
-   				    <mat-option value="30">30mi</mat-option>
-   				    <mat-option value="35">35mi</mat-option>
-   				    <mat-option value="40">40mi</mat-option>
-   				    <mat-option value="45">45mi</mat-option>
-   				    <mat-option value="50">50mi</mat-option>
-				  </mat-select>
 			</mat-form-field>
 		</mat-grid-tile>
 		<mat-grid-tile>

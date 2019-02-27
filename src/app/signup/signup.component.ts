@@ -16,8 +16,8 @@ export class SignupComponent implements OnInit {
 	}
 
 	signup() {
-		this.authService.signup(this.signupForm.controls.email.value, this.signupForm.controls.password.value).then((res) => {
-			this.router.navigate(['browse']);
+		this.authService.signup(this.signupForm.controls.email.value, this.signupForm.controls.password.value).then(() => {
+			this.authService.verification();
 		});
 	}
 

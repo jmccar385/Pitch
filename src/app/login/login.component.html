@@ -1,12 +1,6 @@
 <h1>Pitch</h1>
-<form [formGroup]="loginForm" (ngSubmit)="login()">
+<form [formGroup]="loginForm" (ngSubmit)="loginForm.valid && login()">
 	<mat-grid-list cols="2" rowHeight="80px">
-		<mat-grid-tile colspan="2">
-			<mat-button-toggle-group appearance="legacy" formControlName="userType" #group="matButtonToggleGroup">
-		  		<mat-button-toggle color="primary" value="venue">Venue</mat-button-toggle>
-	  			<mat-button-toggle color="primary" value="band">Band</mat-button-toggle>
-  			</mat-button-toggle-group>
-	  	</mat-grid-tile>
 	  	<mat-grid-tile>
 	  		<mat-form-field>
     			<input matInput placeholder="Email" formControlName="email">
@@ -34,9 +28,6 @@
 	  	</mat-grid-tile>
 	  	<mat-grid-tile colspan="2">
 	  		<button mat-raised-button color="primary" type="submit">Login</button>
-	  	</mat-grid-tile>
-	  	<mat-grid-tile colspan="2">
-	  		<button mat-raised-button color="primary" type="button" (click)="status()">Status</button>
 	  	</mat-grid-tile>
 	</mat-grid-list>
 </form>

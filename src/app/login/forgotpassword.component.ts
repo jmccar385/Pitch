@@ -23,6 +23,7 @@ export class ForgotPasswordDialog {
   send(): void {
     this.authService.resetPassword(this.forgotPasswordForm.controls.email.value).then(() => {
       this.dialogRef.close();
+      this.snackBar.open("Please check your email to reset your password", "close", {duration: 2000,});
     }).catch((error) => {
       console.log(error);
       if (error.code == "auth/user-not-found" || error.code == "auth/invalid-email") {

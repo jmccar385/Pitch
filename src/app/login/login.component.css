@@ -1,12 +1,7 @@
 h1 {
 	text-align: center;
-	margin-bottom: 40px;
 }
 
-.mat-button-toggle {
-	color: rgba(0, 0, 0, 0.87);
-}
-
-.mat-button-toggle-checked {
-	background: #00c853;
+form {
+	bottom: 24px;
 }

@@ -17,9 +17,6 @@ export class LoginComponent {
 
   forgotPassword(): void {
     const dialogRef = this.dialog.open(ForgotPasswordDialog, {width: '300px', data: {}});
-	  dialogRef.afterClosed().subscribe(() => {
-     this.snackBar.open("Please check your email to reset your password", "close", {duration: 2000,});
-    });
   }
 
 	login(): void {

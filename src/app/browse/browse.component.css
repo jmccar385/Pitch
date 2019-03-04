@@ -1,0 +1,17 @@
+.browse-card {
+  max-width: 100%;
+}
+
+.browse-header-image {
+  background-size: cover;
+}
+
+.browse-star-image {
+  width: 16px;
+  height: 16px;
+}
+
+.browse-equiptment-image {
+  width: 16px;
+  height: 16px;
+}

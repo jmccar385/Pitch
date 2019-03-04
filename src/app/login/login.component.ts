@@ -6,9 +6,9 @@ import { AuthService } from '../services/auth.service';
 import { ForgotPasswordDialog } from './forgotpassword.component';
 
 @Component({
-  	selector: 'app-login',
-  	templateUrl: './login.component.html',
-  	styleUrls: ['./login.component.css']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
 
 export class LoginComponent {
@@ -23,7 +23,8 @@ export class LoginComponent {
       this.authService.login(this.loginForm.controls.email.value, this.loginForm.controls.password.value).then((res) => {
         this.router.navigate(['browse']);
       }).catch((error) => {
-        if (error.code == "auth/user-not-found") {
+        console.log(error);
+        if (error.code == "auth/user-not-found" || error.code == "auth/wrong-password") {
           this.snackBar.open("Your have entered an incorrect email or password", "close", {duration: 2000,});
         }
       });

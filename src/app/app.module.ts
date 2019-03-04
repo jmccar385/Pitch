@@ -8,13 +8,16 @@ import { MaterialModule } from './material/material.module';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
+
 import { AuthService } from './services/auth.service';
+import { AuthGuard } from './services/auth.guard';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { ForgotPasswordDialog } from './login/forgotpassword.component';
 import { BrowseComponent } from './browse/browse.component';
 import { SignupComponent } from './signup/signup.component';
+
 
 @NgModule({
   declarations: [
@@ -34,7 +37,7 @@ import { SignupComponent } from './signup/signup.component';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard],
   entryComponents: [ForgotPasswordDialog],
   bootstrap: [AppComponent]
 })

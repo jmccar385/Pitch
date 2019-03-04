@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
 
+export class AuthService {
   private authState: firebase.User = null;
 
   constructor(private afAuth: AngularFireAuth, private router: Router) {
@@ -20,15 +21,11 @@ export class AuthService {
   }
 
   async signup(email: string, pass: string) {
-    try {
-      return await this.afAuth.auth.createUserWithEmailAndPassword(email, pass);
-    } catch (error) {
-      console.log(error);
-    }
+      return await this.afAuth.auth.createUserWithEmailAndPassword(email, pass);  
   }
 
   get authenticated(): boolean {
-    return this.authState  !== null;
+    return this.authState !== null;
   }
 
   logout() {
@@ -39,7 +36,7 @@ export class AuthService {
     return this.authState ? this.authState : null;
   }
 
-  get currentUserObservable() {
+  get currentUserObservable(): Observable<firebase.User> {
     return this.afAuth.authState;
   }
 

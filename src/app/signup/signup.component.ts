@@ -22,10 +22,10 @@ export class SignupComponent implements OnInit {
 		}).catch((error) => {
 			console.log(error);
 			if (error.code == "auth/weak-password") {
-				this.snackBar.open("Your password must be at least 6 characters long", "close", {duration: 2000,});
+				this.snackBar.open("Your password must be at least 6 characters long", "close", {duration: 2000});
 			}
 			if (error.code == "auth/invalid-email") {
-				this.snackBar.open("Please enter a valid email address", "close", {duration: 2000,});
+				this.snackBar.open("Please enter a valid email address", "close", {duration: 2000});
 			}
 		});
 	}

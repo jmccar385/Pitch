@@ -1,5 +1,5 @@
-<div id="background">
-<mat-card class="login-theme">
+<div id="background" class="login-theme">
+<div id="login">
 	<h1>Pitch</h1>
 	<form [formGroup]="loginForm" (ngSubmit)="loginForm.valid && login()">
 	  	<mat-form-field color="accent">
@@ -22,5 +22,5 @@
 		<div id="divider"><hr> or <hr></div>
 		<button mat-flat-button color="primary" [routerLink]="['/signup']" type="button">Sign Up</button>
 	</form>
-</mat-card>
+</div>
 </div>

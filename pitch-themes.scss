@@ -4,9 +4,7 @@
 @import 'app-theme.scss';
 @import 'login-theme.scss';
 
-.app-theme {
-	@include angular-material-theme($app-theme);
-}
+@include angular-material-theme($app-theme);
 
 .login-theme {
 	@include angular-material-theme($login-theme);

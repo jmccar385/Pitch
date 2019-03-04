@@ -53,6 +53,7 @@ hr {
 	display: inline-block;
 	border-style: solid;
 	border-radius: 0.5px;
+	background: white;
 }
 
 .mat-snack-bar-container {

@@ -16,7 +16,7 @@ export class LoginComponent {
   constructor(private snackBar: MatSnackBar, public dialog: MatDialog, private authService: AuthService, private router: Router) { }
 
   forgotPassword(): void {
-    const dialogRef = this.dialog.open(ForgotPasswordDialog, {width: '300px', data: {}});
+    const dialogRef = this.dialog.open(ForgotPasswordDialog, {width: '450px', data: {}, autoFocus: false});
   }
 
 	login(): void {

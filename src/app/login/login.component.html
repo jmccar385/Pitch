@@ -1,33 +1,26 @@
-<h1>Pitch</h1>
-<form [formGroup]="loginForm" (ngSubmit)="loginForm.valid && login()">
-	<mat-grid-list cols="2" rowHeight="80px">
-	  	<mat-grid-tile>
-	  		<mat-form-field>
-    			<input matInput placeholder="Email" formControlName="email">
-    			<mat-error *ngIf="loginForm.controls.email.errors?.email && !loginForm.controls.email.errors?.required">
-			      	Invalid email address
-			    </mat-error>
-			    <mat-error *ngIf="loginForm.controls.email.errors?.required">
-			      	Email is <strong>required</strong>
-			    </mat-error>
-    		</mat-form-field>
-  		</mat-grid-tile>
-	  	<mat-grid-tile>
-			<button mat-raised-button color="primary" [routerLink]="['/signup']" type="button">Sign Up</button>
-		</mat-grid-tile>
-	  	<mat-grid-tile>
-	  		<mat-form-field>
-    			<input matInput placeholder="Password" type="password" formControlName="password">
-			    <mat-error *ngIf="loginForm.controls.password.errors?.required">
-			      	Password is <strong>required</strong>
-			    </mat-error>
-  			</mat-form-field>
-  		</mat-grid-tile>
-	  	<mat-grid-tile>
-	  		<button mat-raised-button color="primary" (click)="forgotPassword()" type="button">Forgot Password</button>
-	  	</mat-grid-tile>
-	  	<mat-grid-tile colspan="2">
-	  		<button mat-raised-button color="primary" type="submit">Login</button>
-	  	</mat-grid-tile>
-	</mat-grid-list>
-</form>
+<div id="background">
+<mat-card class="login-theme">
+	<h1>Pitch</h1>
+	<form [formGroup]="loginForm" (ngSubmit)="loginForm.valid && login()">
+	  	<mat-form-field color="accent">
+			<input matInput placeholder="Email" formControlName="email">
+			<mat-error *ngIf="loginForm.controls.email.errors?.email && !loginForm.controls.email.errors?.required">
+		      	Invalid email address
+		    </mat-error>
+		    <mat-error *ngIf="loginForm.controls.email.errors?.required">
+		      	Email is <strong>required</strong>
+		    </mat-error>
+		</mat-form-field>
+		<mat-form-field color="accent">
+			<input matInput placeholder="Password" type="password" formControlName="password">
+		    <mat-error *ngIf="loginForm.controls.password.errors?.required">
+		      	Password is <strong>required</strong>
+		    </mat-error>
+		</mat-form-field>
+		<button mat-flat-button color="primary" (click)="forgotPassword()" type="button">Forgot Password</button>
+		<button mat-flat-button color="primary" type="submit">Login</button>
+		<div id="divider"><hr> or <hr></div>
+		<button mat-flat-button color="primary" [routerLink]="['/signup']" type="button">Sign Up</button>
+	</form>
+</mat-card>
+</div>

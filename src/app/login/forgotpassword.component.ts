@@ -26,7 +26,7 @@ export class ForgotPasswordDialog {
       this.snackBar.open("Please check your email to reset your password", "close", {duration: 2000,});
     }).catch((error) => {
       if (error.code == "auth/user-not-found" || error.code == "auth/invalid-email") {
-        this.snackBar.open("This email is not associated with any user", "close", {duration: 2000,});
+        this.snackBar.open("We dont recognize this email", "close", {duration: 2000,});
       }
     });
   }

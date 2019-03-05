@@ -16,7 +16,7 @@ export class LoginComponent {
   constructor(private snackBar: MatSnackBar, public dialog: MatDialog, private authService: AuthService, private router: Router) { }
 
   forgotPassword(): void {
-    const dialogRef = this.dialog.open(ForgotPasswordDialog, {width: '300px', data: {}});
+    const dialogRef = this.dialog.open(ForgotPasswordDialog, {width: '450px', data: {}});
   }
 
 	login(): void {
@@ -25,7 +25,7 @@ export class LoginComponent {
       }).catch((error) => {
         console.log(error);
         if (error.code == "auth/user-not-found" || error.code == "auth/wrong-password") {
-          this.snackBar.open("Your have entered an incorrect email or password", "close", {duration: 2000,});
+          this.snackBar.open("You have entered incorrect credentials", "close", {duration: 2000});
         }
       });
 	}

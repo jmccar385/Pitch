@@ -73,7 +73,7 @@ export class BrowseComponent implements OnInit {
     let _checkEquipment = (id: string) => equipment && equipment.filter(E => E["EquipmentName"].toLowerCase().startsWith(id.toLowerCase()) && E["EquipmentAvailable"]).length > 0;
 
     let now = new Date().getTime();
-    let _events = events.filter(E => E["EventDateTime"].seconds * 1000.0ç >= now);
+    let _events = events.filter(E => E["EventDateTime"].seconds * 1000.0 >= now);
 
     let profile_image;
     await this.profileService.getImageUrl(venue["ProfilePicture"]).then(rec => {

@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 })
 
 export class AuthService {
+
   private authState: firebase.User = null;
 
   constructor(private afAuth: AngularFireAuth, private router: Router) {
@@ -25,7 +26,7 @@ export class AuthService {
   }
 
   get authenticated(): boolean {
-    return this.authState !== null;
+    return this.authState  !== null;
   }
 
   logout() {
@@ -36,7 +37,7 @@ export class AuthService {
     return this.authState ? this.authState : null;
   }
 
-  get currentUserObservable(): Observable<firebase.User> {
+  get currentUserObservable() {
     return this.afAuth.authState;
   }
 

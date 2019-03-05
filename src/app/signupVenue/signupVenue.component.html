@@ -1,0 +1,109 @@
+<div id="background" class="login-theme">
+	<form [formGroup]="signupVenueForm" (ngSubmit)="signupVenueForm.valid && signupVenue()">
+		<mat-horizontal-stepper [@.disabled]="true" linear #stepper>
+			<mat-step label="About">
+				<div class="stepper-content">
+					<h1>Tell us about your venue</h1>
+					<mat-form-field>
+						<input matInput placeholder="What is your venues name?" formControlName="name">
+					    <mat-error *ngIf="signupVenueForm.controls.name.errors?.required">
+					      	A name is <strong>required</strong>
+					    </mat-error>
+					</mat-form-field>
+					<mat-form-field>
+						<textarea matInput placeholder="What should bands to know about your venue?" formControlName="description" matTextareaAutosize matAutosizeMinRows=5 ></textarea>
+						<mat-error *ngIf="signupVenueForm.controls.description.errors?.required">
+					      	A description is <strong>required</strong>
+					    </mat-error>
+					</mat-form-field>
+					<h1>profile photo upload here</h1>
+					<div class="stepper-buttons">
+						<button mat-flat-button type="button" color="accent" [routerLink]="['/signup']">Back</button>
+						<button mat-flat-button matStepperNext color="accent" type="button" [disabled]="signupVenueForm.controls.description.errors && signupVenueForm.controls.address.errors">Next</button>
+					</div>
+				</div>
+			</mat-step>
+			<mat-step label="Location">
+				<div class="stepper-content">
+					<h1>Next we need some basic location info</h1>
+					<mat-form-field>
+						<input matInput placeholder="Address" type="address" formControlName="address">
+					    <mat-error *ngIf="signupVenueForm.controls.address.errors?.required">
+					      	An address is <strong>required</strong>
+					    </mat-error>
+					</mat-form-field>
+					<mat-form-field>
+						<input matInput placeholder="City" type="address" formControlName="city">
+					    <mat-error *ngIf="signupVenueForm.controls.address.errors?.required">
+					      	A city is <strong>required</strong>
+					    </mat-error>
+					</mat-form-field>
+					<mat-form-field>
+						<input matInput placeholder="State" type="address" formControlName="state">
+					    <mat-error *ngIf="signupVenueForm.controls.address.errors?.required">
+					      	A state is <strong>required</strong>
+					    </mat-error>
+					</mat-form-field>
+					<mat-form-field>
+						<input matInput placeholder="Zip Code" type="zip" formControlName="zip">
+					    <mat-error *ngIf="signupVenueForm.controls.address.errors?.required">
+					      	A zip code is <strong>required</strong>
+					    </mat-error>
+					</mat-form-field>
+					<div class="stepper-buttons">
+						<button mat-flat-button matStepperPrevious color="accent" type="button">Back</button>
+		        		<button mat-flat-button matStepperNext color="accent" type="button" [disabled]="signupVenueForm.controls.address.errors">Next</button>
+		        	</div>
+	        	</div>
+			</mat-step>
+			<mat-step label="Photos">
+				<div class="stepper-content">
+					<h1>Upload some photos that showcase your venue</h1>
+					<div class="stepper-buttons">
+						<button mat-flat-button matStepperPrevious color="accent" type="button">Back</button>
+		        		<button mat-flat-button matStepperNext color="accent" type="button">Next</button>
+		        	</div>
+		        </div>
+	        </mat-step>
+	        <mat-step label="Equipment">
+	        	<div class="stepper-content">
+					<h1>What equipment can you provide to bands?</h1>
+					<div class="checkbox-align">
+						<mat-checkbox color="primary" labelPosition="before">Drum Kit</mat-checkbox>
+						<mat-checkbox color="primary" labelPosition="before">Bass Amp</mat-checkbox>
+						<mat-checkbox color="primary" labelPosition="before">Guitar Amp</mat-checkbox>
+						<mat-checkbox color="primary" labelPosition="before">Something</mat-checkbox>
+					</div>
+					<div class="stepper-buttons">
+						<button mat-flat-button matStepperPrevious color="accent" type="button">Back</button>
+		        		<button mat-flat-button matStepperNext color="accent" type="button">Next</button>
+		        	</div>
+		        </div>
+	        </mat-step>
+			<mat-step label="Account">
+				<div class="stepper-content">
+					<h1>Finally, create your account</h1>
+					<mat-form-field>
+						<input matInput placeholder="Email" formControlName="email">
+						<mat-error *ngIf="signupVenueForm.controls.email.errors?.email && !signupVenueForm.controls.email.errors?.required">
+					      	Invalid email address
+					    </mat-error>
+					    <mat-error *ngIf="signupVenueForm.controls.email.errors?.required">
+					      	Email is <strong>required</strong>
+					    </mat-error>
+					</mat-form-field>
+					<mat-form-field>
+						<input matInput placeholder="Password" type="password" formControlName="password">
+					    <mat-error *ngIf="signupVenueForm.controls.password.errors?.required">
+					      	Password is <strong>required</strong>
+					    </mat-error>
+					</mat-form-field>
+					<div class="stepper-buttons">
+						<button mat-flat-button matStepperPrevious color="accent"type="button">Back</button>
+		        		<button mat-flat-button matStepperNext color="accent" [disabled]="!signupVenueForm.valid">Sign Up</button>
+		        	</div>
+	        	</div>
+			</mat-step>
+		</mat-horizontal-stepper>
+	</form>
+</div>

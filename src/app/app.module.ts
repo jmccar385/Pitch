@@ -17,6 +17,7 @@ import { LoginComponent } from './login/login.component';
 import { ForgotPasswordDialog } from './login/forgotpassword.component';
 import { BrowseComponent } from './browse/browse.component';
 import { SignupComponent } from './signup/signup.component';
+import { HeaderComponent } from './header/header.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { SignupComponent } from './signup/signup.component';
     ForgotPasswordDialog,
     BrowseComponent,
     SignupComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,

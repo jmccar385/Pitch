@@ -1,12 +1,12 @@
-<h1>Browse</h1>
+<app-header></app-header>
 <mat-card class="browse-card" *ngFor="let card of profileCards">
   <mat-card-header>
     <img mat-card-avatar class="browse-header-image" src="{{card.profile_image}}">
     <mat-card-title>{{card.profile_name}} </mat-card-title>
     <mat-card-subtitle>
       <mat-grid-list cols="5" rowHeight="16px">
-        <mat-grid-tile *ngFor="let star of card.rating">
-          <img class="browse-star-image" src="{{star.source}}">
+        <mat-grid-tile *ngFor="let star of stars">
+          <mat-icon>{{star}}</mat-icon>
         </mat-grid-tile>
       </mat-grid-list>
     </mat-card-subtitle>

@@ -1,0 +1,11 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+@import 'app-theme.scss';
+@import 'login-theme.scss';
+
+@include angular-material-theme($app-theme);
+
+.login-theme {
+	@include angular-material-theme($login-theme);
+}

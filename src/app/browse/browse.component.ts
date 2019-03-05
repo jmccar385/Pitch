@@ -12,17 +12,12 @@ export class BrowseComponent implements OnInit {
 
 	constructor(private snackBar: MatSnackBar, public dialog: MatDialog, private authService: AuthService, private router: Router) { }
 
+	private stars = [];
 	private profileCards: any[] = [
 		{
 			profile_image: 'https://www.shareicon.net/data/128x128/2017/05/24/886426_user_512x512.png',
 			profile_name: 'Test profile',
-			rating: [
-				{source: 'https://www.shareicon.net/data/128x128/2016/01/03/697542_star_512x512.png'},
-				{source: 'https://www.shareicon.net/data/128x128/2016/01/03/697542_star_512x512.png'},
-				{source: 'https://www.shareicon.net/data/128x128/2016/01/03/697542_star_512x512.png'},
-				{source: 'https://www.shareicon.net/data/128x128/2015/09/21/644056_star_512x512.png'},
-				{source: 'https://www.shareicon.net/data/128x128/2016/01/05/698469_star_512x512.png'}
-			],
+			rating: 1.9,
 			upcoming_event_text: '3 upcoming shows',
 
 			amplifiers_available: true,
@@ -38,6 +33,19 @@ export class BrowseComponent implements OnInit {
 	];
 
   	ngOnInit() {
+  		for (var i = 0; i < this.profileCards.length; i++) {
+  			while (this.profileCards[i].rating >= 1) {
+  				this.stars.push("star");
+  				this.profileCards[i].rating -= 1;
+  			}
+  			if (this.profileCards[i].rating != 0) {
+  				this.stars.push("star_half");
+  			}
+  			while (this.stars.length < 5) {
+  				this.stars.push("star_border");
+  			}
+  			 
+  		}
   	}
 
 	getCards(start, end): void {

@@ -5,16 +5,16 @@ import { AuthService } from '../services/auth.service';
 import { MatSnackBar } from '@angular/material';
 
 @Component({
-  selector: 'venue-signup',
-  templateUrl: './signupVenue.component.html',
-  styleUrls: ['./signupVenue.component.css']
+  selector: 'band-signup',
+  templateUrl: './signupBand.component.html',
+  styleUrls: ['./signupBand.component.css']
 })
-export class SignupVenueComponent {
+export class SignupBandComponent {
 
 	constructor(private router: Router, private authService: AuthService, private snackBar: MatSnackBar) { }
 
-	signupVenue() {
-		this.authService.signup(this.signupVenueForm.controls.email.value, this.signupVenueForm.controls.password.value).then(() => {
+	signupBand() {
+		this.authService.signup(this.signupBandForm.controls.email.value, this.signupBandForm.controls.password.value).then(() => {
 			this.authService.verification();
 		}).catch((error) => {
 			console.log(error);
@@ -30,7 +30,7 @@ export class SignupVenueComponent {
 		});
 	}
 
-	signupVenueForm: FormGroup = new FormGroup({
+	signupBandForm: FormGroup = new FormGroup({
 		email: new FormControl('', [
 			Validators.required,
 			Validators.email,
@@ -46,6 +46,8 @@ export class SignupVenueComponent {
 		]),
 		description: new FormControl('', [
 			Validators.required,
+		]),
+		radius: new FormControl('', [
 		]),
 	});
 

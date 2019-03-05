@@ -1,26 +1,26 @@
 <div id="background" class="login-theme">
-<div id="login">
-	<h1>Pitch</h1>
-	<form [formGroup]="loginForm" (ngSubmit)="loginForm.valid && login()">
-	  	<mat-form-field color="accent">
-			<input matInput placeholder="Email" formControlName="email">
-			<mat-error *ngIf="loginForm.controls.email.errors?.email && !loginForm.controls.email.errors?.required">
-		      	Invalid email address
-		    </mat-error>
-		    <mat-error *ngIf="loginForm.controls.email.errors?.required">
-		      	Email is <strong>required</strong>
-		    </mat-error>
-		</mat-form-field>
-		<mat-form-field color="accent">
-			<input matInput placeholder="Password" type="password" formControlName="password">
-		    <mat-error *ngIf="loginForm.controls.password.errors?.required">
-		      	Password is <strong>required</strong>
-		    </mat-error>
-		</mat-form-field>
-		<button mat-flat-button color="primary" (click)="forgotPassword()" type="button">Forgot Password</button>
-		<button mat-flat-button color="primary" type="submit">Login</button>
-		<div id="divider"><hr> or <hr></div>
-		<button mat-flat-button color="primary" [routerLink]="['/signup']" type="button">Sign Up</button>
-	</form>
-</div>
+	<div id="login">
+		<h1>Pitch</h1>
+		<form [formGroup]="loginForm" (ngSubmit)="loginForm.valid && login()">
+		  	<mat-form-field>
+				<input matInput placeholder="Email" formControlName="email">
+				<mat-error *ngIf="loginForm.controls.email.errors?.email && !loginForm.controls.email.errors?.required">
+			      	Invalid email address
+			    </mat-error>
+			    <mat-error *ngIf="loginForm.controls.email.errors?.required">
+			      	Email is <strong>required</strong>
+			    </mat-error>
+			</mat-form-field>
+			<mat-form-field>
+				<input matInput placeholder="Password" type="password" formControlName="password">
+			    <mat-error *ngIf="loginForm.controls.password.errors?.required">
+			      	Password is <strong>required</strong>
+			    </mat-error>
+			</mat-form-field>
+			<button mat-flat-button color="accent" (click)="forgotPassword()" type="button">Forgot Password</button>
+			<button mat-flat-button color="accent" type="submit">Login</button>
+			<div id="divider"><hr> or <hr></div>
+			<button mat-flat-button color="accent" [routerLink]="['/signup']" type="button">Sign Up</button>
+		</form>
+	</div>
 </div>

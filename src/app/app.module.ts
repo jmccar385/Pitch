@@ -47,11 +47,7 @@ import { SignupVenueComponent } from './signupVenue/signupVenue.component';
     FormsModule,
     ReactiveFormsModule,
   ],
-<<<<<<< HEAD
   providers: [AuthService, AuthGuard, ProfileService],
-=======
-  providers: [AuthService],
->>>>>>> 09dbb708c4febf463c0b474bc2a392d4a70e2bed
   entryComponents: [ForgotPasswordDialog],
   bootstrap: [AppComponent]
 })

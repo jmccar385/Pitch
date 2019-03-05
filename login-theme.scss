@@ -1,0 +1,5 @@
+$login-primary:     mat-palette($mat-grey, 500);
+$login-accent:      mat-palette($mat-grey, 50);
+$login-warn:        mat-palette($mat-red);
+
+$login-theme: mat-dark-theme($login-primary, $login-accent, $login-warn);

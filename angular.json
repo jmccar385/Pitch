@@ -24,7 +24,7 @@
             ],
             "styles": [
               "src/styles.css",
-              "pitch-app-theme.scss"
+              "pitch-themes.scss"
             ],
             "scripts": [],
             "es5BrowserSupport": true

@@ -33,15 +33,38 @@ button:disabled {
 }
 
 .stepper-buttons {
-	margin-top: 20px;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	position: fixed;
+	bottom: 0;
+	background: #00C853;
 }
 
 h1 {
 	text-align: left;
-	margin-bottom: 40px;
+	margin-bottom: 10px;
 	font-size: 25px;
+	width: 100%;
+}
+
+.checkbox-align {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	width: 100%;
+}
+
+.checkbox-container {
+	width: 50%;
+	display: flex;
+	justify-content: center;
+}
+
+mat-checkbox {
+	width: 50%;
+	display: flex;
+	justify-content: center;
 }

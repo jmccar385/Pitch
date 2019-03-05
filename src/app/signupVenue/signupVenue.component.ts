@@ -41,6 +41,15 @@ export class SignupVenueComponent {
 		address: new FormControl('', [
 			Validators.required,
 		]),
+		city: new FormControl('', [
+			Validators.required,
+		]),
+		state: new FormControl('', [
+			Validators.required,
+		]),
+		zip: new FormControl('', [
+			Validators.required,
+		]),
 		name: new FormControl('', [
 			Validators.required,
 		]),

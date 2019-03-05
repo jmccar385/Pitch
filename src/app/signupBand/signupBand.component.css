@@ -18,7 +18,7 @@ mat-horizontal-stepper {
 
 mat-form-field {
 	width: 90%;
-	margin: 10px;
+	margin: 5px;
 }
 
 button {
@@ -38,10 +38,13 @@ button:disabled {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	position: absolute;
+	bottom: 0;
 }
 
 h1 {
 	text-align: left;
 	margin-bottom: 40px;
 	font-size: 25px;
+	width: 100%;
 }

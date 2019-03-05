@@ -1,6 +1,6 @@
 <div id="background" class="login-theme">
 	<form [formGroup]="signupBandForm" (ngSubmit)="signupBandForm.valid && signupBand()">
-		<mat-horizontal-stepper linear #stepper>
+		<mat-horizontal-stepper [@.disabled]="true" linear #stepper>
 			<mat-step label="About">
 				<div class="stepper-content">
 					<h1>Tell us about your band</h1>
@@ -16,6 +16,7 @@
 					      	A description is <strong>required</strong>
 					    </mat-error>
 					</mat-form-field>
+					<h1>profile photo upload here</h1>
 					<div class="stepper-buttons">
 						<button mat-flat-button type="button" color="accent" [routerLink]="['/signup']">Back</button>
 						<button mat-flat-button matStepperNext color="accent" type="button" [disabled]="signupBandForm.controls.description.errors && signupBandForm.controls.address.errors">Next</button>
@@ -23,12 +24,30 @@
 				</div>
 			</mat-step>
 			<mat-step label="Location">
-				<h1>Next we need some basic location info</h1>
 				<div class="stepper-content">
+					<h1>Next we need some basic location info</h1>
 					<mat-form-field>
-						<input matInput placeholder="Where do you live?" type="address" formControlName="address">
+						<input matInput placeholder="Address" type="address" formControlName="address">
 					    <mat-error *ngIf="signupBandForm.controls.address.errors?.required">
 					      	An address is <strong>required</strong>
+					    </mat-error>
+					</mat-form-field>
+					<mat-form-field>
+						<input matInput placeholder="City" type="address" formControlName="city">
+					    <mat-error *ngIf="signupBandForm.controls.address.errors?.required">
+					      	A city is <strong>required</strong>
+					    </mat-error>
+					</mat-form-field>
+					<mat-form-field>
+						<input matInput placeholder="State" type="address" formControlName="state">
+					    <mat-error *ngIf="signupBandForm.controls.address.errors?.required">
+					      	A state is <strong>required</strong>
+					    </mat-error>
+					</mat-form-field>
+					<mat-form-field>
+						<input matInput placeholder="Zip Code" type="zip" formControlName="zip">
+					    <mat-error *ngIf="signupBandForm.controls.address.errors?.required">
+					      	A zip code is <strong>required</strong>
 					    </mat-error>
 					</mat-form-field>
 					<mat-form-field>
@@ -53,15 +72,17 @@
 	        	</div>
 			</mat-step>
 			<mat-step label="Music">
-				<h1>Select some music samples to send to venues</h1>
-				<div class="stepper-buttons">
-					<button mat-flat-button matStepperPrevious color="accent" type="button">Back</button>
-	        		<button mat-flat-button matStepperNext color="accent" type="button">Next</button>
-	        	</div>
+				<div class="stepper-content">
+					<h1>Select some music samples to send to venues</h1>
+					<div class="stepper-buttons">
+						<button mat-flat-button matStepperPrevious color="accent" type="button">Back</button>
+		        		<button mat-flat-button matStepperNext color="accent" type="button">Next</button>
+		        	</div>
+		        </div>
 	        </mat-step>
 			<mat-step label="Account">
-				<h1>Finally create your account</h1>
 				<div class="stepper-content">
+					<h1>Finally create your account</h1>
 					<mat-form-field>
 						<input matInput placeholder="Email" formControlName="email">
 						<mat-error *ngIf="signupBandForm.controls.email.errors?.email && !signupBandForm.controls.email.errors?.required">

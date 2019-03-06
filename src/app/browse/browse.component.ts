@@ -75,10 +75,7 @@ export class BrowseComponent implements OnInit {
     let now = new Date().getTime();
     let _events = events.filter(E => E["EventDateTime"].seconds * 1000.0 >= now);
 
-    let profile_image;
-    await this.profileService.getImageUrl(venue["ProfilePicture"]).then(rec => {
-      profile_image = rec;
-    });
+    let profile_image = venue["ProfilePictureUrl"];
     
     this.profileCards.push({
       profile_image: profile_image,

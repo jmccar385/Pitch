@@ -1,26 +1,7 @@
-<form [formGroup]="signupForm" (ngSubmit)="signupForm.valid && signup()">
-	<mat-grid-list cols="1" rowHeight="80px">
-		<mat-grid-tile>
-			<mat-form-field>
-				<input matInput placeholder="Email" formControlName="email">
-				<mat-error *ngIf="signupForm.controls.email.errors?.email && !signupForm.controls.email.errors?.required">
-			      	Invalid email address
-			    </mat-error>
-			    <mat-error *ngIf="signupForm.controls.email.errors?.required">
-			      	Email is <strong>required</strong>
-			    </mat-error>
-			</mat-form-field>
-		</mat-grid-tile>
-		<mat-grid-tile>
-			<mat-form-field>
-				<input matInput placeholder="Password" type="password" formControlName="password">
-			    <mat-error *ngIf="signupForm.controls.password.errors?.required">
-			      	Password is <strong>required</strong>
-			    </mat-error>
-			</mat-form-field>
-		</mat-grid-tile>
-		<mat-grid-tile>
-			<button mat-raised-button color="primary" type="submit">Sign Up</button>
-		</mat-grid-tile>
-	</mat-grid-list>
-</form>
+<div id="background" class="login-theme">
+	<h1>What are you?</h1>
+	<div id="buttons">
+		<button mat-flat-button color="accent" [routerLink]="['/signup/band']" type="button">Band</button>
+		<button mat-flat-button color="accent" [routerLink]="['/signup/venue']" type="button">Venue</button>
+	</div>
+</div>

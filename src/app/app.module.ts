@@ -17,7 +17,8 @@ import { LoginComponent } from './login/login.component';
 import { ForgotPasswordDialog } from './login/forgotpassword.component';
 import { BrowseComponent } from './browse/browse.component';
 import { SignupComponent } from './signup/signup.component';
-
+import { SignupBandComponent } from './signupBand/signupBand.component';
+import { SignupVenueComponent } from './signupVenue/signupVenue.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,8 @@ import { SignupComponent } from './signup/signup.component';
     ForgotPasswordDialog,
     BrowseComponent,
     SignupComponent,
+    SignupVenueComponent,
+    SignupBandComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,7 +40,7 @@ import { SignupComponent } from './signup/signup.component';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [AuthService, AuthGuard],
+  providers: [AuthService],
   entryComponents: [ForgotPasswordDialog],
   bootstrap: [AppComponent]
 })

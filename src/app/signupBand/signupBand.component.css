@@ -1,0 +1,50 @@
+#background {
+	width: 100%;
+	height: 100%;
+	background: #00C853;
+	color: white;
+	font-size: 18px;
+}
+
+mat-horizontal-stepper {
+	background-color: #00C853 !important;
+}
+
+.stepper-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+mat-form-field {
+	width: 90%;
+	margin: 5px;
+}
+
+button {
+	font-size: 18px;
+	margin: 20px;
+	color: white !important;
+}
+
+button:disabled {
+	background: #666666 !important;
+	color: #8c8c8c !important;
+}
+
+.stepper-buttons {
+	margin-top: 20px;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: absolute;
+	bottom: 0;
+}
+
+h1 {
+	text-align: left;
+	margin-bottom: 40px;
+	font-size: 25px;
+	width: 100%;
+}

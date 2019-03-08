@@ -6,9 +6,9 @@ import { AuthService } from '../services/auth.service';
 import { ForgotPasswordDialog } from './forgotpassword.component';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  	selector: 'app-login',
+  	templateUrl: './login.component.html',
+  	styleUrls: ['./login.component.css']
 })
 
 export class LoginComponent {

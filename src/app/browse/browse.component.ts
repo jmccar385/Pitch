@@ -17,90 +17,51 @@ export class BrowseComponent implements OnInit {
     private router: Router
   ) {}
 
-  private profileCards: any[] = [ ];
+  private profileCards: any[] = [];
 
   async _addProfileCard(venue) {
-    let equipment = [],
-      events = [],
-      images = [];
+    // let FULL_STAR = 'https://www.shareicon.net/data/128x128/2016/01/03/697542_star_512x512.png';
 
-    if (venue["AvailableEquipmentList"]) {
-      await this.profileService
-        .getEquipment(venue["AvailableEquipmentList"])
-        .then(rec => {
-          rec.forEach(item => {
-            if (item) equipment.push(item.data());
-          });
-        });
-    }
-
-    if (venue["EventList"]) {
-      await this.profileService.getEvents(venue["EventList"]).then(rec => {
-        rec.forEach(item => {
-          if (item) events.push(item.data());
-        });
-      });
-    }
-
-    if (venue["ProfileImageList"]) {
-      await this.profileService.getImages(venue["ProfileImageList"]).then(rec => {
-        rec.forEach(item => {
-          if (item) images.push(item.data());
-        });
-      });
-    }
-
-    let FULL_STAR = 'https://www.shareicon.net/data/128x128/2016/01/03/697542_star_512x512.png';
-    let HALF_STAR = 'https://www.shareicon.net/data/128x128/2015/09/21/644056_star_512x512.png';
-    let NULL_STAR = 'https://www.shareicon.net/data/128x128/2016/01/05/698469_star_512x512.png';
-
-    let ratings = [{source: ''}, {source: ''}, {source: ''}, {source: ''}, {source: ''}];
-    for (let i = 0; i < Math.floor(venue["ProfileRating"]); i++) {
-      ratings[i].source = FULL_STAR;
-    }
-    if (Math.floor(venue["ProfileRating"]) < 5.0) {
-      if (Math.floor(venue["ProfileRating"] * 2) > Math.floor(venue["ProfileRating"]) * 2) {
-        ratings[Math.floor(venue["ProfileRating"])].source = HALF_STAR;
-      } else {
-        ratings[Math.floor(venue["ProfileRating"])].source = NULL_STAR;
-      }
-  
-      for (let i = Math.floor(venue["ProfileRating"]) + 1; i < ratings.length; i++) {
-        ratings[i].source = NULL_STAR;
-      }
-    }
-
-    let _checkEquipment = (id: string) => equipment && equipment.filter(E => E["EquipmentName"].toLowerCase().startsWith(id.toLowerCase()) && E["EquipmentAvailable"]).length > 0;
-
+    let equipment = [];
+    let events = [];
     let now = new Date().getTime();
-    let _events = events.filter(E => E["EventDateTime"].seconds * 1000.0 >= now);
+
+    if (venue["AvailableEquipment"]) {
+      equipment = venue.AvailableEquipment;
+    }
+
+    if (venue["Events"]) {
+      events = venue.Events.filter(E => {
+        debugger;
+        return E["EventDateTime"].seconds * 1000.0 >= now;
+      });
+    }
 
     let profile_image = venue["ProfilePictureUrl"];
-    
+
     this.profileCards.push({
       profile_image: profile_image,
       profile_name: venue["ProfileName"],
 
-      rating: ratings,
+      rating: venue["ProfileRating"],
+      rating_count: venue["ProfileRatingCount"],
 
-      upcoming_event_text: (_events && _events.length > 0 ? _events.length : 'No') + ' upcoming event' + (_events && _events.length != 1 ? 's' : ''),
+      upcoming_event_text:
+        (events.length > 0 ? events.length : "No") +
+        " upcoming event" +
+        (events.length != 1 ? "s" : ""),
+      available_equip_text:
+        (equipment.length > 0 ? "E" : "No e") + "quipment available"
 
-      amplifiers_available: _checkEquipment("amp"),
-      drums_available: _checkEquipment("drum"),
-      guitar_available: _checkEquipment("guitar"),
-      microphones_available: _checkEquipment("mic"),
-
-      amp_image: "https://www.shareicon.net/data/128x128/2016/07/06/111207_box_512x512.png",
-      drum_image: "https://www.shareicon.net/data/128x128/2015/10/21/659440_music_512x512.png",
-      guitar_image: "https://www.shareicon.net/data/64x64/2015/10/20/659234_music_512x512.png",
-      mic_image: "https://www.shareicon.net/data/64x64/2015/10/19/658679_music_512x512.png"
-    })
-
-    console.log("Time to parse data");
+      // amplifiers_available: _checkEquipment("amp"),
+      // drums_available: _checkEquipment("drum"),
+      // guitar_available: _checkEquipment("guitar"),
+      // microphones_available: _checkEquipment("mic"),
+    });
   }
 
   ngOnInit() {
-  	/*for (var i = 0; i < this.profileCards.length; i++) {
+    /*for (var i = 0; i < this.profileCards.length; i++) {
 		while (this.profileCards[i].rating >= 1) {
 			this.stars.push("star");
 			this.profileCards[i].rating -= 1;
@@ -114,7 +75,30 @@ export class BrowseComponent implements OnInit {
 		 
 	}*/
     this.profileService.getVenueObserver().subscribe(observer => {
+      let merged = [];
+
       observer.forEach(venue => {
+        let index = merged.findIndex(X => X.id == venue.id);
+        if (index >= 0 && venue.SubCollection.length > 0) {
+          if (venue.SubCollection[0]["IconUrl"]) {
+            merged[index].AvailableEquipment = venue.SubCollection;
+          } else {
+            merged[index].Events = venue.SubCollection;
+          }
+        } else {
+          merged.push(venue);
+          if (venue.SubCollection.length > 0) {
+            if (venue.SubCollection[0]["IconUrl"]) {
+              merged[merged.length - 1].AvailableEquipment =
+                venue.SubCollection;
+            } else {
+              merged[merged.length - 1].Events = venue.SubCollection;
+            }
+          }
+        }
+      });
+
+      merged.forEach(venue => {
         this._addProfileCard(venue);
       });
     });

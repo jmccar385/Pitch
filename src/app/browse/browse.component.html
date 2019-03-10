@@ -9,15 +9,16 @@
     />
     <mat-card-title>{{ card.profile_name }} </mat-card-title>
     <mat-card-subtitle>
-      <mat-grid-list cols="5" rowHeight="16px">
+      <mat-icon>star</mat-icon> {{card.rating}} ({{card.rating_count}} Ratings)
+      <!-- <mat-grid-list cols="5" rowHeight="16px">
         <mat-grid-tile *ngFor="let star of card.rating">
           <img class="browse-star-image" src="{{ star.source }}" />
         </mat-grid-tile>
-      </mat-grid-list>
+      </mat-grid-list> -->
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <div>
+    <!-- <div>
       <mat-grid-list cols="2" rowHeight="16px">
         <mat-grid-tile class="browse-equipment-image">
           <img
@@ -55,9 +56,10 @@
           />
         </mat-grid-tile>
       </mat-grid-list>
-    </div>
+    </div> -->
 
     <p>{{ card.upcoming_event_text }}</p>
+    <p>{{ card.available_equip_text }}</p>
   </mat-card-content>
   <!-- <mat-card-actions>  -->
   <!-- Todo: card actions? -->

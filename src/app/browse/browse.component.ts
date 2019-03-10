@@ -79,11 +79,13 @@ export class BrowseComponent implements OnInit {
 
       observer.forEach(venue => {
         let index = merged.findIndex(X => X.id == venue.id);
-        if (index >= 0 && venue.SubCollection.length > 0) {
-          if (venue.SubCollection[0]["IconUrl"]) {
-            merged[index].AvailableEquipment = venue.SubCollection;
-          } else {
-            merged[index].Events = venue.SubCollection;
+        if (index >= 0) {
+          if (venue.SubCollection.length > 0) {
+            if (venue.SubCollection[0]["IconUrl"]) {
+              merged[index].AvailableEquipment = venue.SubCollection;
+            } else {
+              merged[index].Events = venue.SubCollection;
+            }
           }
         } else {
           merged.push(venue);

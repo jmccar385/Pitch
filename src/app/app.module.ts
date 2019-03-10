@@ -7,16 +7,20 @@ import { MaterialModule } from './material/material.module';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from 'src/environments/environment';
 
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth.guard';
+import { ProfileService } from './services/profile.service';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { ForgotPasswordDialog } from './login/forgotpassword.component';
 import { BrowseComponent } from './browse/browse.component';
 import { SignupComponent } from './signup/signup.component';
+import { HeaderComponent } from './header/header.component';
 import { SignupBandComponent } from './signupBand/signupBand.component';
 import { SignupVenueComponent } from './signupVenue/signupVenue.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -30,6 +34,7 @@ import { ProfileComponent } from './profile/profile.component';
     BrowseComponent,
     SignupComponent,
     ProfileComponent,
+    HeaderComponent,
     SignupVenueComponent,
     SignupBandComponent,
   ],
@@ -38,12 +43,14 @@ import { ProfileComponent } from './profile/profile.component';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
+    AngularFirestoreModule,
+    AngularFireStorageModule,
     MaterialModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard, ProfileService],
   entryComponents: [ForgotPasswordDialog],
   bootstrap: [AppComponent]
 })

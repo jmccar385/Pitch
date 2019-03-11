@@ -15,8 +15,12 @@ export class ProfileComponent implements OnInit {
   private uid: string;
 <<<<<<< HEAD
   private profile: any = null;
+<<<<<<< HEAD
 =======
   private profile_data: any = null;
+=======
+  private profileType: number = 0;
+>>>>>>> Save point. Need changes in master to continue
   profileUrl: string;
   editAbout: boolean = false;
   editAddress: boolean = false;
@@ -31,6 +35,7 @@ export class ProfileComponent implements OnInit {
   ) {}
   
   ngOnInit() {
+<<<<<<< HEAD
     this._setData(this.route.snapshot.params["id"], this.route.snapshot.params["userType"]);
   }
 
@@ -52,6 +57,18 @@ export class ProfileComponent implements OnInit {
           this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
           this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
         });
+=======
+    if (this.route.snapshot.params["userType"]) {
+      if (this.route.snapshot.params["userType"].toLowerCase() == 'venue') {
+        this.profileType = 1;
+      }
+    }
+
+    if (this.route.snapshot.params["id"]) {
+      this._setData(this.route.snapshot.params["id"]);
+    } else {
+      this._getCurrentUserProfile();
+>>>>>>> Save point. Need changes in master to continue
     }
   }
 
@@ -65,9 +82,28 @@ export class ProfileComponent implements OnInit {
   }
 
   private _setData(uid: string) {
+<<<<<<< HEAD
     this.profileService
       .getArtistObserverById(uid)
       .then(doc => (doc.exists ? (this.profile_data = [doc.data()]) : [null]));
+=======
+    if (this.profileType == 0) {
+      this.profileService
+        .getArtistObserverById(uid)
+        .then((doc) => {
+          (doc.exists ? (this.profile = [doc.data()][0]) : [null])
+          this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
+          this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
+        });   
+    } else {
+      this.profileService
+        .getVenueObserverById(uid)
+        .subscribe((record) => {
+          console.log(record);
+          debugger;
+        });
+    }
+>>>>>>> Save point. Need changes in master to continue
   }
 
   private changeSlideBy(delta) {

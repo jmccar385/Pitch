@@ -9,6 +9,7 @@ import { Router } from "@angular/router";
   templateUrl: "./browse.component.html",
   styleUrls: ["./browse.component.css"]
 })
+
 export class BrowseComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
@@ -20,14 +21,13 @@ export class BrowseComponent implements OnInit {
   private profileCards: any[] = [];
 
   async _addProfileCard(venue) {
-    // let FULL_STAR = 'https://www.shareicon.net/data/128x128/2016/01/03/697542_star_512x512.png';
-
     let equipment = [];
     let events = [];
     let now = new Date().getTime();
 
     if (venue["AvailableEquipment"]) {
       equipment = venue.AvailableEquipment;
+      console.log(equipment);
     }
 
     if (venue["Events"]) {
@@ -60,19 +60,6 @@ export class BrowseComponent implements OnInit {
   }
 
   ngOnInit() {
-    /*for (var i = 0; i < this.profileCards.length; i++) {
-		while (this.profileCards[i].rating >= 1) {
-			this.stars.push("star");
-			this.profileCards[i].rating -= 1;
-		}
-		if (this.profileCards[i].rating != 0) {
-			this.stars.push("star_half");
-		}
-		while (this.stars.length < 5) {
-			this.stars.push("star_border");
-		}
-		 
-	}*/
     this.profileService.getVenueObserver().subscribe(observer => {
       let merged = [];
 

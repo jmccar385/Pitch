@@ -1,9 +1,8 @@
 mat-card {
-	margin-top: 10px;
-}
-
-.browse-card {
-  max-width: 100%;
+	margin: 0;
+	margin-top: 20px;
+	width: calc(95% - 32px);
+	margin-left:2.5%;
 }
 
 .browse-header-image {
@@ -23,4 +22,9 @@ mat-card {
 .browse-equipment-image {
   width: 16px;
   height: 16px;
+}
+
+.browse-card-footer {
+	display: flex;
+	justify-content: space-between;
 }

@@ -21,7 +21,11 @@ mat-card-content {
 
 .content {
 	width: 100%;
-	margin-top: 20px;
+	margin-top: 30px;
+}
+
+.content:first-child {
+	margin: 0;
 }
 
 mat-form-field {

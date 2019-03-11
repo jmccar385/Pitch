@@ -16,6 +16,8 @@ export class ReviewDialog {
 	reviewForm: FormGroup = new FormGroup({
   	rating: new FormControl('', [
   		Validators.required,
+      Validators.max(5),
+      Validators.min(0),
     ]),
     review: new FormControl('', [
       Validators.required,

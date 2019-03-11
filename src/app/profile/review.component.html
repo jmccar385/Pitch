@@ -1,7 +1,10 @@
 <h1 mat-dialog-title>Review</h1>
 <form [formGroup]="reviewForm" (ngSubmit)="reviewForm.valid && review()">
 	<mat-form-field>
-		<input matInput placeholder="Rating" formControlName="rating">
+		<input matInput type="number" placeholder="Rating" formControlName="rating" min="0" max="5">
+		<mat-error *ngIf="reviewForm.controls.rating.errors?.max || reviewForm.controls.rating.errors?.min">
+	      	A rating must be between <strong>0 and 5</strong>
+	    </mat-error>
 		<mat-error *ngIf="reviewForm.controls.rating.errors?.required">
 	      	A rating is <strong>required</strong>
 	    </mat-error>

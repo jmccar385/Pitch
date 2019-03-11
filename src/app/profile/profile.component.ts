@@ -13,10 +13,8 @@ import { ReviewDialog } from "./review.component"
 })
 export class ProfileComponent implements OnInit {
   private uid: string;
-  private profile_data: any = null;
+  private profile: any = null;
   profileUrl: string;
-  editAbout: boolean = false;
-  editAddress: boolean = false;
   slideIndex: number = 1;
 
   constructor(
@@ -45,7 +43,11 @@ export class ProfileComponent implements OnInit {
   private _setData(uid: string) {
     this.profileService
       .getArtistObserverById(uid)
-      .then(doc => (doc.exists ? (this.profile_data = [doc.data()]) : [null]));
+      .then((doc) => {
+        (doc.exists ? (this.profile = [doc.data()][0]) : [null])
+        this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
+        this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
+      });   
   }
 
   private changeSlideBy(delta) {
@@ -78,19 +80,29 @@ export class ProfileComponent implements OnInit {
     const dialogRef = this.dialog.open(ReviewDialog, {width: "300px", data: {}});
   }
 
-  editAboutField() {
-    this.editAbout = true;
+  editBiography() {
+    this.profileForm.controls.biography.enable();
   }
 
-  saveAboutField() {
-    this.editAbout = false;
+  saveBiography() {
+    this.profileForm.controls.biography.disable();
   }
 
-  editAddressField() {
-    this.editAddress = true;
+  editAddress() {
+    this.profileForm.controls.address.enable();
   }
 
-  saveAddressField() {
-    this.editAddress = false;
+  saveAddress() {
+    this.profileForm.controls.address.disable();
   }
+
+  profileForm: FormGroup = new FormGroup({
+    address: new FormControl({value: '', disabled: true}, [
+      Validators.required,
+    ]),
+
+    biography: new FormControl({value: '', disabled: true}, [
+      Validators.required,
+    ])
+  });
 }

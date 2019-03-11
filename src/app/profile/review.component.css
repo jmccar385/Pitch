@@ -1,5 +1,10 @@
 mat-form-field {
 	width: 90%;
+	margin-top: 20px;
+}
+
+mat-form-field:first-child {
+	margin: 0;
 }
 
 button {

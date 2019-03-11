@@ -1,11 +1,11 @@
 <app-header></app-header>
-<mat-card *ngFor="let profile of profile_data">
+<mat-card>
   <mat-card-header>
-    <img mat-card-avatar src="{{profile.ProfilePictureUrl}}">
-    <mat-card-title>{{profile.ProfileName}}</mat-card-title>
+    <img mat-card-avatar src="{{profile?.ProfilePictureUrl}}">
+    <mat-card-title>{{profile?.ProfileName}}</mat-card-title>
     <mat-card-subtitle>
       <mat-icon>star</mat-icon>
-      {{profile.ProfileRating}} ({{profile.ProfileRatingCount}} Ratings)
+      {{profile?.ProfileRating}} ({{profile?.ProfileRatingCount}} Ratings)
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
@@ -21,34 +21,43 @@
       </div>
       <br>
       <div class="slide-jump">
-        <span class="slide-dot" *ngFor="let image of profile.ProfileImageUrls; let i = index" (click)="jumpToSlide(i)" ng-init="jumpToSlide(0)"></span>
+        <span class="slide-dot" *ngFor="let image of profile.ProfileImageUrls; let i = index" (click)="jumpToSlide(i)"
+          ng-init="jumpToSlide(0)"></span>
       </div>
     </div>
 
     <!-- <img mat-card-image src="https://source.unsplash.com/random/300x150"> -->
     <!--Todo : Put image carousel here for profile.ProfileImageUrls-->
-    <div class="content">
-      <mat-form-field>
-        <textarea matInput placeholder="About" matTextareaAutosize disabled="{{!editAbout}}" value="{{profile.ProfileBiography}}"></textarea>
-      </mat-form-field>
-      <ng-template [ngIf]="editAbout" [ngIfElse]="saveAbout">
-        <button mat-flat-button color="primary" (click)="saveAboutField()">Save</button>
-      </ng-template>
-      <ng-template #saveAbout>
-        <button mat-flat-button color="primary" (click)="editAboutField()">Edit</button>
-      </ng-template>
-    </div>
-    <div class="content">
-      <mat-form-field>
-        <input matInput placeholder="Address" disabled="{{!editAddress}}" value="{{profile.ProfileAddress}}">
-      </mat-form-field>
-      <ng-template [ngIf]="editAddress" [ngIfElse]="saveAddress">
-        <button mat-flat-button color="primary" (click)="saveAddressField()">Save</button>
-      </ng-template>
-      <ng-template #saveAddress>
-        <button mat-flat-button color="primary" (click)="editAddressField()">Edit</button>
-      </ng-template>
-    </div>
+    <form [formGroup]="profileForm">
+      <div class="content">
+        <mat-form-field>
+          <textarea matInput placeholder="About" matTextareaAutosize formControlName="biography"></textarea>
+          <mat-error *ngIf="profileForm.controls.biography.errors?.required">
+            About is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <ng-template [ngIf]="profileForm.controls.biography.disabled" [ngIfElse]="saveBiographyTemplate">
+          <button mat-flat-button color="primary" (click)="editBiography()" type="button">Edit</button>
+        </ng-template>
+        <ng-template #saveBiographyTemplate>
+          <button mat-flat-button color="primary" (click)="saveBiography()" type="button">Save</button>
+        </ng-template>
+      </div>
+      <div class="content">
+        <mat-form-field>
+          <input matInput placeholder="Address" formControlName="address">
+          <mat-error *ngIf="profileForm.controls.address.errors?.required">
+            Address is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <ng-template [ngIf]="profileForm.controls.address.disabled" [ngIfElse]="saveAddressTemplate">
+          <button mat-flat-button color="primary" (click)="editAddress()" type="button">Edit</button>
+        </ng-template>
+        <ng-template #saveAddressTemplate>
+          <button mat-flat-button color="primary" (click)="saveAddress()" type="button">Save</button>
+        </ng-template>
+      </div>
+    </form>
     <div>
       <button mat-flat-button color="primary" (click)="reviewModal()" type="button">Review</button>
     </div>

@@ -1,6 +1,5 @@
 <app-header></app-header>
-<mat-card *ngFor="let card of profileCards" [routerLink]="['/profile']">
-  <div routerLink="/profile/{{card.profile_id}}">
+<mat-card *ngFor="let card of profileCards" [routerLink]="['/profile', 'venue', card.profile_id]">
   <mat-card-header>
     <img mat-card-avatar class="browse-header-image" src="{{ card.profile_image }}" />
     <mat-card-title> {{ card.profile_name }} </mat-card-title>
@@ -15,5 +14,4 @@
       <img *ngFor="let equipment of card.equipment_icons" width="20px" height="20px" [ngClass]="{'unowned': !equipment.owned}" src="{{ equipment.IconUrl }}">
     </div>
   </mat-card-content>
-  </div>
 </mat-card>

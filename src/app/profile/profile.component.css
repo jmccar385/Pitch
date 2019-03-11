@@ -17,6 +17,10 @@ mat-card-content {
 	font-size: 18px;
 }
 
+form {
+	width: 100%;
+}
+
 .content {
 	width: 100%;
 	margin-top: 30px;
@@ -27,7 +31,7 @@ mat-card-content {
 }
 
 mat-form-field {
-	width: 90%;
+	width: 100%;
 }
 
 button {

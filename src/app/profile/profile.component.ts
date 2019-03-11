@@ -14,7 +14,6 @@ import { ReviewDialog } from "./review.component"
 export class ProfileComponent implements OnInit {
   private uid: string;
   private profile: any = null;
-  profileUrl: string;
 
   constructor(
     public dialog: MatDialog,
@@ -24,31 +23,27 @@ export class ProfileComponent implements OnInit {
   ) {}
   
   ngOnInit() {
-    if (this.route.snapshot.params["id"]) {
-      this._setData(this.route.snapshot.params["id"]);
-    } else {
-      this._getCurrentUserProfile();
-    }
+    this._setData(this.route.snapshot.params["id"], this.route.snapshot.params["userType"]);
   }
 
-  private _getCurrentUserProfile() {
-    if (!this.authService.currentUserID) {
-      this.authService.currentUserObservable.subscribe(user => {
-        this._setData(user.uid);
-      });
-    } else {
-      this._setData(this.authService.currentUserID);
+  private _setData(uid: string, userType: string) {
+    if (userType == "band") {
+      this.profileService
+        .getArtistObserverById(uid)
+        .then((doc) => {
+          (doc.exists ? (this.profile = [doc.data()][0]) : [null])
+          this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
+          this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
+        });
+    } else if (userType == "venue") {
+      this.profileService
+        .getVenueObserverById(uid)
+        .then((doc) => {
+          (doc.exists ? (this.profile = [doc.data()][0]) : [null])
+          this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
+          this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
+        });
     }
-  }
-
-  private _setData(uid: string) {
-    this.profileService
-      .getArtistObserverById(uid)
-      .then((doc) => {
-        (doc.exists ? (this.profile = [doc.data()][0]) : [null])
-        this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
-        this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
-      });   
   }
 
   reviewModal(): void {

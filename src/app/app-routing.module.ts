@@ -20,7 +20,7 @@ const routes: Routes = [
 	{ path: 'signup/venue', component: SignupVenueComponent },
 	{ path: 'profile/settings', component: SettingsComponent, canActivate: [AuthGuard] },
 	{ path: 'login', component: LoginComponent },
-	{ path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
+	{ path: 'profile/:userType/:id', component: ProfileComponent, canActivate: [AuthGuard] },
 	{ path: '**', redirectTo: '/login' } // <-- gooby keep this last plz
 ];
 

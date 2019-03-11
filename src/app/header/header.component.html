@@ -4,7 +4,7 @@
     		<mat-icon>forum</mat-icon>
   		</button>
 		<h1>Browse</h1>
-		<button mat-icon-button [routerLink]="['/profile', id]" color="accent">
+		<button mat-icon-button [routerLink]="['/profile', 'band', id]" color="accent">
     		<mat-icon>person</mat-icon>
   		</button>
 	</ng-template>
@@ -18,7 +18,7 @@
   		</button>
 	</ng-template>
 	<ng-template [ngIf]="this.router.url == '/profile/settings'">
-		<button mat-icon-button [routerLink]="['/profile', id]" color="accent">
+		<button mat-icon-button [routerLink]="['/profile', 'band', id]" color="accent">
     		<mat-icon>person</mat-icon>
   		</button>
 		<h1>Settings</h1>

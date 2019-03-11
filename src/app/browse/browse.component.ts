@@ -67,20 +67,20 @@ export class BrowseComponent implements OnInit {
         let index = merged.findIndex(X => X.id == venue.id);
         if (index >= 0) {
           if (venue.SubCollection.length > 0) {
-            if (venue.SubCollection[0]["IconUrl"]) {
-              merged[index].AvailableEquipment = venue.SubCollection;
-            } else {
+            if (venue.SubCollection[0]["EventDateTime"]) {
               merged[index].Events = venue.SubCollection;
+            } else {
+              merged[index].AvailableEquipment = venue.SubCollection;
             }
           }
         } else {
           merged.push(venue);
           if (venue.SubCollection.length > 0) {
-            if (venue.SubCollection[0]["IconUrl"]) {
+            if (venue.SubCollection[0]["EventDateTime"]) {
+              merged[merged.length - 1].Events = venue.SubCollection;
+            } else {
               merged[merged.length - 1].AvailableEquipment =
                 venue.SubCollection;
-            } else {
-              merged[merged.length - 1].Events = venue.SubCollection;
             }
           }
         }

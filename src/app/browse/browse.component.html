@@ -2,11 +2,7 @@
 <!--<button mat-raised-button color="primary" type="button" (click)="logout()">Logout</button>-->
 <mat-card *ngFor="let card of profileCards" [routerLink]="['/profile']">
   <mat-card-header>
-    <img
-      mat-card-avatar
-      class="browse-header-image"
-      src="{{ card.profile_image }}"
-    />
+    <img mat-card-avatar class="browse-header-image" src="{{ card.profile_image }}" />
     <mat-card-title>{{ card.profile_name }} </mat-card-title>
     <mat-card-subtitle>
       <div class="browse-card-rating"><mat-icon>star</mat-icon> {{card.rating}} ({{card.rating_count}} Ratings)</div>

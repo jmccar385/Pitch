@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth.guard';
+import { VerifiedGuard } from './services/verified.guard';
 import { ProfileService } from './services/profile.service';
 
 import { AppComponent } from './app.component';
@@ -55,7 +56,7 @@ import { SettingsComponent } from './settings/settings.component';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [AuthService, AuthGuard, ProfileService],
+  providers: [AuthService, AuthGuard, VerifiedGuard, ProfileService],
   entryComponents: [ForgotPasswordDialog, ReviewDialog],
   bootstrap: [AppComponent]
 })

@@ -1,18 +1,20 @@
 <app-header></app-header>
 
-<div id="email-verification">
-	verified: 
-	<ng-template [ngIf]="verified" [ngIfElse]="unverified">
-		<mat-icon color="primary">check_circle</mat-icon>
-	</ng-template>
-	<ng-template #unverified>
-		<mat-icon color="warn">cancel_circle</mat-icon>
-	</ng-template>
+<div id="settings">
+	<div id="email-verification">
+		<div id="verified-icon-text">
+			verified:
+			<ng-template [ngIf]="verified" [ngIfElse]="unverified">
+				<mat-icon color="primary">check_circle</mat-icon>
+			</ng-template>
+			<ng-template #unverified>
+				<mat-icon color="warn">cancel_circle</mat-icon>
+			</ng-template>
+		</div>
+		<ng-template [ngIf]="!verified">
+			<button mat-flat-button color="primary" (click)="verify()">Resend Email</button>
+		</ng-template>
+	</div>
 </div>
 
-<div class="search-radius">
-	Search Radius: 
-	<button mat-flat-button color="primary" (click)="editSearchRadius()">Edit</button>
-</div>
 
-<!--<button mat-raised-button color="primary" type="button" (click)="logout()">Logout</button>-->

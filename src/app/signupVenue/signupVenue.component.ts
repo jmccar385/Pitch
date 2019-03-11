@@ -16,6 +16,7 @@ export class SignupVenueComponent {
 	signupVenue() {
 		this.authService.signup(this.signupVenueForm.controls.email.value, this.signupVenueForm.controls.password.value).then(() => {
 			this.authService.verification();
+			this.router.navigate(['browse']);
 		}).catch((error) => {
 			console.log(error);
 			if (error.code == "auth/weak-password") {

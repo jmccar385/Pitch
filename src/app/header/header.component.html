@@ -4,7 +4,7 @@
     		<mat-icon>forum</mat-icon>
   		</button>
 		<h1>Browse</h1>
-		<button mat-icon-button [routerLink]="['/profile']" color="accent">
+		<button mat-icon-button [routerLink]="['/profile', id]" color="accent">
     		<mat-icon>person</mat-icon>
   		</button>
 	</ng-template>
@@ -17,26 +17,22 @@
     		<mat-icon>list</mat-icon>
   		</button>
 	</ng-template>
-	<ng-template [ngIf]="this.router.url == '/profile' || this.router.url == '/profile/:id'">
-		<button mat-icon-button [routerLink]="['/browse']" color="accent">
+	<ng-template [ngIf]="this.router.url == '/profile/settings'">
+		<button mat-icon-button [routerLink]="['/profile', id]" color="accent">
+    		<mat-icon>person</mat-icon>
+  		</button>
+		<h1>Settings</h1>
+		<button mat-icon-button color="accent" (click)="logout()">
+    		<mat-icon>power_settings_new</mat-icon>
+  		</button>
+	</ng-template>
+	<ng-template [ngIf]="this.router.url == profileUrl">
+		<button mat-icon-button (click)="verified()" color="accent">
     		<mat-icon>list</mat-icon>
   		</button>
 		<h1>Profile</h1>
 		<button mat-icon-button [routerLink]="['/profile/settings']" color="accent">
     		<mat-icon>settings</mat-icon>
-  		</button>
-	</ng-template>
-	<ng-template [ngIf]="this.router.url == '/profile/settings'">
-		<button mat-icon-button [routerLink]="['/profile']" color="accent">
-    		<mat-icon>person</mat-icon>
-  		</button>
-		<h1>Settings</h1>
-		<button mat-icon-button color="accent" [disabled]="true" >
-    		<mat-icon></mat-icon>
-  		</button>
-	</ng-template>
-		<button mat-icon-button color="accent" color="accent" (click)="logout()">
-    		<mat-icon>power_settings_new</mat-icon>
   		</button>
 	</ng-template>
 </mat-toolbar>

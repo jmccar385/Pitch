@@ -1,16 +1,19 @@
-div {
+#settings {
 	font-size: 18px;
-	padding-top: 10px;
-	padding-left: 10px;
+	padding-top: 16px;
+	padding-left: 16px;
+	padding-right: 16px;
 }
 
 #email-verification {
 	display: flex;
-	align-content: center;
+	align-items: center;
+	justify-content: space-between;
 }
 
-#search-radius {
-
+#verified-icon-text {
+	display: flex;
+	align-items: center;
 }
 
 button {

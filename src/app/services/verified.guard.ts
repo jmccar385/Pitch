@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class VerifiedGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
@@ -21,12 +21,10 @@ export class AuthGuard implements CanActivate {
   ): Observable<boolean> {
     return this.authService.currentUserObservable.pipe(
       map(user => {
-        if (user) {
-          return true;
-        } else {
-          this.router.navigate(['login']);
-          return false;
+        if (!user.emailVerified) {
+          this.router.navigate(['profile', user.uid])
         }
+        return user.emailVerified;
       })
     );
   }

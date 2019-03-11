@@ -5,7 +5,7 @@ mat-card {
   margin-left: 2.5%;
 }
 
-.profile-card-rating {
+mat-card-subtitle {
   display: flex;
-  line-height: 24px;
+  align-items: center;
 }

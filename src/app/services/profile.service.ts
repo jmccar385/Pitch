@@ -1,11 +1,8 @@
 import { Injectable } from "@angular/core";
 import { AngularFireStorage } from "@angular/fire/storage";
-import { Router } from "@angular/router";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { Observable } from "rxjs";
 import { combineLatest } from "rxjs";
 import { map, mergeMap } from "rxjs/operators";
-import { async } from "q";
 import { flatten } from "@angular/compiler";
 
 @Injectable({
@@ -14,9 +11,18 @@ import { flatten } from "@angular/compiler";
 export class ProfileService {
   constructor(
     private afDatabase: AngularFirestore,
-    private afStorage: AngularFireStorage,
-    private router: Router
+    private afStorage: AngularFireStorage
   ) {}
+
+  uploadImage(input: File) {
+    const file = input;
+    if (file.type.split("/")[0] !== "image") return;
+
+    const path = `${file.name}_${new Date().getTime()}`;
+    let task = this.afStorage.upload(path, file);
+
+    return task.snapshotChanges();
+  }
 
   getArtistObserver() {
     return this.afDatabase.collection("Artists").valueChanges();
@@ -55,28 +61,11 @@ export class ProfileService {
           });
         })
       )
-      .pipe(mergeMap(result => {
-        let flattened = flatten(result);
-        return combineLatest(flattened);
-      }));
+      .pipe(
+        mergeMap(result => {
+          let flattened = flatten(result);
+          return combineLatest(flattened);
+        })
+      );
   }
-
-  // async getEquipment(listID: string) {
-  //   return await this.afDatabase.collection("EquipmentList", ref => ref.where("ListID", "==", listID)).get().toPromise();
-  // }
-
-  // async getEvents(listID: string) {
-  //   return await this.afDatabase.collection("EventsList", ref => ref.where("ListID", "==", listID)).get().toPromise();
-  // }
-
-  // async getImages(listID: string) {
-  //   return await this.afDatabase.collection("ImagesList", ref => ref.where("ListID", "==", listID)).get().toPromise();
-  // }
-
-  // async getImageUrl(ref: any) {
-  //   let record = await ref.get();
-  //   let image = await this.afStorage.ref(record.data().ImageName);
-
-  //   return await image.getDownloadURL().toPromise();
-  // }
 }

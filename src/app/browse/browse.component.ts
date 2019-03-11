@@ -21,13 +21,20 @@ export class BrowseComponent implements OnInit {
   private profileCards: any[] = [];
 
   async _addProfileCard(venue) {
-    let equipment = [];
+    let equipmentList = [];
+    let equipmentIcons = [{IconUrl: 'assets/equipment/guitar.svg', owned: 0}, {IconUrl: 'assets/equipment/bass.svg', owned: 0}, {IconUrl: 'assets/equipment/drumset.svg', owned:0}, {IconUrl: 'assets/equipment/microphone.svg', owned: 0}];
     let events = [];
     let now = new Date().getTime();
 
     if (venue["AvailableEquipment"]) {
-      equipment = venue.AvailableEquipment;
-      console.log(equipment);
+      equipmentList = venue.AvailableEquipment;
+
+      equipmentList.forEach(function(equipment) {
+        for (var i = 0; i < equipmentIcons.length; i++)
+          if (equipmentIcons[i].IconUrl == equipment.IconUrl) {
+            equipmentIcons[i].owned = 1;
+          }
+      })
     }
 
     if (venue["Events"]) {
@@ -49,13 +56,7 @@ export class BrowseComponent implements OnInit {
         (events.length > 0 ? events.length : "No") +
         " upcoming event" +
         (events.length != 1 ? "s" : ""),
-      available_equip_text:
-        (equipment.length > 0 ? "E" : "No e") + "quipment available"
-
-      // amplifiers_available: _checkEquipment("amp"),
-      // drums_available: _checkEquipment("drum"),
-      // guitar_available: _checkEquipment("guitar"),
-      // microphones_available: _checkEquipment("mic"),
+      equipment_icons: equipmentIcons,
     });
   }
 

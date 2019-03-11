@@ -16,7 +16,7 @@ export class ProfileComponent implements OnInit {
   private profile_data: any = null;
   profileUrl: string;
   editAbout: boolean = false;
-  editAdress: boolean = false;
+  editAddress: boolean = false;
 
   constructor(
     public dialog: MatDialog,

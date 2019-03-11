@@ -1,0 +1,29 @@
+<mat-toolbar color="primary">
+	<ng-template [ngIf]="this.router.url == '/browse'">
+		<button mat-icon-button [routerLink]="['/messages']" color="accent" [disabled]="true" >
+    		<mat-icon>forum</mat-icon>
+  		</button>
+		<h1>Browse</h1>
+		<button mat-icon-button [routerLink]="['/profile']" color="accent">
+    		<mat-icon>person</mat-icon>
+  		</button>
+	</ng-template>
+	<ng-template [ngIf]="this.router.url == '/messages'">
+		<button mat-icon-button color="accent" [disabled]="true" >
+    		<mat-icon></mat-icon>
+  		</button>
+		<h1>Messages</h1>
+		<button mat-icon-button [routerLink]="['/browse']" color="accent">
+    		<mat-icon>list</mat-icon>
+  		</button>
+	</ng-template>
+	<ng-template [ngIf]="this.router.url == '/profile'">
+		<button mat-icon-button [routerLink]="['/browse']" color="accent">
+    		<mat-icon>list</mat-icon>
+  		</button>
+		<h1>Profile</h1>
+		<button mat-icon-button [routerLink]="['/settings']" color="accent" [disabled]="true" >
+    		<mat-icon>settings</mat-icon>
+  		</button>
+	</ng-template>
+</mat-toolbar>

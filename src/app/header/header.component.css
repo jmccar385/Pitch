@@ -1,0 +1,13 @@
+mat-toolbar {
+	color: white !important;
+}
+
+h1 {
+	width: 90%;
+	text-align: center;
+}
+
+mat-icon {
+	color: black;
+	font-size: 30px;
+}

@@ -17,6 +17,7 @@ const routes: Routes = [
 	{ path: 'signup', component: SignupComponent },
 	{ path: 'signup/band', component: SignupBandComponent },
 	{ path: 'signup/venue', component: SignupVenueComponent },
+	{ path: 'profile/settings', component: SettingsComponent},
 	{ path: 'login', component: LoginComponent },
 	{ path: 'profile/:id', component: ProfileComponent },
 	{ path: 'profile', component: ProfileComponent },

@@ -24,6 +24,7 @@ import { HeaderComponent } from './header/header.component';
 import { SignupBandComponent } from './signupBand/signupBand.component';
 import { SignupVenueComponent } from './signupVenue/signupVenue.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ReviewDialog } from './profile/review.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { SettingsComponent } from './settings/settings.component';
 
@@ -32,6 +33,7 @@ import { SettingsComponent } from './settings/settings.component';
     AppComponent,
     LoginComponent,
     ForgotPasswordDialog,
+    ReviewDialog,
     BrowseComponent,
     SignupComponent,
     ProfileComponent,
@@ -54,7 +56,7 @@ import { SettingsComponent } from './settings/settings.component';
     ReactiveFormsModule,
   ],
   providers: [AuthService, AuthGuard, ProfileService],
-  entryComponents: [ForgotPasswordDialog],
+  entryComponents: [ForgotPasswordDialog, ReviewDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

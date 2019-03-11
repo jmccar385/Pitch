@@ -1,23 +1,19 @@
 <app-header></app-header>
-<!--<button mat-raised-button color="primary" type="button" (click)="logout()">Logout</button>-->
-<mat-card *ngFor="let card of profileCards">
+<mat-card *ngFor="let card of profileCards" [routerLink]="['/profile']">
   <div routerLink="/profile/{{card.profile_id}}">
-    <mat-card-header>
-      <img mat-card-avatar class="browse-header-image" src="{{ card.profile_image }}" />
-      <mat-card-title>{{ card.profile_name }} </mat-card-title>
-      <mat-card-subtitle>
-        <div class="browse-card-rating">
-          <mat-icon>star</mat-icon> {{card.rating}} ({{card.rating_count}} Ratings)
-        </div>
-      </mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="browse-card-footer">
-        <p>{{ card.upcoming_event_text }}</p>
-        <div class="equipment-icons">
-          <img *ngFor="let item of equipment" src="item.src">
-        </div>
-      </div>
-    </mat-card-content>
+  <mat-card-header>
+    <img mat-card-avatar class="browse-header-image" src="{{ card.profile_image }}" />
+    <mat-card-title> {{ card.profile_name }} </mat-card-title>
+    <mat-card-subtitle>
+      <mat-icon>star</mat-icon>
+      <span class="browse-card-rating"> {{card.rating}} ({{card.rating_count}} Ratings)</span>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    {{ card.upcoming_event_text }}
+    <div class="equipment-icons">
+      <img *ngFor="let equipment of card.equipment_icons" width="16px" height="16px" [ngClass]="{'unowned': !equipment.owned}" src="{{ equipment.IconUrl }}">
+    </div>
+  </mat-card-content>
   </div>
 </mat-card>

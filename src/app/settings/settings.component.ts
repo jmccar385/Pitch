@@ -11,7 +11,10 @@ export class SettingsComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) { }
 
+  verified: boolean = false;
+
   ngOnInit() {
+  	this.verified = this.authService.currentUser.emailVerified;
   }
 
   logout(): void {

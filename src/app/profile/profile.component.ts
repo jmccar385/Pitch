@@ -20,8 +20,8 @@ export class ProfileComponent implements OnInit {
     private profileService: ProfileService,
     private route: ActivatedRoute
   ) {}
+  
   ngOnInit() {
-    debugger;
     if (this.route.snapshot.params["id"]) {
       this._setData(this.route.snapshot.params["id"]);
     } else {
@@ -69,5 +69,6 @@ export class ReviewModalDialog {
 
   send(): void {
     this.dialogRef.close();
+    const dialogRef = this.dialog.open(ReviewDialog, {width: '450px', data: {}});
   }
 }

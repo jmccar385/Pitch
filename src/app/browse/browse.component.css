@@ -5,13 +5,17 @@ mat-card {
 	margin-left:2.5%;
 }
 
+mat-card:last-child {
+  margin-bottom: 5px;
+}
+
 .browse-header-image {
   background-size: cover;
 }
 
-.browse-card-rating {
-  display: flex; 
-  line-height: 24px;
+mat-card-subtitle {
+  display: flex;
+  align-items: center;
 }
 
 .browse-star-image {
@@ -24,7 +28,20 @@ mat-card {
   height: 16px;
 }
 
-.browse-card-footer {
+mat-card-content {
 	display: flex;
 	justify-content: space-between;
+  align-items: center;
+}
+
+
+
+.equipment-icons {
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.unowned {
+  opacity: 0.6;
 }

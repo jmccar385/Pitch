@@ -19,7 +19,10 @@ const routes: Routes = [
 	{ path: 'signup/venue', component: SignupVenueComponent },
 	{ path: 'profile/settings', component: SettingsComponent},
 	{ path: 'login', component: LoginComponent },
+	{ path: 'profile/:id', component: ProfileComponent },
 	{ path: 'profile', component: ProfileComponent },
+	{ path: 'settings', component: SettingsComponent },
+	{ path: '**', redirectTo: '/login' } // <-- gooby keep this last plz
 ];
 
 @NgModule({

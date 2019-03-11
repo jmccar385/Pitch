@@ -46,6 +46,7 @@ export class BrowseComponent implements OnInit {
     this.profileCards.push({
       profile_image: profile_image,
       profile_name: venue["ProfileName"],
+      profile_id: venue["id"],
 
       rating: venue["ProfileRating"],
       rating_count: venue["ProfileRatingCount"],

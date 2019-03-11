@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from "../services/auth.service";
+import { AuthService } from '../services/auth.service';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-settings',
@@ -8,11 +9,16 @@ import { AuthService } from "../services/auth.service";
 })
 export class SettingsComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   verified: boolean = false;
 
   ngOnInit() {
   	this.verified = this.authService.currentUser.emailVerified;
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(["/login"]);
   }
 }

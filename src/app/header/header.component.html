@@ -35,7 +35,7 @@
     		<mat-icon>settings</mat-icon>
   		</button>
 	</ng-template>
-	<ng-template [ngIf]="this.router.url.match(viewProfileUrl) != null && this.router.url != userProfileUrl">
+	<ng-template [ngIf]="this.router.url.match(viewProfileUrl) != null && this.router.url != userProfileUrl && this.router.url != '/profile/settings'">
 		<button mat-icon-button color="accent" [routerLink]="['/browse']">
     		<mat-icon>list</mat-icon>
   		</button>

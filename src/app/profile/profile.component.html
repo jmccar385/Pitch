@@ -4,11 +4,28 @@
     <img mat-card-avatar src="{{profile?.ProfilePictureUrl}}">
     <mat-card-title>{{profile?.ProfileName}}</mat-card-title>
     <mat-card-subtitle>
-        <mat-icon>star</mat-icon>
-        {{profile?.ProfileRating}} ({{profile?.ProfileRatingCount}} Ratings)
+      <mat-icon>star</mat-icon>
+      {{profile?.ProfileRating}} ({{profile?.ProfileRatingCount}} Ratings)
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
+
+    <div class="content">
+      <div class="slide-container">
+        <div class="slide-image" *ngFor="let image of profile.ProfileImageUrls; let i = index">
+          <div class="slide-counter">{{i+1}} / {{profile.ProfileImageUrls.length}}</div>
+          <img class="slide-picture" [src]="image">
+        </div>
+        <a class="slide-prev" (click)="changeSlideBy(-1)">&#10094;</a>
+        <a class="slide-next" (click)="changeSlideBy(1)">&#10095;</a>
+      </div>
+      <br>
+      <div class="slide-jump">
+        <span class="slide-dot" *ngFor="let image of profile.ProfileImageUrls; let i = index" (click)="jumpToSlide(i)"
+          ng-init="jumpToSlide(0)"></span>
+      </div>
+    </div>
+
     <!-- <img mat-card-image src="https://source.unsplash.com/random/300x150"> -->
     <!--Todo : Put image carousel here for profile.ProfileImageUrls-->
     <form [formGroup]="profileForm">
@@ -34,7 +51,7 @@
           </mat-error>
         </mat-form-field>
         <ng-template [ngIf]="profileForm.controls.address.disabled" [ngIfElse]="saveAddressTemplate">
-          <button mat-flat-button color="primary" (click)="editAddress()" type="button">Edit</button>          
+          <button mat-flat-button color="primary" (click)="editAddress()" type="button">Edit</button>
         </ng-template>
         <ng-template #saveAddressTemplate>
           <button mat-flat-button color="primary" (click)="saveAddress()" type="button">Save</button>

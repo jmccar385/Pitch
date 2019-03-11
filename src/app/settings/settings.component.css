@@ -1,0 +1,19 @@
+div {
+	font-size: 18px;
+	padding-top: 10px;
+	padding-left: 10px;
+}
+
+#email-verification {
+	display: flex;
+	align-content: center;
+}
+
+#search-radius {
+
+}
+
+button {
+	color: white !important;
+	font-size: 18px;
+}

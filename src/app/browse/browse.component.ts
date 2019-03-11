@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { MatDialog } from "@angular/material";
 import { AuthService } from "../services/auth.service";
 import { ProfileService } from "../services/profile.service";
 import { Router } from "@angular/router";
@@ -12,7 +11,6 @@ import { Router } from "@angular/router";
 
 export class BrowseComponent implements OnInit {
   constructor(
-    public dialog: MatDialog,
     private authService: AuthService,
     private profileService: ProfileService,
     private router: Router
@@ -91,10 +89,5 @@ export class BrowseComponent implements OnInit {
         this._addProfileCard(venue);
       });
     });
-  }
-
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(["/login"]);
   }
 }

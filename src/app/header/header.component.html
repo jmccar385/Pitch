@@ -22,8 +22,18 @@
     		<mat-icon>list</mat-icon>
   		</button>
 		<h1>Profile</h1>
-		<button mat-icon-button [routerLink]="['/settings']" color="accent" [disabled]="true" >
+		<button mat-icon-button [routerLink]="['/profile/settings']" color="accent">
     		<mat-icon>settings</mat-icon>
   		</button>
 	</ng-template>
+	<ng-template [ngIf]="this.router.url == '/profile/settings'">
+		<button mat-icon-button [routerLink]="['/profile']" color="accent">
+    		<mat-icon>person</mat-icon>
+  		</button>
+		<h1>Settings</h1>
+		<button mat-icon-button color="accent" color="accent" (click)="logout()">
+    		<mat-icon>power_settings_new</mat-icon>
+  		</button>
+	</ng-template>
+
 </mat-toolbar>

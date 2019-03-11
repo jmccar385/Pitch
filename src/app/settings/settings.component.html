@@ -1,0 +1,16 @@
+<app-header></app-header>
+
+<div id="email-verification">
+	verified: 
+	<ng-template [ngIf]="verified" [ngIfElse]="unverified">
+		<mat-icon color="primary">check_circle</mat-icon>
+	</ng-template>
+	<ng-template #unverified>
+		<mat-icon color="warn">cancel_circle</mat-icon>
+	</ng-template>
+</div>
+
+<div class="search-radius">
+	Search Radius: 
+	<button mat-flat-button color="primary" (click)="editSearchRadius()">Edit</button>
+</div>

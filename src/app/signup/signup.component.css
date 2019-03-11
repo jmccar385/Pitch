@@ -3,6 +3,9 @@
 	height: 100%;
 	background: #00C853;
 	color: white;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 h1 {
@@ -12,15 +15,10 @@ h1 {
 	padding-bottom: 20px;
 }
 
-#buttons {
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-}
-
 button {
 	font-size: 22px;
-	width: 175px;
+	width: 90%;
 	height: 50px;
+	margin-top: 20px;
 	color: white !important;
 }

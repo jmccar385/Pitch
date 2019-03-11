@@ -20,8 +20,6 @@ export class BrowseComponent implements OnInit {
   private profileCards: any[] = [];
 
   async _addProfileCard(venue) {
-    // let FULL_STAR = 'https://www.shareicon.net/data/128x128/2016/01/03/697542_star_512x512.png';
-
     let equipment = [];
     let events = [];
     let now = new Date().getTime();

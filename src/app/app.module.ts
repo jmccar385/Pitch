@@ -23,6 +23,7 @@ import { SignupComponent } from './signup/signup.component';
 import { HeaderComponent } from './header/header.component';
 import { SignupBandComponent } from './signupBand/signupBand.component';
 import { SignupVenueComponent } from './signupVenue/signupVenue.component';
+import { ProfileComponent } from './profile/profile.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 
 @NgModule({
@@ -32,6 +33,7 @@ import { ImageUploadComponent } from './image-upload/image-upload.component';
     ForgotPasswordDialog,
     BrowseComponent,
     SignupComponent,
+    ProfileComponent,
     HeaderComponent,
     SignupVenueComponent,
     SignupBandComponent,

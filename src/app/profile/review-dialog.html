@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Review</h1>
+<form [formGroup]="reviewModalForm" (ngSubmit)="reviewModalForm.valid && send()">
+	<mat-form-field>
+		<input matInput placeholder="Rating" formControlName="rating">
+	</mat-form-field>
+	<mat-form-field>
+			<input matInput placeholder="Review" formControlName="rating">
+		</mat-form-field>
+	<div mat-dialog-actions>
+	  <button mat-button [mat-dialog-close] type="button">Cancel</button>
+	  <button mat-button type="submit" cdkFocusInitial>Submit</button>
+	</div>
+</form>

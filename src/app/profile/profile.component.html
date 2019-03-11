@@ -12,8 +12,8 @@
 
     <div class="content">
       <div class="slide-container">
-        <div class="slide-image" *ngFor="let image of profile.ProfileImageUrls; let i = index">
-          <div class="slide-counter">{{i+1}} / {{profile.ProfileImageUrls.length}}</div>
+        <div class="slide-image" *ngFor="let image of profile?.ProfileImageUrls; let i = index">
+          <div class="slide-counter">{{i+1}} / {{profile?.ProfileImageUrls.length}}</div>
           <img class="slide-picture" [src]="image">
         </div>
         <a class="slide-prev" (click)="changeSlideBy(-1)">&#10094;</a>
@@ -21,7 +21,7 @@
       </div>
       <br>
       <div class="slide-jump">
-        <span class="slide-dot" *ngFor="let image of profile.ProfileImageUrls; let i = index" (click)="jumpToSlide(i)"
+        <span class="slide-dot" *ngFor="let image of profile?.ProfileImageUrls; let i = index" (click)="jumpToSlide(i)"
           ng-init="jumpToSlide(0)"></span>
       </div>
     </div>

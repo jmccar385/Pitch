@@ -12,34 +12,19 @@ import { ReviewDialog } from "./review.component"
   styleUrls: ["./profile.component.css"]
 })
 export class ProfileComponent implements OnInit {
-  private uid: string;
-<<<<<<< HEAD
   private profile: any = null;
-<<<<<<< HEAD
-=======
-  private profile_data: any = null;
-=======
-  private profileType: number = 0;
->>>>>>> Save point. Need changes in master to continue
-  profileUrl: string;
-  editAbout: boolean = false;
-  editAddress: boolean = false;
   slideIndex: number = 1;
->>>>>>> Added web-animations-js and image slideshow on profile
 
   constructor(
     public dialog: MatDialog,
-    private authService: AuthService,
     private profileService: ProfileService,
     private route: ActivatedRoute,
   ) {}
   
   ngOnInit() {
-<<<<<<< HEAD
     this._setData(this.route.snapshot.params["id"], this.route.snapshot.params["userType"]);
   }
 
-<<<<<<< HEAD
   private _setData(uid: string, userType: string) {
     if (userType == "band") {
       this.profileService
@@ -52,58 +37,31 @@ export class ProfileComponent implements OnInit {
     } else if (userType == "venue") {
       this.profileService
         .getVenueObserverById(uid)
-        .then((doc) => {
-          (doc.exists ? (this.profile = [doc.data()][0]) : [null])
+        .subscribe(record => {
+          if (record == null || record.length <= 0) return;
+          
+          this.profile = record[0];
+          record.forEach(node => {
+            if (node.SubCollection == null || node.SubCollection.length == 0) return;
+
+            if (node.SubCollection[0]["EventDateTime"]) {
+              this.profile.events = this.profile.events || [];
+              node.SubCollection.forEach(event => this.profile.events.push(event));
+            } else {
+              this.profile.equipment = this.profile.equipment || [];
+              node.SubCollection.forEach(equipment => this.profile.equipment.push(equipment));
+            }
+          });
+          
           this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
           this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
-        });
-=======
-    if (this.route.snapshot.params["userType"]) {
-      if (this.route.snapshot.params["userType"].toLowerCase() == 'venue') {
-        this.profileType = 1;
-      }
+        })
+        // .then((doc) => {
+        //   (doc.exists ? (this.profile = [doc.data()][0]) : [null])
+        //   this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
+        //   this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
+        // });
     }
-
-    if (this.route.snapshot.params["id"]) {
-      this._setData(this.route.snapshot.params["id"]);
-    } else {
-      this._getCurrentUserProfile();
->>>>>>> Save point. Need changes in master to continue
-    }
-  }
-
-=======
-  private _getCurrentUserProfile() {
-    if (!this.authService.currentUserID) {
-      this.authService.currentUserObservable.subscribe(user => this._setData(user.uid));
-    } else {
-      this._setData(this.authService.currentUserID);
-    }
-  }
-
-  private _setData(uid: string) {
-<<<<<<< HEAD
-    this.profileService
-      .getArtistObserverById(uid)
-      .then(doc => (doc.exists ? (this.profile_data = [doc.data()]) : [null]));
-=======
-    if (this.profileType == 0) {
-      this.profileService
-        .getArtistObserverById(uid)
-        .then((doc) => {
-          (doc.exists ? (this.profile = [doc.data()][0]) : [null])
-          this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
-          this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
-        });   
-    } else {
-      this.profileService
-        .getVenueObserverById(uid)
-        .subscribe((record) => {
-          console.log(record);
-          debugger;
-        });
-    }
->>>>>>> Save point. Need changes in master to continue
   }
 
   private changeSlideBy(delta) {
@@ -132,7 +90,7 @@ export class ProfileComponent implements OnInit {
     dots[this.slideIndex - 1].className += " dot-active";
   }
 
->>>>>>> Added web-animations-js and image slideshow on profile
+
   reviewModal(): void {
     const dialogRef = this.dialog.open(ReviewDialog, {width: "300px", data: {}});
   }

@@ -16,7 +16,8 @@ export class ProfileComponent implements OnInit {
   private profile_data: any = null;
   profileUrl: string;
   editAbout: boolean = false;
-  editAdress: boolean = false;
+  editAddress: boolean = false;
+  slideIndex: number = 1;
 
   constructor(
     public dialog: MatDialog,
@@ -35,9 +36,7 @@ export class ProfileComponent implements OnInit {
 
   private _getCurrentUserProfile() {
     if (!this.authService.currentUserID) {
-      this.authService.currentUserObservable.subscribe(user => {
-        this._setData(user.uid);
-      });
+      this.authService.currentUserObservable.subscribe(user => this._setData(user.uid));
     } else {
       this._setData(this.authService.currentUserID);
     }
@@ -47,6 +46,32 @@ export class ProfileComponent implements OnInit {
     this.profileService
       .getArtistObserverById(uid)
       .then(doc => (doc.exists ? (this.profile_data = [doc.data()]) : [null]));
+  }
+
+  private changeSlideBy(delta) {
+    this.showSlides(this.slideIndex += delta);
+  }
+
+  private jumpToSlide(target) {
+    this.showSlides(this.slideIndex = target + 1);
+  }
+
+  private showSlides(index) {
+    let slides = document.getElementsByClassName("slide-image");
+    let dots = document.getElementsByClassName("slide-dot");
+
+    if (slides.length == 0 || dots.length == 0) return;
+
+    if (index > slides.length) this.slideIndex = 1;
+    if (index < 1) this.slideIndex = slides.length;
+
+    for (let i = 0; i < slides.length; i++) {
+      slides[i].className = slides[i].className.replace(' slide-active', '');
+      dots[i].className = dots[i].className.replace(' dot-active', '');
+    }
+
+    slides[this.slideIndex - 1].className += " slide-active";
+    dots[this.slideIndex - 1].className += " dot-active";
   }
 
   reviewModal(): void {

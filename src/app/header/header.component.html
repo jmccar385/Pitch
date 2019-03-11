@@ -26,13 +26,22 @@
     		<mat-icon>power_settings_new</mat-icon>
   		</button>
 	</ng-template>
-	<ng-template [ngIf]="this.router.url == profileUrl">
+	<ng-template [ngIf]="this.router.url == userProfileUrl">
 		<button mat-icon-button (click)="verified()" color="accent">
     		<mat-icon>list</mat-icon>
   		</button>
 		<h1>Profile</h1>
 		<button mat-icon-button [routerLink]="['/profile/settings']" color="accent">
     		<mat-icon>settings</mat-icon>
+  		</button>
+	</ng-template>
+	<ng-template [ngIf]="this.router.url.match(viewProfileUrl) != null && this.router.url != userProfileUrl">
+		<button mat-icon-button color="accent" [routerLink]="['/browse']">
+    		<mat-icon>list</mat-icon>
+  		</button>
+		<h1>{{ Name }} Profile</h1>
+		<button mat-icon-button color="accent" [disabled]="true" >
+    		<mat-icon></mat-icon>
   		</button>
 	</ng-template>
 </mat-toolbar>

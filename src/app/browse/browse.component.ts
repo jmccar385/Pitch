@@ -32,7 +32,6 @@ export class BrowseComponent implements OnInit {
 
     if (venue["Events"]) {
       events = venue.Events.filter(E => {
-        debugger;
         return E["EventDateTime"].seconds * 1000.0 >= now;
       });
     }

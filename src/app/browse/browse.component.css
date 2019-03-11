@@ -10,8 +10,8 @@ mat-card {
 }
 
 .browse-card-rating {
-  display: inline; 
-  line-height: 2em;
+  display: flex; 
+  line-height: 24px;
 }
 
 .browse-star-image {

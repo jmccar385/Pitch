@@ -28,6 +28,14 @@ export class ProfileService {
     return this.afDatabase.collection("Artists").valueChanges();
   }
 
+  getArtistObserverById(userId: string) {
+    return this.afDatabase
+      .collection("Artists")
+      .doc(userId)
+      .get()
+      .toPromise();
+  }
+
   getVenueObserver() {
     return this.afDatabase
       .collection("Venues")

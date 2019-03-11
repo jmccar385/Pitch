@@ -9,6 +9,7 @@ import { SignupComponent } from './signup/signup.component';
 import { SignupVenueComponent } from './signupVenue/signupVenue.component';
 import { SignupBandComponent } from './signupBand/signupBand.component';
 import { ProfileComponent } from './profile/profile.component';
+import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
 	{ path: '', redirectTo: '/browse', pathMatch: 'full' },
@@ -17,7 +18,10 @@ const routes: Routes = [
 	{ path: 'signup/band', component: SignupBandComponent },
 	{ path: 'signup/venue', component: SignupVenueComponent },
 	{ path: 'login', component: LoginComponent },
+	{ path: 'profile/:id', component: ProfileComponent },
 	{ path: 'profile', component: ProfileComponent },
+	{ path: 'settings', component: SettingsComponent },
+	{ path: '**', redirectTo: '/login' } // <-- gooby keep this last plz
 ];
 
 @NgModule({

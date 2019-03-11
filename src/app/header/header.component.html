@@ -17,7 +17,7 @@
     		<mat-icon>list</mat-icon>
   		</button>
 	</ng-template>
-	<ng-template [ngIf]="this.router.url == '/profile'">
+	<ng-template [ngIf]="this.router.url == '/profile' || this.router.url == '/profile/:id'">
 		<button mat-icon-button [routerLink]="['/browse']" color="accent">
     		<mat-icon>list</mat-icon>
   		</button>

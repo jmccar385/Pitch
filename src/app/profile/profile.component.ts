@@ -1,8 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { AuthService } from "../services/auth.service";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from "@angular/router";
 import { MatDialog, MatDialogRef } from "@angular/material";
 import { ProfileService } from "../services/profile.service";
 
@@ -22,8 +21,9 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
   ngOnInit() {
-    if (this.route.snapshot.params['id']) {
-      this._setData(this.route.snapshot.params['id']);
+    debugger;
+    if (this.route.snapshot.params["id"]) {
+      this._setData(this.route.snapshot.params["id"]);
     } else {
       this._getCurrentUserProfile();
     }
@@ -40,7 +40,9 @@ export class ProfileComponent implements OnInit {
   }
 
   private _setData(uid: string) {
-    this.profileService.getArtistObserverById(uid).then((doc) => doc.exists ? this.profile_data = [ doc.data() ] : [ null ]);
+    this.profileService
+      .getArtistObserverById(uid)
+      .then(doc => (doc.exists ? (this.profile_data = [doc.data()]) : [null]));
   }
 
   reviewModal(): void {

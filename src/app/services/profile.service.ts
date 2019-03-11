@@ -29,6 +29,7 @@ export class ProfileService {
   }
 
   getArtistObserverById(userId: string) {
+    console.log("Getting artist by id");
     return this.afDatabase
       .collection("Artists")
       .doc(userId)
@@ -67,6 +68,47 @@ export class ProfileService {
                 )
             ];
           });
+        })
+      )
+      .pipe(
+        mergeMap(result => {
+          let flattened = flatten(result);
+          return combineLatest(flattened);
+        })
+      );
+  }
+
+  getVenueObserverById(uid: string) {
+    console.log("Getting venue by id");
+    return this.afDatabase
+      .collection("Artists")
+      .doc(uid)
+      .snapshotChanges()
+      .pipe(
+        map(snapshot => {
+          const record = {
+            id: snapshot.payload.id,
+            ...snapshot.payload.data()
+          };
+
+          return [
+            this.afDatabase
+              .collection(`Venues/${snapshot.payload.id}/AvailableEquipment`)
+              .valueChanges()
+              .pipe(
+                map(change => {
+                  return { ...record, SubCollection: change };
+                })
+              ),
+            this.afDatabase
+              .collection(`Venues/${snapshot.payload.id}/Events`)
+              .valueChanges()
+              .pipe(
+                map(change => {
+                  return { ...record, SubCollection: change };
+                })
+              )
+          ];
         })
       )
       .pipe(

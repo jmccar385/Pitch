@@ -15,6 +15,8 @@ export class ProfileComponent implements OnInit {
   private uid: string;
   private profile_data: any = null;
   profileUrl: string;
+  editAbout: boolean = false;
+  editAdress: boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -49,5 +51,21 @@ export class ProfileComponent implements OnInit {
 
   reviewModal(): void {
     const dialogRef = this.dialog.open(ReviewDialog, {width: "300px", data: {}});
+  }
+
+  editAboutField() {
+    this.editAbout = true;
+  }
+
+  saveAboutField() {
+    this.editAbout = false;
+  }
+
+  editAddressField() {
+    this.editAddress = true;
+  }
+
+  saveAddressField() {
+    this.editAddress = false;
   }
 }

@@ -10,12 +10,31 @@
   </mat-card-header>
   <mat-card-content>
     <!-- <img mat-card-image src="https://source.unsplash.com/random/300x150"> -->
-    Todo : Put image carousel here for profile.ProfileImageUrls
-    <br>
-    <p>{{profile.ProfileBiography}}</p>
-    <hr>
+    <!--Todo : Put image carousel here for profile.ProfileImageUrls-->
+    <div class="content">
+      <mat-form-field>
+        <textarea matInput placeholder="About" matTextareaAutosize disabled="{{!editAbout}}" value="{{profile.ProfileBiography}}"></textarea>
+      </mat-form-field>
+      <ng-template [ngIf]="editAbout" [ngIfElse]="saveAbout">
+        <button mat-flat-button color="primary" (click)="saveAboutField()">Save</button>
+      </ng-template>
+      <ng-template #saveAbout>
+        <button mat-flat-button color="primary" (click)="editAboutField()">Edit</button>
+      </ng-template>
+    </div>
+    <div class="content">
+      <mat-form-field>
+        <input matInput placeholder="Address" disabled="{{!editAddress}}" value="{{profile.ProfileAddress}}">
+      </mat-form-field>
+      <ng-template [ngIf]="editAddress" [ngIfElse]="saveAddress">
+        <button mat-flat-button color="primary" (click)="saveAddressField()">Save</button>
+      </ng-template>
+      <ng-template #saveAddress>
+        <button mat-flat-button color="primary" (click)="editAddressField()">Edit</button>
+      </ng-template>
+    </div>
     <div>
-      <button mat-raised-button color="grey" (click)="reviewModal()" type="button">Review</button>
+      <button mat-flat-button color="primary" (click)="reviewModal()" type="button">Review</button>
     </div>
   </mat-card-content>
 </mat-card>

@@ -22,7 +22,6 @@ export class HeaderComponent implements OnInit {
   	 this.id = this.authService.currentUserID;
   	 this.userProfileUrl = "/profile/" + this.authService.currentUserID;
      this.viewProfileUrl = new RegExp("/profile/[A-Z a-z 0-9]*");
-     console.log("/profile/lkjalkkjasf".match(this.viewProfileUrl) != null);
   }
 
   verified(): void {

@@ -23,18 +23,11 @@ mat-card-subtitle {
   height: 16px;
 }
 
-.browse-equipment-image {
-  width: 16px;
-  height: 16px;
-}
-
 mat-card-content {
 	display: flex;
 	justify-content: space-between;
   align-items: center;
 }
-
-
 
 .equipment-icons {
   width: 30%;
@@ -43,5 +36,5 @@ mat-card-content {
 }
 
 .unowned {
-  opacity: 0.6;
+  opacity: 0.1;
 }

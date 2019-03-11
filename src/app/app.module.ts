@@ -24,7 +24,7 @@ import { HeaderComponent } from './header/header.component';
 import { SignupBandComponent } from './signupBand/signupBand.component';
 import { SignupVenueComponent } from './signupVenue/signupVenue.component';
 import { ProfileComponent } from './profile/profile.component';
-
+import { ImageUploadComponent } from './image-upload/image-upload.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +37,7 @@ import { ProfileComponent } from './profile/profile.component';
     HeaderComponent,
     SignupVenueComponent,
     SignupBandComponent,
+    ImageUploadComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,7 +9,7 @@
     />
     <mat-card-title>{{ card.profile_name }} </mat-card-title>
     <mat-card-subtitle>
-      <mat-icon>star</mat-icon> {{card.rating}} ({{card.rating_count}} Ratings)
+      <div class="browse-card-rating"><mat-icon>star</mat-icon> {{card.rating}} ({{card.rating_count}} Ratings)</div>
       <!-- <mat-grid-list cols="5" rowHeight="16px">
         <mat-grid-tile *ngFor="let star of card.rating">
           <img class="browse-star-image" src="{{ star.source }}" />

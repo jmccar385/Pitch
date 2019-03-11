@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { MatDialog, MatDialogRef } from "@angular/material";
 import { ProfileService } from "../services/profile.service";
+import { ReviewDialog } from "./review.component";
 
 @Component({
   selector: "app-profile",
@@ -46,29 +47,6 @@ export class ProfileComponent implements OnInit {
   }
 
   reviewModal(): void {
-    const dialogRef = this.dialog.open(ReviewModalDialog, {
-      width: "300px",
-      data: {}
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log("The dialog was closed");
-    });
-  }
-}
-
-@Component({
-  selector: "review-dialog",
-  templateUrl: "./review-dialog.html"
-})
-export class ReviewModalDialog {
-  constructor(public dialogRef: MatDialogRef<ReviewModalDialog>) {}
-
-  reviewModalForm: FormGroup = new FormGroup({
-    email: new FormControl("", [Validators.required])
-  });
-
-  send(): void {
-    this.dialogRef.close();
-    const dialogRef = this.dialog.open(ReviewDialog, {width: '450px', data: {}});
+    const dialogRef = this.dialog.open(ReviewDialog, {width: "300px", data: {}});
   }
 }

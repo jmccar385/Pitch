@@ -18,7 +18,7 @@ export class ProfileService {
     const file = input;
     if (file.type.split("/")[0] !== "image") return;
 
-    const path = `${file.name}_${new Date().getTime()}`;
+    const path = `${new Date().getTime()}_${file.name}`;
     let task = this.afStorage.upload(path, file);
 
     return task.snapshotChanges();

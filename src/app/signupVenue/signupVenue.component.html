@@ -16,7 +16,7 @@
 					      	A description is <strong>required</strong>
 					    </mat-error>
 					</mat-form-field>
-					<h1>profile photo upload here</h1>
+					<image-upload></image-upload>
 					<div class="stepper-buttons">
 						<button mat-flat-button type="button" color="accent" [routerLink]="['/signup']">Back</button>
 						<button mat-flat-button matStepperNext color="accent" type="button" [disabled]="signupVenueForm.controls.description.errors && signupVenueForm.controls.address.errors">Next</button>

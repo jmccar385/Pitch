@@ -7,6 +7,9 @@ import { ProfileService } from "../services/profile.service";
   styleUrls: ["image-upload.component.css"]
 })
 export class ImageUploadComponent {
+  private uploaded = false;
+  private downloadUrl = '';
+
   constructor(private profileService: ProfileService) {}
 
   processFile(imageInput: any) {
@@ -17,12 +20,19 @@ export class ImageUploadComponent {
       this.profileService
         .uploadImage(file)
         .subscribe(res => {
+          debugger;
+          this.uploaded = true;
           imageInput.value = '';
+          res.ref.getDownloadURL().then((val) => this.downloadUrl = val);
         }, err => {
+          this.uploaded = false;
           console.warn("Could not upload image file. Should handle this better.");
         });
     });
 
     reader.readAsDataURL(file);
   }
+
+  UploadComplete = () => this.uploaded;
+  DownloadURL = () => this.downloadUrl;
 }

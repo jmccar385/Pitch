@@ -12,12 +12,15 @@ import { ReviewDialog } from "./review.component"
   styleUrls: ["./profile.component.css"]
 })
 export class ProfileComponent implements OnInit {
-  private uid: string;
   private profile: any = null;
+<<<<<<< HEAD
+=======
+  profileUrl: string;
+>>>>>>> 4be2577b58085c165eea13f909d35faf66654019
+  slideIndex: number = 1;
 
   constructor(
     public dialog: MatDialog,
-    private authService: AuthService,
     private profileService: ProfileService,
     private route: ActivatedRoute,
   ) {}
@@ -38,13 +41,87 @@ export class ProfileComponent implements OnInit {
     } else if (userType == "venue") {
       this.profileService
         .getVenueObserverById(uid)
-        .then((doc) => {
-          (doc.exists ? (this.profile = [doc.data()][0]) : [null])
+        .subscribe(record => {
+          if (record == null || record.length <= 0) return;
+          
+          this.profile = record[0];
+          record.forEach(node => {
+            if (node.SubCollection == null || node.SubCollection.length == 0) return;
+
+            if (node.SubCollection[0]["EventDateTime"]) {
+              this.profile.events = this.profile.events || [];
+              node.SubCollection.forEach(event => this.profile.events.push(event));
+            } else {
+              this.profile.equipment = this.profile.equipment || [];
+              node.SubCollection.forEach(equipment => this.profile.equipment.push(equipment));
+            }
+          });
+          
           this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
           this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
-        });
+        })
+        // .then((doc) => {
+        //   (doc.exists ? (this.profile = [doc.data()][0]) : [null])
+        //   this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
+        //   this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
+        // });
     }
   }
+
+  private changeSlideBy(delta) {
+    this.showSlides(this.slideIndex += delta);
+  }
+
+  private jumpToSlide(target) {
+    this.showSlides(this.slideIndex = target + 1);
+  }
+
+  private showSlides(index) {
+    let slides = document.getElementsByClassName("slide-image");
+    let dots = document.getElementsByClassName("slide-dot");
+
+    if (slides.length == 0 || dots.length == 0) return;
+
+    if (index > slides.length) this.slideIndex = 1;
+    if (index < 1) this.slideIndex = slides.length;
+
+    for (let i = 0; i < slides.length; i++) {
+      slides[i].className = slides[i].className.replace(' slide-active', '');
+      dots[i].className = dots[i].className.replace(' dot-active', '');
+    }
+
+    slides[this.slideIndex - 1].className += " slide-active";
+    dots[this.slideIndex - 1].className += " dot-active";
+  }
+
+<<<<<<< HEAD
+=======
+  private changeSlideBy(delta) {
+    this.showSlides(this.slideIndex += delta);
+  }
+
+  private jumpToSlide(target) {
+    this.showSlides(this.slideIndex = target + 1);
+  }
+
+  private showSlides(index) {
+    let slides = document.getElementsByClassName("slide-image");
+    let dots = document.getElementsByClassName("slide-dot");
+
+    if (slides.length == 0 || dots.length == 0) return;
+
+    if (index > slides.length) this.slideIndex = 1;
+    if (index < 1) this.slideIndex = slides.length;
+
+    for (let i = 0; i < slides.length; i++) {
+      slides[i].className = slides[i].className.replace(' slide-active', '');
+      dots[i].className = dots[i].className.replace(' dot-active', '');
+    }
+
+    slides[this.slideIndex - 1].className += " slide-active";
+    dots[this.slideIndex - 1].className += " dot-active";
+  }
+>>>>>>> 4be2577b58085c165eea13f909d35faf66654019
 
   reviewModal(): void {
     const dialogRef = this.dialog.open(ReviewDialog, {width: "300px", data: {}});

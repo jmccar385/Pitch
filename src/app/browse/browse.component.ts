@@ -20,8 +20,6 @@ export class BrowseComponent implements OnInit {
   private profileCards: any[] = [];
 
   async _addProfileCard(venue) {
-    // let FULL_STAR = 'https://www.shareicon.net/data/128x128/2016/01/03/697542_star_512x512.png';
-
     let equipment = [];
     let events = [];
     let now = new Date().getTime();
@@ -60,19 +58,6 @@ export class BrowseComponent implements OnInit {
   }
 
   ngOnInit() {
-    /*for (var i = 0; i < this.profileCards.length; i++) {
-		while (this.profileCards[i].rating >= 1) {
-			this.stars.push("star");
-			this.profileCards[i].rating -= 1;
-		}
-		if (this.profileCards[i].rating != 0) {
-			this.stars.push("star_half");
-		}
-		while (this.stars.length < 5) {
-			this.stars.push("star_border");
-		}
-		 
-	}*/
     this.profileService.getVenueObserver().subscribe(observer => {
       let merged = [];
 
@@ -80,20 +65,20 @@ export class BrowseComponent implements OnInit {
         let index = merged.findIndex(X => X.id == venue.id);
         if (index >= 0) {
           if (venue.SubCollection.length > 0) {
-            if (venue.SubCollection[0]["IconUrl"]) {
-              merged[index].AvailableEquipment = venue.SubCollection;
-            } else {
+            if (venue.SubCollection[0]["EventDateTime"]) {
               merged[index].Events = venue.SubCollection;
+            } else {
+              merged[index].AvailableEquipment = venue.SubCollection;
             }
           }
         } else {
           merged.push(venue);
           if (venue.SubCollection.length > 0) {
-            if (venue.SubCollection[0]["IconUrl"]) {
+            if (venue.SubCollection[0]["EventDateTime"]) {
+              merged[merged.length - 1].Events = venue.SubCollection;
+            } else {
               merged[merged.length - 1].AvailableEquipment =
                 venue.SubCollection;
-            } else {
-              merged[merged.length - 1].Events = venue.SubCollection;
             }
           }
         }

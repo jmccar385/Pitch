@@ -2,19 +2,12 @@
 <button mat-raised-button color="primary" type="button" (click)="logout()">Logout</button>
 <mat-card class="browse-card" *ngFor="let card of profileCards">
   <mat-card-header>
-    <img
-      mat-card-avatar
-      class="browse-header-image"
-      src="{{ card.profile_image }}"
-    />
+    <img mat-card-avatar class="browse-header-image" src="{{ card.profile_image }}" />
     <mat-card-title>{{ card.profile_name }} </mat-card-title>
     <mat-card-subtitle>
-      <div class="browse-card-rating"><mat-icon>star</mat-icon> {{card.rating}} ({{card.rating_count}} Ratings)</div>
-      <!-- <mat-grid-list cols="5" rowHeight="16px">
-        <mat-grid-tile *ngFor="let star of card.rating">
-          <img class="browse-star-image" src="{{ star.source }}" />
-        </mat-grid-tile>
-      </mat-grid-list> -->
+      <div class="browse-card-rating">
+        <mat-icon>star</mat-icon> {{card.rating}} ({{card.rating_count}} Ratings)
+      </div>
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
@@ -61,7 +54,4 @@
     <p>{{ card.upcoming_event_text }}</p>
     <p>{{ card.available_equip_text }}</p>
   </mat-card-content>
-  <!-- <mat-card-actions>  -->
-  <!-- Todo: card actions? -->
-  <!-- </mat-card-actions>  -->
 </mat-card>

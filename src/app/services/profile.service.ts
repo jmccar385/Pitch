@@ -29,7 +29,6 @@ export class ProfileService {
   }
 
   getArtistObserverById(userId: string) {
-    console.log("Getting artist by id");
     return this.afDatabase
       .collection("Artists")
       .doc(userId)
@@ -78,22 +77,21 @@ export class ProfileService {
       );
   }
 
-  getVenueObserverById(uid: string) {
-    console.log("Getting venue by id");
+  getVenueObserverById(userId: string) {
     return this.afDatabase
-      .collection("Artists")
-      .doc(uid)
-      .snapshotChanges()
+      .collection("Venues")
+      .doc(userId)
+      .get()
       .pipe(
-        map(snapshot => {
+        map(doc => {
           const record = {
-            id: snapshot.payload.id,
-            ...snapshot.payload.data()
+            id: doc.id,
+            ...doc.data()
           };
 
           return [
             this.afDatabase
-              .collection(`Venues/${snapshot.payload.id}/AvailableEquipment`)
+              .collection(`Venues/${record.id}/AvailableEquipment`)
               .valueChanges()
               .pipe(
                 map(change => {
@@ -101,7 +99,7 @@ export class ProfileService {
                 })
               ),
             this.afDatabase
-              .collection(`Venues/${snapshot.payload.id}/Events`)
+              .collection(`Venues/${record.id}/Events`)
               .valueChanges()
               .pipe(
                 map(change => {
@@ -113,8 +111,7 @@ export class ProfileService {
       )
       .pipe(
         mergeMap(result => {
-          let flattened = flatten(result);
-          return combineLatest(flattened);
+          return combineLatest(result);
         })
       );
   }

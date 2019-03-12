@@ -15,15 +15,14 @@
       <div class="slide-container">
         <div class="slide-image" *ngFor="let image of profile?.ProfileImageUrls; let i = index">
           <div class="slide-counter">{{i+1}} / {{profile?.ProfileImageUrls.length}}</div>
-          <img class="slide-picture" [src]="image">
+          <img class="slide-picture" [src]="image" (load)="jumpToSlide(0)">
         </div>
         <a class="slide-prev" (click)="changeSlideBy(-1)">&#10094;</a>
         <a class="slide-next" (click)="changeSlideBy(1)">&#10095;</a>
       </div>
       <br>
       <div class="slide-jump">
-        <span class="slide-dot" *ngFor="let image of profile?.ProfileImageUrls; let i = index" (click)="jumpToSlide(i)"
-          ng-init="jumpToSlide(0)"></span>
+        <span class="slide-dot" *ngFor="let image of profile?.ProfileImageUrls; let i = index" (click)="jumpToSlide(i)"></span>
       </div>
     </div>
     <form [formGroup]="profileForm">

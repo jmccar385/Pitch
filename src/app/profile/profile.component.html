@@ -6,6 +6,7 @@
     <mat-card-subtitle>
       <mat-icon>star</mat-icon>
       {{profile?.ProfileRating}} ({{profile?.ProfileRatingCount}} Ratings)
+      <button mat-flat-button id="review" color="primary" (click)="reviewModal()" type="button">Review</button>
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
@@ -57,9 +58,36 @@
           <button mat-flat-button color="primary" (click)="saveAddress()" type="button">Save</button>
         </ng-template>
       </div>
+      <ng-template [ngIf]="userType == 'venue'">
+        <div [ngClass]="profileForm.controls.bass_cabinet.disabled ? 'content disabled non-input' : 'content non-input'">
+          Equipment
+          <div class="content-align">
+            <mat-checkbox color="primary" labelPosition="before" formControlName="bass_cabinet">Bass Cabinet</mat-checkbox>
+            <mat-checkbox color="primary" labelPosition="before" formControlName="bass_amp">Bass Amplifier</mat-checkbox>
+            <mat-checkbox color="primary" labelPosition="before" formControlName="guitar_cabinet">Guitar Cabinet</mat-checkbox>
+            <mat-checkbox color="primary" labelPosition="before" formControlName="guitar_amp">Guitar Amplifier</mat-checkbox>
+            <mat-checkbox color="primary" labelPosition="before" formControlName="stage_monitor">Stage Monitor</mat-checkbox>
+            <mat-checkbox color="primary" labelPosition="before" formControlName="microphones">Micropohones/Stands</mat-checkbox>
+            <mat-checkbox color="primary" labelPosition="before" formControlName="drum_throne">Drum Throne</mat-checkbox>
+            <mat-checkbox color="primary" labelPosition="before" formControlName="drum_hardware">Drum Hardware</mat-checkbox>
+            <mat-checkbox color="primary" labelPosition="before" formControlName="drum_shells">Drum Shells</mat-checkbox>
+          </div>
+          <ng-template [ngIf]="profileForm.controls.bass_cabinet.disabled" [ngIfElse]="saveEquipmentTemplate">
+            <button mat-flat-button color="primary" (click)="editEquipment()" type="button">Edit</button>
+          </ng-template>
+          <ng-template #saveEquipmentTemplate>
+            <button mat-flat-button color="primary" (click)="saveEquipment()" type="button">Save</button>
+          </ng-template>
+        </div>
+        <div class="content non-input">
+          Events
+          <ul>
+            <li *ngFor="let event of profile?.events">
+              {{ event.EventDateTime.toDate() | date: 'yyyy-MM-dd'}} - {{ event.EventName }}: {{ event.EventDescription}}
+            </li>
+          </ul>
+        </div>
+      </ng-template>
     </form>
-    <div>
-      <button mat-flat-button color="primary" (click)="reviewModal()" type="button">Review</button>
-    </div>
   </mat-card-content>
 </mat-card>

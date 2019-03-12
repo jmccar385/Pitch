@@ -14,6 +14,7 @@ import { ReviewDialog } from "./review.component"
 export class ProfileComponent implements OnInit {
   private profile: any = null;
   slideIndex: number = 1;
+  userType: string;
 
   constructor(
     public dialog: MatDialog,
@@ -22,7 +23,8 @@ export class ProfileComponent implements OnInit {
   ) {}
   
   ngOnInit() {
-    this._setData(this.route.snapshot.params["id"], this.route.snapshot.params["userType"]);
+    this.userType = this.route.snapshot.params["userType"];
+    this._setData(this.route.snapshot.params["id"], this.userType);
   }
 
   private _setData(uid: string, userType: string) {
@@ -55,12 +57,38 @@ export class ProfileComponent implements OnInit {
           
           this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
           this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
+          for (var i = 0; i < this.profile.equipment.length; i++) {
+            switch (this.profile.equipment[i].Name) {
+              case 'Guitar Cabinet':
+                this.profileForm.controls.guitar_cabinet.setValue(true);
+                break;
+              case 'Guitar Amplifier':
+                this.profileForm.controls.guitar_amp.setValue(true);
+                break;
+              case 'Bass Cabinet':
+                this.profileForm.controls.bass_cabinet.setValue(true);
+                break;
+              case 'Bass Amplifier':
+                this.profileForm.controls.bass_amp.setValue(true);
+                break;
+              case 'Stage Monitor':
+                this.profileForm.controls.stage_monitor.setValue(true);
+                break;
+              case 'Microphones/Stands':
+                this.profileForm.controls.microphones.setValue(true);
+                break;
+              case 'Drum Throne':
+                this.profileForm.controls.drum_throne.setValue(true);
+                break;
+              case 'Drum Hardware':
+                this.profileForm.controls.drum_hardware.setValue(true);
+                break;
+              case 'Drum Shells':
+                this.profileForm.controls.drum_shells.setValue(true);
+                break;
+            }
+          }
         })
-        // .then((doc) => {
-        //   (doc.exists ? (this.profile = [doc.data()][0]) : [null])
-        //   this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
-        //   this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
-        // });
     }
   }
 
@@ -96,6 +124,7 @@ export class ProfileComponent implements OnInit {
 
   editBiography() {
     this.profileForm.controls.biography.enable();
+    console.log(this.profile);
   }
 
   saveBiography() {
@@ -110,6 +139,30 @@ export class ProfileComponent implements OnInit {
     this.profileForm.controls.address.disable();
   }
 
+  editEquipment() {
+    this.profileForm.controls.bass_cabinet.enable();
+    this.profileForm.controls.bass_amp.enable();
+    this.profileForm.controls.guitar_cabinet.enable();
+    this.profileForm.controls.guitar_amp.enable();
+    this.profileForm.controls.drum_throne.enable();
+    this.profileForm.controls.drum_hardware.enable();
+    this.profileForm.controls.drum_shells.enable();
+    this.profileForm.controls.stage_monitor.enable();
+    this.profileForm.controls.microphones.enable();
+  }
+
+  saveEquipment() {
+    this.profileForm.controls.bass_cabinet.disable();
+    this.profileForm.controls.bass_amp.disable();
+    this.profileForm.controls.guitar_cabinet.disable();
+    this.profileForm.controls.guitar_amp.disable();
+    this.profileForm.controls.drum_throne.disable();
+    this.profileForm.controls.drum_hardware.disable();
+    this.profileForm.controls.drum_shells.disable();
+    this.profileForm.controls.stage_monitor.disable();
+    this.profileForm.controls.microphones.disable();
+  }
+
   profileForm: FormGroup = new FormGroup({
     address: new FormControl({value: '', disabled: true}, [
       Validators.required,
@@ -117,6 +170,15 @@ export class ProfileComponent implements OnInit {
 
     biography: new FormControl({value: '', disabled: true}, [
       Validators.required,
-    ])
+    ]),
+    bass_cabinet: new FormControl({value: '', disabled: true}, []),
+    bass_amp: new FormControl({value: '', disabled: true}, []),
+    guitar_cabinet: new FormControl({value: '', disabled: true}, []),
+    guitar_amp: new FormControl({value: '', disabled: true}, []),
+    drum_throne: new FormControl({value: '', disabled: true}, []),
+    drum_hardware: new FormControl({value: '', disabled: true}, []),
+    drum_shells: new FormControl({value: '', disabled: true}, []),
+    stage_monitor: new FormControl({value: '', disabled: true}, []),
+    microphones: new FormControl({value: '', disabled: true}, []),
   });
 }

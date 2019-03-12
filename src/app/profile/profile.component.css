@@ -149,6 +149,10 @@ button {
   padding-top: 16px;
 }
 
+.content-align.view {
+  align-items: flex-start;
+}
+
 .non-input {
   font-size: 14px;
 }

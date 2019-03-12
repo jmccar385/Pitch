@@ -15,16 +15,19 @@ export class ProfileComponent implements OnInit {
   private profile: any = null;
   slideIndex: number = 1;
   userType: string;
+  view: boolean;
 
   constructor(
     public dialog: MatDialog,
     private profileService: ProfileService,
     private route: ActivatedRoute,
+    private authService: AuthService,
   ) {}
   
   ngOnInit() {
     this.userType = this.route.snapshot.params["userType"];
     this._setData(this.route.snapshot.params["id"], this.userType);
+    this.view = (this.route.snapshot.params["id"] == this.authService.currentUserID)
   }
 
   private _setData(uid: string, userType: string) {

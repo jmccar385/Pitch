@@ -22,7 +22,7 @@ export class VerifiedGuard implements CanActivate {
     return this.authService.currentUserObservable.pipe(
       map(user => {
         if (!user.emailVerified) {
-          this.router.navigate(['profile', user.uid])
+          this.router.navigate(['profile', 'band', user.uid])
         }
         return user.emailVerified;
       })

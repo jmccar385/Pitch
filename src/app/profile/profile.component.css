@@ -50,22 +50,24 @@ button {
 /* ty w3 schools */
 .slide-container {
 	width: calc(95% - 32px);
-	height: 200px;
+	height: 300px;
   position: relative;
   margin: auto;
+	background-color: black;
 }
 
 .slide-image {
-	height: 200px;
+	height: 300px;
 	display: none;
 	text-align: center;
-	background-color: gray;
-	vertical-align: middle;
+  background-color: black;
+  line-height: 300px;
 }
 
 .slide-picture {
 	max-width: calc(95% - 32px);
-	max-height: 200px;
+	max-height: 300px;
+	vertical-align: middle;
 }
 
 .slide-prev, .slide-next {
@@ -97,7 +99,9 @@ button {
   font-size: 12px;
   padding: 8px 12px;
   position: absolute;
+  vertical-align: top;
   top: 0;
+  line-height: 2em;
 }
 
 .slide-jump {

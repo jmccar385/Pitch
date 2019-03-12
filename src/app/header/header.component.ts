@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   	 this.id = this.authService.currentUserID;
   	 this.userProfileUrl = "/profile/band/" + this.id;
-     this.viewProfileUrl = new RegExp("/profile/[A-Z a-z 0-9]*");
+     this.viewProfileUrl = new RegExp("/profile/venue/.*");
   }
 
   verified(): void {

@@ -13,10 +13,6 @@ import { ReviewDialog } from "./review.component"
 })
 export class ProfileComponent implements OnInit {
   private profile: any = null;
-<<<<<<< HEAD
-=======
-  profileUrl: string;
->>>>>>> 4be2577b58085c165eea13f909d35faf66654019
   slideIndex: number = 1;
 
   constructor(
@@ -93,35 +89,6 @@ export class ProfileComponent implements OnInit {
     slides[this.slideIndex - 1].className += " slide-active";
     dots[this.slideIndex - 1].className += " dot-active";
   }
-
-<<<<<<< HEAD
-=======
-  private changeSlideBy(delta) {
-    this.showSlides(this.slideIndex += delta);
-  }
-
-  private jumpToSlide(target) {
-    this.showSlides(this.slideIndex = target + 1);
-  }
-
-  private showSlides(index) {
-    let slides = document.getElementsByClassName("slide-image");
-    let dots = document.getElementsByClassName("slide-dot");
-
-    if (slides.length == 0 || dots.length == 0) return;
-
-    if (index > slides.length) this.slideIndex = 1;
-    if (index < 1) this.slideIndex = slides.length;
-
-    for (let i = 0; i < slides.length; i++) {
-      slides[i].className = slides[i].className.replace(' slide-active', '');
-      dots[i].className = dots[i].className.replace(' dot-active', '');
-    }
-
-    slides[this.slideIndex - 1].className += " slide-active";
-    dots[this.slideIndex - 1].className += " dot-active";
-  }
->>>>>>> 4be2577b58085c165eea13f909d35faf66654019
 
   reviewModal(): void {
     const dialogRef = this.dialog.open(ReviewDialog, {width: "300px", data: {}});

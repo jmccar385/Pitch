@@ -51,20 +51,15 @@ h1 {
 
 .checkbox-align {
 	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: space-around;
+	flex-direction: column;
+	align-items: center;
 	width: 100%;
 }
 
-.checkbox-container {
-	width: 50%;
-	display: flex;
-	justify-content: center;
-}
-
 mat-checkbox {
-	width: 50%;
+	padding-top: 20px;
+	font-size: 20px;
+	width: 100%;
 	display: flex;
 	justify-content: center;
 }

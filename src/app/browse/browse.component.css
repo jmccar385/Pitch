@@ -1,18 +1,21 @@
 mat-card {
-	margin-top: 10px;
+	margin: 0;
+	margin-top: 20px;
+	width: calc(95% - 32px);
+	margin-left:2.5%;
 }
 
-.browse-card {
-  max-width: 100%;
+mat-card:last-child {
+  margin-bottom: 5px;
 }
 
 .browse-header-image {
   background-size: cover;
 }
 
-.browse-card-rating {
-  display: inline; 
-  line-height: 2em;
+mat-card-subtitle {
+  display: flex;
+  align-items: center;
 }
 
 .browse-star-image {
@@ -20,7 +23,27 @@ mat-card {
   height: 16px;
 }
 
-.browse-equipment-image {
-  width: 16px;
-  height: 16px;
+mat-card-content {
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+mat-card-actions {
+	display: flex;
+	justify-content: space-between;
+  align-items: center;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  margin-bottom: 0 !important;
+  font-size: 16px;
+}
+
+.equipment-icons {
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.unowned {
+  opacity: 0.1;
 }

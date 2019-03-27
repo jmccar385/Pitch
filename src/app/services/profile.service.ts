@@ -28,6 +28,14 @@ export class ProfileService {
     return this.afDatabase.collection("Artists").valueChanges();
   }
 
+  getArtistObserverById(userId: string) {
+    return this.afDatabase
+      .collection("Artists")
+      .doc(userId)
+      .get()
+      .toPromise();
+  }
+
   getVenueObserver() {
     return this.afDatabase
       .collection("Venues")
@@ -65,6 +73,45 @@ export class ProfileService {
         mergeMap(result => {
           let flattened = flatten(result);
           return combineLatest(flattened);
+        })
+      );
+  }
+
+  getVenueObserverById(userId: string) {
+    return this.afDatabase
+      .collection("Venues")
+      .doc(userId)
+      .get()
+      .pipe(
+        map(doc => {
+          const record = {
+            id: doc.id,
+            ...doc.data()
+          };
+
+          return [
+            this.afDatabase
+              .collection(`Venues/${record.id}/AvailableEquipment`)
+              .valueChanges()
+              .pipe(
+                map(change => {
+                  return { ...record, SubCollection: change };
+                })
+              ),
+            this.afDatabase
+              .collection(`Venues/${record.id}/Events`)
+              .valueChanges()
+              .pipe(
+                map(change => {
+                  return { ...record, SubCollection: change };
+                })
+              )
+          ];
+        })
+      )
+      .pipe(
+        mergeMap(result => {
+          return combineLatest(result);
         })
       );
   }

@@ -1,0 +1,107 @@
+<app-header></app-header>
+<mat-card>
+  <mat-card-header>
+    <img mat-card-avatar src="{{profile?.ProfilePictureUrl}}">
+    <mat-card-title>{{profile?.ProfileName}}</mat-card-title>
+    <mat-card-subtitle>
+      <mat-icon>star</mat-icon>
+      {{profile?.ProfileRating}} ({{profile?.ProfileRatingCount}} Ratings)
+      <button *ngIf="!view" mat-flat-button id="review" color="primary" (click)="reviewModal()" type="button">Review</button>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+
+    <div class="content">
+      <div class="slide-container">
+        <div class="slide-image" *ngFor="let image of profile?.ProfileImageUrls; let i = index">
+          <div class="slide-counter">{{i+1}} / {{profile?.ProfileImageUrls.length}}</div>
+          <img class="slide-picture" [src]="image" (load)="jumpToSlide(0)">
+        </div>
+        <a class="slide-prev" (click)="changeSlideBy(-1)">&#10094;</a>
+        <a class="slide-next" (click)="changeSlideBy(1)">&#10095;</a>
+      </div>
+      <br>
+      <div class="slide-jump">
+        <span class="slide-dot" *ngFor="let image of profile?.ProfileImageUrls; let i = index" (click)="jumpToSlide(i)"></span>
+      </div>
+    </div>
+    <form [formGroup]="profileForm">
+      <div class="content" *ngIf="view">
+        <mat-form-field>
+          <textarea matInput placeholder="About" matTextareaAutosize formControlName="biography"></textarea>
+          <mat-error *ngIf="profileForm.controls.biography.errors?.required">
+            About is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <ng-template [ngIf]="profileForm.controls.biography.disabled" [ngIfElse]="saveBiographyTemplate">
+          <button mat-flat-button color="primary" (click)="editBiography()" type="button">Edit</button>
+        </ng-template>
+        <ng-template #saveBiographyTemplate>
+          <button mat-flat-button color="primary" (click)="saveBiography()" type="button">Save</button>
+        </ng-template>
+      </div>
+      <div class="content" *ngIf="!view">
+          <strong>About</strong>
+          <div class="content-align view">
+            {{ profile?.ProfileBiography}}
+          </div>
+      </div>
+      <div class="content" *ngIf="view">
+        <mat-form-field>
+          <input matInput placeholder="Address" formControlName="address">
+          <mat-error *ngIf="profileForm.controls.address.errors?.required">
+            Address is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <ng-template [ngIf]="profileForm.controls.address.disabled" [ngIfElse]="saveAddressTemplate">
+          <button mat-flat-button color="primary" (click)="editAddress()" type="button">Edit</button>
+        </ng-template>
+        <ng-template #saveAddressTemplate>
+          <button mat-flat-button color="primary" (click)="saveAddress()" type="button">Save</button>
+        </ng-template>
+      </div>
+      <div class="content" *ngIf="!view">
+        <strong>Address</strong>
+        <div class="content-align view">
+          {{ profile?.ProfileAddress}}
+        </div>
+      </div>
+      <div *ngIf="userType == 'venue' && view"  [ngClass]="profileForm.controls.bass_cabinet.disabled ? 'content disabled non-input' : 'content non-input'">
+        Equipment
+        <div class="content-align">
+          <mat-checkbox color="primary" labelPosition="before" formControlName="bass_cabinet">Bass Cabinet</mat-checkbox>
+          <mat-checkbox color="primary" labelPosition="before" formControlName="bass_amp">Bass Amplifier</mat-checkbox>
+          <mat-checkbox color="primary" labelPosition="before" formControlName="guitar_cabinet">Guitar Cabinet</mat-checkbox>
+          <mat-checkbox color="primary" labelPosition="before" formControlName="guitar_amp">Guitar Amplifier</mat-checkbox>
+          <mat-checkbox color="primary" labelPosition="before" formControlName="stage_monitor">Stage Monitor</mat-checkbox>
+          <mat-checkbox color="primary" labelPosition="before" formControlName="microphones">Micropohones/Stands</mat-checkbox>
+          <mat-checkbox color="primary" labelPosition="before" formControlName="drum_throne">Drum Throne</mat-checkbox>
+          <mat-checkbox color="primary" labelPosition="before" formControlName="drum_hardware">Drum Hardware</mat-checkbox>
+          <mat-checkbox color="primary" labelPosition="before" formControlName="drum_shells">Drum Shells</mat-checkbox>
+        </div>
+        <ng-template [ngIf]="profileForm.controls.bass_cabinet.disabled" [ngIfElse]="saveEquipmentTemplate">
+          <button mat-flat-button color="primary" (click)="editEquipment()" type="button">Edit</button>
+        </ng-template>
+        <ng-template #saveEquipmentTemplate>
+          <button mat-flat-button color="primary" (click)="saveEquipment()" type="button">Save</button>
+        </ng-template>
+      </div>
+      <div *ngIf="userType == 'venue' && !view"  class="content">
+        <strong>Equipment</strong>
+        <div class="content-align view">
+          <div *ngFor="let item of profile?.equipment">
+            {{ item.Name }}
+          </div>
+        </div>
+      </div>
+      <div *ngIf="userType == 'venue' && !view" class="content">
+        <strong>Events</strong>
+        <ul>
+          <li *ngFor="let event of profile?.events">
+            {{ event.EventDateTime.toDate() | date: 'yyyy-MM-dd'}} - {{ event.EventName }}: {{ event.EventDescription}}
+          </li>
+        </ul>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -17,6 +17,7 @@ export class SignupBandComponent {
 	signupBand() {
 		this.authService.signup(this.signupBandForm.controls.email.value, this.signupBandForm.controls.password.value).then(() => {
 			this.authService.verification();
+			this.router.navigate(['browse']);
 		}).catch((error) => {
 			console.log(error);
 			if (error.code == "auth/weak-password") {

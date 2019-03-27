@@ -50,8 +50,6 @@ export class AuthService {
   }
 
   verification() {
-    return this.afAuth.auth.currentUser.sendEmailVerification().then(() => {
-      this.router.navigate(['browse']);
-    })
+    return this.afAuth.auth.currentUser.sendEmailVerification()
   }
 }

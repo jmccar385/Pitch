@@ -1,0 +1,22 @@
+#settings {
+	font-size: 18px;
+	padding-top: 16px;
+	padding-left: 16px;
+	padding-right: 16px;
+}
+
+#email-verification {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+#verified-icon-text {
+	display: flex;
+	align-items: center;
+}
+
+button {
+	color: white !important;
+	font-size: 18px;
+}

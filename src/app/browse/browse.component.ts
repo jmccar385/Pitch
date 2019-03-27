@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { MatDialog } from "@angular/material";
 import { AuthService } from "../services/auth.service";
 import { ProfileService } from "../services/profile.service";
 import { Router } from "@angular/router";
@@ -9,9 +8,9 @@ import { Router } from "@angular/router";
   templateUrl: "./browse.component.html",
   styleUrls: ["./browse.component.css"]
 })
+
 export class BrowseComponent implements OnInit {
   constructor(
-    public dialog: MatDialog,
     private authService: AuthService,
     private profileService: ProfileService,
     private router: Router
@@ -20,12 +19,20 @@ export class BrowseComponent implements OnInit {
   private profileCards: any[] = [];
 
   async _addProfileCard(venue) {
-    let equipment = [];
+    let equipmentList = [];
+    let equipmentIcons = [{IconUrl: 'assets/equipment/guitar.svg', owned: 0}, {IconUrl: 'assets/equipment/bass.svg', owned: 0}, {IconUrl: 'assets/equipment/drumset.svg', owned:0}, {IconUrl: 'assets/equipment/microphone.svg', owned: 0}];
     let events = [];
     let now = new Date().getTime();
 
     if (venue["AvailableEquipment"]) {
-      equipment = venue.AvailableEquipment;
+      equipmentList = venue.AvailableEquipment;
+
+      equipmentList.forEach(function(equipment) {
+        for (var i = 0; i < equipmentIcons.length; i++)
+          if (equipmentIcons[i].IconUrl == equipment.IconUrl) {
+            equipmentIcons[i].owned = 1;
+          }
+      })
     }
 
     if (venue["Events"]) {
@@ -39,7 +46,8 @@ export class BrowseComponent implements OnInit {
     this.profileCards.push({
       profile_image: profile_image,
       profile_name: venue["ProfileName"],
-
+      profile_address: venue.ProfileAddress,
+      profile_id: venue["id"],
       rating: venue["ProfileRating"],
       rating_count: venue["ProfileRatingCount"],
 
@@ -47,13 +55,7 @@ export class BrowseComponent implements OnInit {
         (events.length > 0 ? events.length : "No") +
         " upcoming event" +
         (events.length != 1 ? "s" : ""),
-      available_equip_text:
-        (equipment.length > 0 ? "E" : "No e") + "quipment available"
-
-      // amplifiers_available: _checkEquipment("amp"),
-      // drums_available: _checkEquipment("drum"),
-      // guitar_available: _checkEquipment("guitar"),
-      // microphones_available: _checkEquipment("mic"),
+      equipment_icons: equipmentIcons,
     });
   }
 
@@ -88,10 +90,5 @@ export class BrowseComponent implements OnInit {
         this._addProfileCard(venue);
       });
     });
-  }
-
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(["/login"]);
   }
 }

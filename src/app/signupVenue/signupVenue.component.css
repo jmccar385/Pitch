@@ -63,3 +63,7 @@ mat-checkbox {
 	display: flex;
 	justify-content: center;
 }
+
+.picture-upload-field {
+	display: block;
+}

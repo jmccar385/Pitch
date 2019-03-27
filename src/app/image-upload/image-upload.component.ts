@@ -1,38 +1,98 @@
-import { Component } from "@angular/core";
-import { ProfileService } from "../services/profile.service";
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  OnChanges,
+  forwardRef
+} from "@angular/core";
+import { CroppieOptions, ResultOptions } from "croppie";
+import { NgxCroppieComponent } from "ngx-croppie";
+// import { ProfileService } from "../services/profile.service";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, AbstractControl, ValidatorFn } from "@angular/forms";
 
 @Component({
   selector: "image-upload",
   templateUrl: "image-upload.component.html",
-  styleUrls: ["image-upload.component.css"]
+  styleUrls: ["image-upload.component.css"],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ImageUploadComponent),
+      multi: true
+    }
+  ]
 })
-export class ImageUploadComponent {
-  private uploaded = false;
-  private downloadUrl = '';
+export class ImageUploadComponent
+  implements OnInit, OnChanges, ControlValueAccessor {
+  private _sourceImage: any;
+  private croppedImage: any;
 
-  constructor(private profileService: ProfileService) {}
+  public get CroppedImage(): any {
+    return this.croppedImage;
+  }
+  public formatOptions: ResultOptions = { type: "base64", size: "original" };
+  public cropOptions: CroppieOptions = {
+    viewport: { width: 250, height: 250 },
+    boundary: { width: 300, height: 300 },
+    enforceBoundary: true
+  };
 
-  processFile(imageInput: any) {
-    const file: File = imageInput.files[0];
-    const reader = new FileReader();
+  @ViewChild("ngxCroppie")
+  ngxCroppie: NgxCroppieComponent;
 
-    reader.addEventListener("load", (event: any) => {
-      this.profileService
-        .uploadImage(file)
-        .subscribe(res => {
-          debugger;
-          this.uploaded = true;
-          imageInput.value = '';
-          res.ref.getDownloadURL().then((val) => this.downloadUrl = val);
-        }, err => {
-          this.uploaded = false;
-          console.warn("Could not upload image file. Should handle this better.");
-        });
-    });
+  constructor() {}
 
-    reader.readAsDataURL(file);
+  ngOnInit() {}
+  ngOnChanges(changes: any) {
+    if (this.croppedImage || !changes || !changes.imageUrl) return;
+
+    if (changes.imageUrl.previousValue || !changes.imageUrl.currentValue)
+      return;
+
+    this.croppedImage = changes.imageUrl.currentValue;
+    this._onChange(this.croppedImage);
   }
 
-  UploadComplete = () => this.uploaded;
-  DownloadURL = () => this.downloadUrl;
+  imageLoad(e: any) {
+    if (!e.target || !e.target.files || e.target.files.length !== 1) return;
+
+    const source: File = e.target.files[0];
+    const reader: FileReader = new FileReader();
+
+    reader.onloadend = (_: Event) => {
+      this._sourceImage = reader.result.toString();
+      this.croppedImage = reader.result.toString();
+    };
+    reader.readAsDataURL(source);
+  }
+
+  newCroppedImage(newImage: string) {
+    this.croppedImage = newImage;
+    this._onChange(this.croppedImage);
+  }
+
+  writeValue(value: any) {
+    if (value === undefined) return;
+
+    this.croppedImage = value;
+    this._onChange(this.croppedImage);
+  }
+
+  _onChange: any = (_: any) => {};
+  registerOnChange(fn: any) {
+    this._onChange = fn;
+  }
+
+  registerOnTouched() {}
+
+  static ImageValidator(): ValidatorFn {
+    debugger;
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      if (control.value !== null) {
+        return control.value.contains('data:image/') ? { invalidFormat: true } : null;
+      }
+
+      return null;
+    };
+  }
 }

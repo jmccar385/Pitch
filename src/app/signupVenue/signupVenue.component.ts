@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { MatSnackBar } from '@angular/material';
+import { ImageUploadComponent } from '../image-upload/image-upload.component';
 
 @Component({
   selector: 'venue-signup',
@@ -55,6 +56,10 @@ export class SignupVenueComponent {
 		]),
 		description: new FormControl('', [
 			Validators.required,
+		]),
+		profileImage: new FormControl('', [
+			Validators.required,
+			ImageUploadComponent.ImageValidator,
 		]),
 	});
 

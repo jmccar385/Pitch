@@ -24,7 +24,8 @@
             ],
             "styles": [
               "src/styles.css",
-              "pitch-themes.scss"
+              "pitch-themes.scss",
+              "node_modules/croppie/croppie.css"
             ],
             "scripts": [],
             "es5BrowserSupport": true

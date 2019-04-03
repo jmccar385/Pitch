@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { Band } from '../models';
+import { AngularFireFunctions } from '@angular/fire/functions';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class AuthService {
-
   private authState: firebase.User = null;
 
-  constructor(private afAuth: AngularFireAuth, private router: Router) {
+  constructor(
+    private afAuth: AngularFireAuth,
+    private afFunctions: AngularFireFunctions
+  ) {
+    this.afFunctions.functions.useFunctionsEmulator('http://localhost:5000');
     this.afAuth.authState.subscribe(user => {
       this.authState = user;
     });
@@ -21,12 +23,16 @@ export class AuthService {
     return await this.afAuth.auth.signInWithEmailAndPassword(email, pass);
   }
 
-  async signup(email: string, pass: string) {
-      return await this.afAuth.auth.createUserWithEmailAndPassword(email, pass);  
+  async signup(email: string, pass: string, band: Band) {
+    console.log(band);
+    const callable = this.afFunctions.httpsCallable('createBandUser');
+    await this.afAuth.auth.createUserWithEmailAndPassword(email, pass);
+    callable(band).subscribe(console.log);
+    // return await this.afAuth.auth.createUserWithEmailAndPassword(email, pass);
   }
 
   get authenticated(): boolean {
-    return this.authState  !== null;
+    return this.authState !== null;
   }
 
   logout() {
@@ -46,10 +52,10 @@ export class AuthService {
   }
 
   async resetPassword(email: string) {
-    return await this.afAuth.auth.sendPasswordResetEmail(email)
+    return await this.afAuth.auth.sendPasswordResetEmail(email);
   }
 
   verification() {
-    return this.afAuth.auth.currentUser.sendEmailVerification()
+    return this.afAuth.auth.currentUser.sendEmailVerification();
   }
 }

@@ -1,10 +1,13 @@
+
 export interface Band {
-  address: string;
-  city: string;
-  state: string;
-  zip: number;
-  name: string;
-  description: string;
-  profileImage: Blob;
-  radius: number;
+  ProfileAddress: string;
+  ProfileCity: string;
+  ProfileState: string;
+  ProfileZip: number;
+  ProfileName: string;
+  ProfileBiography: string;
+  ProfilePictureUrl: string;
+  SearchRadius: number;
 }
+
+

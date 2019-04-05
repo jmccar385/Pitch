@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
-import { AngularFireStorage } from "@angular/fire/storage";
-import { AngularFirestore } from "@angular/fire/firestore";
-import { combineLatest } from "rxjs";
-import { map, mergeMap } from "rxjs/operators";
-import { flatten } from "@angular/compiler";
+import { Injectable } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { combineLatest } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
+import { flatten } from '@angular/compiler';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class ProfileService {
   constructor(
@@ -14,23 +14,25 @@ export class ProfileService {
     private afStorage: AngularFireStorage
   ) {}
 
-  uploadImage(input: File) {
+  uploadImage(input: Blob) {
     const file = input;
-    if (file.type.split("/")[0] !== "image") return;
 
-    const path = `${new Date().getTime()}_${file.name}`;
-    let task = this.afStorage.upload(path, file);
+    if (file.type.split('/')[0] !== ('image')) { return; }
 
-    return task.snapshotChanges();
+    const path = `${new Date().getTime()}`;
+    const ref = this.afStorage.ref(path);
+    return ref.put(file).then(() => {
+      return ref.getDownloadURL().toPromise();
+    });
   }
 
   getArtistObserver() {
-    return this.afDatabase.collection("Artists").valueChanges();
+    return this.afDatabase.collection('Artists').valueChanges();
   }
 
   getArtistObserverById(userId: string) {
     return this.afDatabase
-      .collection("Artists")
+      .collection('Artists')
       .doc(userId)
       .get()
       .toPromise();
@@ -38,7 +40,7 @@ export class ProfileService {
 
   getVenueObserver() {
     return this.afDatabase
-      .collection("Venues")
+      .collection('Venues')
       .snapshotChanges()
       .pipe(
         map(item => {
@@ -71,7 +73,7 @@ export class ProfileService {
       )
       .pipe(
         mergeMap(result => {
-          let flattened = flatten(result);
+          const flattened = flatten(result);
           return combineLatest(flattened);
         })
       );
@@ -79,7 +81,7 @@ export class ProfileService {
 
   getVenueObserverById(userId: string) {
     return this.afDatabase
-      .collection("Venues")
+      .collection('Venues')
       .doc(userId)
       .get()
       .pipe(

@@ -30,7 +30,7 @@ export class ImageUploadComponent
   public get CroppedImage(): any {
     return this.croppedImage;
   }
-  public formatOptions: ResultOptions = { type: "base64", size: "original" };
+  public formatOptions: ResultOptions = { type: "blob", size: "original" };
   public cropOptions: CroppieOptions = {
     viewport: { width: 250, height: 250 },
     boundary: { width: 300, height: 300 },
@@ -44,17 +44,18 @@ export class ImageUploadComponent
 
   ngOnInit() {}
   ngOnChanges(changes: any) {
-    if (this.croppedImage || !changes || !changes.imageUrl) return;
+    if (this.croppedImage || !changes || !changes.imageUrl) { return; }
 
-    if (changes.imageUrl.previousValue || !changes.imageUrl.currentValue)
+    if (changes.imageUrl.previousValue || !changes.imageUrl.currentValue) {
       return;
+    }
 
     this.croppedImage = changes.imageUrl.currentValue;
     this._onChange(this.croppedImage);
   }
 
   imageLoad(e: any) {
-    if (!e.target || !e.target.files || e.target.files.length !== 1) return;
+    if (!e.target || !e.target.files || e.target.files.length !== 1) { return; }
 
     const source: File = e.target.files[0];
     const reader: FileReader = new FileReader();
@@ -72,7 +73,7 @@ export class ImageUploadComponent
   }
 
   writeValue(value: any) {
-    if (value === undefined) return;
+    if (value === undefined) { return; }
 
     this.croppedImage = value;
     this._onChange(this.croppedImage);

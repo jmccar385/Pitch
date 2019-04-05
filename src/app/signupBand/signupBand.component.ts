@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
@@ -13,6 +13,10 @@ import { Band } from '../models';
   styleUrls: ['./signupBand.component.css']
 })
 export class SignupBandComponent {
+
+  @ViewChild(ImageUploadComponent)
+  imageUpload: ImageUploadComponent;
+
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -28,31 +32,30 @@ export class SignupBandComponent {
     zip: new FormControl('', [Validators.required]),
     name: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
-    // profileImage: new FormControl('', [
-    //   Validators.required,
-    //   ImageUploadComponent.ImageValidator
-    // ]),
-    profileImage: new FormControl(''),
+    profileImage: new FormControl('', [
+      Validators.required,
+      ImageUploadComponent.ImageValidator
+    ]),
     radius: new FormControl('', [])
   });
 
   signupBand() {
     const band: Band = {
-      address: this.signupBandForm.controls.address.value,
-      city: this.signupBandForm.controls.city.value,
-      state: this.signupBandForm.controls.state.value,
-      zip: this.signupBandForm.controls.zip.value,
-      name: this.signupBandForm.controls.name.value,
-      description: this.signupBandForm.controls.description.value,
-      profileImage: this.signupBandForm.controls.profileImage.value,
-      radius: this.signupBandForm.controls.radius.value
+      ProfileAddress: this.signupBandForm.controls.address.value,
+      ProfileCity: this.signupBandForm.controls.city.value,
+      ProfileState: this.signupBandForm.controls.state.value,
+      ProfileZip: this.signupBandForm.controls.zip.value,
+      ProfileName: this.signupBandForm.controls.name.value,
+      ProfileBiography: this.signupBandForm.controls.description.value,
+      ProfilePictureUrl: '',
+      SearchRadius: this.signupBandForm.controls.radius.value
     };
 
     this.authService
       .signup(
-        this.signupBandForm.controls.email.value, this.signupBandForm.controls.password.value, band
+        this.signupBandForm.controls.email.value, this.signupBandForm.controls.password.value, band, this.imageUpload.CroppedImage
       )
-      .then(() => {
+      .then((res) => {
         this.authService.verification();
         this.router.navigate(['browse']);
       })

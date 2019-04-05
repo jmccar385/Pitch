@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Band } from '../models';
 import { AngularFireFunctions } from '@angular/fire/functions';
+import { ProfileService } from './profile.service';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +13,9 @@ export class AuthService {
 
   constructor(
     private afAuth: AngularFireAuth,
-    private afFunctions: AngularFireFunctions
+    private afStore: AngularFirestore,
+    private profileSvc: ProfileService
   ) {
-    this.afFunctions.functions.useFunctionsEmulator('http://localhost:5000');
     this.afAuth.authState.subscribe(user => {
       this.authState = user;
     });
@@ -23,12 +25,13 @@ export class AuthService {
     return await this.afAuth.auth.signInWithEmailAndPassword(email, pass);
   }
 
-  async signup(email: string, pass: string, band: Band) {
-    console.log(band);
-    const callable = this.afFunctions.httpsCallable('createBandUser');
-    await this.afAuth.auth.createUserWithEmailAndPassword(email, pass);
-    callable(band).subscribe(console.log);
-    // return await this.afAuth.auth.createUserWithEmailAndPassword(email, pass);
+  async signup(email: string, pass: string, band: Band, img: Blob) {
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, pass).then(() => {
+      return this.profileSvc.uploadImage(img).then((url) => {
+        band.ProfilePictureUrl = url;
+        return this.afStore.collection('Artists').doc(this.authState.uid).set(band);
+      });
+    });
   }
 
   get authenticated(): boolean {

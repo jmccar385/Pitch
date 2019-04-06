@@ -4,16 +4,17 @@ import {
   ViewChild,
   OnChanges,
   forwardRef
-} from "@angular/core";
-import { CroppieOptions, ResultOptions } from "croppie";
-import { NgxCroppieComponent } from "ngx-croppie";
+} from '@angular/core';
+import { CroppieOptions, ResultOptions } from 'croppie';
+import { NgxCroppieComponent } from 'ngx-croppie';
 // import { ProfileService } from "../services/profile.service";
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, AbstractControl, ValidatorFn } from "@angular/forms";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, AbstractControl, ValidatorFn } from '@angular/forms';
 
 @Component({
-  selector: "image-upload",
-  templateUrl: "image-upload.component.html",
-  styleUrls: ["image-upload.component.css"],
+  // tslint:disable-next-line:component-selector
+  selector: 'image-upload',
+  templateUrl: 'image-upload.component.html',
+  styleUrls: ['image-upload.component.css'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -24,23 +25,34 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, AbstractControl, ValidatorFn }
 })
 export class ImageUploadComponent
   implements OnInit, OnChanges, ControlValueAccessor {
-  private _sourceImage: any;
-  private croppedImage: any;
 
   public get CroppedImage(): any {
     return this.croppedImage;
   }
-  public formatOptions: ResultOptions = { type: "blob", size: "original" };
+
+  constructor() {}
+  // tslint:disable-next-line:variable-name
+  private _sourceImage: any;
+  private croppedImage: any;
+  public formatOptions: ResultOptions = { type: 'blob', size: 'original' };
   public cropOptions: CroppieOptions = {
     viewport: { width: 250, height: 250 },
     boundary: { width: 300, height: 300 },
     enforceBoundary: true
   };
 
-  @ViewChild("ngxCroppie")
+  @ViewChild('ngxCroppie')
   ngxCroppie: NgxCroppieComponent;
 
-  constructor() {}
+  static ImageValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      if (control.value !== null) {
+        return control.value.contains('data:image/') ? { invalidFormat: true } : null;
+      }
+
+      return null;
+    };
+  }
 
   ngOnInit() {}
   ngOnChanges(changes: any) {
@@ -79,20 +91,11 @@ export class ImageUploadComponent
     this._onChange(this.croppedImage);
   }
 
+  // tslint:disable-next-line:variable-name
   _onChange: any = (_: any) => {};
   registerOnChange(fn: any) {
     this._onChange = fn;
   }
 
   registerOnTouched() {}
-
-  static ImageValidator(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: boolean } | null => {
-      if (control.value !== null) {
-        return control.value.contains('data:image/') ? { invalidFormat: true } : null;
-      }
-
-      return null;
-    };
-  }
 }

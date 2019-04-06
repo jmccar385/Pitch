@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Band } from '../models';
+import { Band, Venue } from '../models';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { ProfileService } from './profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -25,11 +25,20 @@ export class AuthService {
     return await this.afAuth.auth.signInWithEmailAndPassword(email, pass);
   }
 
-  async signup(email: string, pass: string, band: Band, img: Blob) {
+  async signupBand(email: string, pass: string, band: Band, img: Blob) {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, pass).then(() => {
       return this.profileSvc.uploadImage(img).then((url) => {
         band.ProfilePictureUrl = url;
         return this.afStore.collection('Artists').doc(this.authState.uid).set(band);
+      });
+    });
+  }
+
+  async signupVenue(email: string, pass: string, venue: Venue, img: Blob) {
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, pass).then(() => {
+      return this.profileSvc.uploadImage(img).then((url) => {
+        venue.ProfilePictureUrl = url;
+        return this.afStore.collection('Venues').doc(this.authState.uid).set(venue);
       });
     });
   }

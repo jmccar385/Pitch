@@ -52,7 +52,7 @@ export class SignupBandComponent {
     };
 
     this.authService
-      .signup(
+      .signupBand(
         this.signupBandForm.controls.email.value, this.signupBandForm.controls.password.value, band, this.imageUpload.CroppedImage
       )
       .then((res) => {

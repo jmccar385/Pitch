@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { MatSnackBar } from '@angular/material';
 import { ImageUploadComponent } from '../image-upload/image-upload.component';
-import { Venue } from '../models';
+import { Venue, Equipment } from '../models';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -13,20 +15,34 @@ import { Venue } from '../models';
   styleUrls: ['./signupVenue.component.css']
 })
 export class SignupVenueComponent {
+  //   signupVenueForm: FormGroup = new FormGroup({
+  //     email: new FormControl('', [Validators.required, Validators.email]),
+  //     password: new FormControl('', [Validators.required]),
+  //     address: new FormControl('', [Validators.required]),
+  //     city: new FormControl('', [Validators.required]),
+  //     state: new FormControl('', [Validators.required]),
+  //     zip: new FormControl('', [Validators.required]),
+  //     name: new FormControl('', [Validators.required]),
+  //     description: new FormControl('', [Validators.required]),
+  //     profileImage: new FormControl('', [
+  //       Validators.required,
+  //       ImageUploadComponent.ImageValidator
+  //     ])
+  //   });
   signupVenueForm: FormGroup = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
-    address: new FormControl('', [Validators.required]),
-    city: new FormControl('', [Validators.required]),
-    state: new FormControl('', [Validators.required]),
-    zip: new FormControl('', [Validators.required]),
-    name: new FormControl('', [Validators.required]),
-    description: new FormControl('', [Validators.required]),
-    profileImage: new FormControl('', [
-      Validators.required,
-      ImageUploadComponent.ImageValidator
-    ])
+    email: new FormControl(''),
+    password: new FormControl(''),
+    address: new FormControl(''),
+    city: new FormControl(''),
+    state: new FormControl(''),
+    zip: new FormControl(''),
+    name: new FormControl(''),
+    description: new FormControl(''),
+    profileImage: new FormControl('')
   });
+
+  equipment: Observable<Array<{}>>;
+  availableEquipment: Equipment[] = [];
 
   @ViewChild(ImageUploadComponent)
   imageUpload: ImageUploadComponent;
@@ -34,15 +50,28 @@ export class SignupVenueComponent {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+    private firestore: AngularFirestore
+  ) {
+    this.equipment = this.firestore.collection('Equipment').valueChanges();
+  }
+
+  select(equip) {
+    this.availableEquipment.includes(equip)
+      ? this.availableEquipment.splice(this.availableEquipment.indexOf(equip))
+      : this.availableEquipment.push(equip);
+  }
 
   signupVenue() {
     const venue: Venue = {
       ProfileAddress: this.signupVenueForm.controls.address.value,
+      ProfileCity: this.signupVenueForm.controls.city.value,
+      ProfileState: this.signupVenueForm.controls.state.value,
+      ProfileZip: this.signupVenueForm.controls.zip.value,
       ProfileName: this.signupVenueForm.controls.name.value,
       ProfileBiography: this.signupVenueForm.controls.description.value,
-      ProfilePictureUrl: ''
+      ProfilePictureUrl: '', // Gets added in authSvc
+      AvailableEquipment: this.availableEquipment
     };
     this.authService
       .signupVenue(
@@ -53,7 +82,7 @@ export class SignupVenueComponent {
       )
       .then(() => {
         this.authService.verification();
-        this.router.navigate(['browse']);
+        this.router.navigate(['profile']);
       })
       .catch(error => {
         console.log(error);

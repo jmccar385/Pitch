@@ -78,11 +78,8 @@
       <mat-step label="Equipment">
         <div class="stepper-content">
           <h1>What equipment can you provide to bands?</h1>
-          <div class="checkbox-align">
-            <mat-checkbox color="primary" labelPosition="before">Drum Kit</mat-checkbox>
-            <mat-checkbox color="primary" labelPosition="before">Bass Amp</mat-checkbox>
-            <mat-checkbox color="primary" labelPosition="before">Guitar Amp</mat-checkbox>
-            <mat-checkbox color="primary" labelPosition="before">Something</mat-checkbox>
+          <div class="checkbox-align" *ngFor="let equip of equipment | async">
+            <mat-checkbox color="primary" (change)="select(equip)" labelPosition="before">{{equip.Name}}</mat-checkbox>
           </div>
           <div class="stepper-buttons">
             <button mat-flat-button matStepperPrevious color="accent" type="button">Back</button>

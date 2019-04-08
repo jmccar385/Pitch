@@ -47,7 +47,7 @@ export class SignupBandComponent {
       ProfileZip: this.signupBandForm.controls.zip.value,
       ProfileName: this.signupBandForm.controls.name.value,
       ProfileBiography: this.signupBandForm.controls.description.value,
-      ProfilePictureUrl: '',
+      ProfilePictureUrl: '', // Gets added in authSvc
       SearchRadius: this.signupBandForm.controls.radius.value
     };
 

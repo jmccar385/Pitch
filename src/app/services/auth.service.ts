@@ -47,6 +47,10 @@ export class AuthService {
     return this.authState !== null;
   }
 
+  get verified(): boolean {
+    return this.authState.emailVerified;
+  }
+
   logout() {
     return this.afAuth.auth.signOut();
   }

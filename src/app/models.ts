@@ -11,8 +11,16 @@ export interface Band {
   SearchRadius: number;
 }
 
+export interface Equipment {
+  IconUrl: string;
+  Name: string;
+}
+
 export interface Venue {
   ProfileAddress: string;
+  ProfileCity: string;
+  ProfileState: string;
+  ProfileZip: number;
   ProfileName: string;
   ProfileBiography: string;
   ProfilePictureUrl: string;
@@ -20,6 +28,7 @@ export interface Venue {
   ProfileRating?: number;
   ProfileRatingCount?: number;
   ProfileReportCount?: number;
+  AvailableEquipment: Equipment[];
 }
 
 

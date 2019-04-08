@@ -1,5 +1,8 @@
 mat-toolbar {
 	color: white !important;
+	position: fixed;
+	top: 0;
+	z-index: 100;
 }
 
 h1 {

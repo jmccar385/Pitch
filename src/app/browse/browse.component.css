@@ -5,8 +5,12 @@ mat-card {
 	margin-left:2.5%;
 }
 
+mat-card:nth-child(2) {
+  margin-top: 66px;
+}
+
 mat-card:last-child {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .browse-header-image {

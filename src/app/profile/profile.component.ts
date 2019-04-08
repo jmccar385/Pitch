@@ -12,7 +12,6 @@ import { ReviewDialog } from './review.component';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-
   constructor(
     public dialog: MatDialog,
     private profileService: ProfileService,
@@ -62,25 +61,32 @@ export class ProfileComponent implements OnInit {
       });
     } else if (userType === 'venue') {
       this.profileService.getVenueObserverById(uid).subscribe(record => {
-        if (record == null || record.length <= 0) { return; }
+        if (record == null || record.length <= 0) {
+          return;
+        }
 
         this.profile = record[0];
         record.forEach(node => {
           if (node.SubCollection == null || node.SubCollection.length === 0) {
             return;
           }
+          // revise profileService.getVenueObserverById with Claudio
 
-          if (node.SubCollection[0].EventDateTime) {
-            this.profile.events = this.profile.events || [];
-            node.SubCollection.forEach(event =>
-              this.profile.events.push(event)
-            );
-          } else {
-            this.profile.equipment = this.profile.equipment || [];
-            node.SubCollection.forEach(equipment =>
-              this.profile.equipment.push(equipment)
-            );
-          }
+          // if (node.SubCollection[0].EventDateTime) {
+          //   this.profile.events = this.profile.events || [];
+          //   node.SubCollection.forEach(event =>
+          //     this.profile.events.push(event)
+          //   );
+          // } else {
+          //   this.profile.equipment = this.profile.equipment || [];
+          //   node.SubCollection.forEach(equipment =>
+          //     this.profile.equipment.push(equipment)
+          //   );
+          // }
+          this.profile.equipment = this.profile.equipment || [];
+          node.SubCollection.forEach(equipment =>
+            this.profile.equipment.push(equipment)
+          );
         });
 
         this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
@@ -134,10 +140,16 @@ export class ProfileComponent implements OnInit {
     const slides = document.getElementsByClassName('slide-image');
     const dots = document.getElementsByClassName('slide-dot');
 
-    if (slides.length === 0 || dots.length === 0) { return; }
+    if (slides.length === 0 || dots.length === 0) {
+      return;
+    }
 
-    if (index > slides.length) { this.slideIndex = 1; }
-    if (index < 1) { this.slideIndex = slides.length; }
+    if (index > slides.length) {
+      this.slideIndex = 1;
+    }
+    if (index < 1) {
+      this.slideIndex = slides.length;
+    }
 
     for (let i = 0; i < slides.length; i++) {
       slides[i].className = slides[i].className.replace(' slide-active', '');

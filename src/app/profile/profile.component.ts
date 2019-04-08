@@ -4,7 +4,8 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { MatDialog } from "@angular/material";
 import { ProfileService } from "../services/profile.service";
-import { ReviewDialog } from "./review.component"
+import { ReviewDialog } from "./review.component";
+import { PitchDialog } from "./pitch.component"
 import { tap } from 'rxjs/operators';
 
 @Component({

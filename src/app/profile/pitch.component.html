@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Review</h1>
+<form [formGroup]="reviewForm" (ngSubmit)="reviewForm.valid && review()">
+	<mat-form-field>
+		<input matInput type="number" placeholder="Rating" formControlName="rating" min="0" max="5">
+		<mat-error *ngIf="reviewForm.controls.rating.errors?.max || reviewForm.controls.rating.errors?.min">
+	      	A rating must be between <strong>0 and 5</strong>
+	    </mat-error>
+		<mat-error *ngIf="reviewForm.controls.rating.errors?.required">
+	      	A rating is <strong>required</strong>
+	    </mat-error>
+	</mat-form-field>
+	<mat-form-field>
+		<textarea matInput placeholder="Review" formControlName="review" matTextareaAutosize matAutosizeMinRows=5></textarea>
+		<mat-error *ngIf="reviewForm.controls.review.errors?.required">
+      		A review is <strong>required</strong>
+    	</mat-error>
+	</mat-form-field>
+	<button mat-flat-button color="primary" [mat-dialog-close] type="button">Cancel</button>
+	<button id="submitReview" mat-flat-button color="primary" type="submit">Submit</button>
+</form>

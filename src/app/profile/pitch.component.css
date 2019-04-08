@@ -1,0 +1,23 @@
+mat-form-field {
+	width: 90%;
+	margin-top: 20px;
+}
+
+mat-form-field:first-child {
+	margin: 0;
+}
+
+button {
+	margin-top: 20px;
+	font-size: 18px;
+	color: white !important;
+}
+
+#submitReview {
+	float: right;
+}
+
+.mat-dialog-title {
+	text-align: center;
+	margin: 0;
+}

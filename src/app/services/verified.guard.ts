@@ -30,14 +30,5 @@ export class VerifiedGuard implements CanActivate {
         return this.authService.verified;
       })
     );
-
-    // return this.authService.currentUserObservable.pipe(
-    //   map(user => {
-    //     if (!user.emailVerified) {
-    //       this.router.navigate(['profile', 'band', user.uid]);
-    //     }
-    //     return user.emailVerified;
-    //   })
-    // );
   }
 }

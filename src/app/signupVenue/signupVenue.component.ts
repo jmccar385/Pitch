@@ -15,31 +15,20 @@ import { Observable } from 'rxjs';
   styleUrls: ['./signupVenue.component.css']
 })
 export class SignupVenueComponent {
-  //   signupVenueForm: FormGroup = new FormGroup({
-  //     email: new FormControl('', [Validators.required, Validators.email]),
-  //     password: new FormControl('', [Validators.required]),
-  //     address: new FormControl('', [Validators.required]),
-  //     city: new FormControl('', [Validators.required]),
-  //     state: new FormControl('', [Validators.required]),
-  //     zip: new FormControl('', [Validators.required]),
-  //     name: new FormControl('', [Validators.required]),
-  //     description: new FormControl('', [Validators.required]),
-  //     profileImage: new FormControl('', [
-  //       Validators.required,
-  //       ImageUploadComponent.ImageValidator
-  //     ])
-  //   });
-  signupVenueForm: FormGroup = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl(''),
-    address: new FormControl(''),
-    city: new FormControl(''),
-    state: new FormControl(''),
-    zip: new FormControl(''),
-    name: new FormControl(''),
-    description: new FormControl(''),
-    profileImage: new FormControl('')
-  });
+    signupVenueForm: FormGroup = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required]),
+      address: new FormControl('', [Validators.required]),
+      city: new FormControl('', [Validators.required]),
+      state: new FormControl('', [Validators.required]),
+      zip: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required]),
+      description: new FormControl('', [Validators.required]),
+      profileImage: new FormControl('', [
+        Validators.required,
+        ImageUploadComponent.ImageValidator
+      ])
+    });
 
   equipment: Observable<Array<{}>>;
   availableEquipment: Equipment[] = [];

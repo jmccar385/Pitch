@@ -50,10 +50,10 @@ export class AuthService {
   }
 
   async resetPassword(email: string) {
-    return await this.afAuth.auth.sendPasswordResetEmail(email)
+    return await this.afAuth.auth.sendPasswordResetEmail(email);
   }
 
   verification() {
-    return this.afAuth.auth.currentUser.sendEmailVerification()
+    return this.afAuth.auth.currentUser.sendEmailVerification();
   }
 }

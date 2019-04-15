@@ -13,19 +13,31 @@ import { ProfileComponent } from './profile/profile.component';
 import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
-	{ path: '', redirectTo: '/browse', pathMatch: 'full' },
-	{ path: 'browse', component: BrowseComponent, canActivate: [AuthGuard, VerifiedGuard] },
-	{ path: 'signup', component: SignupComponent },
-	{ path: 'signup/band', component: SignupBandComponent },
-	{ path: 'signup/venue', component: SignupVenueComponent },
-	{ path: 'profile/settings', component: SettingsComponent, canActivate: [AuthGuard] },
-	{ path: 'login', component: LoginComponent },
-	{ path: 'profile/:userType/:id', component: ProfileComponent, canActivate: [AuthGuard] },
-	{ path: '**', redirectTo: '/login' } // <-- gooby keep this last plz
+  { path: '', redirectTo: '/browse', pathMatch: 'full' },
+  {
+    path: 'browse',
+    component: BrowseComponent,
+    canActivate: [AuthGuard, VerifiedGuard]
+  },
+  { path: 'signup', component: SignupComponent },
+  { path: 'signup/band', component: SignupBandComponent },
+  { path: 'signup/venue', component: SignupVenueComponent },
+  {
+    path: 'profile/settings',
+    component: SettingsComponent,
+    canActivate: [AuthGuard]
+  },
+  { path: 'login', component: LoginComponent },
+  {
+    path: 'profile/:userType/:id',
+    component: ProfileComponent,
+    canActivate: [AuthGuard]
+  },
+  { path: '**', redirectTo: '/login' } // <-- gooby keep this last plz
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -10,6 +10,5 @@ import { MatSnackBar } from '@angular/material';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent {
-
-	constructor(private router: Router, private authService: AuthService, private snackBar: MatSnackBar) { }
+  constructor(private router: Router, private authService: AuthService, private snackBar: MatSnackBar) { }
 }

@@ -1,23 +1,33 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import * as querystring from 'query-string';
 admin.initializeApp();
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+export const authSpotify = functions.https.onRequest((req, res) => {
+  const redirect_uri = 'localhost:4200/signup/band';
+  const state = generateRandomString(16);
 
-export const createUser = functions.https.onRequest(async (request, response) => {
-    const user = request.params('user');
-    const type = request.params('type');
-    const uid = request.params('uid');
-    
-    try {
-        const res = await admin.firestore().collection(type).doc(uid).set(user);
-        response.send(res);
-    } catch (error) {
-        response.send(error)
-    }
-})
+  res.cookie('spotify_auth_state', state);
+
+  res.redirect(
+    'https://accounts.spotify.com/authorize?' +
+      querystring.stringify({
+        response_type: 'code',
+        client_id: functions.config().spotify.client_id,
+        scope: 'playlist-read-private',
+        redirect_uri: redirect_uri,
+        state: state
+      })
+  );
+});
+
+function generateRandomString(length: number) {
+  let text = '';
+  const possible =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  for (let i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+}

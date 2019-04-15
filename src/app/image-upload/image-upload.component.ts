@@ -86,7 +86,6 @@ export class ImageUploadComponent
   registerOnTouched() {}
 
   static ImageValidator(): ValidatorFn {
-    debugger;
     return (control: AbstractControl): { [key: string]: boolean } | null => {
       if (control.value !== null) {
         return control.value.contains('data:image/') ? { invalidFormat: true } : null;

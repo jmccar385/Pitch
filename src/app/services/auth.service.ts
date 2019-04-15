@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +10,15 @@ export class AuthService {
 
   private authState: firebase.User = null;
 
-  constructor(private afAuth: AngularFireAuth, private router: Router) {
+  constructor(private afAuth: AngularFireAuth, private http: HttpClient) {
     this.afAuth.authState.subscribe(user => {
       this.authState = user;
     });
+  }
+
+  async authenticateWithSpotify() {
+    const url = '';
+    this.http.get('');
   }
 
   async login(email: string, pass: string) {
@@ -22,7 +26,7 @@ export class AuthService {
   }
 
   async signup(email: string, pass: string) {
-      return await this.afAuth.auth.createUserWithEmailAndPassword(email, pass);  
+      return await this.afAuth.auth.createUserWithEmailAndPassword(email, pass);
   }
 
   get authenticated(): boolean {

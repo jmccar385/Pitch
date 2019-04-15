@@ -11,6 +11,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { environment } from 'src/environments/environment';
 
 import { AuthService } from './services/auth.service';
@@ -31,6 +32,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { ReviewDialog } from './profile/review.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { SettingsComponent } from './settings/settings.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,8 @@ import { SettingsComponent } from './settings/settings.component';
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireStorageModule,
+    AngularFireFunctionsModule,
+    HttpClientModule,
     MaterialModule,
     NgxCroppieModule,
     BrowserAnimationsModule,

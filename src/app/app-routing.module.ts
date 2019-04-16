@@ -11,6 +11,7 @@ import { SignupVenueComponent } from './signupVenue/signupVenue.component';
 import { SignupBandComponent } from './signupBand/signupBand.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SettingsComponent } from './settings/settings.component';
+import { MessagesComponent } from './messages/messages.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/browse', pathMatch: 'full' },
@@ -32,6 +33,11 @@ const routes: Routes = [
     path: 'profile/:userType/:id',
     component: ProfileComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'messages',
+    component: MessagesComponent,
+    canActivate: [AuthGuard, VerifiedGuard]
   },
   { path: '**', redirectTo: '/login' } // <-- gooby keep this last plz
 ];

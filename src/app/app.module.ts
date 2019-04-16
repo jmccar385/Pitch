@@ -31,6 +31,7 @@ import { ReviewDialog } from './profile/review.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { SettingsComponent } from './settings/settings.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MessagesComponent } from './messages/messages.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { HttpClientModule } from '@angular/common/http';
     SignupBandComponent,
     ImageUploadComponent,
     SettingsComponent,
+    MessagesComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
 	<ng-template [ngIf]="this.router.url == '/browse'">
-		<button mat-icon-button [routerLink]="['/messages']" color="accent" [disabled]="true" >
+		<button mat-icon-button [routerLink]="['/messages']" color="accent" >
     		<mat-icon>forum</mat-icon>
   		</button>
 		<h1>Browse</h1>
@@ -9,7 +9,7 @@
   		</button>
 	</ng-template>
 	<ng-template [ngIf]="this.router.url == '/messages'">
-		<button mat-icon-button color="accent" [disabled]="true" >
+		<button mat-icon-button color="accent" >
     		<mat-icon></mat-icon>
   		</button>
 		<h1>Messages</h1>

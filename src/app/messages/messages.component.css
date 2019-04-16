@@ -1,0 +1,6 @@
+mat-list {
+	margin: 0;
+	margin-top: 20px;
+	width: calc(95% - 32px);
+	margin-left:2.5%;
+}

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Band, Venue } from '../models';
-import { AngularFireFunctions } from '@angular/fire/functions';
 import { ProfileService } from './profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -14,16 +14,23 @@ export class AuthService {
   constructor(
     private afAuth: AngularFireAuth,
     private afStore: AngularFirestore,
-    private profileSvc: ProfileService
+    private profileSvc: ProfileService,
+    private http: HttpClient
   ) {
     this.afAuth.authState.subscribe(user => {
       this.authState = user;
     });
   }
 
-  async authenticateWithSpotify() {
-    const url = '';
-    // this.http.get('');
+  requestAuthorizationSpotify() {
+    const url = 'https://us-central1-pitch-9db22.cloudfunctions.net/authSpotify';
+    return this.http.get(url);
+  }
+
+  // returns promise that resolves tokens
+  async authorizeSpotify(code: string, state: string) {
+    const url = 'https://us-central1-pitch-9db22.cloudfunctions.net/callbackSpotify';
+    return await this.http.post(url, {code, state}).toPromise();
   }
 
   async login(email: string, pass: string) {

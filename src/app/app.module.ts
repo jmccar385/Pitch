@@ -18,7 +18,6 @@ import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth.guard';
 import { VerifiedGuard } from './services/verified.guard';
 import { ProfileService } from './services/profile.service';
-import { MusicService } from './services/music.service';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -32,7 +31,6 @@ import { ProfileComponent } from './profile/profile.component';
 import { ReviewDialog } from './profile/review.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { SettingsComponent } from './settings/settings.component';
-import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [

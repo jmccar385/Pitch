@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Band, Venue } from '../models';
+import { Band, Venue, SpotifyAccess } from '../models';
 import { ProfileService } from './profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +32,7 @@ export class AuthService {
   // returns promise that resolves tokens
   async authorizeSpotify(code: string, state: string) {
     const url = 'https://us-central1-pitch-9db22.cloudfunctions.net/callbackSpotify';
-    return await this.http.post(url, {code, state}).toPromise();
+    return await this.http.post<SpotifyAccess>(url, {code, state}).toPromise();
   }
 
   async login(email: string, pass: string) {

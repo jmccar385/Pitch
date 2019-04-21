@@ -4,7 +4,7 @@
 
   <input #imageInput hidden type="file" accept="image/*" (change)="imageLoad($event)" />
 
-  <button mat-button (click)="imageInput.click()">
+  <button mat-button type="button" (click)="imageInput.click()">
     <mat-icon>add_photo_alternate</mat-icon> Select Profile Image
   </button>
 </div>

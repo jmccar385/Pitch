@@ -32,14 +32,21 @@ button:disabled {
 	color: #8c8c8c !important;
 }
 
+.picture-upload-field {
+	margin-top: 10px;
+	margin-bottom: 40px;
+}
+
 .stepper-buttons {
-	margin-top: 20px;
+	margin-top: 0;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	position: absolute;
+	position: fixed;
 	bottom: 0;
+	background: #00C853;
+	z-index: 100;
 }
 
 h1 {

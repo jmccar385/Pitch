@@ -17,14 +17,20 @@
               A description is <strong>required</strong>
             </mat-error>
           </mat-form-field>
-
+          <mat-form-field>
+            <mat-select disableOptionCentering placeholder="Select a playlist from your spotify that contains the songs you want to showcase" formControlName="playlist">
+              <mat-option *ngFor="let playlist of playlists" value="{{playlist.TrackHref}}">{{playlist.Name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="signupBandForm.controls.playlist.errors?.required">
+              A playlist is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
           <div class="picture-upload-field">
             <image-upload formControlName="profileImage"></image-upload>
             <mat-error *ngIf="signupBandForm.controls.profileImage.errors?.needImage">
               A profile image is <strong>required</strong> to be an <strong>image</strong>
             </mat-error>
           </div>
-
           <div class="stepper-buttons">
             <button mat-flat-button type="button" color="accent" [routerLink]="['/signup']">Back</button>
             <button mat-flat-button matStepperNext color="accent" type="button"
@@ -60,7 +66,7 @@
             </mat-error>
           </mat-form-field>
           <mat-form-field>
-            <mat-select disableOptionCentering placeholder="How far can you travel for a gig?" [(value)]="selected">
+            <mat-select disableOptionCentering placeholder="How far can you travel for a gig?" formControlName="radius">
               <mat-option value="">None</mat-option>
               <mat-option value="5">5mi</mat-option>
               <mat-option value="10">10mi</mat-option>
@@ -78,15 +84,6 @@
             <button mat-flat-button matStepperPrevious color="accent" type="button">Back</button>
             <button mat-flat-button matStepperNext color="accent" type="button"
               [disabled]="signupBandForm.controls.address.errors">Next</button>
-          </div>
-        </div>
-      </mat-step>
-      <mat-step label="Music">
-        <div class="stepper-content">
-          <h1>Select some music samples to send to venues</h1>
-          <div class="stepper-buttons">
-            <button mat-flat-button matStepperPrevious color="accent" type="button">Back</button>
-            <button mat-flat-button matStepperNext color="accent" type="button">Next</button>
           </div>
         </div>
       </mat-step>

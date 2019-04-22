@@ -2,7 +2,7 @@
 <mat-list>
   <mat-list-item *ngFor="let convo of conversationItems | async">
     <img matListAvatar src={{imageSrc}}>
-    <h3 matLine>  </h3>
+    <h3 matLine class="unopened"> {{ convo.members[0] }} </h3>
     <p matLine>
       <span> sender: </span>
       <span > last message sent </span>

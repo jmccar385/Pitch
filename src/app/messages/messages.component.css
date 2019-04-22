@@ -4,3 +4,7 @@ mat-list {
 	width: calc(95% - 32px);
 	margin-left:2.5%;
 }
+
+.unopened{
+	font-weight: bolder !important;
+}

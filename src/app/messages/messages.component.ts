@@ -30,5 +30,6 @@ export class MessagesComponent implements OnInit {
     this.conversationItems = this.messagesService.getConversationsByUserId(this.currentUserId).pipe(
       tap(console.log)
     );
+    
   }
 }

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SignupBandComponent } from './signupBand.component';
+import { EventSchedulerComponent } from './event-scheduler.component';
 
-describe('SignupComponent', () => {
-  let component: SignupBandComponent;
-  let fixture: ComponentFixture<SignupBandComponent>;
+describe('EventSchedulerComponent', () => {
+  let component: EventSchedulerComponent;
+  let fixture: ComponentFixture<EventSchedulerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SignupBandComponent ]
+      declarations: [ EventSchedulerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SignupBandComponent);
+    fixture = TestBed.createComponent(EventSchedulerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -25,6 +25,11 @@
         <span class="slide-dot" *ngFor="let image of profile?.ProfileImageUrls; let i = index" (click)="jumpToSlide(i)"></span>
       </div>
     </div>
+
+    <div class="content" *ngIf="view">
+      <button mat-flat-button color="primary" [routerLink]="['/events/schedule']" type="button"><mat-icon>add</mat-icon>Create New Event</button>
+    </div>
+
     <form [formGroup]="profileForm">
       <div class="content" *ngIf="view">
         <mat-form-field>

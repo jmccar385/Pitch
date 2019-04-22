@@ -26,6 +26,15 @@
     		<mat-icon>power_settings_new</mat-icon>
   		</button>
 	</ng-template>
+	<ng-template [ngIf]="this.router.url == '/events/schedule'">
+		<button mat-icon-button [routerLink]="['/profile', 'band', id]" color="accent">
+    		<mat-icon>person</mat-icon>
+  		</button>
+		<h1>New Event</h1>
+		<button mat-icon-button color="accent" [disabled]="true" >
+    		<mat-icon></mat-icon>
+  		</button>
+	</ng-template>
 	<ng-template [ngIf]="this.router.url == userProfileUrl">
 		<button mat-icon-button (click)="verified()" color="accent">
     		<mat-icon>list</mat-icon>

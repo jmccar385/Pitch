@@ -31,4 +31,15 @@ export interface Venue {
   AvailableEquipment: Equipment[];
 }
 
+export interface Message {
+  createdAt: Date;
+  senderId: string;
+  text: string;
+}
+
+export interface Conversation {
+  Members: string[];
+  PitchAccepted: boolean;
+  Messages: Message[];
+}
 

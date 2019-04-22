@@ -1,8 +1,8 @@
 <app-header></app-header>
 <mat-list>
-  <mat-list-item>
+  <mat-list-item *ngFor="let convo of conversationItems | async">
     <img matListAvatar src={{imageSrc}}>
-    <h3 matLine> {{interlocutor}} </h3>
+    <h3 matLine>  </h3>
     <p matLine>
       <span> sender: </span>
       <span > last message sent </span>

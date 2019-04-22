@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, tap } from 'rxjs/operators';
 import { flatten } from '@angular/compiler';
+import { Band } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,13 @@ export class ProfileService {
 
   getArtistObserver() {
     return this.afDatabase.collection('Artists').valueChanges();
+  }
+
+  getArtistProfileImgUrlById(userId: string) {
+    return this.afDatabase.collection('Artists').doc(userId).valueChanges().pipe(
+      map((artist: Band) => artist.ProfilePictureUrl),
+      tap(console.log)
+    );
   }
 
   getArtistObserverById(userId: string) {

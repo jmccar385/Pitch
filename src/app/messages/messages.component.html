@@ -1,7 +1,7 @@
 <app-header></app-header>
 <mat-list>
   <mat-list-item routerLink="/conversation/{{convo.id}}" routerLinkActive="router-link-active"  *ngFor="let convo of conversationItems | async">
-    <img matListAvatar src={{imageSrc}}>
+    <img matListAvatar src="{{convo.url}}">
     <h3 matLine>  </h3>
     <p matLine>
       <span> sender: </span>

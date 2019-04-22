@@ -38,8 +38,8 @@ export interface Message {
 }
 
 export interface Conversation {
-  Members: string[];
-  PitchAccepted: boolean;
+  members: string[];
+  pitchAccepted: boolean;
   Messages: Message[];
 }
 

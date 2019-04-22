@@ -3,16 +3,13 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ProfileService } from '../services/profile.service';
 import { MessagesService } from '../services/messages.service';
-import { Observable, combineLatest, from, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
-  map,
   tap,
-  switchMap,
   concatMap,
   toArray,
   mergeMap
 } from 'rxjs/operators';
-import { Conversation } from '../models';
 
 @Component({
   selector: 'app-messages',
@@ -52,9 +49,10 @@ export class MessagesComponent implements OnInit {
           })[0];
           return this.profileSvc.getArtistProfileImgUrlById(id);
         }, (convo, url) => {
-          console.log({...convo, url});
           return {...convo, url};
-        })
+        }),
+        toArray(),
+        tap(console.log)
       );
   }
 }

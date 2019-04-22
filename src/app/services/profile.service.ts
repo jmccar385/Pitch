@@ -33,8 +33,7 @@ export class ProfileService {
 
   getArtistProfileImgUrlById(userId: string) {
     return this.afDatabase.collection('Artists').doc(userId).valueChanges().pipe(
-      map((artist: Band) => artist.ProfilePictureUrl),
-      tap(console.log)
+      map((artist: Band) => artist.ProfilePictureUrl)
     );
   }
 

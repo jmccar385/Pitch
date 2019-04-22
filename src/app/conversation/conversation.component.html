@@ -1,0 +1,23 @@
+<app-header></app-header>
+<div class="conversation-input">
+  <mat-list dense class="conversation-history mat-typography">
+    <mat-list-item>
+      <img
+        matListAvatar
+        matTooltip="name"
+        src=""
+      />
+      <p></p>
+    </mat-list-item>
+  </mat-list>
+  <mat-divider></mat-divider>
+  <mat-form-field class="full-width">
+    <input
+      matInput
+      placeholder="Start chatting..."
+      name="text"
+      [(ngModel)]="text"
+    />
+    <mat-icon matSuffix (click)="sendText(text)">send</mat-icon>
+  </mat-form-field>
+</div>

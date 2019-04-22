@@ -32,6 +32,7 @@ import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { SettingsComponent } from './settings/settings.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MessagesComponent } from './messages/messages.component';
+import { ConversationComponent } from './conversation/conversation.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { MessagesComponent } from './messages/messages.component';
     ImageUploadComponent,
     SettingsComponent,
     MessagesComponent,
+    ConversationComponent,
   ],
   imports: [
     BrowserModule,

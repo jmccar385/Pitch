@@ -12,6 +12,7 @@ import { SignupBandComponent } from './signupBand/signupBand.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SettingsComponent } from './settings/settings.component';
 import { MessagesComponent } from './messages/messages.component';
+import { ConversationComponent } from './conversation/conversation.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/browse', pathMatch: 'full' },
@@ -37,6 +38,11 @@ const routes: Routes = [
   {
     path: 'messages',
     component: MessagesComponent,
+    canActivate: [AuthGuard, VerifiedGuard]
+  },
+  {
+    path: 'conversation/:id',
+    component: ConversationComponent,
     canActivate: [AuthGuard, VerifiedGuard]
   },
   { path: '**', redirectTo: '/login' } // <-- gooby keep this last plz

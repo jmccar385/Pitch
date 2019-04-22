@@ -1,4 +1,5 @@
 <mat-toolbar color="primary">
+
 	<ng-template [ngIf]="this.router.url == '/browse'">
 		<button mat-icon-button [routerLink]="['/messages']" color="accent" >
     		<mat-icon>forum</mat-icon>
@@ -8,6 +9,7 @@
     		<mat-icon>person</mat-icon>
   		</button>
 	</ng-template>
+
 	<ng-template [ngIf]="this.router.url == '/messages'">
 		<button mat-icon-button color="accent" >
     		<mat-icon></mat-icon>
@@ -17,6 +19,17 @@
     		<mat-icon>list</mat-icon>
   		</button>
 	</ng-template>
+
+	<ng-template [ngIf]="this.router.url.startsWith('/conversation')">
+		<button mat-icon-button color="accent" >
+    		<mat-icon></mat-icon>
+  		</button>
+		<h1>Conversation</h1>
+		<button mat-icon-button [routerLink]="['/browse']" color="accent">
+    		<mat-icon>list</mat-icon>
+  		</button>
+	</ng-template>
+
 	<ng-template [ngIf]="this.router.url == '/profile/settings'">
 		<button mat-icon-button [routerLink]="['/profile', 'band', id]" color="accent">
     		<mat-icon>person</mat-icon>
@@ -26,6 +39,7 @@
     		<mat-icon>power_settings_new</mat-icon>
   		</button>
 	</ng-template>
+
 	<ng-template [ngIf]="this.router.url == userProfileUrl">
 		<button mat-icon-button (click)="verified()" color="accent">
     		<mat-icon>list</mat-icon>
@@ -35,6 +49,7 @@
     		<mat-icon>settings</mat-icon>
   		</button>
 	</ng-template>
+
 	<ng-template [ngIf]="this.router.url.match(viewProfileUrl) != null">
 		<button mat-icon-button color="accent" [routerLink]="['/browse']">
     		<mat-icon>list</mat-icon>
@@ -44,4 +59,5 @@
     		<mat-icon></mat-icon>
   		</button>
 	</ng-template>
+	
 </mat-toolbar>

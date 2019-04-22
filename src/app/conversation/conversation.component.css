@@ -1,0 +1,11 @@
+.conversation-input {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: #fafafa;
+}
+
+mat-form-field {
+  width: 90%;
+  padding-left: 5%;
+}

@@ -101,11 +101,12 @@
       </div>
       <div *ngIf="userType == 'venue' && !view" class="content">
         <strong>Events</strong>
-        <ul>
-          <li *ngFor="let event of profile?.events">
-            {{ event.EventDateTime.toDate() | date: 'yyyy-MM-dd'}} - {{ event.EventName }}: {{ event.EventDescription}}
-          </li>
-        </ul>
+        <mat-list>
+          <mat-list-item *ngFor="let event of profile?.events">
+              <h3 matLine> {{ event.EventDateTime.toDate() | date: 'MM-dd-yy'}} <strong> {{ event.EventName }} </strong> </h3>
+              <p matLine>  {{ event.EventDescription}} </p>
+          </mat-list-item>
+        </mat-list>
       </div>
     </form>
   </mat-card-content>

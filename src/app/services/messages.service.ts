@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { map } from 'rxjs/operators';
-import { Conversation } from '../models';
+import { map, take } from 'rxjs/operators';
+import { Conversation, Band } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +25,15 @@ export class MessagesService {
           });
         })
       );
+  }
+
+  getSenderDataById(userId: string) {
+    return this.afDatabase.collection('Artists').doc(userId).valueChanges().pipe(
+      map((artist: Band) => {
+        return {profileUrl: artist.ProfilePictureUrl, profileName: artist.ProfileName};
+      }),
+      take(1)
+    );
   }
 
   getMessagesByConversationId(convoId: string) {

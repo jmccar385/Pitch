@@ -32,7 +32,7 @@ export interface Venue {
 }
 
 export interface Message {
-  createdAt?: Date;
+  createdAt?: number;
   read?: boolean;
   senderId: string;
   text: string;

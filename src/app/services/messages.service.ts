@@ -15,6 +15,7 @@ export class MessagesService {
 
   sendMessage(convoId: string, msg: string) {
     const message: Message = {
+      createdAt: Date.now(),
       senderId: this.authSvc.currentUserID,
       text: msg
     };
@@ -45,6 +46,6 @@ export class MessagesService {
   }
 
   getMessagesByConversationId(convoId: string) {
-    return this.afDatabase.collection(`Conversations/${convoId}/Messages`).valueChanges();
+    return this.afDatabase.collection(`Conversations/${convoId}/Messages`, ref => ref.orderBy('createdAt')).valueChanges();
   }
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MessagesService } from '../services/messages.service';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-conversation',
@@ -10,12 +12,16 @@ import { ActivatedRoute } from '@angular/router';
 export class ConversationComponent implements OnInit {
 
   private messages;
+  currentUserId: string;
 
-  constructor(private msgSvc: MessagesService, private route: ActivatedRoute) { }
+  constructor(private msgSvc: MessagesService, private route: ActivatedRoute, private authService: AuthService) { }
 
   ngOnInit() {
+    this.currentUserId = this.authService.currentUserID;
     // this.messages = this.msgSvc.getMessagesByConversationId()
-    this.route.params.subscribe(params => this.messages = this.msgSvc.getMessagesByConversationId(params.id));
+    this.route.params.subscribe(params => this.messages = this.msgSvc.getMessagesByConversationId(params.id).pipe(
+      tap(console.log)
+    ));
   }
 
 }

@@ -28,6 +28,6 @@ export class MessagesService {
   }
 
   getMessagesByConversationId(convoId: string) {
-    return this.afDatabase.collection(`Conversation/${convoId}/Messages`);
+    return this.afDatabase.collection(`Conversations/${convoId}/Messages`).valueChanges();
   }
 }

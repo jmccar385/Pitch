@@ -9,3 +9,34 @@ mat-form-field {
   width: 90%;
   padding-left: 5%;
 }
+
+.conversation-history {
+  height: calc(100% - 180px);
+  overflow-x: scroll;
+  position: absolute;
+  width: 100%;
+}
+
+.speech-bubble-left {
+	position: relative;
+	background: #c4c4c4;  /*remove hardcoding*/
+  border-radius: .4em;
+  font-size: 18px;
+  padding-top: .5em;
+  padding-right: .5em;
+  padding-bottom: .5em;
+  padding-left: .5em;
+}
+
+
+.speech-bubble-right {
+  color: white;
+	position: relative;
+	background: #00c853;  /*remove hardcoding*/
+  border-radius: .4em;
+  font-size: 18px;
+  padding-top: .5em;
+  padding-right: .5em;
+  padding-bottom: .5em;
+  padding-left: .5em;
+}

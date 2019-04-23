@@ -1,15 +1,16 @@
 <app-header></app-header>
+<mat-list dense class="conversation-history mat-typography">
+  <mat-list-item *ngFor="let message of messages | async" [dir]="message.senderId === currentUserId ? 'rtl' : 'ltr'">
+    <img
+      matListAvatar
+      matTooltip="name"
+      src=""
+    />
+    <p [ngClass]="message.senderId === currentUserId ? 'speech-bubble-right' : 'speech-bubble-left'">{{message.text}}</p>
+  </mat-list-item>
+</mat-list>
 <div class="conversation-input">
-  <mat-list dense class="conversation-history mat-typography">
-    <mat-list-item>
-      <img
-        matListAvatar
-        matTooltip="name"
-        src=""
-      />
-      <p></p>
-    </mat-list-item>
-  </mat-list>
+  
   <mat-divider></mat-divider>
   <mat-form-field class="full-width">
     <input

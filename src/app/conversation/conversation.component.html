@@ -16,9 +16,9 @@
     <input
       matInput
       placeholder="Start chatting..."
-      name="text"
       [(ngModel)]="text"
+      #msgInput
     />
-    <mat-icon matSuffix (click)="sendText(text)">send</mat-icon>
+    <mat-icon matSuffix (click)="sendMessage()">send</mat-icon>
   </mat-form-field>
 </div>

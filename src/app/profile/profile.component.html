@@ -69,7 +69,7 @@
         <ng-template [ngIf]="profileForm.controls.playlist.disabled" [ngIfElse]="saveProfileTemplate">
           <strong class="disabled">Playlist</strong>
           <div class="content-align playlist disabled">
-            {{profile.Playlist.Name}}: {{profile.Playlist.TrackCount}} track(s)
+            {{profile?.Playlist.Name}}: {{profile?.Playlist.TrackCount}} track(s)
           </div>
           <button mat-flat-button color="primary" (click)="editPlaylist()" type="button">Edit</button>
         </ng-template>
@@ -86,18 +86,13 @@
         </ng-template>
       </div>
       <div class="content" *ngIf="view">
-        <div *ngFor="let track of profile.Tracks">
+        <div *ngFor="let track of profile?.Tracks">
           {{track.Name}}:
           <audio controls>
             <source src="{{track.Preview}}" type="audio/ogg">
           </audio>
         </div>
       </div>
-
-
-
-
-
       <div *ngIf="userType == 'venue' && view"  [ngClass]="profileForm.controls.bass_cabinet.disabled ? 'content disabled non-input' : 'content non-input'">
         Equipment
         <div class="content-align">

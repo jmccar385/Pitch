@@ -1,10 +1,6 @@
 <div class="image-upload-container">
   <ngx-croppie *ngIf="croppedImage" #ngxCroppie [outputFormatOptions]="formatOptions" [croppieOptions]="cropOptions"
     [imageUrl]="_sourceImage" (result)="newCroppedImage($event)"></ngx-croppie>
-
   <input #imageInput hidden type="file" accept="image/*" (change)="imageLoad($event)" />
-
-  <button mat-button type="button" (click)="imageInput.click()">
-    <mat-icon>add_photo_alternate</mat-icon> Select Profile Image
-  </button>
+  <mat-icon class="photo-button" (click)="imageInput.click()">add_photo_alternate</mat-icon>
 </div>

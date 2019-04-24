@@ -43,12 +43,9 @@ export class SignupBandComponent implements OnInit {
   signupBandForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
-    address: new FormControl('', [Validators.required]),
-    city: new FormControl('', [Validators.required]),
-    state: new FormControl('', [Validators.required]),
     zip: new FormControl('', [Validators.required]),
     name: new FormControl('', [Validators.required]),
-    description: new FormControl('', [Validators.required]),
+    description: new FormControl('', [Validators.required, Validators.maxLength(1000)]),
     profileImage: new FormControl('', [
       Validators.required,
       ImageUploadComponent.ImageValidator
@@ -59,9 +56,6 @@ export class SignupBandComponent implements OnInit {
 
   signupBand() {
     const band: Band = {
-      ProfileAddress: this.signupBandForm.controls.address.value,
-      ProfileCity: this.signupBandForm.controls.city.value,
-      ProfileState: this.signupBandForm.controls.state.value,
       ProfileZip: this.signupBandForm.controls.zip.value,
       ProfileName: this.signupBandForm.controls.name.value,
       ProfileBiography: this.signupBandForm.controls.description.value,
@@ -75,7 +69,9 @@ export class SignupBandComponent implements OnInit {
 
     this.musicService.getPlaylistTracks(band.Playlist.TrackHref).subscribe(response => {
       for (var i = 0; i < response.items.length; i++) {
-        band.Tracks.push({Name: response.items[i].track.name, Preview: response.items[i].track.preview_url})
+        if (response.items[i].track.is_playable) {
+          band.Tracks.push({Name: response.items[i].track.name, Preview: response.items[i].track.preview_url})
+        }
       }
 
       this.authService

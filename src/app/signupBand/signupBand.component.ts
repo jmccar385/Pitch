@@ -69,6 +69,9 @@ export class SignupBandComponent implements OnInit {
 
     this.musicService.getPlaylistTracks(band.Playlist.TrackHref).subscribe(response => {
       for (var i = 0; i < response.items.length; i++) {
+        if (i > 9) {
+          break;
+        }
         if (response.items[i].track.is_playable) {
           band.Tracks.push({Name: response.items[i].track.name, Preview: response.items[i].track.preview_url})
         }

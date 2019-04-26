@@ -29,6 +29,7 @@ import { SignupBandComponent } from './signupBand/signupBand.component';
 import { SignupVenueComponent } from './signupVenue/signupVenue.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ReviewDialog } from './profile/review.component';
+import { SpotifyAlertDialog } from './signup/spotifyalert.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { SettingsComponent } from './settings/settings.component';
 
@@ -38,6 +39,7 @@ import { SettingsComponent } from './settings/settings.component';
     LoginComponent,
     ForgotPasswordDialog,
     ReviewDialog,
+    SpotifyAlertDialog,
     BrowseComponent,
     SignupComponent,
     ProfileComponent,
@@ -64,7 +66,7 @@ import { SettingsComponent } from './settings/settings.component';
     ReactiveFormsModule,
   ],
   providers: [AuthService, AuthGuard, VerifiedGuard, ProfileService],
-  entryComponents: [ForgotPasswordDialog, ReviewDialog],
+  entryComponents: [ForgotPasswordDialog, ReviewDialog, SpotifyAlertDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

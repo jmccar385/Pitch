@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { MusicService } from '../services/music.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
+import { SpotifyAlertDialog } from './spotifyalert.component';
 
 @Component({
   selector: 'app-signup',
@@ -13,7 +15,8 @@ export class SignupComponent implements OnInit {
   	private authService: AuthService,
   	private musicService: MusicService, 
   	private route: ActivatedRoute,
-  	private router: Router
+  	private router: Router,
+    public dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -25,6 +28,10 @@ export class SignupComponent implements OnInit {
         });
       }
     });
+  }
+
+  signupBand(): void {
+    const dialogRef = this.dialog.open(SpotifyAlertDialog, {width: '450px', data: {}, autoFocus: false});
   }
 
   spotifyAuthentication() {

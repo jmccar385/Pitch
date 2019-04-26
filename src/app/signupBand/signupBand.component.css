@@ -3,7 +3,7 @@
 	height: 100%;
 	background: #00C853;
 	color: white;
-	font-size: 18px;
+	font-size: 15px;
 }
 
 mat-horizontal-stepper {
@@ -32,20 +32,24 @@ button:disabled {
 	color: #8c8c8c !important;
 }
 
-.stepper-buttons {
-	margin-top: 20px;
-	width: 100%;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	position: absolute;
+.picture-upload-field {
+	margin-top: 10px;
+	margin-bottom: 76px;
+}
+
+.survey-button {
+	width: 90%;
+	height: 60px;
+	position: fixed;
 	bottom: 0;
+	left: 0;
 }
 
 h1 {
-	text-align: left;
-	margin-bottom: 40px;
-	font-size: 25px;
+	text-align: center;
+	margin-top: 0;
+	margin-bottom: 10px;
+	font-size: 20px;
 	width: 100%;
 }
 

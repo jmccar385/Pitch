@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { NgxCroppieModule } from 'ngx-croppie';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -28,9 +29,9 @@ import { SignupBandComponent } from './signupBand/signupBand.component';
 import { SignupVenueComponent } from './signupVenue/signupVenue.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ReviewDialog } from './profile/review.component';
+import { SpotifyAlertDialog } from './signup/spotifyalert.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { SettingsComponent } from './settings/settings.component';
-import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { HttpClientModule } from '@angular/common/http';
     LoginComponent,
     ForgotPasswordDialog,
     ReviewDialog,
+    SpotifyAlertDialog,
     BrowseComponent,
     SignupComponent,
     ProfileComponent,
@@ -49,6 +51,7 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
@@ -63,7 +66,7 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
   ],
   providers: [AuthService, AuthGuard, VerifiedGuard, ProfileService],
-  entryComponents: [ForgotPasswordDialog, ReviewDialog],
+  entryComponents: [ForgotPasswordDialog, ReviewDialog, SpotifyAlertDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

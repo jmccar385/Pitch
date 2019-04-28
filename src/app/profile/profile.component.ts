@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { ProfileService } from '../services/profile.service';
 import { ReviewDialogComponent } from './review.component';
+import { Playlist } from '../models';
 
 @Component({
   selector: 'app-profile',
@@ -22,13 +23,16 @@ export class ProfileComponent implements OnInit {
   slideIndex = 1;
   userType: string;
   view: boolean;
+  playlists: Playlist[] = [];
 
   profileForm: FormGroup = new FormGroup({
     address: new FormControl({ value: '', disabled: true }, [
       Validators.required
     ]),
-
     biography: new FormControl({ value: '', disabled: true }, [
+      Validators.required
+    ]),
+    playlist: new FormControl({ value: '', disabled: true }, [
       Validators.required
     ]),
     bass_cabinet: new FormControl({ value: '', disabled: true }, []),
@@ -55,9 +59,7 @@ export class ProfileComponent implements OnInit {
         // tslint:disable-next-line:no-unused-expression
         doc.exists ? (this.profile = [doc.data()][0]) : [null]; // change to if statement
         this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
-        this.profileForm.controls.biography.setValue(
-          this.profile.ProfileBiography
-        );
+        this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
       });
     } else if (userType === 'venue') {
       this.profileService.getVenueObserverById(uid).subscribe(record => {
@@ -183,6 +185,14 @@ export class ProfileComponent implements OnInit {
 
   saveAddress() {
     this.profileForm.controls.address.disable();
+  }
+
+  editPlaylist() {
+    this.profileForm.controls.playlist.enable();
+  }
+
+  savePlaylist() {
+    this.profileForm.controls.playlist.disable();
   }
 
   editEquipment() {

@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { NgxCroppieModule } from 'ngx-croppie';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -32,6 +33,7 @@ import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { SettingsComponent } from './settings/settings.component';
 import { HttpClientModule } from '@angular/common/http';
 import { EventSchedulerComponent } from './event-scheduler/event-scheduler.component';
+import { SpotifyAlertDialog } from './signup/spotifyalert.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,7 @@ import { EventSchedulerComponent } from './event-scheduler/event-scheduler.compo
     LoginComponent,
     ForgotPasswordDialogComponent,
     ReviewDialogComponent,
+    SpotifyAlertDialog,
     BrowseComponent,
     SignupComponent,
     ProfileComponent,
@@ -51,6 +54,7 @@ import { EventSchedulerComponent } from './event-scheduler/event-scheduler.compo
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
@@ -65,7 +69,7 @@ import { EventSchedulerComponent } from './event-scheduler/event-scheduler.compo
     ReactiveFormsModule,
   ],
   providers: [AuthService, AuthGuard, VerifiedGuard, ProfileService],
-  entryComponents: [ForgotPasswordDialogComponent, ReviewDialogComponent],
+  entryComponents: [ForgotPasswordDialogComponent, ReviewDialogComponent, SpotifyAlertDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

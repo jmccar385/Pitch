@@ -155,6 +155,11 @@ button {
   padding-top: 16px;
 }
 
+.content-align.playlist {
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
 .content-align.view {
   align-items: flex-start;
 }

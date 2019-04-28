@@ -10,7 +10,6 @@
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-
     <div class="content">
       <div class="slide-container">
         <div class="slide-image" *ngFor="let image of profile?.ProfileImageUrls; let i = index">
@@ -70,7 +69,34 @@
           {{ profile?.ProfileAddress}}
         </div>
       </div>
-
+      <div class="content" *ngIf="userType == 'band' && view">
+        <ng-template [ngIf]="profileForm.controls.playlist.disabled" [ngIfElse]="saveProfileTemplate">
+          <strong class="disabled">Playlist</strong>
+          <div class="content-align playlist disabled">
+            {{profile?.Playlist.Name}}: {{profile?.Playlist.TrackCount}} track(s)
+          </div>
+          <button mat-flat-button color="primary" (click)="editPlaylist()" type="button">Edit</button>
+        </ng-template>
+        <ng-template #saveProfileTemplate>
+          <mat-form-field>
+            <mat-select disableOptionCentering placeholder="Playlist" formControlName="playlist">
+              <mat-option *ngFor="let playlist of playlists" value="{{playlist.TrackHref}}">{{playlist.Name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="profileForm.controls.playlist.errors?.required">
+              A playlist is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          <button mat-flat-button color="primary" (click)="savePlaylist()" type="button">Save</button>
+        </ng-template>
+      </div>
+      <div class="content" *ngIf="view">
+        <div *ngFor="let track of profile?.Tracks">
+          {{track.Name}}:
+          <audio controls>
+            <source src="{{track.Preview}}" type="audio/ogg">
+          </audio>
+        </div>
+      </div>
       <div *ngIf="userType == 'venue' && view"  [ngClass]="profileForm.controls.bass_cabinet.disabled ? 'content disabled non-input' : 'content non-input'">
         Equipment
         <div class="content-align">

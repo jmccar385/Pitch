@@ -23,7 +23,7 @@ export class SignupVenueComponent {
       state: new FormControl('', [Validators.required]),
       zip: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required]),
-      description: new FormControl('', [Validators.required]),
+      description: new FormControl('', [Validators.required, Validators.maxLength(1000)]),
       profileImage: new FormControl('', [
         Validators.required,
         ImageUploadComponent.ImageValidator

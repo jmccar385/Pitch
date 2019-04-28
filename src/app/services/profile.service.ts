@@ -117,4 +117,13 @@ export class ProfileService {
         })
       );
   }
+
+  getVenueEventObserverById(userId: string) {
+    return this.afDatabase
+      .collection('Venues')
+      .doc(userId)
+      .collection('Events')
+      .get()
+      .toPromise();
+  }
 }

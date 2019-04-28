@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
 @Component({
@@ -10,22 +10,22 @@ import { MatSnackBar } from '@angular/material';
 })
 export class SettingsComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router, private snackBar: MatSnackBar,) { }
+  constructor(private authService: AuthService, private router: Router, private snackBar: MatSnackBar, ) { }
 
-  verified: boolean = false;
+  verified = false;
 
   ngOnInit() {
-  	this.verified = this.authService.currentUser.emailVerified;
+    this.verified = this.authService.currentUser.emailVerified;
   }
 
   logout(): void {
     this.authService.logout();
-    this.router.navigate(["/login"]);
+    this.router.navigate(['/login']);
   }
 
   verify() {
     this.authService.verification().then(() => {
-      this.snackBar.open("A new email has been sent.", "close", {duration: 2000});
-    })
+      this.snackBar.open('A new email has been sent.', 'close', {duration: 2000});
+    });
   }
 }

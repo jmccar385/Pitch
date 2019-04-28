@@ -122,4 +122,12 @@ export interface Venue {
   AvailableEquipment: Equipment[];
 }
 
+export interface Event {
+  EventName: string;
+  EventDateTime: Date;
+  EventDescription: string;
+  EventRestricted: boolean;
+  EventRestrictedAge: boolean;
+}
+
 

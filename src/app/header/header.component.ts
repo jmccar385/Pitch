@@ -13,14 +13,14 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService, private snackBar: MatSnackBar, ) { }
 
   id: string;
-  userProfileUrl: string;
+  userProfileUrl: RegExp;
   viewProfileUrl: RegExp;
   Name = 'Venue';
 
 
   ngOnInit() {
     this.id = this.authService.currentUserID;
-    this.userProfileUrl = '/profile/band/' + this.id;
+    this.userProfileUrl = new RegExp('/profile/(?:band|venue)/.*' + this.id);
     this.viewProfileUrl = new RegExp('/profile/venue/.*');
   }
 

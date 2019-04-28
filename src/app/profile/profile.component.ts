@@ -71,6 +71,7 @@ export class ProfileComponent implements OnInit {
             return;
           }
           // revise profileService.getVenueObserverById with Claudio
+          // need to add event items at some point
 
           // if (node.SubCollection[0].EventDateTime) {
           //   this.profile.events = this.profile.events || [];

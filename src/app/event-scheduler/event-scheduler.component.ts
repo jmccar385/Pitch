@@ -58,8 +58,7 @@ export class EventSchedulerComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {
     this.profileService
-      // .getVenueEventObserverById(this.authService.currentUserID)
-      .getVenueEventObserverById('SPJPfVRA7dLtLUW7Bi1y')
+      .getVenueEventObserverById(this.authService.currentUserID)
       .then(collection =>
         collection.forEach(doc => {
           if (!doc.exists) {
@@ -127,7 +126,7 @@ export class EventSchedulerComponent implements OnInit {
       EventDateTime: this.createEventForm.controls.eventDate.value,
       EventDescription: this.createEventForm.controls.description.value,
       EventRestricted: false,
-      EventRestrictedAge: false
+      EventRestrictedAge: this.createEventForm.controls.ageRestriction.value
     };
 
     let inputHours: number = parseInt(
@@ -147,13 +146,12 @@ export class EventSchedulerComponent implements OnInit {
     event.EventDateTime.setMinutes(inputMinutes);
 
     this.eventService.createEvent(event).then(eventRef => {
-      // this.authService.currentUserID,
       this.eventService
-        .linkEventWithVenue('SPJPfVRA7dLtLUW7Bi1y', eventRef.id, event)
+        .linkEventWithVenue(this.authService.currentUserID, eventRef.id, event)
         .then(() => {
           this.router.navigate([
             '/profile',
-            'band',
+            'venue',
             this.authService.currentUserID
           ]);
         })

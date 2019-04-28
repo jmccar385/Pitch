@@ -8,6 +8,7 @@
     		<mat-icon>person</mat-icon>
   		</button>
 	</ng-template>
+
 	<ng-template [ngIf]="this.router.url == '/messages'">
 		<button mat-icon-button color="accent" [disabled]="true" >
     		<mat-icon></mat-icon>
@@ -17,6 +18,7 @@
     		<mat-icon>list</mat-icon>
   		</button>
 	</ng-template>
+
 	<ng-template [ngIf]="this.router.url == '/profile/settings'">
 		<button mat-icon-button [routerLink]="['/profile', 'band', id]" color="accent">
     		<mat-icon>person</mat-icon>
@@ -26,6 +28,7 @@
     		<mat-icon>power_settings_new</mat-icon>
   		</button>
 	</ng-template>
+
 	<ng-template [ngIf]="this.router.url == '/events/schedule'">
 		<button mat-icon-button [routerLink]="['/profile', 'band', id]" color="accent">
     		<mat-icon>person</mat-icon>
@@ -35,7 +38,8 @@
     		<mat-icon></mat-icon>
   		</button>
 	</ng-template>
-	<ng-template [ngIf]="this.router.url == userProfileUrl">
+
+	<ng-template [ngIf]="this.router.url.match(userProfileUrl) != null">
 		<button mat-icon-button (click)="verified()" color="accent">
     		<mat-icon>list</mat-icon>
   		</button>
@@ -44,7 +48,8 @@
     		<mat-icon>settings</mat-icon>
   		</button>
 	</ng-template>
-	<ng-template [ngIf]="this.router.url.match(viewProfileUrl) != null">
+
+	<ng-template [ngIf]="this.router.url.match(viewProfileUrl) != null && this.router.url.match(userProfileUrl) == null">
 		<button mat-icon-button color="accent" [routerLink]="['/browse']">
     		<mat-icon>list</mat-icon>
   		</button>

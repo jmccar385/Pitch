@@ -16,10 +16,12 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- <mat-form-field>
-      <mat-label>21+ Age Restriction</mat-label>
-      <mat-slide-toggle formControlName="ageRestriction"></mat-slide-toggle>
-    </mat-form-field> -->
+    <div class="eventFormGroup">
+      <label class="eventFormLabel">21+ Age Restriction</label>
+      <div class="eventFormRow">
+        <mat-slide-toggle formControlName="ageRestriction"></mat-slide-toggle>
+      </div>
+    </div>
 
     <mat-form-field>
       <input matInput [matDatepicker]="calendar" [min]="today" 
@@ -32,6 +34,10 @@
         A date is <strong>required</strong>
       </mat-error>
 
+      <mat-error *ngIf="createEventForm.controls.eventDate.errors?.matDatepickerMin">
+          You cannot schedule an event before today
+        </mat-error>
+
       <mat-hint *ngIf="eventConflict">
         <span class="warningMessage">
           <mat-icon>warning</mat-icon>
@@ -40,9 +46,9 @@
       </mat-hint>
     </mat-form-field>
 
-    <div class="timeGroup">
-      <label class="timeLabel">Start time</label>
-      <div class="timeRow">
+    <div class="eventFormGroup">
+      <label class="eventFormLabel">Start time</label>
+      <div class="eventFormRow">
         <mat-form-field class="timeEntry">
           <mat-select formControlName="startTimeHour">
             <mat-option *ngFor="let time of validHours" [value]="time">{{time}}</mat-option>
@@ -69,9 +75,9 @@
       </mat-error>
     </div>
 <!-- 
-    <div class="timeGroup">
-      <label class="timeLabel">End time</label>
-      <div class="timeRow">
+    <div class="eventFormGroup">
+      <label class="eventFormLabel">End time</label>
+      <div class="eventFormRow">
         <mat-form-field #endTimeHour class="timeEntry">
           <mat-select formControlName="endTimeHour">
             <mat-option *ngFor="let time of validHours" [value]="time">{{time}}</mat-option>

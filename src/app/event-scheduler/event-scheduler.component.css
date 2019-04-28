@@ -34,7 +34,7 @@ form {
 	border-radius: 100%;
 }
 
-.timeGroup {
+.eventFormGroup {
 	display: flex;
 	flex-direction: column;
     align-content: space-around;
@@ -43,7 +43,7 @@ form {
 	padding-left: 5%;
 }
 
-.timeRow {
+.eventFormRow {
 	display: inline-flex;
 	flex-direction: row;
     align-content: space-around;
@@ -51,7 +51,11 @@ form {
 	padding-top: 10px;
 }
 
-.timeLabel {
+.eventFormRow > mat-slide-toggle {
+	margin-top: 15px;
+}
+
+.eventFormLabel {
 	position: absolute;
 	padding-left: calc(1em /3);
 	pointer-events: none;

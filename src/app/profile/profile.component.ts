@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { ProfileService } from '../services/profile.service';
-import { ReviewDialog } from './review.component';
+import { ReviewDialogComponent } from './review.component';
 
 @Component({
   selector: 'app-profile',
@@ -162,7 +162,7 @@ export class ProfileComponent implements OnInit {
   }
 
   reviewModal(): void {
-    const dialogRef = this.dialog.open(ReviewDialog, {
+    const dialogRef = this.dialog.open(ReviewDialogComponent, {
       width: '300px',
       data: {}
     });

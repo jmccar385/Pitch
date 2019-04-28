@@ -20,14 +20,14 @@ import { ProfileService } from './services/profile.service';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { ForgotPasswordDialog } from './login/forgotpassword.component';
+import { ForgotPasswordDialogComponent } from './login/forgotpassword.component';
 import { BrowseComponent } from './browse/browse.component';
 import { SignupComponent } from './signup/signup.component';
 import { HeaderComponent } from './header/header.component';
 import { SignupBandComponent } from './signupBand/signupBand.component';
 import { SignupVenueComponent } from './signupVenue/signupVenue.component';
 import { ProfileComponent } from './profile/profile.component';
-import { ReviewDialog } from './profile/review.component';
+import { ReviewDialogComponent } from './profile/review.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { SettingsComponent } from './settings/settings.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -37,8 +37,8 @@ import { EventSchedulerComponent } from './event-scheduler/event-scheduler.compo
   declarations: [
     AppComponent,
     LoginComponent,
-    ForgotPasswordDialog,
-    ReviewDialog,
+    ForgotPasswordDialogComponent,
+    ReviewDialogComponent,
     BrowseComponent,
     SignupComponent,
     ProfileComponent,
@@ -65,7 +65,7 @@ import { EventSchedulerComponent } from './event-scheduler/event-scheduler.compo
     ReactiveFormsModule,
   ],
   providers: [AuthService, AuthGuard, VerifiedGuard, ProfileService],
-  entryComponents: [ForgotPasswordDialog, ReviewDialog],
+  entryComponents: [ForgotPasswordDialogComponent, ReviewDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

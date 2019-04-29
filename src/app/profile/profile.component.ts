@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { ProfileService } from '../services/profile.service';
-import { ReviewDialog } from './review.component';
+import { ReviewDialogComponent } from './review.component';
 import { Playlist } from '../models';
 
 @Component({
@@ -73,6 +73,7 @@ export class ProfileComponent implements OnInit {
             return;
           }
           // revise profileService.getVenueObserverById with Claudio
+          // need to add event items at some point
 
           // if (node.SubCollection[0].EventDateTime) {
           //   this.profile.events = this.profile.events || [];
@@ -163,7 +164,7 @@ export class ProfileComponent implements OnInit {
   }
 
   reviewModal(): void {
-    const dialogRef = this.dialog.open(ReviewDialog, {
+    const dialogRef = this.dialog.open(ReviewDialogComponent, {
       width: '300px',
       data: {}
     });

@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
 import { NgxCroppieModule } from 'ngx-croppie';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,24 +20,26 @@ import { ProfileService } from './services/profile.service';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { ForgotPasswordDialog } from './login/forgotpassword.component';
+import { ForgotPasswordDialogComponent } from './login/forgotpassword.component';
 import { BrowseComponent } from './browse/browse.component';
 import { SignupComponent } from './signup/signup.component';
 import { HeaderComponent } from './header/header.component';
 import { SignupBandComponent } from './signupBand/signupBand.component';
 import { SignupVenueComponent } from './signupVenue/signupVenue.component';
 import { ProfileComponent } from './profile/profile.component';
-import { ReviewDialog } from './profile/review.component';
-import { SpotifyAlertDialog } from './signup/spotifyalert.component';
+import { ReviewDialogComponent } from './profile/review.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { SettingsComponent } from './settings/settings.component';
+import { HttpClientModule } from '@angular/common/http';
+import { EventSchedulerComponent } from './event-scheduler/event-scheduler.component';
+import { SpotifyAlertDialog } from './signup/spotifyalert.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    ForgotPasswordDialog,
-    ReviewDialog,
+    ForgotPasswordDialogComponent,
+    ReviewDialogComponent,
     SpotifyAlertDialog,
     BrowseComponent,
     SignupComponent,
@@ -48,6 +49,7 @@ import { SettingsComponent } from './settings/settings.component';
     SignupBandComponent,
     ImageUploadComponent,
     SettingsComponent,
+    EventSchedulerComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,7 +68,7 @@ import { SettingsComponent } from './settings/settings.component';
     ReactiveFormsModule,
   ],
   providers: [AuthService, AuthGuard, VerifiedGuard, ProfileService],
-  entryComponents: [ForgotPasswordDialog, ReviewDialog, SpotifyAlertDialog],
+  entryComponents: [ForgotPasswordDialogComponent, ReviewDialogComponent, SpotifyAlertDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

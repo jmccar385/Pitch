@@ -24,6 +24,7 @@
         <span class="slide-dot" *ngFor="let image of profile?.ProfileImageUrls; let i = index" (click)="jumpToSlide(i)"></span>
       </div>
     </div>
+    
     <form [formGroup]="profileForm">
       <div class="content" *ngIf="view">
         <mat-form-field>
@@ -39,12 +40,14 @@
           <button mat-flat-button color="primary" (click)="saveBiography()" type="button">Save</button>
         </ng-template>
       </div>
+
       <div class="content" *ngIf="!view">
           <strong>About</strong>
           <div class="content-align view">
             {{ profile?.ProfileBiography}}
           </div>
       </div>
+
       <div class="content" *ngIf="view">
         <mat-form-field>
           <input matInput placeholder="Address" formControlName="address">
@@ -59,6 +62,7 @@
           <button mat-flat-button color="primary" (click)="saveAddress()" type="button">Save</button>
         </ng-template>
       </div>
+
       <div class="content" *ngIf="!view">
         <strong>Address</strong>
         <div class="content-align view">
@@ -113,6 +117,7 @@
           <button mat-flat-button color="primary" (click)="saveEquipment()" type="button">Save</button>
         </ng-template>
       </div>
+
       <div *ngIf="userType == 'venue' && !view"  class="content">
         <strong>Equipment</strong>
         <div class="content-align view">
@@ -121,8 +126,21 @@
           </div>
         </div>
       </div>
-      <div *ngIf="userType == 'venue' && !view" class="content">
-        <strong>Events</strong>
+
+      <div *ngIf="userType == 'venue'" class="content">
+        <ng-container *ngIf="view; else boldEventHeader">
+            <span class="disabled non-input">
+                Events
+            </span>
+
+            <div *ngIf="view">
+              <button mat-flat-button color="primary" [routerLink]="['/events/schedule']" type="button"><mat-icon>add</mat-icon>Create New Event</button>
+            </div>    
+        </ng-container>
+        <ng-template #boldEventHeader>
+          <strong>Events</strong>
+        </ng-template>
+        
         <ul>
           <li *ngFor="let event of profile?.events">
             {{ event.EventDateTime.toDate() | date: 'yyyy-MM-dd'}} - {{ event.EventName }}: {{ event.EventDescription}}

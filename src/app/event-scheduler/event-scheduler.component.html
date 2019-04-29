@@ -1,0 +1,109 @@
+<app-header></app-header>
+
+<div class='content'>
+  <form [formGroup]="createEventForm" (ngSubmit)="createEventForm.valid && createEvent()">
+    <mat-form-field>
+      <input matInput placeholder="Title" formControlName="name">
+      <mat-error *ngIf="createEventForm.controls.name.errors?.required">
+        A title is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Description" formControlName="description">
+      <mat-error *ngIf="createEventForm.controls.description.errors?.required">
+        A description is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <div class="eventFormGroup">
+      <label class="eventFormLabel">21+ Age Restriction</label>
+      <div class="eventFormRow">
+        <mat-slide-toggle formControlName="ageRestriction"></mat-slide-toggle>
+      </div>
+    </div>
+
+    <mat-form-field>
+      <input matInput [matDatepicker]="calendar" [min]="today" 
+        placeholder="Choose a date" formControlName="eventDate"
+        (click)="calendar.open()" (dateChange)="dateChange($event)">
+      <mat-datepicker-toggle matSuffix [for]="calendar"></mat-datepicker-toggle>
+      <mat-datepicker [dateClass]="highlightEvents" #calendar></mat-datepicker>
+
+      <mat-error *ngIf="createEventForm.controls.eventDate.errors?.required">
+        A date is <strong>required</strong>
+      </mat-error>
+
+      <mat-error *ngIf="createEventForm.controls.eventDate.errors?.matDatepickerMin">
+          You cannot schedule an event before today
+        </mat-error>
+
+      <mat-hint *ngIf="eventConflict">
+        <span class="warningMessage">
+          <mat-icon>warning</mat-icon>
+          <strong>You have one or more events scheduled on this date.</strong>
+        </span>
+      </mat-hint>
+    </mat-form-field>
+
+    <div class="eventFormGroup">
+      <label class="eventFormLabel">Start time</label>
+      <div class="eventFormRow">
+        <mat-form-field class="timeEntry">
+          <mat-select formControlName="startTimeHour">
+            <mat-option *ngFor="let time of validHours" [value]="time">{{time}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="timeEntry">
+          <mat-select formControlName="startTimeMinute">
+            <mat-option *ngFor="let time of validMinutes" [value]="time">{{time}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="timeEntryWide">
+          <mat-select formControlName="startTimeMeridiem">
+            <mat-option value="AM">AM</mat-option>
+            <mat-option value="PM">PM</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <mat-error
+        *ngIf="createEventForm.controls.startTimeHour.errors?.required || createEventForm.controls.startTimeMinute.errors?.required || createEventForm.controls.startTimeMeridiem.errors?.required">
+        A full start time is <strong>required</strong>
+      </mat-error>
+    </div>
+<!-- 
+    <div class="eventFormGroup">
+      <label class="eventFormLabel">End time</label>
+      <div class="eventFormRow">
+        <mat-form-field #endTimeHour class="timeEntry">
+          <mat-select formControlName="endTimeHour">
+            <mat-option *ngFor="let time of validHours" [value]="time">{{time}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="timeEntry">
+          <mat-select formControlName="endTimeMinute">
+            <mat-option *ngFor="let time of validMinutes" [value]="time">{{time}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="timeEntryWide">
+          <mat-select formControlName="endTimeMeridiem">
+            <mat-option value="AM">AM</mat-option>
+            <mat-option value="PM">PM</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <mat-error
+        *ngIf="createEventForm.controls.endTimeHour.errors?.required || createEventForm.controls.endTimeMinute.errors?.required || createEventForm.controls.endTimeMeridiem.errors?.required">
+        A full end time is <strong>required</strong>
+      </mat-error>
+    </div> -->
+
+    <button mat-flat-button color="accent" [disabled]="!createEventForm.valid">Create Event</button>
+  </form>
+</div>

@@ -1,33 +1,41 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SpotifyPagingPlaylist, SpotifyPagingTracks } from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MusicService {
+  constructor(public http: HttpClient) {}
 
-  constructor(public http:HttpClient) { }
-
-  private access_token: string;
-  private refresh_token: string;
+  private accessToken: string;
+  private refreshToken: string;
 
   getUserPlaylists() {
-  	const headers = new HttpHeaders().set("Authorization", "Bearer " + this.access_token);
-  	return this.http.get<SpotifyPagingPlaylist>("https://api.spotify.com/v1/me/playlists", {headers: headers});
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      'Bearer ' + this.accessToken
+    );
+    return this.http.get<SpotifyPagingPlaylist>(
+      'https://api.spotify.com/v1/me/playlists',
+      { headers }
+    );
   }
 
-  getPlaylistTracks(url) {
-  	const headers = new HttpHeaders().set("Authorization", "Bearer " + this.access_token);
-  	return this.http.get<SpotifyPagingTracks>(url, {headers: headers});
+  getPlaylistTracks(url: any) {
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      'Bearer ' + this.accessToken
+    );
+    return this.http.get<SpotifyPagingTracks>(url, { headers });
   }
 
-  setTokens(access_token, refresh_token) {
-  	this.access_token = access_token;
-  	this.refresh_token = refresh_token;
+  setTokens(accessToken: string, refreshToken: string) {
+    this.accessToken = accessToken;
+    this.refreshToken = refreshToken;
   }
 
   getTokens() {
-  	return [this.access_token, this.refresh_token]
+    return [this.accessToken, this.refreshToken];
   }
 }

@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# To use this script, paste it into .git/hooks and remove '.txt'
+# This will automate linting checks and block commits if linting fails
+
+RED='\033[1;31m'   # Red terminal text color
+GREEN='\033[0;32m' # Green terminal text color
+NC='\033[0m'       # Reset to standard text color
+
+echo "Running Linter..."
+lint=$(npm run-script lint)
+
+if [ $? != 0 ]; then
+	printf "\n${RED}ERRORS:${NC}"
+	echo "$lint\n"
+	printf "\n${RED}Linting failed.${NC}\n"
+	exit 1
+else
+	printf "\n${GREEN}Linting passed.${NC}\n"
+	exit 0
+fi
+

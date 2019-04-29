@@ -18,9 +18,9 @@ export interface Equipment {
 }
 
 export interface SpotifyAccess {
-  access_token: string;
+  accessToken: string;
   expires_in: number;
-  refresh_token: string;
+  refreshToken: string;
   scope: string;
   token_type: string;
 }
@@ -40,7 +40,7 @@ export interface SpotifyPlaylist {
   external_urls: object;
   href: string;
   id: string;
-  images: object[]; 
+  images: object[];
   name: string;
   owner: object;
   public: boolean;
@@ -120,6 +120,14 @@ export interface Venue {
   ProfileRatingCount?: number;
   ProfileReportCount?: number;
   AvailableEquipment: Equipment[];
+}
+
+export interface Event {
+  EventName: string;
+  EventDateTime: Date;
+  EventDescription: string;
+  EventRestricted: boolean;
+  EventRestrictedAge: boolean;
 }
 
 

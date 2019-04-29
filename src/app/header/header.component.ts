@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
-import { AuthService } from "../services/auth.service";
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -10,31 +10,31 @@ import { AuthService } from "../services/auth.service";
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private router: Router, private authService: AuthService, private snackBar: MatSnackBar,) { }
+  constructor(private router: Router, private authService: AuthService, private snackBar: MatSnackBar, ) { }
 
   id: string;
-  userProfileUrl: string;
+  userProfileUrl: RegExp;
   viewProfileUrl: RegExp;
-  Name: string = "Venue";
+  Name = 'Venue';
 
 
   ngOnInit() {
-  	 this.id = this.authService.currentUserID;
-  	 this.userProfileUrl = "/profile/band/" + this.id;
-     this.viewProfileUrl = new RegExp("/profile/venue/.*");
+    this.id = this.authService.currentUserID;
+    this.userProfileUrl = new RegExp('/profile/(?:band|venue)/.*' + this.id);
+    this.viewProfileUrl = new RegExp('/profile/venue/.*');
   }
 
   verified(): void {
-  	if (!this.authService.currentUser.emailVerified) {
-  		this.snackBar.open("Please verify your email first. See settings.", "close", {duration: 2000});
-  	} else {
-  		this.router.navigate(["/browse"]);
-  	}
+    if (!this.authService.currentUser.emailVerified) {
+      this.snackBar.open('Please verify your email first. See settings.', 'close', {duration: 2000});
+    } else {
+      this.router.navigate(['/browse']);
+    }
   }
 
   logout(): void {
     this.authService.logout();
-    this.router.navigate(["/login"]);
+    this.router.navigate(['/login']);
   }
 
 }

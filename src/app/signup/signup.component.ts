@@ -12,31 +12,39 @@ import { SpotifyAlertDialog } from './spotifyalert.component';
 })
 export class SignupComponent implements OnInit {
   constructor(
-  	private authService: AuthService,
-  	private musicService: MusicService, 
-  	private route: ActivatedRoute,
-  	private router: Router,
-    public dialog: MatDialog,
+    private authService: AuthService,
+    private musicService: MusicService,
+    private route: ActivatedRoute,
+    private router: Router,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       if (params.code && params.state) {
-        this.authService.authorizeSpotify(params.code, params.state).then(data => {
-        	this.musicService.setTokens(data.access_token, data.refresh_token);
-        	this.router.navigateByUrl('signup/band');
-        });
+        this.authService
+          .authorizeSpotify(params.code, params.state)
+          .then(data => {
+            this.musicService.setTokens(data.accessToken, data.refreshToken);
+            this.router.navigateByUrl('signup/band');
+          });
       }
     });
   }
 
   signupBand(): void {
-    const dialogRef = this.dialog.open(SpotifyAlertDialog, {width: '450px', data: {}, autoFocus: false});
+    const dialogRef = this.dialog.open(SpotifyAlertDialog, {
+      width: '450px',
+      data: {},
+      autoFocus: false
+    });
   }
 
   spotifyAuthentication() {
-    this.authService.requestAuthorizationSpotify().subscribe(console.log, data => {
-      window.location.replace(data.url);
-    });
+    this.authService
+      .requestAuthorizationSpotify()
+      .subscribe(console.log, data => {
+        window.location.replace(data.url);
+      });
   }
 }

@@ -91,6 +91,8 @@ export class ProfileComponent implements OnInit {
           );
         });
 
+        this.profile.ProfileImageUrls.push(this.profile.ProfilePictureUrl)
+
         this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
         this.profileForm.controls.biography.setValue(
           this.profile.ProfileBiography
@@ -140,9 +142,8 @@ export class ProfileComponent implements OnInit {
 
   private showSlides(index) {
     const slides = document.getElementsByClassName('slide-image');
-    const dots = document.getElementsByClassName('slide-dot');
 
-    if (slides.length === 0 || dots.length === 0) {
+    if (slides.length === 0) {
       return;
     }
 
@@ -153,13 +154,12 @@ export class ProfileComponent implements OnInit {
       this.slideIndex = slides.length;
     }
 
+// tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < slides.length; i++) {
       slides[i].className = slides[i].className.replace(' slide-active', '');
-      dots[i].className = dots[i].className.replace(' dot-active', '');
     }
 
     slides[this.slideIndex - 1].className += ' slide-active';
-    dots[this.slideIndex - 1].className += ' dot-active';
   }
 
   reviewModal(): void {

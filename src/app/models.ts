@@ -10,6 +10,9 @@ export interface Band {
   Tracks: Track[];
   AccessToken: string;
   RefreshToken: string;
+  ProfileRating: number;
+  ProfileRatingCount: number;
+  ProfileReportCount: number;
 }
 
 export interface Equipment {
@@ -116,9 +119,9 @@ export interface Venue {
   ProfileBiography: string;
   ProfilePictureUrl: string;
   ProfileImageUrls?: string[];
-  ProfileRating?: number;
-  ProfileRatingCount?: number;
-  ProfileReportCount?: number;
+  ProfileRating: number;
+  ProfileRatingCount: number;
+  ProfileReportCount: number;
   AvailableEquipment: Equipment[];
 }
 

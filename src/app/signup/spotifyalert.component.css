@@ -12,7 +12,15 @@ button {
 	float: right;
 }
 
+#cancel {
+	float: left;
+}
+
 .mat-dialog-title {
 	text-align: center;
 	margin: 0;
+}
+
+div {
+	text-align: center;
 }

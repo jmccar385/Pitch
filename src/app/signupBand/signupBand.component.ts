@@ -65,6 +65,9 @@ export class SignupBandComponent implements OnInit {
       Tracks: [],
       AccessToken: this.access_token,
       RefreshToken: this.refresh_token,
+      ProfileRating: 5,
+      ProfileRatingCount: 0,
+      ProfileReportCount: 0
     };
 
     this.musicService.getPlaylistTracks(band.Playlist.TrackHref).subscribe(response => {

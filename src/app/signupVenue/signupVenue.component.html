@@ -58,7 +58,7 @@
       </mat-step>
       <mat-step>
         <div class="stepper-content">
-          <h1>What equipment can you provide to bands?</h1>
+          <h1>Avaliable Equipment</h1>
           <div class="checkbox-align" *ngFor="let equip of equipment | async">
             <mat-checkbox color="primary" (change)="select(equip)" labelPosition="before">{{equip.Name}}</mat-checkbox>
           </div>

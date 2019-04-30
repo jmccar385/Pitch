@@ -1,42 +1,38 @@
-mat-card {
-  margin: 0;
-  margin-top: 56px;
-  width: calc(95% - 32px);
-  margin-left: 2.5%;
-  margin-bottom: 10px;
-  height: 1000px;
-  box-shadow: none !important;
+#profile-container {
+  margin: 10px;
+  margin-top: 66px;
+  margin-bottom: 90px;
 }
 
-mat-card-subtitle {
-  display: flex;
-  align-items: center;
+#pitch {
+  position: fixed;
+  width: calc(100% - 20px);
+  bottom: 10px;
+  left: 10px;
   font-size: 18px;
+  height: 60px;
+}
+
+mat-card {
+  margin-bottom: 20px;
+}
+
+#rating {
+  vertical-align: middle;
 }
 
 #review {
-  height: 36px;
-  margin-left : 10px;
-}
-
-mat-card-content {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	font-size: 18px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 form {
 	width: 100%;
 }
 
-.content {
-	width: 100%;
-	margin-top: 30px;
-}
-
-.content:first-child {
-	margin: 0;
+.mat-card-title {
+  font-size: 20px;
 }
 
 mat-form-field {
@@ -48,13 +44,10 @@ button {
 	font-size: 18px;
 }
 
-
 /* ty w3 schools */
 .slide-container {
-	width: calc(95% - 32px);
-	height: 300px;
-  position: relative;
-  margin: auto;
+  height: 300px;
+  margin-bottom: 20px;
 	background-color: black;
 }
 
@@ -164,17 +157,8 @@ button {
   align-items: flex-start;
 }
 
-.non-input {
-  font-size: 14px;
-}
-
-.disabled {
-  color: rgba(0, 0, 0, 0.54);
-}
-
 ul {
   list-style: none;
-  font-size: 18px;
 }
 
 li {

@@ -1,10 +1,10 @@
 <app-header></app-header>
-<mat-list dense class="conversation-history mat-typography">
+<mat-list dense class="conversation-history mat-typography" >
   <mat-list-item *ngFor="let message of messages | async" [dir]="message.senderId === currentUserId ? 'rtl' : 'ltr'">
-    <img
+    <img 
       matListAvatar
       matTooltip="name"
-      src=""
+      [src]=" message.senderId === currentUserId ? currentUserData?.profileUrl : correspondentData?.profileUrl"
     />
     <p [ngClass]="message.senderId === currentUserId ? 'speech-bubble-right' : 'speech-bubble-left'">{{message.text}}</p>
   </mat-list-item>

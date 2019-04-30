@@ -2,11 +2,9 @@
 <mat-list>
   <mat-list-item routerLink="/conversation/{{convo.id}}" routerLinkActive="router-link-active"  *ngFor="let convo of conversationItems | async">
     <img matListAvatar src="{{convo.senderData.profileUrl}}">
-    <h3 matLine>  </h3>
+    <h3 matLine>{{convo.senderData.profileName}}</h3>
     <p matLine>
-      sender: {{convo.senderData.profileName}}
-      <br>
-      last message sent
+      {{convo.senderData.profileName}}: {{convo.conversation.lastMessage.text}}
     </p>
   </mat-list-item>
 </mat-list>

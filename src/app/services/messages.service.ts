@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { map, take } from 'rxjs/operators';
-import { Conversation, Band, Message } from '../models';
+import { map, take, mergeMap } from 'rxjs/operators';
+import { Conversation, Band, Message, Venue } from '../models';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -25,7 +25,7 @@ export class MessagesService {
   getConversationsByUserId(userId: string) {
     return this.afDatabase
       .collection('Conversations', ref =>
-        ref.where('members', 'array-contains', userId)
+        ref.where('members', 'array-contains', userId).orderBy('lastMessage.createdAt', 'desc')
       )
       .snapshotChanges().pipe(
         map(snaps => {
@@ -36,16 +36,48 @@ export class MessagesService {
       );
   }
 
+  // getSenderDataById(userId: string) {
+  //   return this.afDatabase.collection('Artists').doc(userId).valueChanges().pipe(
+  //     map((artist: Band) => {
+  //       return {profileUrl: artist.ProfilePictureUrl, profileName: artist.ProfileName};
+  //     }),
+  //     take(1)
+  //   );
+  // }
+
   getSenderDataById(userId: string) {
-    return this.afDatabase.collection('Artists').doc(userId).valueChanges().pipe(
-      map((artist: Band) => {
-        return {profileUrl: artist.ProfilePictureUrl, profileName: artist.ProfileName};
-      }),
-      take(1)
+    return this.afDatabase.collection('Artists').doc(userId).get().pipe(
+      mergeMap(doc => {
+        const type = doc.exists ? 'band' : 'venue';
+        console.log(type);
+        if (type == 'band') {
+          console.log(1);
+          return this.afDatabase.collection('Artists').doc(userId).valueChanges().pipe(
+            map((artist: Band) => {
+              return {profileUrl: artist.ProfilePictureUrl, profileName: artist.ProfileName};
+            }),
+            take(1)
+          );
+        }
+        else{
+          console.log(2);
+          return this.afDatabase.collection('Venues').doc(userId).valueChanges().pipe(
+            map((venue: Venue) => {
+              console.log(venue.ProfilePictureUrl);
+              return {profileUrl: venue.ProfilePictureUrl, profileName: venue.ProfileName};
+            }),
+            take(1)
+          );
+        }
+      })
     );
   }
 
   getMessagesByConversationId(convoId: string) {
     return this.afDatabase.collection(`Conversations/${convoId}/Messages`, ref => ref.orderBy('createdAt')).valueChanges();
+  }
+
+  getConversationByConversationId(convoId: string) {
+    return this.afDatabase.collection('Conversations').doc(convoId).valueChanges();
   }
 }

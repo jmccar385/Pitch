@@ -10,6 +10,32 @@ mat-form-field {
   padding-left: 5%;
 }
 
+/* .mat-list-item {
+  height: auto;
+  overflow: auto;
+} */
+
+.mat-list-base[dense] .mat-list-item.mat-list-item-with-avatar {
+  height: auto;
+}
+
+mat-list {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+mat-list-item {
+  padding-top: .5em;
+  padding-right: .5em;
+  padding-bottom: .5em;
+  padding-left: .5em;
+  margin: 10px 0;
+  display: inline-block;
+  word-break: break-word;
+  border: 2px;
+  height: auto;
+}
+
 .conversation-history {
   height: calc(100% - 180px);
   overflow-x: scroll;
@@ -19,7 +45,7 @@ mat-form-field {
 
 .speech-bubble-left {
 	position: relative;
-	background: #c4c4c4;  /*remove hardcoding*/
+	background: #c4c4c4;
   border-radius: .4em;
   font-size: 18px;
   padding-top: .5em;
@@ -32,7 +58,7 @@ mat-form-field {
 .speech-bubble-right {
   color: white;
 	position: relative;
-	background: #00c853;  /*remove hardcoding*/
+	background: #00c853;  /*get from theme*/
   border-radius: .4em;
   font-size: 18px;
   padding-top: .5em;

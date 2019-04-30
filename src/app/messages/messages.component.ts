@@ -26,7 +26,7 @@ export class MessagesComponent implements OnInit {
 
     const getSenderDataByConvo = element => {
       const id = element.conversation.members.filter(i => {
-        if (i === this.currentUserId) {
+        if (i != this.currentUserId) {
           return i;
         }
       })[0];
@@ -46,5 +46,6 @@ export class MessagesComponent implements OnInit {
           map(zipConvoData),
           toArray()
         )));
+    this.conversationItems.subscribe(item => console.log(item));
   }
 }

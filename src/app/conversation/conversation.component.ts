@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MessagesService } from '../services/messages.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+//import { currentId } from 'async_hooks';
 
 @Component({
   selector: 'app-conversation',
@@ -14,8 +15,15 @@ export class ConversationComponent implements OnInit {
   currentUserId: string;
   conversationId: string;
   text: string;
+  currentUserData: any;
+  correspondentId: string;
+  correspondentData: any;
+  conversationData: any;
 
-  constructor(private msgSvc: MessagesService, private route: ActivatedRoute, private authService: AuthService) { }
+  constructor(
+    private msgSvc: MessagesService, 
+    private route: ActivatedRoute,
+    private authService: AuthService) { }
 
   ngOnInit() {
     this.currentUserId = this.authService.currentUserID;
@@ -23,6 +31,22 @@ export class ConversationComponent implements OnInit {
       this.messages = this.msgSvc.getMessagesByConversationId(params.id);
       this.conversationId = params.id;
     });
+    this.msgSvc.getSenderDataById(this.currentUserId).subscribe((data) => {
+      this.currentUserData = data;
+    });
+    this.conversationData = this.msgSvc.getConversationByConversationId(this.conversationId);
+    this.conversationData.subscribe(
+      element => {
+        const id = element.members.filter(i => {
+          if (i != this.currentUserId) {
+            this.correspondentId = i;
+            this.msgSvc.getSenderDataById(this.correspondentId).subscribe((data) => {
+              this.correspondentData = data;
+            });
+          }
+        })[0];
+      }
+    );
   }
 
   sendMessage() {

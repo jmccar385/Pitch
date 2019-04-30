@@ -21,13 +21,11 @@
 	</ng-template>
 
 	<ng-template [ngIf]="this.router.url.startsWith('/conversation')">
-		<button mat-icon-button color="accent" >
-    		<mat-icon></mat-icon>
+		<button mat-icon-button [routerLink]="['/messages']" color="accent" >
+    		<mat-icon>forum</mat-icon>
   		</button>
 		<h1>Conversation</h1>
-		<button mat-icon-button [routerLink]="['/browse']" color="accent">
-    		<mat-icon>list</mat-icon>
-  		</button>
+
 	</ng-template>
 
 	<ng-template [ngIf]="this.router.url == '/profile/settings'">

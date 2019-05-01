@@ -11,7 +11,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class ConversationComponent implements OnInit {
 
-  private messages;
+  messages;
   currentUserId: string;
   conversationId: string;
   text: string;

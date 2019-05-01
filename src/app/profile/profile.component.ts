@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService
   ) {}
-  private profile: any = null;
+  profile: any = null;
   slideIndex = 1;
   userType: string;
   view: boolean;
@@ -128,7 +128,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  private changeSlideBy(delta) {
+  changeSlideBy(delta) {
     this.showSlides((this.slideIndex += delta));
   }
 

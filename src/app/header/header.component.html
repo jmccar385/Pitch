@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
 
-	<ng-template [ngIf]="this.router.url == '/browse'">
+	<ng-template [ngIf]="url == '/browse'">
 		<button mat-icon-button [routerLink]="['/messages']" color="accent" >
     		<mat-icon>forum</mat-icon>
   		</button>
@@ -10,7 +10,7 @@
   		</button>
 	</ng-template>
 
-	<ng-template [ngIf]="this.router.url == '/messages'">
+	<ng-template [ngIf]="url == '/messages'">
 		<button mat-icon-button color="accent" >
     		<mat-icon></mat-icon>
   		</button>
@@ -20,7 +20,7 @@
   		</button>
 	</ng-template>
 
-	<ng-template [ngIf]="this.router.url.startsWith('/conversation')">
+	<ng-template [ngIf]="url.startsWith('/conversation')">
 		<button mat-icon-button [routerLink]="['/messages']" color="accent" >
     		<mat-icon>forum</mat-icon>
   		</button>
@@ -28,7 +28,7 @@
 
 	</ng-template>
 
-	<ng-template [ngIf]="this.router.url == '/profile/settings'">
+	<ng-template [ngIf]="url == '/profile/settings'">
 		<button mat-icon-button [routerLink]="['/profile', 'band', id]" color="accent">
     		<mat-icon>person</mat-icon>
   		</button>
@@ -38,7 +38,7 @@
   		</button>
 	</ng-template>
 
-	<ng-template [ngIf]="this.router.url == userProfileUrl">
+	<ng-template [ngIf]="url == userProfileUrl">
 		<button mat-icon-button (click)="verified()" color="accent">
     		<mat-icon>list</mat-icon>
   		</button>
@@ -48,7 +48,7 @@
   		</button>
 	</ng-template>
 
-	<ng-template [ngIf]="this.router.url.match(viewProfileUrl) != null">
+	<ng-template [ngIf]="url.match(viewProfileUrl) != null">
 		<button mat-icon-button color="accent" [routerLink]="['/browse']">
     		<mat-icon>list</mat-icon>
   		</button>

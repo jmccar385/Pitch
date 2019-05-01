@@ -17,6 +17,8 @@ export class SignupBandComponent {
   @ViewChild(ImageUploadComponent)
   imageUpload: ImageUploadComponent;
 
+  selected;
+
   constructor(
     private router: Router,
     private authService: AuthService,

@@ -16,7 +16,7 @@ export class BrowseComponent implements OnInit {
     private router: Router
   ) {}
 
-  private profileCards: any[] = [];
+  profileCards: any[] = [];
 
   async _addProfileCard(venue) {
     let equipmentList = [];

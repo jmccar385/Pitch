@@ -20,7 +20,7 @@ export class MessagesComponent implements OnInit {
     private messagesService: MessagesService,
   ) {}
 
-  private conversationItems: Observable<any>;
+  conversationItems: Observable<any>;
   ngOnInit() {
     this.currentUserId = this.authService.currentUserID;
 

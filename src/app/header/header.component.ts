@@ -19,6 +19,7 @@ export class HeaderComponent implements OnInit {
   userProfileUrl: string;
   viewProfileUrl: RegExp;
   Name = 'Venue';
+  url = this.router.url;
 
   ngOnInit() {
     this.id = this.authService.currentUserID;

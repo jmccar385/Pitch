@@ -11,6 +11,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { environment } from 'src/environments/environment';
 
 import { AuthService } from './services/auth.service';
@@ -33,6 +34,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MessagesComponent } from './messages/messages.component';
 import { ConversationComponent } from './conversation/conversation.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -59,12 +61,14 @@ import { ConversationComponent } from './conversation/conversation.component';
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireFunctionsModule,
+    AngularFireMessagingModule,
     HttpClientModule,
     MaterialModule,
     NgxCroppieModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    ServiceWorkerModule.register('combined-worker.js', { enabled: environment.production }),
   ],
   providers: [AuthService, AuthGuard, VerifiedGuard, ProfileService],
   entryComponents: [ForgotPasswordDialog, ReviewDialog],

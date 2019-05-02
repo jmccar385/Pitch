@@ -18,6 +18,7 @@ import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth.guard';
 import { VerifiedGuard } from './services/verified.guard';
 import { ProfileService } from './services/profile.service';
+import { MessagesService } from './services/messages.service';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -68,9 +69,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    ServiceWorkerModule.register('combined-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('/firebase-messaging-sw.js', { enabled: environment.production }),
   ],
-  providers: [AuthService, AuthGuard, VerifiedGuard, ProfileService],
+  providers: [AuthService, AuthGuard, VerifiedGuard, ProfileService, MessagesService],
   entryComponents: [ForgotPasswordDialog, ReviewDialog],
   bootstrap: [AppComponent]
 })

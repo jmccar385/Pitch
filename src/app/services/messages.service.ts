@@ -14,6 +14,7 @@ export class MessagesService {
   ) {}
 
   sendMessage(convoId: string, msg: string) {
+    console.log('Logging: ', this.authSvc.currentUserID);
     const message: Message = {
       createdAt: Date.now(),
       senderId: this.authSvc.currentUserID,
@@ -36,31 +37,33 @@ export class MessagesService {
       );
   }
 
-  // getSenderDataById(userId: string) {
-  //   return this.afDatabase.collection('Artists').doc(userId).valueChanges().pipe(
-  //     map((artist: Band) => {
-  //       return {profileUrl: artist.ProfilePictureUrl, profileName: artist.ProfileName};
-  //     }),
-  //     take(1)
-  //   );
-  // }
+  sendConsentToken(token: string) {
+    console.log('Logging: ', this.authSvc);
+    const uid = this.authSvc.currentUserID;
+    return this.afDatabase.collection('Artists').doc(uid).get().pipe(
+      mergeMap(doc => {
+        const type = doc.exists ? 'band' : 'venue';
+        if (type === 'band') {
+          return this.afDatabase.collection('Artists').doc(uid).update({messagingToken: token});
+        } else {
+          return this.afDatabase.collection('Venues').doc(uid).update({messagingToken: token});
+        }
+      })
+    );
+  }
 
   getSenderDataById(userId: string) {
     return this.afDatabase.collection('Artists').doc(userId).get().pipe(
       mergeMap(doc => {
         const type = doc.exists ? 'band' : 'venue';
-        console.log(type);
-        if (type == 'band') {
-          console.log(1);
+        if (type === 'band') {
           return this.afDatabase.collection('Artists').doc(userId).valueChanges().pipe(
             map((artist: Band) => {
               return {profileUrl: artist.ProfilePictureUrl, profileName: artist.ProfileName};
             }),
             take(1)
           );
-        }
-        else{
-          console.log(2);
+        } else {
           return this.afDatabase.collection('Venues').doc(userId).valueChanges().pipe(
             map((venue: Venue) => {
               console.log(venue.ProfilePictureUrl);

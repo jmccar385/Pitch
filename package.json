@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "fcm": "concat dist/Pitch/ngsw-worker.js fcm.js -o dist/Pitch/combined-worker.js"
+    "fcm": "concat dist/Pitch/ngsw-worker.js fcm.js -o dist/Pitch/firebase-messaging-sw.js"
   },
   "private": true,
   "dependencies": {

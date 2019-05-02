@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
+import { AngularFireMessaging } from '@angular/fire/messaging';
+import { mergeMapTo } from 'rxjs/operators';
+import { MessagesService } from '../services/messages.service';
 
 @Component({
   selector: 'app-settings',
@@ -9,23 +12,35 @@ import { MatSnackBar } from '@angular/material';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private afMessaging: AngularFireMessaging,
+    private msgSvc: MessagesService
+  ) {}
 
-  constructor(private authService: AuthService, private router: Router, private snackBar: MatSnackBar,) { }
-
-  verified: boolean = false;
+  verified = false;
 
   ngOnInit() {
-  	this.verified = this.authService.currentUser.emailVerified;
+    this.verified = this.authService.currentUser.emailVerified;
   }
 
-  logout(): void {
+  consent() {
+    this.afMessaging.requestPermission.pipe(mergeMapTo(this.afMessaging.tokenChanges))
+    .subscribe(token => this.msgSvc.sendConsentToken(token), console.log); // second log is for errors
+  }
+
+  logout() {
     this.authService.logout();
-    this.router.navigate(["/login"]);
+    this.router.navigate(['/login']);
   }
 
   verify() {
     this.authService.verification().then(() => {
-      this.snackBar.open("A new email has been sent.", "close", {duration: 2000});
-    })
+      this.snackBar.open('A new email has been sent.', 'close', {
+        duration: 2000
+      });
+    });
   }
 }

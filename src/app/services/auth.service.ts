@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Band, Venue } from '../models';
-import { AngularFireFunctions } from '@angular/fire/functions';
 import { ProfileService } from './profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 

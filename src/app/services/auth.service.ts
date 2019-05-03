@@ -43,6 +43,7 @@ export class AuthService {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, pass).then(() => {
       return this.profileSvc.uploadImage(img).then((url) => {
         band.ProfilePictureUrl = url;
+        band.ProfileImageUrls.push(url);
         return this.afStore.collection('Artists').doc(this.authState.uid).set(band);
       });
     });
@@ -52,6 +53,7 @@ export class AuthService {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, pass).then(() => {
       return this.profileSvc.uploadImage(img).then((url) => {
         venue.ProfilePictureUrl = url;
+        venue.ProfileImageUrls.push(url);
         return this.afStore.collection('Venues').doc(this.authState.uid).set(venue);
       });
     });

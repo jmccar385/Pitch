@@ -5,7 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { ProfileService } from '../services/profile.service';
 import { ReviewDialog } from './review.component';
-import { Playlist } from '../models';
+import { Playlist, Equipment } from '../models';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -17,40 +19,42 @@ export class ProfileComponent implements OnInit {
     public dialog: MatDialog,
     private profileService: ProfileService,
     private route: ActivatedRoute,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private firestore: AngularFirestore
+  ) {
+    this.equipment = this.firestore.collection('Equipment').valueChanges();
+  }
   private profile: any = null;
   slideIndex = 1;
   userType: string;
   view: boolean;
   playlists: Playlist[] = [];
+  equipment: Observable<Array<{}>>;
+  availableEquipment: Equipment[] = [];
 
   profileForm: FormGroup = new FormGroup({
-    address: new FormControl({ value: '', disabled: true }, [
+    address: new FormControl({ value: ''}, [
       Validators.required
     ]),
-    biography: new FormControl({ value: '', disabled: true }, [
+    biography: new FormControl({ value: ''}, [
       Validators.required
     ]),
-    playlist: new FormControl({ value: '', disabled: true }, [
+    playlist: new FormControl({ value: ''}, [
       Validators.required
     ]),
-    bass_cabinet: new FormControl({ value: '', disabled: true }, []),
-    bass_amp: new FormControl({ value: '', disabled: true }, []),
-    guitar_cabinet: new FormControl({ value: '', disabled: true }, []),
-    guitar_amp: new FormControl({ value: '', disabled: true }, []),
-    drum_throne: new FormControl({ value: '', disabled: true }, []),
-    drum_hardware: new FormControl({ value: '', disabled: true }, []),
-    drum_shells: new FormControl({ value: '', disabled: true }, []),
-    stage_monitor: new FormControl({ value: '', disabled: true }, []),
-    microphones: new FormControl({ value: '', disabled: true }, [])
   });
+
+  select(equip) {
+    this.availableEquipment.includes(equip)
+      ? this.availableEquipment.splice(this.availableEquipment.indexOf(equip))
+      : this.availableEquipment.push(equip);
+  }
 
   ngOnInit() {
     this.userType = this.route.snapshot.params.userType;
     this._setData(this.route.snapshot.params.id, this.userType);
-    this.view =
-      this.route.snapshot.params.id === this.authService.currentUserID;
+    this.view = (this.route.snapshot.params.id === this.authService.currentUserID);
+    this.profileForm.disable();
   }
 
   private _setData(uid: string, userType: string) {
@@ -60,6 +64,8 @@ export class ProfileComponent implements OnInit {
         doc.exists ? (this.profile = [doc.data()][0]) : [null]; // change to if statement
         this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
         this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
+        this.profileForm.controls.playlist.setValue(this.profile.Playlist.TrackHref);
+        this.playlists.push(this.profile.Playlist);
       });
     } else if (userType === 'venue') {
       this.profileService.getVenueObserverById(uid).subscribe(record => {
@@ -91,43 +97,8 @@ export class ProfileComponent implements OnInit {
           );
         });
 
-        this.profile.ProfileImageUrls.push(this.profile.ProfilePictureUrl)
-
         this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
-        this.profileForm.controls.biography.setValue(
-          this.profile.ProfileBiography
-        );
-        for (const equipment of this.profile.AvailableEquipment) {
-          switch (equipment.Name) {
-            case 'Guitar Cabinet':
-              this.profileForm.controls.guitar_cabinet.setValue(true);
-              break;
-            case 'Guitar Amplifier':
-              this.profileForm.controls.guitar_amp.setValue(true);
-              break;
-            case 'Bass Cabinet':
-              this.profileForm.controls.bass_cabinet.setValue(true);
-              break;
-            case 'Bass Amplifier':
-              this.profileForm.controls.bass_amp.setValue(true);
-              break;
-            case 'Stage Monitor':
-              this.profileForm.controls.stage_monitor.setValue(true);
-              break;
-            case 'Microphones/Stands':
-              this.profileForm.controls.microphones.setValue(true);
-              break;
-            case 'Drum Throne':
-              this.profileForm.controls.drum_throne.setValue(true);
-              break;
-            case 'Drum Hardware':
-              this.profileForm.controls.drum_hardware.setValue(true);
-              break;
-            case 'Drum Shells':
-              this.profileForm.controls.drum_shells.setValue(true);
-              break;
-          }
-        }
+        this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
       });
     }
   }
@@ -154,7 +125,7 @@ export class ProfileComponent implements OnInit {
       this.slideIndex = slides.length;
     }
 
-// tslint:disable-next-line: prefer-for-of
+    // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < slides.length; i++) {
       slides[i].className = slides[i].className.replace(' slide-active', '');
     }
@@ -169,52 +140,16 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  editBiography() {
-    this.profileForm.controls.biography.enable();
-    console.log(this.profile);
+  editProfile() {
+    // add logic for spotify refresh token
+    this.profileForm.enable();
   }
 
-  saveBiography() {
-    this.profileForm.controls.biography.disable();
+  saveProfile() {
+    this.profileForm.disable();
   }
 
-  editAddress() {
-    this.profileForm.controls.address.enable();
-  }
-
-  saveAddress() {
-    this.profileForm.controls.address.disable();
-  }
-
-  editPlaylist() {
-    this.profileForm.controls.playlist.enable();
-  }
-
-  savePlaylist() {
-    this.profileForm.controls.playlist.disable();
-  }
-
-  editEquipment() {
-    this.profileForm.controls.bass_cabinet.enable();
-    this.profileForm.controls.bass_amp.enable();
-    this.profileForm.controls.guitar_cabinet.enable();
-    this.profileForm.controls.guitar_amp.enable();
-    this.profileForm.controls.drum_throne.enable();
-    this.profileForm.controls.drum_hardware.enable();
-    this.profileForm.controls.drum_shells.enable();
-    this.profileForm.controls.stage_monitor.enable();
-    this.profileForm.controls.microphones.enable();
-  }
-
-  saveEquipment() {
-    this.profileForm.controls.bass_cabinet.disable();
-    this.profileForm.controls.bass_amp.disable();
-    this.profileForm.controls.guitar_cabinet.disable();
-    this.profileForm.controls.guitar_amp.disable();
-    this.profileForm.controls.drum_throne.disable();
-    this.profileForm.controls.drum_hardware.disable();
-    this.profileForm.controls.drum_shells.disable();
-    this.profileForm.controls.stage_monitor.disable();
-    this.profileForm.controls.microphones.disable();
+  viewProfile() {
+    this.view = !this.view;
   }
 }

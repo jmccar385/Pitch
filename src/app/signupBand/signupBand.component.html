@@ -12,7 +12,7 @@
           </mat-form-field>
           <mat-form-field>
             <textarea matInput placeholder="What else should venues know?" formControlName="description"
-              matTextareaAutosize matAutosizeMaxRows=6></textarea>
+              matTextareaAutosize maxlength="1000" matAutosizeMaxRows=6></textarea>
             <mat-hint align="end">{{signupBandForm.controls.description.value.length}} / 1000</mat-hint>
             <mat-error *ngIf="signupBandForm.controls.description.errors?.required">
               A description is <strong>required</strong>
@@ -30,24 +30,24 @@
             </mat-error>
           </mat-form-field>
           <mat-form-field>
-            <input matInput placeholder="What is you zipcode?" type="zip" formControlName="zip">
+            <input matInput #postalCode maxlength="5" placeholder="What is you zipcode?" formControlName="zip">
+            <mat-hint align="end">{{signupBandForm.controls.zip.value.length}} / 5</mat-hint>
             <mat-error *ngIf="signupBandForm.controls.zip.errors?.required">
               A zip code is <strong>required</strong>
             </mat-error>
           </mat-form-field>
           <mat-form-field>
             <mat-select disableOptionCentering placeholder="How far can you travel for a gig?" formControlName="radius">
-              <mat-option value="">None</mat-option>
               <mat-option value="5">5mi</mat-option>
               <mat-option value="10">10mi</mat-option>
               <mat-option value="15">15mi</mat-option>
               <mat-option value="20">20mi</mat-option>
-              <mat-option value="25">25mi</mat-option>
               <mat-option value="30">30mi</mat-option>
-              <mat-option value="35">35mi</mat-option>
-              <mat-option value="40">40mi</mat-option>
-              <mat-option value="45">45mi</mat-option>
-              <mat-option value="50">50mi</mat-option>
+              <mat-option value="40">35mi</mat-option>
+              <mat-option value="50">40mi</mat-option>
+              <mat-option value="75">45mi</mat-option>
+              <mat-option value="100">50mi</mat-option>
+              <mat-option value="">Anywhere</mat-option>
             </mat-select>
           </mat-form-field>
           <button class="survey-button" mat-flat-button matStepperNext color="accent" type="button" [disabled]="signupBandForm.controls.name.errors || signupBandForm.controls.description.errors || signupBandForm.controls.playlist.errors || signupBandForm.controls.zip.errors">Next</button>

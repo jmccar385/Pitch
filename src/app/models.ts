@@ -1,10 +1,10 @@
 
 export interface Band {
-  ProfileZip: number;
+  ProfileAddress: number;
   ProfileName: string;
   ProfileBiography: string;
   ProfilePictureUrl: string;
-  ProfileImageUrls?: string[];
+  ProfileImageUrls: string[];
   SearchRadius: number;
   Playlist: Playlist;
   Tracks: Track[];
@@ -43,7 +43,7 @@ export interface SpotifyPlaylist {
   external_urls: object;
   href: string;
   id: string;
-  images: object[]; 
+  images: object[];
   name: string;
   owner: object;
   public: boolean;
@@ -112,13 +112,10 @@ export interface Track {
 
 export interface Venue {
   ProfileAddress: string;
-  ProfileCity: string;
-  ProfileState: string;
-  ProfileZip: number;
   ProfileName: string;
   ProfileBiography: string;
   ProfilePictureUrl: string;
-  ProfileImageUrls?: string[];
+  ProfileImageUrls: string[];
   ProfileRating: number;
   ProfileRatingCount: number;
   ProfileReportCount: number;

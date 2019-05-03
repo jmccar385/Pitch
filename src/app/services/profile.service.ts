@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { flatten } from '@angular/compiler';
+import { Equipment } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ export class ProfileService {
     private afDatabase: AngularFirestore,
     private afStorage: AngularFireStorage
   ) {}
+
+  private equipmentList: Equipment[] = [];
 
   uploadImage(input: Blob) {
     const file = input;
@@ -28,6 +31,12 @@ export class ProfileService {
 
   getArtistObserver() {
     return this.afDatabase.collection('Artists').valueChanges();
+  }
+
+  getEquipmentList() {
+    return this.afDatabase.collection('Equipment').valueChanges().subscribe(response => {
+      //equipmentList = response;
+    });
   }
 
   getArtistObserverById(userId: string) {

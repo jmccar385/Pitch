@@ -25,25 +25,14 @@ export class SignupBandComponent implements OnInit {
     private musicService: MusicService
   ) {}
 
-  private access_token: string;
-  private refresh_token: string;
+  private accessToken: string;
+  private refreshToken: string;
   private playlists: Playlist[] = [];
-
-  ngOnInit() {
-    this.musicService.getUserPlaylists().subscribe(response => {
-        for (var i = 0; i < response.items.length; i++) {
-          this.playlists.push({Name: response.items[i].name, TrackHref: response.items[i].tracks.href, TrackCount: response.items[i].tracks.total})
-        }
-    });
-    var tokens: string[] = this.musicService.getTokens();
-    this.access_token = tokens[0];
-    this.refresh_token = tokens[1];
-  }
 
   signupBandForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
-    zip: new FormControl('', [Validators.required]),
+    zip: new FormControl('', [Validators.required,  Validators.maxLength(5)]),
     name: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required, Validators.maxLength(1000)]),
     profileImage: new FormControl('', [
@@ -54,31 +43,46 @@ export class SignupBandComponent implements OnInit {
     playlist: new FormControl('', [Validators.required]),
   });
 
+  ngOnInit() {
+    this.musicService.getUserPlaylists().subscribe(response => {
+        for (const playlist of response.items) {
+          this.playlists.push({Name: playlist.name, TrackHref: playlist.tracks.href, TrackCount: playlist.tracks.total});
+        }
+    });
+    const tokens: string[] = this.musicService.getTokens();
+    this.accessToken = tokens[0];
+    this.refreshToken = tokens[1];
+  }
+
   signupBand() {
+    const PlaylistName = this.playlists.find(x => x.TrackHref === this.signupBandForm.controls.playlist.value).Name;
     const band: Band = {
-      ProfileZip: this.signupBandForm.controls.zip.value,
+      ProfileAddress: this.signupBandForm.controls.zip.value,
       ProfileName: this.signupBandForm.controls.name.value,
       ProfileBiography: this.signupBandForm.controls.description.value,
       ProfilePictureUrl: '', // Gets added in authSvc
       SearchRadius: this.signupBandForm.controls.radius.value,
-      Playlist: {Name: this.playlists.find(x => x.TrackHref === this.signupBandForm.controls.playlist.value).Name, TrackHref: this.signupBandForm.controls.playlist.value, TrackCount: this.playlists.find(x => x.TrackHref === this.signupBandForm.controls.playlist.value).TrackCount},
+      Playlist: {Name: PlaylistName, TrackHref: this.signupBandForm.controls.playlist.value, TrackCount: 0},
+      ProfileImageUrls: [],
       Tracks: [],
-      AccessToken: this.access_token,
-      RefreshToken: this.refresh_token,
+      AccessToken: this.accessToken,
+      RefreshToken: this.refreshToken,
       ProfileRating: 5,
       ProfileRatingCount: 0,
       ProfileReportCount: 0
     };
 
     this.musicService.getPlaylistTracks(band.Playlist.TrackHref).subscribe(response => {
-      for (var i = 0; i < response.items.length; i++) {
+      for (let i = 0; i < response.items.length; i++) {
         if (i > 9) {
           break;
         }
         if (response.items[i].track.is_playable) {
-          band.Tracks.push({Name: response.items[i].track.name, Preview: response.items[i].track.preview_url})
+          band.Tracks.push({Name: response.items[i].track.name, Preview: response.items[i].track.preview_url});
         }
       }
+
+      band.Playlist.TrackCount = band.Tracks.length;
 
       this.authService
         .signupBand(

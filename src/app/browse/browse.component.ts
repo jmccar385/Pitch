@@ -46,7 +46,7 @@ export class BrowseComponent implements OnInit {
       });
     }
 
-    const profileImage = venue.ProfilePictureUrl;
+    const profileImage = venue.ProfileImageUrls[0];
 
     this.profileCards.push({
       profile_image: profileImage,

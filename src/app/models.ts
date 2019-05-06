@@ -3,7 +3,6 @@ export interface Band {
   ProfileAddress: number;
   ProfileName: string;
   ProfileBiography: string;
-  ProfilePictureUrl: string;
   ProfileImageUrls: string[];
   SearchRadius: number;
   Playlist: Playlist;
@@ -114,7 +113,6 @@ export interface Venue {
   ProfileAddress: string;
   ProfileName: string;
   ProfileBiography: string;
-  ProfilePictureUrl: string;
   ProfileImageUrls: string[];
   ProfileRating: number;
   ProfileRatingCount: number;

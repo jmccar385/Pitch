@@ -98,7 +98,7 @@
       <mat-card-title>Equipment</mat-card-title>
       <mat-card-content>
         <div class="equipment-container">
-          <ng-template [ngIf]="profile?.AvailableEquipment.length > 0" [ngIfElse]="noEquipmentTemplate">
+          <ng-template [ngIf]="profile?.AvailableEquipment?.length > 0" [ngIfElse]="noEquipmentTemplate">
             <div class="equipment" *ngFor="let item of profile?.AvailableEquipment">{{ item.Name }}</div>
           </ng-template>
           <ng-template #noEquipmentTemplate>

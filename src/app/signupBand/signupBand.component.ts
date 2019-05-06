@@ -66,7 +66,6 @@ export class SignupBandComponent implements OnInit {
       ProfileAddress: this.signupBandForm.controls.zip.value,
       ProfileName: this.signupBandForm.controls.name.value,
       ProfileBiography: this.signupBandForm.controls.description.value,
-      ProfilePictureUrl: '', // Gets added in authSvc
       SearchRadius: this.signupBandForm.controls.radius.value,
       Playlist: {Name: PlaylistName, TrackHref: this.signupBandForm.controls.playlist.value, TrackCount: 0},
       ProfileImageUrls: [],

@@ -30,6 +30,7 @@ export class ProfileComponent implements OnInit {
   equipment: Observable<Equipment[]>;
   equipmentList: Equipment[] = [];
   availableEquipment: Equipment[] = [];
+  profileImageUrls: string[];
 
   profileForm: FormGroup = new FormGroup({
     address: new FormControl({ value: ''}, [
@@ -78,6 +79,8 @@ export class ProfileComponent implements OnInit {
         this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
         this.profileForm.controls.playlist.setValue(this.profile.Playlist.TrackHref);
         this.playlists.push(this.profile.Playlist);
+        this.profileImageUrls = this.profile.ProfileImageUrls;
+        this.profileImageUrls.push(this.profile.ProfilePictureUrl);
       });
     } else if (userType === 'venue') {
       this.profileService.getVenueObserverById(uid).subscribe(record => {
@@ -113,6 +116,8 @@ export class ProfileComponent implements OnInit {
         this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
         this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
         this.availableEquipment = this.profile.AvailableEquipment;
+        this.profileImageUrls = this.profile.ProfileImageUrls;
+        this.profileImageUrls.push(this.profile.ProfilePictureUrl);
         for (const equipment of this.profile.AvailableEquipment) {
           this.profileForm.controls[equipment.Name.toLowerCase().replace(' ', '_').replace(' ', '/')].setValue(true);
         }

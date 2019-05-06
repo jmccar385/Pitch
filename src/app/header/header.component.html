@@ -45,7 +45,7 @@
 					<mat-icon>settings</mat-icon>
 				</button>
 			</ng-template>
-		<ng-template [ngIf]="!view && this.userType === 'band'">
+		<ng-template [ngIf]="!view && this.userType === 'venue'">
 			<button mat-icon-button color="accent" [routerLink]="['/browse']">
 				<mat-icon>list</mat-icon>
 			</button>
@@ -54,14 +54,14 @@
 				<mat-icon></mat-icon>
 			</button>
 		</ng-template>
-		<ng-template [ngIf]="!view && this.userType === 'venue'">
-				<button mat-icon-button color="accent" [routerLink]="['/messages']">
-					<mat-icon>list</mat-icon>
-				</button>
-				<h1>{{profile?.ProfileName}}</h1>
-				<button mat-icon-button color="accent" [disabled]="true" >
-					<mat-icon></mat-icon>
-				</button>
-			</ng-template>
+		<ng-template [ngIf]="!view && this.userType === 'band'">
+			<button mat-icon-button color="accent" [routerLink]="['/messages']">
+				<mat-icon>list</mat-icon>
+			</button>
+			<h1>{{profile?.ProfileName}}</h1>
+			<button mat-icon-button color="accent" [disabled]="true" >
+				<mat-icon></mat-icon>
+			</button>
+		</ng-template>
 	</div>
 </mat-toolbar>

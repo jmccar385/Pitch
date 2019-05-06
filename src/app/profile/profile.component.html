@@ -2,7 +2,7 @@
 <div id="profile-container">
   <mat-card class="slide-container">
     <mat-card-content>
-      <div class="slide-image" *ngFor="let image of profile?.ProfileImageUrls; let i = index">
+      <div class="slide-image" *ngFor="let image of profileImageUrls; let i = index">
         <img class="slide-picture" [src]="image" (load)="jumpToSlide(0)">
         <div class="slide-counter">{{i+1}} / {{profile?.ProfileImageUrls.length}}</div>
       </div>
@@ -98,7 +98,7 @@
       <mat-card-title>Equipment</mat-card-title>
       <mat-card-content>
         <div class="equipment-container">
-          <ng-template [ngIf]="profile?.AvailableEquipment.length > 0" [ngIfElse]="noEquipmentTemplate">
+          <ng-template [ngIf]="profile?.AvailableEquipment?.length > 0" [ngIfElse]="noEquipmentTemplate">
             <div class="equipment" *ngFor="let item of profile?.AvailableEquipment">{{ item.Name }}</div>
           </ng-template>
           <ng-template #noEquipmentTemplate>

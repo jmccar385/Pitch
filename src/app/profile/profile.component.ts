@@ -43,7 +43,7 @@ export class ProfileComponent implements OnInit {
     ])
   });
 
-  select(equip: Equipment) {
+  select(equip) {
     this.availableEquipment.includes(equip)
       ? this.availableEquipment.splice(this.availableEquipment.indexOf(equip))
       : this.availableEquipment.push(equip);
@@ -113,7 +113,6 @@ export class ProfileComponent implements OnInit {
         this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
         this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
         this.availableEquipment = this.profile.AvailableEquipment;
-        console.log(this.profile.availableEquipment.length);
         for (const equipment of this.profile.AvailableEquipment) {
           this.profileForm.controls[equipment.Name.toLowerCase().replace(' ', '_').replace(' ', '/')].setValue(true);
         }

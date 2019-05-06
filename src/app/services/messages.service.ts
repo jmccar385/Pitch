@@ -50,7 +50,7 @@ export class MessagesService {
       mergeMap(doc => {
         const type = doc.exists ? 'band' : 'venue';
         console.log(type);
-        if (type == 'band') {
+        if (type === 'band') {
           console.log(1);
           return this.afDatabase.collection('Artists').doc(userId).valueChanges().pipe(
             map((artist: Band) => {
@@ -58,8 +58,7 @@ export class MessagesService {
             }),
             take(1)
           );
-        }
-        else{
+        } else {
           console.log(2);
           return this.afDatabase.collection('Venues').doc(userId).valueChanges().pipe(
             map((venue: Venue) => {

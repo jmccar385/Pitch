@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { flatten } from '@angular/compiler';
+import { Equipment, Playlist, Track } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,20 @@ export class ProfileService {
 
   getArtistObserver() {
     return this.afDatabase.collection('Artists').valueChanges();
+  }
+
+  getEquipmentList() {
+    return this.afDatabase.collection<Equipment>('Equipment').valueChanges();
+  }
+
+  updateArtistById(userId: string, address: string, biography: string, playlist?: Playlist, tracks?: Track[]) {
+    const update = {ProfileAddress: address, ProfileBiography: biography};
+    this.afDatabase.collection('Artists').doc(userId).update(update);
+  }
+
+  updateVenueById(userId: string, availableEquipment: Equipment[], address: string, biography: string) {
+    const update = {AvailableEquipment: availableEquipment, ProfileAddress: address, ProfileBiography: biography};
+    this.afDatabase.collection('Venues').doc(userId).update(update);
   }
 
   getArtistObserverById(userId: string) {

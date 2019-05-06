@@ -1,152 +1,137 @@
-<app-header></app-header>
-<mat-card>
-  <mat-card-header>
-    <img mat-card-avatar src="{{profile?.ProfilePictureUrl}}">
-    <mat-card-title>{{profile?.ProfileName}}</mat-card-title>
-    <mat-card-subtitle>
-      <mat-icon>star</mat-icon>
-      {{profile?.ProfileRating}} ({{profile?.ProfileRatingCount}} Ratings)
+<app-header [profile]="profile" [userType]="userType" [view]="view"></app-header>
+<div id="profile-container">
+  <mat-card class="slide-container">
+    <mat-card-content>
+      <div class="slide-image" *ngFor="let image of profile?.ProfileImageUrls; let i = index">
+        <img class="slide-picture" [src]="image" (load)="jumpToSlide(0)">
+        <div class="slide-counter">{{i+1}} / {{profile?.ProfileImageUrls.length}}</div>
+      </div>
+      <a class="slide-prev" (click)="changeSlideBy(-1)">&#10094;</a>
+      <a class="slide-next" (click)="changeSlideBy(1)">&#10095;</a>
+    </mat-card-content>
+  </mat-card>
+  <form [formGroup]="profileForm">
+    <mat-card>
+      <mat-card-title>Reviews ({{profile?.ProfileRatingCount}})</mat-card-title>
+      <mat-card-subtitle>Rating: {{profile?.ProfileRating}}</mat-card-subtitle>
       <button *ngIf="!view" mat-flat-button id="review" color="primary" (click)="reviewModal()" type="button">Review</button>
-    </mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <div class="content">
-      <div class="slide-container">
-        <div class="slide-image" *ngFor="let image of profile?.ProfileImageUrls; let i = index">
-          <div class="slide-counter">{{i+1}} / {{profile?.ProfileImageUrls.length}}</div>
-          <img class="slide-picture" [src]="image" (load)="jumpToSlide(0)">
-        </div>
-        <a class="slide-prev" (click)="changeSlideBy(-1)">&#10094;</a>
-        <a class="slide-next" (click)="changeSlideBy(1)">&#10095;</a>
-      </div>
-      <br>
-      <div class="slide-jump">
-        <span class="slide-dot" *ngFor="let image of profile?.ProfileImageUrls; let i = index" (click)="jumpToSlide(i)"></span>
-      </div>
-    </div>
-    
-    <form [formGroup]="profileForm">
-      <div class="content" *ngIf="view">
+      <mat-card-content>
+        Reviews go Here
+      </mat-card-content>
+    </mat-card>
+    <mat-card *ngIf="view">
+      <mat-card-title>About</mat-card-title>
+      <mat-card-content>
         <mat-form-field>
-          <textarea matInput placeholder="About" matTextareaAutosize formControlName="biography"></textarea>
+          <textarea matInput placeholder="About" matTextareaAutosize matAutosizeMaxRows=6 formControlName="biography"></textarea>
           <mat-error *ngIf="profileForm.controls.biography.errors?.required">
             About is <strong>required</strong>
           </mat-error>
         </mat-form-field>
-        <ng-template [ngIf]="profileForm.controls.biography.disabled" [ngIfElse]="saveBiographyTemplate">
-          <button mat-flat-button color="primary" (click)="editBiography()" type="button">Edit</button>
-        </ng-template>
-        <ng-template #saveBiographyTemplate>
-          <button mat-flat-button color="primary" (click)="saveBiography()" type="button">Save</button>
-        </ng-template>
-      </div>
-
-      <div class="content" *ngIf="!view">
-          <strong>About</strong>
-          <div class="content-align view">
-            {{ profile?.ProfileBiography}}
-          </div>
-      </div>
-
-      <div class="content" *ngIf="view">
+      </mat-card-content>
+    </mat-card>
+    <mat-card *ngIf="!view">
+      <mat-card-title>About</mat-card-title>
+      <mat-card-content>{{ profile?.ProfileBiography}}</mat-card-content>
+    </mat-card>
+    <mat-card *ngIf="userType == 'venue' && view">
+      <mat-card-title>Address</mat-card-title>
+      <mat-card-content>
         <mat-form-field>
           <input matInput placeholder="Address" formControlName="address">
           <mat-error *ngIf="profileForm.controls.address.errors?.required">
             Address is <strong>required</strong>
           </mat-error>
         </mat-form-field>
-        <ng-template [ngIf]="profileForm.controls.address.disabled" [ngIfElse]="saveAddressTemplate">
-          <button mat-flat-button color="primary" (click)="editAddress()" type="button">Edit</button>
-        </ng-template>
-        <ng-template #saveAddressTemplate>
-          <button mat-flat-button color="primary" (click)="saveAddress()" type="button">Save</button>
-        </ng-template>
-      </div>
-
-      <div class="content" *ngIf="!view">
-        <strong>Address</strong>
-        <div class="content-align view">
-          {{ profile?.ProfileAddress}}
-        </div>
-      </div>
-      <div class="content" *ngIf="userType == 'band' && view">
-        <ng-template [ngIf]="profileForm.controls.playlist.disabled" [ngIfElse]="saveProfileTemplate">
-          <strong class="disabled">Playlist</strong>
-          <div class="content-align playlist disabled">
-            {{profile?.Playlist.Name}}: {{profile?.Playlist.TrackCount}} track(s)
-          </div>
-          <button mat-flat-button color="primary" (click)="editPlaylist()" type="button">Edit</button>
-        </ng-template>
-        <ng-template #saveProfileTemplate>
-          <mat-form-field>
-            <mat-select disableOptionCentering placeholder="Playlist" formControlName="playlist">
-              <mat-option *ngFor="let playlist of playlists" value="{{playlist.TrackHref}}">{{playlist.Name}}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="profileForm.controls.playlist.errors?.required">
-              A playlist is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-          <button mat-flat-button color="primary" (click)="savePlaylist()" type="button">Save</button>
-        </ng-template>
-      </div>
-      <div class="content" *ngIf="view">
-        <div *ngFor="let track of profile?.Tracks">
+      </mat-card-content>
+    </mat-card>
+    <mat-card *ngIf="userType == 'venue' && !view">
+      <mat-card-title>Address</mat-card-title>
+      <mat-card-content>{{ profile?.ProfileAddress}}</mat-card-content>
+    </mat-card>
+    <mat-card *ngIf="userType == 'band' && view">
+        <mat-card-title>Zipcode</mat-card-title>
+        <mat-card-content>
+            <mat-form-field>
+              <input matInput #postalCode maxlength="5" placeholder="Zipcode" formControlName="address">
+              <mat-hint align="end">{{profileForm.controls.address.value.length}} / 5</mat-hint>
+              <mat-error *ngIf="profileForm.controls.address.errors?.required">
+                A zipcode is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+    <mat-card *ngIf="userType == 'band' && view">
+      <mat-card-title>Playlist</mat-card-title>
+      <mat-card-content>
+        <mat-form-field>
+          <mat-select disableOptionCentering placeholder="Playlist" formControlName="playlist">
+            <mat-option *ngFor="let playlist of playlists" value="{{playlist.TrackHref}}">{{playlist.Name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="profileForm.controls.playlist.errors?.required">
+            A playlist is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+    <mat-card *ngIf="userType == 'band'">
+      <mat-card-title>Tracks</mat-card-title>
+      <mat-card-content>
+        <div class="track" *ngFor="let track of profile?.Tracks">
           {{track.Name}}:
           <audio controls>
             <source src="{{track.Preview}}" type="audio/ogg">
           </audio>
         </div>
-      </div>
-      <div *ngIf="userType == 'venue' && view"  [ngClass]="profileForm.controls.bass_cabinet.disabled ? 'content disabled non-input' : 'content non-input'">
-        Equipment
-        <div class="content-align">
-          <mat-checkbox color="primary" labelPosition="before" formControlName="bass_cabinet">Bass Cabinet</mat-checkbox>
-          <mat-checkbox color="primary" labelPosition="before" formControlName="bass_amp">Bass Amplifier</mat-checkbox>
-          <mat-checkbox color="primary" labelPosition="before" formControlName="guitar_cabinet">Guitar Cabinet</mat-checkbox>
-          <mat-checkbox color="primary" labelPosition="before" formControlName="guitar_amp">Guitar Amplifier</mat-checkbox>
-          <mat-checkbox color="primary" labelPosition="before" formControlName="stage_monitor">Stage Monitor</mat-checkbox>
-          <mat-checkbox color="primary" labelPosition="before" formControlName="microphones">Micropohones/Stands</mat-checkbox>
-          <mat-checkbox color="primary" labelPosition="before" formControlName="drum_throne">Drum Throne</mat-checkbox>
-          <mat-checkbox color="primary" labelPosition="before" formControlName="drum_hardware">Drum Hardware</mat-checkbox>
-          <mat-checkbox color="primary" labelPosition="before" formControlName="drum_shells">Drum Shells</mat-checkbox>
-        </div>
-        <ng-template [ngIf]="profileForm.controls.bass_cabinet.disabled" [ngIfElse]="saveEquipmentTemplate">
-          <button mat-flat-button color="primary" (click)="editEquipment()" type="button">Edit</button>
-        </ng-template>
-        <ng-template #saveEquipmentTemplate>
-          <button mat-flat-button color="primary" (click)="saveEquipment()" type="button">Save</button>
-        </ng-template>
-      </div>
-
-      <div *ngIf="userType == 'venue' && !view"  class="content">
-        <strong>Equipment</strong>
-        <div class="content-align view">
-          <div *ngFor="let item of profile?.equipment">
-            {{ item.Name }}
+      </mat-card-content>
+    </mat-card>
+    <mat-card *ngIf="userType == 'venue' && view">
+      <mat-card-title>Equipment</mat-card-title>
+      <mat-card-content>
+          <div class="checkbox" [ngClass]="{'disabled': profileForm.controls.address.disabled}" *ngFor="let equipment of equipmentList">
+            {{equipment.Name}}
+            <mat-checkbox color="primary" (change)="select(equipment)" formControlName="{{equipment.Name.toLowerCase().replace(' ', '_').replace(' ', '/')}}"></mat-checkbox>
           </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card *ngIf="userType == 'venue' && !view">
+      <mat-card-title>Equipment</mat-card-title>
+      <mat-card-content>
+        <div class="equipment-container">
+          <ng-template [ngIf]="profile?.AvailableEquipment.length > 0" [ngIfElse]="noEquipmentTemplate">
+            <div class="equipment" *ngFor="let item of profile?.AvailableEquipment">{{ item.Name }}</div>
+          </ng-template>
+          <ng-template #noEquipmentTemplate>
+             <div> This venue provides no equipment.</div>
+          </ng-template>
         </div>
-      </div>
-
-      <div *ngIf="userType == 'venue'" class="content">
-        <ng-container *ngIf="view; else boldEventHeader">
-            <span class="disabled non-input">
-                Events
-            </span>
-
-            <div *ngIf="view">
-              <button mat-flat-button color="primary" [routerLink]="['/events/schedule']" type="button"><mat-icon>add</mat-icon>Create New Event</button>
-            </div>    
-        </ng-container>
-        <ng-template #boldEventHeader>
-          <strong>Events</strong>
+      </mat-card-content>
+    </mat-card>
+    <mat-card *ngIf="userType == 'venue' && !view">
+      <mat-card-title>Events</mat-card-title>
+      <mat-card-content>
+        <ng-template [ngIf]="profile?.events?.length > 0" [ngIfElse]="noEventsTemplate">
+          <ul>
+            <li *ngFor="let event of profile?.events">
+              {{ event.EventDateTime.toDate() | date: 'yyyy-MM-dd'}} - {{ event.EventName }}: {{ event.EventDescription}}
+            </li>
+          </ul>
         </ng-template>
-        
-        <ul>
-          <li *ngFor="let event of profile?.events">
-            {{ event.EventDateTime.toDate() | date: 'yyyy-MM-dd'}} - {{ event.EventName }}: {{ event.EventDescription}}
-          </li>
-        </ul>
-      </div>
-    </form>
-  </mat-card-content>
-</mat-card>
+        <ng-template #noEventsTemplate>
+            <div> This venue has no upcoming events.</div>
+         </ng-template>
+      </mat-card-content>
+    </mat-card>
+    <div *ngIf="view">
+      <ng-template [ngIf]="profileForm.disabled" [ngIfElse]="saveProfileTemplate">
+        <button mat-flat-button color="primary" (click)="editProfile()" type="button">Edit</button>
+      </ng-template>
+      <ng-template #saveProfileTemplate>
+        <button mat-flat-button color="primary" (click)="saveProfile()" type="button">Save</button>
+      </ng-template>
+    </div>
+  </form>
+  <button mat-flat-button color="primary" (click)="viewProfile()" type="button">View</button>
+  <div *ngIf="userType == 'venue' && !view" id="spacer"></div>
+  <button *ngIf="userType == 'venue' && !view" mat-flat-button id="pitch" color="primary" (click)="pitch()" type="button">Pitch</button>
+</div>

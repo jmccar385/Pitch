@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { AuthService } from '../services/auth.service';
+import { Band, Venue } from '../models';
 
 @Component({
   selector: 'app-header',
@@ -10,25 +11,27 @@ import { AuthService } from '../services/auth.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private router: Router, private authService: AuthService, private snackBar: MatSnackBar, ) { }
+  @Input() profile: Band|Venue;
+  @Input() userType: string;
+  @Input() view: boolean;
 
-  id: string;
-  userProfileUrl: RegExp;
-  viewProfileUrl: RegExp;
-  Name = 'Venue';
+  constructor(private router: Router, private authService: AuthService, private snackBar: MatSnackBar) { }
 
+  private id: string;
 
   ngOnInit() {
     this.id = this.authService.currentUserID;
-    this.userProfileUrl = new RegExp('/profile/(?:band|venue)/.*' + this.id);
-    this.viewProfileUrl = new RegExp('/profile/venue/.*');
   }
 
   verified(): void {
     if (!this.authService.currentUser.emailVerified) {
       this.snackBar.open('Please verify your email first. See settings.', 'close', {duration: 2000});
     } else {
-      this.router.navigate(['/browse']);
+      if (this.userType === 'venue') {
+        this.router.navigate(['/messages']);
+      } else {
+        this.router.navigate(['/browse']);
+      }
     }
   }
 

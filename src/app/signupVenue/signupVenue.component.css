@@ -10,6 +10,14 @@ mat-horizontal-stepper {
 	background-color: #00C853 !important;
 }
 
+.checkbox {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-top: 10px;
+}
+
 .stepper-content {
 	display: flex;
 	flex-direction: column;
@@ -50,21 +58,6 @@ h1 {
 	margin-bottom: 0;
 	font-size: 20px;
 	width: 100%;
-}
-
-.checkbox-align {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;
-}
-
-mat-checkbox {
-	padding-top: 20px;
-	font-size: 20px;
-	width: 100%;
-	display: flex;
-	justify-content: center;
 }
 
 .picture-upload-field {

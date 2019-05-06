@@ -1,15 +1,18 @@
 
 export interface Band {
-  ProfileZip: number;
+  ProfileAddress: number;
   ProfileName: string;
   ProfileBiography: string;
   ProfilePictureUrl: string;
-  ProfileImageUrls?: string[];
+  ProfileImageUrls: string[];
   SearchRadius: number;
   Playlist: Playlist;
   Tracks: Track[];
   AccessToken: string;
   RefreshToken: string;
+  ProfileRating: number;
+  ProfileRatingCount: number;
+  ProfileReportCount: number;
 }
 
 export interface Equipment {
@@ -109,16 +112,13 @@ export interface Track {
 
 export interface Venue {
   ProfileAddress: string;
-  ProfileCity: string;
-  ProfileState: string;
-  ProfileZip: number;
   ProfileName: string;
   ProfileBiography: string;
   ProfilePictureUrl: string;
-  ProfileImageUrls?: string[];
-  ProfileRating?: number;
-  ProfileRatingCount?: number;
-  ProfileReportCount?: number;
+  ProfileImageUrls: string[];
+  ProfileRating: number;
+  ProfileRatingCount: number;
+  ProfileReportCount: number;
   AvailableEquipment: Equipment[];
 }
 

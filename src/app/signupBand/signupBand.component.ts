@@ -31,7 +31,7 @@ export class SignupBandComponent implements OnInit {
   signupBandForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
-    zip: new FormControl('', [Validators.required]),
+    zip: new FormControl('', [Validators.required,  Validators.maxLength(5)]),
     name: new FormControl('', [Validators.required]),
     description: new FormControl('', [
       Validators.required,
@@ -61,74 +61,61 @@ export class SignupBandComponent implements OnInit {
   }
 
   signupBand() {
+    const PlaylistName = this.playlists.find(x => x.TrackHref === this.signupBandForm.controls.playlist.value).Name;
     const band: Band = {
-      ProfileZip: this.signupBandForm.controls.zip.value,
+      ProfileAddress: this.signupBandForm.controls.zip.value,
       ProfileName: this.signupBandForm.controls.name.value,
       ProfileBiography: this.signupBandForm.controls.description.value,
       ProfilePictureUrl: '', // Gets added in authSvc
       SearchRadius: this.signupBandForm.controls.radius.value,
-      Playlist: {
-        Name: this.playlists.find(
-          x => x.TrackHref === this.signupBandForm.controls.playlist.value
-        ).Name,
-        TrackHref: this.signupBandForm.controls.playlist.value,
-        TrackCount: this.playlists.find(
-          x => x.TrackHref === this.signupBandForm.controls.playlist.value
-        ).TrackCount
-      },
+      Playlist: {Name: PlaylistName, TrackHref: this.signupBandForm.controls.playlist.value, TrackCount: 0},
+      ProfileImageUrls: [],
       Tracks: [],
       AccessToken: this.accessToken,
-      RefreshToken: this.refreshToken
+      RefreshToken: this.refreshToken,
+      ProfileRating: 5,
+      ProfileRatingCount: 0,
+      ProfileReportCount: 0
     };
 
-    this.musicService
-      .getPlaylistTracks(band.Playlist.TrackHref)
-      .subscribe(response => {
-        for (let i = 0; i < response.items.length; i++) {
-          if (i > 9) {
-            break;
-          }
-          if (response.items[i].track.is_playable) {
-            band.Tracks.push({
-              Name: response.items[i].track.name,
-              Preview: response.items[i].track.preview_url
+    this.musicService.getPlaylistTracks(band.Playlist.TrackHref).subscribe(response => {
+      for (let i = 0; i < response.items.length; i++) {
+        if (i > 9) {
+          break;
+        }
+        if (response.items[i].track.is_playable) {
+          band.Tracks.push({Name: response.items[i].track.name, Preview: response.items[i].track.preview_url});
+        }
+      }
+
+      band.Playlist.TrackCount = band.Tracks.length;
+
+      this.authService
+        .signupBand(
+          this.signupBandForm.controls.email.value, this.signupBandForm.controls.password.value, band, this.imageUpload.CroppedImage
+        )
+        .then((res) => {
+          this.authService.verification();
+          this.router.navigate(['browse']);
+        })
+        .catch(error => {
+          console.log(error);
+          if (error.code === 'auth/weak-password') {
+            this.snackBar.open('Your password is too short', 'close', {
+              duration: 2000
             });
           }
-        }
-
-        this.authService
-          .signupBand(
-            this.signupBandForm.controls.email.value,
-            this.signupBandForm.controls.password.value,
-            band,
-            this.imageUpload.CroppedImage
-          )
-          .then(res => {
-            this.authService.verification();
-            this.router.navigate(['browse']);
-          })
-          .catch(error => {
-            console.log(error);
-            if (error.code === 'auth/weak-password') {
-              this.snackBar.open('Your password is too short', 'close', {
-                duration: 2000
-              });
-            }
-            if (error.code === 'auth/invalid-email') {
-              this.snackBar.open(
-                'Please enter a valid email address',
-                'close',
-                {
-                  duration: 2000
-                }
-              );
-            }
-            if (error.code === 'auth/email-already-in-use') {
-              this.snackBar.open('This email is already taken', 'close', {
-                duration: 2000
-              });
-            }
-          });
+          if (error.code === 'auth/invalid-email') {
+            this.snackBar.open('Please enter a valid email address', 'close', {
+              duration: 2000
+            });
+          }
+          if (error.code === 'auth/email-already-in-use') {
+            this.snackBar.open('This email is already taken', 'close', {
+              duration: 2000
+            });
+          }
       });
+    });
   }
 }

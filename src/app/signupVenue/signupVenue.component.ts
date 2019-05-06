@@ -53,14 +53,16 @@ export class SignupVenueComponent {
 
   signupVenue() {
     const venue: Venue = {
-      ProfileAddress: this.signupVenueForm.controls.address.value,
-      ProfileCity: this.signupVenueForm.controls.city.value,
-      ProfileState: this.signupVenueForm.controls.state.value,
-      ProfileZip: this.signupVenueForm.controls.zip.value,
+      // tslint:disable-next-line: max-line-length
+      ProfileAddress: this.signupVenueForm.controls.address.value + ', ' + this.signupVenueForm.controls.city.value + ', ' + this.signupVenueForm.controls.state.value + ' ' + this.signupVenueForm.controls.zip.value,
       ProfileName: this.signupVenueForm.controls.name.value,
       ProfileBiography: this.signupVenueForm.controls.description.value,
       ProfilePictureUrl: '', // Gets added in authSvc
-      AvailableEquipment: this.availableEquipment
+      ProfileImageUrls: [],
+      AvailableEquipment: this.availableEquipment,
+      ProfileRating: 5,
+      ProfileRatingCount: 0,
+      ProfileReportCount: 0
     };
     this.authService
       .signupVenue(

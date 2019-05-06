@@ -11,7 +11,7 @@
             </mat-error>
           </mat-form-field>
           <mat-form-field>
-            <textarea matInput placeholder="What else should bands know?" formControlName="description" matTextareaAutosize matAutosizeMaxRows=3></textarea>
+            <textarea matInput placeholder="What else should bands know?" maxlength="1000" formControlName="description" matTextareaAutosize matAutosizeMaxRows=3></textarea>
             <mat-hint align="end">{{signupVenueForm.controls.description.value.length}} / 1000</mat-hint>
             <mat-error *ngIf="signupVenueForm.controls.description.errors?.required">
               A description is <strong>required</strong>
@@ -36,7 +36,8 @@
             </mat-error>
           </mat-form-field>
           <mat-form-field>
-            <input matInput placeholder="Zip Code" type="zip" formControlName="zip">
+            <input matInput #postalCode maxlength="5" placeholder="Zip Code" type="zip" formControlName="zip">
+            <mat-hint align="end">{{signupVenueForm.controls.zip.value.length}} / 5</mat-hint>
             <mat-error *ngIf="signupVenueForm.controls.address.errors?.required">
               A zip code is <strong>required</strong>
             </mat-error>
@@ -58,9 +59,10 @@
       </mat-step>
       <mat-step>
         <div class="stepper-content">
-          <h1>What equipment can you provide to bands?</h1>
-          <div class="checkbox-align" *ngFor="let equip of equipment | async">
-            <mat-checkbox color="primary" (change)="select(equip)" labelPosition="before">{{equip.Name}}</mat-checkbox>
+          <h1>Avaliable Equipment</h1>
+          <div class="checkbox" *ngFor="let equip of equipment | async">
+            {{equip.Name}}
+            <mat-checkbox color="primary" (change)="select(equip)"></mat-checkbox>
           </div>
           <button class="survey-button" mat-flat-button matStepperNext color="accent" type="button">Next</button>
         </div>

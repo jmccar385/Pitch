@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Signup Spotify Requirement</h1>
 <div>
-	<p>In order to allow you to share music samples with venues we are using spotify services. This means that you must create a playlist with the songs you would like to share with venues. This playlist can be private and should be no longer than 10 of your songs. During signup you will be asked to authorize our app to access your spotify and then you will be asked to select the playlist you have prepared.</p>
-	<button mat-flat-button color="primary" [routerLink]="['/login']" [mat-dialog-close]>Cancel</button>
+	<p>To share music samples you must supply a Spotify playlist containing no more than 10 songs that will appear on your bands profile.</p>
+	<button mat-flat-button id="cancel" color="primary" [routerLink]="['/login']" [mat-dialog-close]>Cancel</button>
 	<button mat-flat-button id="continue" color="primary" (click)="continue()" [mat-dialog-close]>Continue</button>
 </div>

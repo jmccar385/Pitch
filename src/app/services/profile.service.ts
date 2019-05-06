@@ -4,7 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest, Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { flatten } from '@angular/compiler';
-import { Equipment } from '../models';
+import { Equipment, Playlist, Track } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +14,6 @@ export class ProfileService {
     private afDatabase: AngularFirestore,
     private afStorage: AngularFireStorage
   ) {}
-
-  private equipmentList: Equipment[] = [];
 
   uploadImage(input: Blob) {
     const file = input;
@@ -34,9 +32,17 @@ export class ProfileService {
   }
 
   getEquipmentList() {
-    return this.afDatabase.collection('Equipment').valueChanges().subscribe(response => {
-      //equipmentList = response;
-    });
+    return this.afDatabase.collection<Equipment>('Equipment').valueChanges();
+  }
+
+  updateArtistById(userId: string, address: string, biography: string, playlist?: Playlist, tracks?: Track[]) {
+    const update = {ProfileAddress: address, ProfileBiography: biography};
+    this.afDatabase.collection('Artists').doc(userId).update(update);
+  }
+
+  updateVenueById(userId: string, availableEquipment: Equipment[], address: string, biography: string) {
+    const update = {AvailableEquipment: availableEquipment, ProfileAddress: address, ProfileBiography: biography};
+    this.afDatabase.collection('Venues').doc(userId).update(update);
   }
 
   getArtistObserverById(userId: string) {

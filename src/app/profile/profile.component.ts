@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { ProfileService } from '../services/profile.service';
+import { MusicService } from '../services/music.service';
 import { ReviewDialog } from './review.component';
 import { Playlist, Equipment } from '../models';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -18,18 +19,18 @@ export class ProfileComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private profileService: ProfileService,
+    private musicService: MusicService,
     private route: ActivatedRoute,
     private authService: AuthService,
     private firestore: AngularFirestore
-  ) {
-    this.equipment = this.firestore.collection('Equipment').valueChanges();
-  }
+  ) {}
   private profile: any = null;
   slideIndex = 1;
   userType: string;
   view: boolean;
   playlists: Playlist[] = [];
-  equipment: Observable<Array<{}>>;
+  equipment: Observable<Equipment[]>;
+  equipmentList: Equipment[] = [];
   availableEquipment: Equipment[] = [];
 
   profileForm: FormGroup = new FormGroup({
@@ -41,7 +42,7 @@ export class ProfileComponent implements OnInit {
     ]),
     playlist: new FormControl({ value: ''}, [
       Validators.required
-    ]),
+    ])
   });
 
   select(equip) {
@@ -52,9 +53,22 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.userType = this.route.snapshot.params.userType;
-    this._setData(this.route.snapshot.params.id, this.userType);
-    this.view = (this.route.snapshot.params.id === this.authService.currentUserID);
-    this.profileForm.disable();
+    if (this.userType === 'venue') {
+      this.equipment = this.profileService.getEquipmentList();
+      this.equipment.subscribe(items => {
+        for (const item of items) {
+          this.equipmentList.push(item);
+          this.profileForm.addControl(item.Name.toLowerCase().replace(' ', '_').replace(' ', '/'), new FormControl());
+        }
+        this._setData(this.route.snapshot.params.id, this.userType);
+        this.view = (this.route.snapshot.params.id === this.authService.currentUserID);
+        this.profileForm.disable();
+      });
+    } else {
+      this._setData(this.route.snapshot.params.id, this.userType);
+      this.view = (this.route.snapshot.params.id === this.authService.currentUserID);
+      this.profileForm.disable();
+    }
   }
 
   private _setData(uid: string, userType: string) {
@@ -99,6 +113,10 @@ export class ProfileComponent implements OnInit {
 
         this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
         this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
+        this.availableEquipment = this.profile.AvailableEquipment;
+        for (const equipment of this.profile.AvailableEquipment) {
+          this.profileForm.controls[equipment.Name.toLowerCase().replace(' ', '_').replace(' ', '/')].setValue(true);
+        }
       });
     }
   }
@@ -147,6 +165,40 @@ export class ProfileComponent implements OnInit {
 
   saveProfile() {
     this.profileForm.disable();
+    if (this.userType === 'venue') {
+      this.profileService.updateVenueById(this.route.snapshot.params.id ,
+        this.availableEquipment,
+        this.profileForm.controls.address.value,
+        this.profileForm.controls.biography.value
+      );
+    } else {
+      if (this.profile.Playlist.TrackHref !== this.profileForm.controls.playlist.value) {
+        const PlaylistName = this.playlists.find(x => x.TrackHref === this.profileForm.controls.playlist.value).Name;
+        this.profile.Playlist = {Name: PlaylistName, TrackHref: this.profileForm.controls.playlist.value, TrackCount: 0};
+        this.musicService.getPlaylistTracks(this.profile.Playlist.TrackHref).subscribe(response => {
+          this.profile.Tracks = [];
+          for (let i = 0; i < response.items.length; i++) {
+            if (i > 9) {
+              break;
+            }
+            if (response.items[i].track.is_playable) {
+              this.profile.Tracks.push({Name: response.items[i].track.name, Preview: response.items[i].track.preview_url});
+            }
+          }
+          this.profile.Playlist.TrackCount = this.profile.Tracks.length;
+        });
+        this.profileService.updateArtistById(this.route.snapshot.params.id ,
+          this.profileForm.controls.address.value,
+          this.profileForm.controls.biography.value,
+          this.profile.Playlist,
+          this.profile.Tracks
+        );
+      }
+      this.profileService.updateArtistById(this.route.snapshot.params.id ,
+        this.profileForm.controls.address.value,
+        this.profileForm.controls.biography.value,
+      );
+    }
   }
 
   viewProfile() {

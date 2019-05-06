@@ -1,4 +1,4 @@
-<app-header [profile]="profile"></app-header>
+<app-header [profile]="profile" [userType]="userType" [view]="view"></app-header>
 <div id="profile-container">
   <mat-card class="slide-container">
     <mat-card-content>
@@ -88,9 +88,9 @@
     <mat-card *ngIf="userType == 'venue' && view">
       <mat-card-title>Equipment</mat-card-title>
       <mat-card-content>
-          <div class="checkbox" *ngFor="let equip of equipment | async">
-            {{equip.Name}}
-            <mat-checkbox color="primary" (change)="select(equip)"></mat-checkbox>
+          <div class="checkbox" [ngClass]="{'disabled': profileForm.controls.address.disabled}" *ngFor="let equipment of equipmentList">
+            {{equipment.Name}}
+            <mat-checkbox color="primary" (change)="select(equipment)" formControlName="{{equipment.Name.toLowerCase().replace(' ', '_').replace(' ', '/')}}"></mat-checkbox>
           </div>
       </mat-card-content>
     </mat-card>

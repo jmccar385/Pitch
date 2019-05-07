@@ -25,7 +25,7 @@ export class SignupComponent implements OnInit {
         this.authService
           .authorizeSpotify(params.code, params.state)
           .then(data => {
-            this.musicService.setTokens(data.accessToken, data.refreshToken);
+            this.musicService.setTokens(data.access_token, data.refresh_token);
             this.router.navigateByUrl('signup/band');
           });
       }

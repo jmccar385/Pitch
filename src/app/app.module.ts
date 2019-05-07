@@ -33,6 +33,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { HttpClientModule } from '@angular/common/http';
 import { EventSchedulerComponent } from './event-scheduler/event-scheduler.component';
 import { SpotifyAlertDialog } from './signup/spotifyalert.component';
+import { MusicService } from './services/music.service';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,7 @@ import { SpotifyAlertDialog } from './signup/spotifyalert.component';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [AuthService, AuthGuard, VerifiedGuard, ProfileService],
+  providers: [AuthService, AuthGuard, VerifiedGuard, ProfileService, MusicService],
   entryComponents: [ForgotPasswordDialogComponent, ReviewDialogComponent, SpotifyAlertDialog],
   bootstrap: [AppComponent]
 })

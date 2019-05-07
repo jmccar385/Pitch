@@ -40,6 +40,8 @@ import { EventSchedulerComponent } from './event-scheduler/event-scheduler.compo
 import { SpotifyAlertDialog } from './signup/spotifyalert.component';
 import { NewEmailDialogComponent } from './settings/newemail.component';
 import { MusicService } from './services/music.service';
+import { MessagesComponent } from './messages/messages.component';
+import { ConversationComponent } from './conversation/conversation.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,9 @@ import { MusicService } from './services/music.service';
     AccountSettingsComponent,
     NotificationSettingsComponent,
     NewEmailDialogComponent,
-    EventSchedulerComponent
+    EventSchedulerComponent,
+    MessagesComponent,
+    ConversationComponent,
   ],
   imports: [
     BrowserModule,

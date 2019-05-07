@@ -153,4 +153,16 @@ export interface Event {
   EventRestrictedAge: boolean;
 }
 
+export interface Message {
+  createdAt?: number;
+  read?: boolean;
+  senderId: string;
+  text: string;
+}
+
+export interface Conversation {
+  members: string[];
+  pitchAccepted: boolean;
+  Messages: Message[];
+}
 

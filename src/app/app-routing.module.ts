@@ -11,7 +11,8 @@ import { SignupVenueComponent } from './signupVenue/signupVenue.component';
 import { SignupBandComponent } from './signupBand/signupBand.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SettingsComponent } from './settings/settings.component';
-import { EventSchedulerComponent } from './event-scheduler/event-scheduler.component';
+import { MessagesComponent } from './messages/messages.component';
+import { ConversationComponent } from './conversation/conversation.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/browse', pathMatch: 'full' },
@@ -34,8 +35,17 @@ const routes: Routes = [
     component: ProfileComponent,
     canActivate: [AuthGuard]
   },
-  { path: 'events/schedule', component: EventSchedulerComponent },
-  { path: '**', redirectTo: '/login' } // <-- gooby keep this last pls
+  {
+    path: 'messages',
+    component: MessagesComponent,
+    canActivate: [AuthGuard, VerifiedGuard]
+  },
+  {
+    path: 'conversation/:id',
+    component: ConversationComponent,
+    canActivate: [AuthGuard, VerifiedGuard]
+  },
+  { path: '**', redirectTo: '/login' } // <-- gooby keep this last plz
 ];
 
 @NgModule({

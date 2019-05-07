@@ -1,0 +1,27 @@
+<app-header></app-header>
+
+<mat-list dense class="conversation-history mat-typography">
+  <div #scrollMe>
+    <mat-list-item *ngFor="let message of messages | async" [dir]="message.senderId === currentUserId ? 'rtl' : 'ltr'">
+      <img 
+        matListAvatar
+        matTooltip="name"
+        [src]=" message.senderId === currentUserId ? currentUserData?.profileUrl : correspondentData?.profileUrl"
+      />
+      <p [ngClass]="message.senderId === currentUserId ? 'speech-bubble-right' : 'speech-bubble-left'">{{message.text}}</p>
+    </mat-list-item>
+  </div>
+</mat-list>
+
+<div class="conversation-input">
+  <mat-divider></mat-divider>
+  <mat-form-field class="full-width">
+    <input
+      matInput
+      placeholder="Start chatting..."
+      [(ngModel)]="text"
+      #msgInput
+    />
+    <mat-icon matSuffix (click)="sendMessage()">send</mat-icon>
+  </mat-form-field>
+</div>

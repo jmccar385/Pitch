@@ -10,6 +10,13 @@ const client_secret = functions.config().spotify.client_secret;
 
 admin.initializeApp();
 
+export const lastMessageSentTrigger = functions.firestore.document('Conversations/{convoId}/Messages/{msgId}').onCreate((change, context) => {
+  const msg = change.data();
+  const conversationRef = admin.firestore().doc(`Conversations/${context.params.convoId}`);
+  return conversationRef.update({lastMessage: msg});
+})
+
+// <------------------------- Music Stuff ------------------------->
 function generateRandomString(length: number) {
   let text = '';
   const possible =
@@ -87,3 +94,4 @@ export const callbackSpotify = functions.https.onRequest((req, res) => {
       });
   }
 });
+// <------------------------- END ------------------------->

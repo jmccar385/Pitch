@@ -68,7 +68,7 @@ export class ProfileComponent implements OnInit {
       });
     } else {
       this._setData(this.route.snapshot.params.id, this.userType);
-      // this.profileForm.disable();
+      this.profileForm.disable();
     }
   }
 

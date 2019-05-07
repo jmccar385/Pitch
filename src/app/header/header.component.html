@@ -27,13 +27,67 @@
 					<mat-icon></mat-icon>
 				</button>
 		</ng-template>
-		<ng-template [ngIf]="this.router.url == '/profile/settings'">
-			<button mat-icon-button [routerLink]="['/profile', userType, authService.currentUserID]" color="accent">
+		<ng-template [ngIf]="this.router.url == '/events/schedule'">
+			<button mat-icon-button [routerLink]="['/profile', 'venue', id]" color="accent">
+				<mat-icon>arrow_back_ios</mat-icon>
+			  </button>
+			<h1>New Event</h1>
+			<button mat-icon-button color="accent" [disabled]="true" >
+				<mat-icon></mat-icon>
+			  </button>
+		</ng-template>
+		<ng-template [ngIf]="this.router.url == '/profile/band/settings'">
+			<button mat-icon-button [routerLink]="['/profile', 'band', id]" color="accent">
 				<mat-icon>person</mat-icon>
 			</button>
 			<h1>Settings</h1>
-			<button mat-icon-button color="accent" (click)="logout()">
-				<mat-icon>power_settings_new</mat-icon>
+			<button mat-icon-button color="accent" [disabled]="true" >
+				<mat-icon></mat-icon>
+			</button>
+		</ng-template>
+		<ng-template [ngIf]="this.router.url == '/profile/venue/settings'">
+			<button mat-icon-button [routerLink]="['/profile', 'venue', id]" color="accent">
+				<mat-icon>person</mat-icon>
+			</button>
+			<h1>Settings</h1>
+			<button mat-icon-button color="accent" [disabled]="true" >
+				<mat-icon></mat-icon>
+			</button>
+		</ng-template>
+		<ng-template [ngIf]="this.router.url == '/profile/band/settings/account'">
+			<button mat-icon-button [routerLink]="['/profile', 'band', 'settings']" color="accent">
+				<mat-icon>arrow_back_ios</mat-icon>
+			</button>
+			<h1>Account</h1>
+			<button mat-icon-button color="accent" [disabled]="true" >
+				<mat-icon></mat-icon>
+			</button>
+		</ng-template>
+		<ng-template [ngIf]="this.router.url == '/profile/venue/settings/account'">
+			<button mat-icon-button [routerLink]="['/profile', 'venue', 'settings']" color="accent">
+				<mat-icon>arrow_back_ios</mat-icon>
+			</button>
+			<h1>Account</h1>
+			<button mat-icon-button color="accent" [disabled]="true" >
+				<mat-icon></mat-icon>
+			</button>
+		</ng-template>
+		<ng-template [ngIf]="this.router.url == '/profile/band/settings/notifications'">
+			<button mat-icon-button [routerLink]="['/profile', 'band', 'settings']" color="accent">
+				<mat-icon>arrow_back_ios</mat-icon>
+			</button>
+			<h1>Notifications</h1>
+			<button mat-icon-button color="accent" [disabled]="true" >
+				<mat-icon></mat-icon>
+			</button>
+		</ng-template>
+		<ng-template [ngIf]="this.router.url == '/profile/venue/settings/notifications'">
+			<button mat-icon-button [routerLink]="['/profile', 'venue', 'settings']" color="accent">
+				<mat-icon>arrow_back_ios</mat-icon>
+			</button>
+			<h1>Notifications</h1>
+			<button mat-icon-button color="accent" [disabled]="true" >
+				<mat-icon></mat-icon>
 			</button>
 		</ng-template>
 		<ng-template [ngIf]="this.router.url == '/events/schedule'">
@@ -47,7 +101,7 @@
 				<mat-icon>list</mat-icon>
 			</button>
 			<h1>Profile</h1>
-			<button mat-icon-button [routerLink]="['/profile/settings']" color="accent">
+			<button mat-icon-button [routerLink]="['/profile/band/settings']" color="accent">
 				<mat-icon>settings</mat-icon>
 			</button>
 		</ng-template>
@@ -56,7 +110,7 @@
 				<mat-icon>forum</mat-icon>
 			</button>
 			<h1>Profile</h1>
-			<button mat-icon-button [routerLink]="['/profile/settings']" color="accent">
+			<button mat-icon-button [routerLink]="['/profile/venue/settings']" color="accent">
 				<mat-icon>settings</mat-icon>
 			</button>
 		</ng-template>

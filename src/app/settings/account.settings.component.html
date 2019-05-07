@@ -1,0 +1,30 @@
+<app-header [userType]="userType"></app-header>
+
+<!-- Add some spacing for the header bar -->
+<div style="display: block; margin-top: calc(56px + 5vw)"></div>
+
+<div class="setting-section section-taller shrink-bottom-border">
+  <div class="setting-section-title">Email</div>
+  <div class="setting-section-top ">{{userEmail}}</div>
+  <div class="setting-section-bottom-right">
+    <span class="email-verification">
+      <ng-template [ngIf]="verified" [ngIfElse]="unverified">
+        Verified <mat-icon color="primary">check_circle</mat-icon>
+      </ng-template>
+      <ng-template #unverified>
+        Unverified <mat-icon color="warn">cancel_circle</mat-icon>
+      </ng-template>
+    </span>
+  </div>
+</div>
+
+<div style="width: 40%; left: 30%; position: relative;">
+  <button *ngIf="!verified" mat-flat-button class="custom-fab-button no-round-top-corners" color="accent"
+    (click)="verifyEmail()">Resend Email</button>
+  <button *ngIf="verified" mat-flat-button class="custom-fab-button no-round-top-corners" color="accent"
+    (click)="changeEmail()">Change Email</button>
+</div>
+
+<div class="custom-fab-container">
+  <button mat-flat-button class="custom-fab-button" color="warn" (click)="warnDelete()">Delete Account</button>
+</div>

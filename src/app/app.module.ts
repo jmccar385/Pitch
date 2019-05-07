@@ -30,10 +30,15 @@ import { ProfileComponent } from './profile/profile.component';
 import { ReviewDialogComponent } from './profile/review.component';
 import { UploadDialogComponent } from './profile/image-upload.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
-import { SettingsComponent } from './settings/settings.component';
+import {
+  SettingsComponent,
+  AccountSettingsComponent,
+  NotificationSettingsComponent
+} from './settings/settings.component';
 import { HttpClientModule } from '@angular/common/http';
 import { EventSchedulerComponent } from './event-scheduler/event-scheduler.component';
 import { SpotifyAlertDialog } from './signup/spotifyalert.component';
+import { NewEmailDialogComponent } from './settings/newemail.component';
 import { MusicService } from './services/music.service';
 import { MessagesComponent } from './messages/messages.component';
 import { ConversationComponent } from './conversation/conversation.component';
@@ -54,6 +59,9 @@ import { ConversationComponent } from './conversation/conversation.component';
     SignupBandComponent,
     ImageUploadComponent,
     SettingsComponent,
+    AccountSettingsComponent,
+    NotificationSettingsComponent,
+    NewEmailDialogComponent,
     EventSchedulerComponent,
     MessagesComponent,
     ConversationComponent,
@@ -72,7 +80,7 @@ import { ConversationComponent } from './conversation/conversation.component';
     NgxCroppieModule,
     BrowserAnimationsModule,
     FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     AuthService,
@@ -84,6 +92,7 @@ import { ConversationComponent } from './conversation/conversation.component';
     ForgotPasswordDialogComponent,
     ReviewDialogComponent,
     SpotifyAlertDialog,
+    NewEmailDialogComponent,
     UploadDialogComponent
   ],
   bootstrap: [AppComponent]

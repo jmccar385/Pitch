@@ -10,7 +10,12 @@ import { SignupComponent } from './signup/signup.component';
 import { SignupVenueComponent } from './signupVenue/signupVenue.component';
 import { SignupBandComponent } from './signupBand/signupBand.component';
 import { ProfileComponent } from './profile/profile.component';
-import { SettingsComponent } from './settings/settings.component';
+import {
+  SettingsComponent,
+  AccountSettingsComponent,
+  NotificationSettingsComponent
+} from './settings/settings.component';
+import { EventSchedulerComponent } from './event-scheduler/event-scheduler.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ConversationComponent } from './conversation/conversation.component';
 import { EventSchedulerComponent } from './event-scheduler/event-scheduler.component';
@@ -26,8 +31,18 @@ const routes: Routes = [
   { path: 'signup/band', component: SignupBandComponent },
   { path: 'signup/venue', component: SignupVenueComponent },
   {
-    path: 'profile/settings',
+    path: 'profile/:userType/settings',
     component: SettingsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'profile/:userType/settings/account',
+    component: AccountSettingsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'profile/:userType/settings/notifications',
+    component: NotificationSettingsComponent,
     canActivate: [AuthGuard]
   },
   { path: 'login', component: LoginComponent },

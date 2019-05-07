@@ -1,20 +1,57 @@
-<app-header></app-header>
+<app-header ></app-header>
 
-<div id="settings">
-	<div id="email-verification">
-		<div id="verified-icon-text">
-			verified:
-			<ng-template [ngIf]="verified" [ngIfElse]="unverified">
-				<mat-icon color="primary">check_circle</mat-icon>
-			</ng-template>
-			<ng-template #unverified>
-				<mat-icon color="warn">cancel_circle</mat-icon>
-			</ng-template>
-		</div>
-		<ng-template [ngIf]="!verified">
-			<button mat-flat-button color="primary" (click)="verify()">Resend Email</button>
-		</ng-template>
-	</div>
+<!-- Add some spacing for the header bar -->
+<div style="display: block; margin-top: 56px"></div>
+
+<!-- Account/Notification sub-screen buttons -->
+<div class="big-settings-block">
+  <div class="big-settings-buttons">
+    <mat-grid-list cols="2" rowHeight="1:1" gutterSize="5vw">
+      <mat-grid-tile>
+        <button mat-stroked-button class="block-icon-button" [routerLink]="['/profile', userType, 'settings', 'account']">
+          <svg class="icon-fill icon-vert-stretch">
+            <image class="icon-fill icon-vert-stretch"
+              xlink:href="https://material.io/tools/icons/static/icons/baseline-person-24px.svg"
+              src="https://material.io/tools/icons/static/icons/baseline-person-24px.svg" />
+          </svg>
+        </button>
+        <span class="raised-button-label"><strong>Account</strong></span>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <button mat-stroked-button class="block-icon-button" [routerLink]="['/profile', userType, 'settings', 'notifications']">
+          <svg class="icon-fill">
+            <image class="icon-fill"
+              xlink:href="https://material.io/tools/icons/static/icons/baseline-notifications-24px.svg"
+              src="https://material.io/tools/icons/static/icons/baseline-notifications-24px.svg" />
+          </svg>
+        </button>
+        <span class="raised-button-label"><strong>Notifications</strong></span>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
 </div>
 
 
+<span class="label-break">Browse Settings</span>
+
+<!-- SECTION: Location setting
+        TODO: Get info from profile -->
+<div class="setting-section">
+  <div class="setting-section-title">Location</div>
+  <div class="setting-section-top">Philadelphia</div>
+  <div class="setting-section-bottom-right">19104</div>
+</div>
+
+<!-- SECTION: Distance setting
+        TODO: Update on change complete -->
+<div class="setting-section section-taller">
+  <div class="setting-section-title">Maximum Distance</div>
+  <div class="setting-section-top">5 mi</div>
+  <div class="setting-section-bottom-full">
+	<mat-slider min="1" max="50" step="1" value="5"></mat-slider>
+  </div>
+</div>
+
+<div class="custom-fab-container">
+  <button mat-flat-button class="custom-fab-button" color="accent" (click)="logout()">Sign out</button>
+</div>

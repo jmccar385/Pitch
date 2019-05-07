@@ -43,9 +43,9 @@ export interface Equipment {
 }
 
 export interface SpotifyAccess {
-  accessToken: string;
+  access_token: string;
   expires_in: number;
-  refreshToken: string;
+  refresh_token: string;
   scope: string;
   token_type: string;
 }

@@ -1,12 +1,13 @@
 #profile-container {
-  margin: 10px;
-  margin-top: 66px;
+  padding: 10px;
+  padding-top: 66px;
+  background: #f2f2f2;
 }
 
 #spacer {
   width: 100%;
-  background: white;
-  height: 80px;
+  background: #f2f2f2;
+  height: 35px;
 }
 
 #pitch {
@@ -14,16 +15,37 @@
   width: calc(100% - 20px);
   bottom: 10px;
   left: 10px;
-  font-size: 18px;
-  height: 60px;
+  height: 35px;
 }
 
 mat-card {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
-mat-card:last-child {
+mat-card-title {
+  font-size: 16px !important;
+}
+
+mat-card-content {
   margin-bottom: 0;
+}
+
+.star-image {
+  width: 10px;
+  height: 15px;
+  font-size: 13px;
+}
+
+mat-card-subtitle {
+  margin-bottom: 5px;
+  vertical-align:  text-bottom;
+  font-size: 14px;
+}
+
+mat-card-actions {
+  position: absolute;
+  top: 10px;
+  right: 15px;
 }
 
 #rating {
@@ -60,16 +82,46 @@ mat-form-field {
 }
 
 .track {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .track:last-child {
   margin-bottom: 0;
 }
 
-button {
+.mat-flat-button {
 	color: white !important;
-	font-size: 18px;
+}
+
+.mat-raised-button {
+	color: white !important;
+}
+
+#profile_buttons {
+  position: fixed;
+  bottom: 10px;
+  width: calc(100% - 20px);
+  margin-left: 10px;
+  left: 0;
+  height: 35px;
+}
+
+.edit_save {
+  border-radius: 4px 0 0 4px;
+  width: 50%;
+  height: 100%;
+  box-shadow: 0px 2px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+#view {
+  border-radius: 0 4px 4px 0;
+  width: 50%;
+  height: 100%;
+  box-shadow: 0px 2px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+button {
+  font-size: 18px;
 }
 
 .equipment-container {
@@ -79,17 +131,26 @@ button {
   flex-direction: row;
 }
 
+.review-card {
+  background: #f2f2f2;
+}
+
 .equipment {
   width: 50%;
 }
 
 /* ty w3 schools */
+.slide-container {
+  padding: 0;
+  padding-bottom: 32px;
+}
+
 .slide-image {
 	display: none;
 }
 
 .slide-picture {
-	max-width: 100%;
+  width: 100%;
 	height: auto;
   border-radius: 4px;
 }
@@ -108,21 +169,31 @@ button {
 }
 
 .slide-next {
-  right: 32px;
+  right: 16px;
   border-radius: 3px 0 0 3px;
 }
 
 .slide-prev {
-  left: 32px;
+  left: 16px;
   border-radius: 0 3px 3px 0;
 }
 
 .slide-counter {
   color: black;
   position: absolute;
-  bottom: 3px;
+  line-height: 35px;
   right: 16px;
-  font-size: 12px;
+  font-size: 16px;
+}
+
+#picture-icons{
+  position: absolute;
+  bottom: 5px;
+
+}
+
+#picture-icons mat-icon {
+  margin-left: 10px;
 }
 
 .slide-active {

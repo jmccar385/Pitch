@@ -62,7 +62,8 @@ export class SignupVenueComponent {
       AvailableEquipment: this.availableEquipment,
       ProfileRating: 5,
       ProfileRatingCount: 0,
-      ProfileReportCount: 0
+      ProfileReportCount: 0,
+      Reviews: []
     };
     this.authService
       .signupVenue(

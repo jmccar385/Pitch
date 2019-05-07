@@ -23,11 +23,12 @@ import { LoginComponent } from './login/login.component';
 import { ForgotPasswordDialogComponent } from './login/forgotpassword.component';
 import { BrowseComponent } from './browse/browse.component';
 import { SignupComponent } from './signup/signup.component';
-import { HeaderComponent } from './header/header.component';
 import { SignupBandComponent } from './signupBand/signupBand.component';
 import { SignupVenueComponent } from './signupVenue/signupVenue.component';
+import { HeaderComponent } from './header/header.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ReviewDialogComponent } from './profile/review.component';
+import { UploadDialogComponent } from './profile/image-upload.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { SettingsComponent } from './settings/settings.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -41,6 +42,7 @@ import { MusicService } from './services/music.service';
     LoginComponent,
     ForgotPasswordDialogComponent,
     ReviewDialogComponent,
+    UploadDialogComponent,
     SpotifyAlertDialog,
     BrowseComponent,
     SignupComponent,
@@ -68,8 +70,18 @@ import { MusicService } from './services/music.service';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [AuthService, AuthGuard, VerifiedGuard, ProfileService, MusicService],
-  entryComponents: [ForgotPasswordDialogComponent, ReviewDialogComponent, SpotifyAlertDialog],
+  providers: [
+    AuthService,
+    AuthGuard,
+    VerifiedGuard,
+    ProfileService
+  ],
+  entryComponents: [
+    ForgotPasswordDialogComponent,
+    ReviewDialogComponent,
+    SpotifyAlertDialog,
+    UploadDialogComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

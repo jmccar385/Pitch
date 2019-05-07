@@ -1,10 +1,15 @@
-<app-header [profile]="profile" [userType]="userType" [view]="view"></app-header>
+<app-header [profile]="profile" [userType]="userType" [view]="view" [seeView]="seeView"></app-header>
 <div id="profile-container">
   <mat-card class="slide-container">
     <mat-card-content>
       <div class="slide-image" *ngFor="let image of profileImageUrls; let i = index">
         <img class="slide-picture" [src]="image" (load)="jumpToSlide(0)">
         <div class="slide-counter">{{i+1}} / {{profile?.ProfileImageUrls.length}}</div>
+        <div *ngIf="profileForm.enabled" id="picture-icons">
+          <mat-icon id="photo-button" (click)="addPicture()">add_photo_alternate</mat-icon>
+          <mat-icon id="delete-button" (click)="deletePicture(image)">delete</mat-icon>
+          <mat-icon id="profile-picture" (click)="makeProfilePicture(image)">account_circle</mat-icon>
+        </div>
       </div>
       <a class="slide-prev" (click)="changeSlideBy(-1)">&#10094;</a>
       <a class="slide-next" (click)="changeSlideBy(1)">&#10095;</a>
@@ -13,10 +18,17 @@
   <form [formGroup]="profileForm">
     <mat-card>
       <mat-card-title>Reviews ({{profile?.ProfileRatingCount}})</mat-card-title>
-      <mat-card-subtitle>Rating: {{profile?.ProfileRating}}</mat-card-subtitle>
-      <button *ngIf="!view" mat-flat-button id="review" color="primary" (click)="reviewModal()" type="button">Review</button>
+      <mat-card-subtitle>Rating: {{profile?.ProfileRating | number}}</mat-card-subtitle>
+      <button *ngIf="!view && !seeView" mat-stroked-button id="review" color="accent" (click)="reviewModal()" type="button">Review</button>
       <mat-card-content>
-        Reviews go Here
+        <mat-card class="review-card" *ngFor="let review of profile?.Reviews">
+          <mat-card-title>{{review.ReviewCreatorName}}</mat-card-title>
+          <mat-card-subtitle>
+              <mat-icon class="star-image">star</mat-icon>
+              {{review.ReviewRating}}</mat-card-subtitle>
+          <mat-card-content>{{review.ReviewText}}</mat-card-content>
+          <mat-card-actions>{{review.CreationDate.toLocaleDateString("en-US")}}</mat-card-actions>
+        </mat-card>
       </mat-card-content>
     </mat-card>
     <mat-card *ngIf="view">
@@ -122,16 +134,18 @@
          </ng-template>
       </mat-card-content>
     </mat-card>
-    <div *ngIf="view">
+
+    <div *ngIf="view || seeView" id="profile_buttons">
       <ng-template [ngIf]="profileForm.disabled" [ngIfElse]="saveProfileTemplate">
-        <button mat-flat-button color="primary" (click)="editProfile()" type="button">Edit</button>
+        <button mat-raised-button color="primary" class="edit_save" (click)="editProfile()" type="button">Edit</button>
       </ng-template>
       <ng-template #saveProfileTemplate>
-        <button mat-flat-button color="primary" (click)="saveProfile()" type="button">Save</button>
+        <button mat-raised-button color="primary" class="edit_save" (click)="saveProfile()" type="button">Save</button>
       </ng-template>
+      <button mat-raised-button color="primary" id="view" (click)="viewProfile()" type="button">View</button>
     </div>
   </form>
-  <button mat-flat-button color="primary" (click)="viewProfile()" type="button">View</button>
-  <div *ngIf="userType == 'venue' && !view" id="spacer"></div>
-  <button *ngIf="userType == 'venue' && !view" mat-flat-button id="pitch" color="primary" (click)="pitch()" type="button">Pitch</button>
+  
+  <div id="spacer"></div>
+  <button *ngIf="userType == 'venue' && (!view && !seeView)" mat-raised-button id="pitch" color="primary" (click)="pitch()" type="button">Pitch</button>
 </div>

@@ -1,4 +1,4 @@
-<app-header></app-header>
+<app-header ></app-header>
 
 <!-- Add some spacing for the header bar -->
 <div style="display: block; margin-top: 56px"></div>
@@ -8,7 +8,7 @@
   <div class="big-settings-buttons">
     <mat-grid-list cols="2" rowHeight="1:1" gutterSize="5vw">
       <mat-grid-tile>
-        <button mat-stroked-button class="block-icon-button" [routerLink]="['/profile', 'settings', 'account']">
+        <button mat-stroked-button class="block-icon-button" [routerLink]="['/profile', userType, 'settings', 'account']">
           <svg class="icon-fill icon-vert-stretch">
             <image class="icon-fill icon-vert-stretch"
               xlink:href="https://material.io/tools/icons/static/icons/baseline-person-24px.svg"
@@ -18,7 +18,7 @@
         <span class="raised-button-label"><strong>Account</strong></span>
       </mat-grid-tile>
       <mat-grid-tile>
-        <button mat-stroked-button class="block-icon-button" [routerLink]="['/profile', 'settings', 'notifications']">
+        <button mat-stroked-button class="block-icon-button" [routerLink]="['/profile', userType, 'settings', 'notifications']">
           <svg class="icon-fill">
             <image class="icon-fill"
               xlink:href="https://material.io/tools/icons/static/icons/baseline-notifications-24px.svg"

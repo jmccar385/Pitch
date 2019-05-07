@@ -32,10 +32,12 @@ export class AccountSettingsComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
+  userType: string;
   verified = false;
   userEmail = '';
 
   ngOnInit() {
+    this.userType = this.authService.userType;
     this.verified = this.authService.currentUser.emailVerified;
     this.userEmail = this.authService.currentUser.email;
   }

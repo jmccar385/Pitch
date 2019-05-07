@@ -30,17 +30,17 @@ const routes: Routes = [
   { path: 'signup/band', component: SignupBandComponent },
   { path: 'signup/venue', component: SignupVenueComponent },
   {
-    path: 'profile/settings',
+    path: 'profile/:userType/settings',
     component: SettingsComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: 'profile/settings/account',
+    path: 'profile/:userType/settings/account',
     component: AccountSettingsComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: 'profile/settings/notifications',
+    path: 'profile/:userType/settings/notifications',
     component: NotificationSettingsComponent,
     canActivate: [AuthGuard]
   },

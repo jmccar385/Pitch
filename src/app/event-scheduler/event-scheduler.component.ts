@@ -6,6 +6,7 @@ import { MatDatepickerInputEvent, MatSnackBar } from '@angular/material';
 import { Event } from '../models';
 import { Router } from '@angular/router';
 import { EventService } from '../services/event.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-event-scheduler',
@@ -14,6 +15,40 @@ import { EventService } from '../services/event.service';
   encapsulation: ViewEncapsulation.None
 })
 export class EventSchedulerComponent implements OnInit {
+
+  constructor(
+    private router: Router,
+    private authService: AuthService, // Will be needed after testing is complete
+    private profileService: ProfileService,
+    private eventService: EventService,
+    private snackBar: MatSnackBar,
+    private location: Location
+  ) {
+    this.profileService
+      .getVenueEventObserverById(this.authService.currentUserID)
+      .then(collection =>
+        collection.forEach(doc => {
+          if (!doc.exists) {
+            return;
+          }
+
+          const data = [doc.data()];
+          if (data === null || data.length === 0) {
+            return;
+          }
+
+          const record = data[0];
+          if (record === null) {
+            return;
+          }
+
+          try {
+            const eventDateTime = record.EventDateTime.toDate();
+            this.datesArray.push(eventDateTime);
+          } catch {}
+        }, this)
+      );
+  }
   private datesArray: Date[] = [];
 
   today = new Date();
@@ -50,40 +85,11 @@ export class EventSchedulerComponent implements OnInit {
     // endTimeMeridiem: new FormControl('PM', [Validators.required])
   });
 
-  constructor(
-    private router: Router,
-    private authService: AuthService, // Will be needed after testing is complete
-    private profileService: ProfileService,
-    private eventService: EventService,
-    private snackBar: MatSnackBar
-  ) {
-    this.profileService
-      .getVenueEventObserverById(this.authService.currentUserID)
-      .then(collection =>
-        collection.forEach(doc => {
-          if (!doc.exists) {
-            return;
-          }
-
-          const data = [doc.data()];
-          if (data === null || data.length === 0) {
-            return;
-          }
-
-          const record = data[0];
-          if (record === null) {
-            return;
-          }
-
-          try {
-            const eventDateTime = record.EventDateTime.toDate();
-            this.datesArray.push(eventDateTime);
-          } catch {}
-        }, this)
-      );
-  }
-
   highlightEvents: (date: Date) => any;
+
+  goBack() {
+    this.location.back();
+  }
   ngOnInit() {
     // If a date exists in the datesArray (populated using events for the
     // current venue) it will be provided a CSS class for highlighting it

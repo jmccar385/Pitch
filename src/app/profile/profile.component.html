@@ -119,7 +119,7 @@
         </div>
       </mat-card-content>
     </mat-card>
-    <mat-card *ngIf="userType == 'venue' && !view">
+    <mat-card *ngIf="userType == 'venue' && view">
       <mat-card-title>Events</mat-card-title>
       <mat-card-content>
         <ng-template [ngIf]="profile?.events?.length > 0" [ngIfElse]="noEventsTemplate">
@@ -130,7 +130,7 @@
           </ul>
         </ng-template>
         <ng-template #noEventsTemplate>
-            <button mat-flat-button>Create an event</button>
+            <button mat-flat-button color="primary" [routerLink]="['/events/schedule']" routerLinkActive="router-link-active" >Create an event</button>
          </ng-template>
       </mat-card-content>
     </mat-card>

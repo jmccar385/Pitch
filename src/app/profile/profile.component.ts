@@ -110,7 +110,7 @@ export class ProfileComponent implements OnInit {
           //   );
           // }
           this.profile.events = this.profile.Events || [];
-             node.SubCollection.forEach(event =>
+          node.SubCollection.forEach(event =>
               this.profile.events.push(event)
               );
 

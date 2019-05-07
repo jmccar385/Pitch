@@ -25,13 +25,19 @@
 			<h1>Conversation</h1>
 		</ng-template>
 		<ng-template [ngIf]="this.router.url == '/profile/settings'">
-			<button mat-icon-button [routerLink]="['/profile', userType, id]" color="accent">
+			<button mat-icon-button [routerLink]="['/profile', userType, authService.currentUserID]" color="accent">
 				<mat-icon>person</mat-icon>
 			</button>
 			<h1>Settings</h1>
 			<button mat-icon-button color="accent" (click)="logout()">
 				<mat-icon>power_settings_new</mat-icon>
 			</button>
+		</ng-template>
+		<ng-template [ngIf]="this.router.url == '/events/schedule'">
+			<button mat-icon-button color="accent" [routerLink]="['/profile', 'venue', authService.currentUserID]">
+				<mat-icon>arrow_back</mat-icon>
+			</button>
+			<h1>Create Event</h1>
 		</ng-template>
 		<ng-template [ngIf]="(view || seeView) && userType === 'band'">
 			<button mat-icon-button (click)="verified()" color="accent">

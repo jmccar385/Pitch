@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuthService {
   private authState: firebase.User = null;
+  private type: string;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -19,6 +20,10 @@ export class AuthService {
   ) {
     this.afAuth.authState.subscribe(user => {
       this.authState = user;
+    });
+
+    this.afStore.doc(`Artists/${this.currentUserID}`).get().subscribe(doc => {
+      this.type = doc.exists ? 'band' : 'venue';
     });
   }
 
@@ -53,6 +58,10 @@ export class AuthService {
         return this.afStore.collection('Venues').doc(this.authState.uid).set(venue);
       });
     });
+  }
+
+  get userType() {
+    return this.type ? this.type : null;
   }
 
   get authenticated(): boolean {

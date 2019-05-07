@@ -13,7 +13,6 @@ import {
   MatGridListModule,
   MatIconModule,
   MatInputModule,
-  MatListModule,
   MatNativeDateModule,
   MatSelectModule,
   MatSlideToggleModule,

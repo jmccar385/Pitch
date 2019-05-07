@@ -18,7 +18,6 @@ import {
 import { EventSchedulerComponent } from './event-scheduler/event-scheduler.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ConversationComponent } from './conversation/conversation.component';
-import { EventSchedulerComponent } from './event-scheduler/event-scheduler.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/browse', pathMatch: 'full' },

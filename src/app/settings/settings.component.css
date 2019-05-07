@@ -115,6 +115,10 @@ mat-slider {
   border-radius: 27px;
 }
 
+.no-round-corner {
+  border-radius: 0px;
+}
+
 .shrink-bottom-border {
   height: calc(2em + 25px);
   width: 80%;

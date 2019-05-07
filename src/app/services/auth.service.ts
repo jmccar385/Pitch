@@ -88,4 +88,8 @@ export class AuthService {
   verification() {
     return this.afAuth.auth.currentUser.sendEmailVerification();
   }
+
+  changePassword(newEmail: string) {
+    return this.afAuth.auth.currentUser.updateEmail(newEmail);
+  }
 }

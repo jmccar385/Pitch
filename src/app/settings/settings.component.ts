@@ -42,12 +42,16 @@ export class AccountSettingsComponent implements OnInit {
     // Todo: delete account
   }
 
-  verify() {
+  verifyEmail() {
     this.authService.verification().then(() => {
       this.snackBar.open('A new email has been sent.', 'close', {
         duration: 2000
       });
     });
+  }
+
+  changeEmail() {
+    // TODO: Create change email dialog
   }
 }
 

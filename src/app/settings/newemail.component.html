@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>Change Email</h1>
+<form [formGroup]="newEmailForm" (ngSubmit)="newEmailForm.valid && send()">
+  <mat-form-field>
+    <input matInput placeholder="Password" formControlName="password" cdkFocusInitial>
+    <mat-error *ngIf="newEmailForm.controls.password.errors?.required">
+      Password is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Email" formControlName="email" cdkFocusInitial>
+    <mat-error *ngIf="newEmailForm.controls.email.errors?.email && !newEmailForm.controls.email.errors?.required">
+      Invalid email address
+    </mat-error>
+    <mat-error *ngIf="newEmailForm.controls.email.errors?.required">
+      Email is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Confirm Email" formControlName="confirmEmail" cdkFocusInitial>
+    <mat-error *ngIf="newEmailForm.controls.confirmEmail.value !== newEmailForm.controls.email.value">
+      The entered values do not match
+    </mat-error>
+    <mat-error *ngIf="newEmailForm.controls.confirmEmail.errors?.required">
+      Email confirmation is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <button mat-flat-button color="primary" [mat-dialog-close] type="button">Cancel</button>
+  <button id="submitNewEmail" mat-flat-button color="primary" type="submit">Confirm Change</button>
+</form>

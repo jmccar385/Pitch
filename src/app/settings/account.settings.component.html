@@ -18,7 +18,10 @@
   </div>
 </div>
 
-<div class="custom-fab-container">
-  <button mat-flat-button class="custom-fab-button" color="warn" (click)="warnDelete">Delete Account</button>
+<div class=""></div>
+
+<div class="custom-fab-container ">
+  <button *ngIf="!verified" mat-flat-button class="custom-fab-button no-round-corner" color="accent" (click)="verifyEmail">Resend Email</button>
+  <button *ngIf="verified" mat-flat-button class="custom-fab-button no-round-corner" color="accent" (click)="changeEmail">Change Email</button>
 </div>
 

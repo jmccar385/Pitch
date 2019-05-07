@@ -1,0 +1,18 @@
+mat-form-field {
+	width: 90%;
+}
+
+button {
+	margin-top: 20px;
+	font-size: 18px;
+	color: white !important;
+}
+
+#submitNewEmail {
+	float: right;
+}
+
+.mat-dialog-title {
+	text-align: center;
+	margin: 0;
+}

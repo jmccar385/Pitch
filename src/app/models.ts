@@ -1,3 +1,4 @@
+import { Timestamp } from 'rxjs/internal/operators/timestamp';
 
 export interface Band {
   ProfileAddress: number;
@@ -13,6 +14,27 @@ export interface Band {
   ProfileRating: number;
   ProfileRatingCount: number;
   ProfileReportCount: number;
+  Reviews: Review[];
+}
+
+export interface Review {
+  ReviewText: string;
+  ReviewRating: number;
+  ReviewCreator: string;
+  ReviewCreatorName: string;
+  CreationDate: number;
+}
+
+export interface ReviewDialogData {
+  userId: string;
+  userType: string;
+  rating: number;
+  ratingCount: number;
+}
+
+export interface UploadDialogData {
+  userId: string;
+  userType: string;
 }
 
 export interface Equipment {
@@ -21,9 +43,9 @@ export interface Equipment {
 }
 
 export interface SpotifyAccess {
-  accessToken: string;
+  access_token: string;
   expires_in: number;
-  refreshToken: string;
+  refresh_token: string;
   scope: string;
   token_type: string;
 }
@@ -120,6 +142,7 @@ export interface Venue {
   ProfileRatingCount: number;
   ProfileReportCount: number;
   AvailableEquipment: Equipment[];
+  Reviews: Review[];
 }
 
 export interface Event {

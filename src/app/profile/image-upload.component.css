@@ -1,0 +1,25 @@
+button {
+	margin-top: 20px;
+	font-size: 18px;
+	color: white !important;
+}
+
+.mat-dialog-title {
+	text-align: center;
+}
+
+#uploadImage {
+	position: absolute;
+	bottom: calc(5% + 10px);
+	right: calc(5% + 10px);
+}
+
+#close {
+	position: absolute;
+	bottom: calc(5% + 10px);
+	left: calc(5% + 10px);
+}
+
+.picture-upload-field {
+	display: block;
+}

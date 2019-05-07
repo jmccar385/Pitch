@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit {
   @Input() profile: Band|Venue;
   @Input() userType: string;
   @Input() view: boolean;
+  @Input() seeView: boolean;
 
   constructor(private router: Router, private authService: AuthService, private snackBar: MatSnackBar) { }
 

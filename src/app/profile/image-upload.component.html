@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Upload New Image</h1>
+<form [formGroup]="imageUploadForm" (ngSubmit)="imageUploadForm.valid && upload()">
+	<div class="picture-upload-field">
+		<image-upload formControlName="image"></image-upload>
+		<mat-error *ngIf="imageUploadForm.controls.image.errors?.needImage">
+			A profile image is <strong>required</strong> to be an <strong>image</strong>
+		</mat-error>
+	</div>
+	<button  id="close" mat-flat-button color="primary" [mat-dialog-close] type="button">Cancel</button>
+	<button id="uploadImage" mat-flat-button color="primary" type="submit">Upload</button>
+</form>

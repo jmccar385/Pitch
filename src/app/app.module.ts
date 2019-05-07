@@ -23,11 +23,12 @@ import { LoginComponent } from './login/login.component';
 import { ForgotPasswordDialogComponent } from './login/forgotpassword.component';
 import { BrowseComponent } from './browse/browse.component';
 import { SignupComponent } from './signup/signup.component';
-import { HeaderComponent } from './header/header.component';
 import { SignupBandComponent } from './signupBand/signupBand.component';
 import { SignupVenueComponent } from './signupVenue/signupVenue.component';
+import { HeaderComponent } from './header/header.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ReviewDialogComponent } from './profile/review.component';
+import { UploadDialogComponent } from './profile/image-upload.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import {
   SettingsComponent,
@@ -38,6 +39,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { EventSchedulerComponent } from './event-scheduler/event-scheduler.component';
 import { SpotifyAlertDialog } from './signup/spotifyalert.component';
 import { NewEmailDialogComponent } from './settings/newemail.component';
+import { MusicService } from './services/music.service';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import { NewEmailDialogComponent } from './settings/newemail.component';
     LoginComponent,
     ForgotPasswordDialogComponent,
     ReviewDialogComponent,
+    UploadDialogComponent,
     SpotifyAlertDialog,
     BrowseComponent,
     SignupComponent,
@@ -75,12 +78,18 @@ import { NewEmailDialogComponent } from './settings/newemail.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [AuthService, AuthGuard, VerifiedGuard, ProfileService],
+  providers: [
+    AuthService,
+    AuthGuard,
+    VerifiedGuard,
+    ProfileService
+  ],
   entryComponents: [
     ForgotPasswordDialogComponent,
     ReviewDialogComponent,
     SpotifyAlertDialog,
-    NewEmailDialogComponent
+    NewEmailDialogComponent,
+    UploadDialogComponent
   ],
   bootstrap: [AppComponent]
 })

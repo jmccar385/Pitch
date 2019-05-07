@@ -1,0 +1,68 @@
+.conversation-input {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: #fafafa;
+}
+
+mat-form-field {
+  width: 90%;
+  padding-left: 5%;
+}
+
+/* .mat-list-item {
+  height: auto;
+  overflow: auto;
+} */
+
+.mat-list-base[dense] .mat-list-item.mat-list-item-with-avatar {
+  height: auto;
+}
+
+mat-list {
+  /* display: flex; */
+  flex-direction: column-reverse;
+}
+
+mat-list-item {
+  padding-top: .5em;
+  padding-right: .5em;
+  padding-bottom: .5em;
+  padding-left: .5em;
+  margin: 10px 0;
+  display: inline-block;
+  word-break: break-word;
+  border: 2px;
+  height: auto;
+}
+
+.conversation-history {
+  height: calc(100% - 140px);
+  overflow-x: scroll;
+  position: absolute;
+  width: 100%;
+}
+
+.speech-bubble-left {
+	position: relative;
+	background: #c4c4c4;
+  border-radius: .4em;
+  font-size: 18px;
+  padding-top: .5em;
+  padding-right: .5em;
+  padding-bottom: .5em;
+  padding-left: .5em;
+}
+
+
+.speech-bubble-right {
+  color: white;
+	position: relative;
+	background: #00c853;  /*get from theme*/
+  border-radius: .4em;
+  font-size: 18px;
+  padding-top: .5em;
+  padding-right: .5em;
+  padding-bottom: .5em;
+  padding-left: .5em;
+}

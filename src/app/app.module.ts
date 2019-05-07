@@ -35,6 +35,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { EventSchedulerComponent } from './event-scheduler/event-scheduler.component';
 import { SpotifyAlertDialog } from './signup/spotifyalert.component';
 import { MusicService } from './services/music.service';
+import { MessagesComponent } from './messages/messages.component';
+import { ConversationComponent } from './conversation/conversation.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +55,8 @@ import { MusicService } from './services/music.service';
     ImageUploadComponent,
     SettingsComponent,
     EventSchedulerComponent,
+    MessagesComponent,
+    ConversationComponent,
   ],
   imports: [
     BrowserModule,

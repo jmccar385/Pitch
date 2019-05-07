@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, tap, take } from 'rxjs/operators';
 import { flatten } from '@angular/compiler';
 import { Equipment, Playlist, Track, Review, Venue, Band } from '../models';
 

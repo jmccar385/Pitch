@@ -10,6 +10,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { environment } from 'src/environments/environment';
 
 import { AuthService } from './services/auth.service';
@@ -19,25 +20,34 @@ import { ProfileService } from './services/profile.service';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { ForgotPasswordDialog } from './login/forgotpassword.component';
+import { ForgotPasswordDialogComponent } from './login/forgotpassword.component';
 import { BrowseComponent } from './browse/browse.component';
 import { SignupComponent } from './signup/signup.component';
-import { HeaderComponent } from './header/header.component';
 import { SignupBandComponent } from './signupBand/signupBand.component';
 import { SignupVenueComponent } from './signupVenue/signupVenue.component';
+import { HeaderComponent } from './header/header.component';
 import { ProfileComponent } from './profile/profile.component';
-import { ReviewDialog } from './profile/review.component';
-import { PitchDialog } from './profile/pitch.component';
+import { ReviewDialogComponent } from './profile/review.component';
+import { UploadDialogComponent } from './profile/image-upload.component';
+import { PitchDialogComponent } from './profile/pitch.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { SettingsComponent } from './settings/settings.component';
+import { HttpClientModule } from '@angular/common/http';
+import { EventSchedulerComponent } from './event-scheduler/event-scheduler.component';
+import { SpotifyAlertDialog } from './signup/spotifyalert.component';
+import { MusicService } from './services/music.service';
+import { MessagesComponent } from './messages/messages.component';
+import { ConversationComponent } from './conversation/conversation.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    ForgotPasswordDialog,
-    ReviewDialog,
-    PitchDialog,
+    ForgotPasswordDialogComponent,
+    ReviewDialogComponent,
+    UploadDialogComponent,
+    PitchDialogComponent,
+    SpotifyAlertDialog,
     BrowseComponent,
     SignupComponent,
     ProfileComponent,
@@ -46,22 +56,40 @@ import { SettingsComponent } from './settings/settings.component';
     SignupBandComponent,
     ImageUploadComponent,
     SettingsComponent,
+    EventSchedulerComponent,
+    MessagesComponent,
+    ConversationComponent,
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireStorageModule,
+    AngularFireFunctionsModule,
+    HttpClientModule,
     MaterialModule,
     NgxCroppieModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [AuthService, AuthGuard, VerifiedGuard, ProfileService],
-  entryComponents: [ForgotPasswordDialog, ReviewDialog, PitchDialog],
+  providers: [
+    AuthService,
+    AuthGuard,
+    VerifiedGuard,
+    ProfileService,
+    MusicService
+  ],
+  entryComponents: [
+    ForgotPasswordDialogComponent,
+    ReviewDialogComponent,
+    SpotifyAlertDialog,
+    UploadDialogComponent,
+    PitchDialogComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

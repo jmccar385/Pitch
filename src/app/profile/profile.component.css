@@ -1,132 +1,203 @@
+#profile-container {
+  padding: 10px;
+  padding-top: 66px;
+  background: #f2f2f2;
+}
+
+#spacer {
+  width: 100%;
+  background: #f2f2f2;
+  height: 35px;
+}
+
+#pitch {
+  position: fixed;
+  width: calc(100% - 20px);
+  bottom: 10px;
+  left: 10px;
+  height: 35px;
+}
+
 mat-card {
-  margin: 0;
-  margin-top: 56px;
-  width: calc(95% - 32px);
-  margin-left: 2.5%;
   margin-bottom: 10px;
-  height: 1000px;
-  box-shadow: none !important;
 }
 
-mat-card-subtitle {
-  display: flex;
-  align-items: center;
-  font-size: 18px;
-}
-
-#review {
-  height: 36px;
-  margin-left : 10px;
+mat-card-title {
+  font-size: 16px !important;
 }
 
 mat-card-content {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	font-size: 18px;
+  margin-bottom: 0;
+}
+
+.star-image {
+  width: 10px;
+  height: 15px;
+  font-size: 13px;
+}
+
+mat-card-subtitle {
+  margin-bottom: 5px;
+  vertical-align:  text-bottom;
+  font-size: 14px;
+}
+
+mat-card-actions {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+}
+
+#rating {
+  vertical-align: middle;
+}
+
+.checkbox {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.disabled {
+  color: #b0b0b0;
+}
+
+#review {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 form {
 	width: 100%;
 }
 
-.content {
-	width: 100%;
-	margin-top: 30px;
-}
-
-.content:first-child {
-	margin: 0;
+.mat-card-title {
+  font-size: 20px;
 }
 
 mat-form-field {
 	width: 100%;
 }
 
-button {
-	color: white !important;
-	font-size: 18px;
+.track {
+  margin-bottom: 15px;
 }
 
+.track:last-child {
+  margin-bottom: 0;
+}
+
+.mat-flat-button {
+	color: white !important;
+}
+
+.mat-raised-button {
+	color: white !important;
+}
+
+#profile_buttons {
+  position: fixed;
+  bottom: 10px;
+  width: calc(100% - 20px);
+  margin-left: 10px;
+  left: 0;
+  height: 35px;
+}
+
+.edit_save {
+  border-radius: 4px 0 0 4px;
+  width: 50%;
+  height: 100%;
+  box-shadow: 0px 2px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+#view {
+  border-radius: 0 4px 4px 0;
+  width: 50%;
+  height: 100%;
+  box-shadow: 0px 2px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+button {
+  font-size: 18px;
+}
+
+.equipment-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.review-card {
+  background: #f2f2f2;
+}
+
+.equipment {
+  width: 50%;
+}
 
 /* ty w3 schools */
 .slide-container {
-	width: calc(95% - 32px);
-	height: 300px;
-  position: relative;
-  margin: auto;
-	background-color: black;
+  padding: 0;
+  padding-bottom: 32px;
 }
 
 .slide-image {
-	height: 300px;
 	display: none;
-	text-align: center;
-  background-color: black;
-  line-height: 300px;
 }
 
 .slide-picture {
-	max-width: calc(95% - 32px);
-	max-height: 300px;
-	vertical-align: middle;
+  width: 100%;
+	height: auto;
+  border-radius: 4px;
 }
 
 .slide-prev, .slide-next {
   cursor: pointer;
   position: absolute;
-  top: 50%;
   width: auto;
-  margin-top: -22px;
-  padding: 16px;
+  bottom: 16px;
   color: white;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 24px;
   transition: 0.6s ease;
-  border-radius: 0 3px 3px 0;
   user-select: none;
+  bottom: calc(50% - 16px);
 }
 
 .slide-next {
-  right: 0;
+  right: 16px;
   border-radius: 3px 0 0 3px;
 }
 
-.slide-prev:hover, .slide-next:hover {
-  background-color: rgba(0,0,0,0.8);
+.slide-prev {
+  left: 16px;
+  border-radius: 0 3px 3px 0;
 }
 
 .slide-counter {
-  color: #f2f2f2;
-  font-size: 12px;
-  padding: 8px 12px;
+  color: black;
   position: absolute;
-  vertical-align: top;
-  top: 0;
-  line-height: 2em;
+  line-height: 35px;
+  right: 16px;
+  font-size: 16px;
 }
 
-.slide-jump {
-	text-align:center;
+#picture-icons{
+  position: absolute;
+  bottom: 5px;
+
 }
 
-.slide-dot {
-  cursor: pointer;
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
+#picture-icons mat-icon {
+  margin-left: 10px;
 }
 
 .slide-active {
   display: block;
-}
-
-.dot-active, .slide-dot:hover {
-  background-color: #717171;
 }
 
 .slide-fade {
@@ -155,21 +226,17 @@ button {
   padding-top: 16px;
 }
 
+.content-align.playlist {
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
 .content-align.view {
   align-items: flex-start;
 }
 
-.non-input {
-  font-size: 14px;
-}
-
-.disabled {
-  color: rgba(0, 0, 0, 0.54);
-}
-
 ul {
   list-style: none;
-  font-size: 18px;
 }
 
 li {

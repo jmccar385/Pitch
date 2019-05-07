@@ -1,0 +1,26 @@
+mat-form-field {
+	width: 90%;
+}
+
+button {
+	margin-top: 20px;
+	font-size: 18px;
+	color: white !important;
+}
+
+#continue {
+	float: right;
+}
+
+#cancel {
+	float: left;
+}
+
+.mat-dialog-title {
+	text-align: center;
+	margin: 0;
+}
+
+div {
+	text-align: center;
+}

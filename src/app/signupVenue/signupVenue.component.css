@@ -3,11 +3,19 @@
 	height: 100%;
 	background: #00C853;
 	color: white;
-	font-size: 18px;
+	font-size: 15px;
 }
 
 mat-horizontal-stepper {
 	background-color: #00C853 !important;
+}
+
+.checkbox {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-top: 10px;
 }
 
 .stepper-content {
@@ -18,7 +26,7 @@ mat-horizontal-stepper {
 
 mat-form-field {
 	width: 90%;
-	margin: 10px;
+	margin: 5px;
 }
 
 button {
@@ -32,36 +40,24 @@ button:disabled {
 	color: #8c8c8c !important;
 }
 
-.stepper-buttons {
-	width: 100%;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+.picture-upload-field {
+	margin-top: 10px;
+	margin-bottom: 76px;
+}
+
+.survey-button {
+	width: 90%;
+	height: 60px;
 	position: fixed;
 	bottom: 0;
-	background: #00C853;
+	left: 0;
 }
 
 h1 {
-	text-align: left;
-	margin-bottom: 10px;
-	font-size: 25px;
-	width: 100%;
-}
-
-.checkbox-align {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;
-}
-
-mat-checkbox {
-	padding-top: 20px;
+	text-align: center;
+	margin-bottom: 0;
 	font-size: 20px;
 	width: 100%;
-	display: flex;
-	justify-content: center;
 }
 
 .picture-upload-field {

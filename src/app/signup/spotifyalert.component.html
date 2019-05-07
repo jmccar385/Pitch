@@ -1,0 +1,6 @@
+<h1 mat-dialog-title>Signup Spotify Requirement</h1>
+<div>
+	<p>To share music samples you must supply a Spotify playlist containing no more than 10 songs that will appear on your bands profile.</p>
+	<button mat-flat-button id="cancel" color="primary" [routerLink]="['/login']" [mat-dialog-close]>Cancel</button>
+	<button mat-flat-button id="continue" color="primary" (click)="continue()" [mat-dialog-close]>Continue</button>
+</div>

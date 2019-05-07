@@ -4,3 +4,10 @@
     align-content: space-around;
     align-items: center;
 }
+
+.photo-button {
+	width: 24px;
+    height: 24px;
+    transform: scale(2);
+    padding-top: 10px;
+}

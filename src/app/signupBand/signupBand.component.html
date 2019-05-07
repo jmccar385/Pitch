@@ -1,9 +1,9 @@
 <div id="background" class="login-theme">
   <form [formGroup]="signupBandForm" (ngSubmit)="signupBandForm.valid && signupBand()">
     <mat-horizontal-stepper [@.disabled]="true" linear #stepper>
-      <mat-step label="About">
+      <mat-step>
         <div class="stepper-content">
-          <h1>Tell us about your band</h1>
+          <h1>Sign-Up Information</h1>
           <mat-form-field>
             <input matInput placeholder="What is your bands name?" formControlName="name">
             <mat-error *ngIf="signupBandForm.controls.name.errors?.required">
@@ -11,88 +11,63 @@
             </mat-error>
           </mat-form-field>
           <mat-form-field>
-            <textarea matInput placeholder="What should venues to know about your band?" formControlName="description"
-              matTextareaAutosize matAutosizeMinRows=5></textarea>
+            <textarea matInput placeholder="What else should venues know?" formControlName="description"
+              matTextareaAutosize maxlength="1000" matAutosizeMaxRows=6></textarea>
+            <mat-hint align="end">{{signupBandForm.controls.description.value.length}} / 1000</mat-hint>
             <mat-error *ngIf="signupBandForm.controls.description.errors?.required">
               A description is <strong>required</strong>
             </mat-error>
+            <mat-error *ngIf="signupBandForm.controls.description.errors?.maxlength">
+              Your description is too long
+            </mat-error>
           </mat-form-field>
-
+          <mat-form-field>
+            <mat-select disableOptionCentering placeholder="Select a Spotify playlist" formControlName="playlist">
+              <mat-option *ngFor="let playlist of playlists" value="{{playlist.TrackHref}}">{{playlist.Name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="signupBandForm.controls.playlist.errors?.required">
+              A playlist is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput #postalCode maxlength="5" placeholder="What is you zipcode?" formControlName="zip">
+            <mat-hint align="end">{{signupBandForm.controls.zip.value.length}} / 5</mat-hint>
+            <mat-error *ngIf="signupBandForm.controls.zip.errors?.required">
+              A zip code is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select disableOptionCentering placeholder="How far can you travel for a gig?" formControlName="radius">
+              <mat-option value="5">5mi</mat-option>
+              <mat-option value="10">10mi</mat-option>
+              <mat-option value="15">15mi</mat-option>
+              <mat-option value="20">20mi</mat-option>
+              <mat-option value="30">30mi</mat-option>
+              <mat-option value="40">35mi</mat-option>
+              <mat-option value="50">40mi</mat-option>
+              <mat-option value="75">45mi</mat-option>
+              <mat-option value="100">50mi</mat-option>
+              <mat-option value="">Anywhere</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button class="survey-button" mat-flat-button matStepperNext color="accent" type="button" [disabled]="signupBandForm.controls.name.errors || signupBandForm.controls.description.errors || signupBandForm.controls.playlist.errors || signupBandForm.controls.zip.errors">Next</button>
+        </div>
+      </mat-step>
+      <mat-step>
+        <div class="stepper-content">
+          <h1>Choose a Profile Picture</h1>
           <div class="picture-upload-field">
             <image-upload formControlName="profileImage"></image-upload>
             <mat-error *ngIf="signupBandForm.controls.profileImage.errors?.needImage">
               A profile image is <strong>required</strong> to be an <strong>image</strong>
             </mat-error>
           </div>
-
-          <div class="stepper-buttons">
-            <button mat-flat-button type="button" color="accent" [routerLink]="['/signup']">Back</button>
-            <button mat-flat-button matStepperNext color="accent" type="button"
-              [disabled]="signupBandForm.controls.name.errors || signupBandForm.controls.description.errors || signupBandForm.controls.profileImage.errors">Next</button>
-          </div>
+          <button class="survey-button" mat-flat-button matStepperNext color="accent" type="button" [disabled]="signupBandForm.controls.profileImage.errors">Next</button>
         </div>
       </mat-step>
-      <mat-step label="Location">
+      <mat-step>
         <div class="stepper-content">
-          <h1>Next we need some basic location info</h1>
-          <mat-form-field>
-            <input matInput placeholder="Address" type="address" formControlName="address">
-            <mat-error *ngIf="signupBandForm.controls.address.errors?.required">
-              An address is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput placeholder="City" type="address" formControlName="city">
-            <mat-error *ngIf="signupBandForm.controls.address.errors?.required">
-              A city is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput placeholder="State" type="address" formControlName="state">
-            <mat-error *ngIf="signupBandForm.controls.address.errors?.required">
-              A state is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput placeholder="Zip Code" type="zip" formControlName="zip">
-            <mat-error *ngIf="signupBandForm.controls.address.errors?.required">
-              A zip code is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-select disableOptionCentering placeholder="How far can you travel for a gig?" [(value)]="selected">
-              <mat-option value="">None</mat-option>
-              <mat-option value="5">5mi</mat-option>
-              <mat-option value="10">10mi</mat-option>
-              <mat-option value="15">15mi</mat-option>
-              <mat-option value="20">20mi</mat-option>
-              <mat-option value="25">25mi</mat-option>
-              <mat-option value="30">30mi</mat-option>
-              <mat-option value="35">35mi</mat-option>
-              <mat-option value="40">40mi</mat-option>
-              <mat-option value="45">45mi</mat-option>
-              <mat-option value="50">50mi</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <div class="stepper-buttons">
-            <button mat-flat-button matStepperPrevious color="accent" type="button">Back</button>
-            <button mat-flat-button matStepperNext color="accent" type="button"
-              [disabled]="signupBandForm.controls.address.errors">Next</button>
-          </div>
-        </div>
-      </mat-step>
-      <mat-step label="Music">
-        <div class="stepper-content">
-          <h1>Select some music samples to send to venues</h1>
-          <div class="stepper-buttons">
-            <button mat-flat-button matStepperPrevious color="accent" type="button">Back</button>
-            <button mat-flat-button matStepperNext color="accent" type="button">Next</button>
-          </div>
-        </div>
-      </mat-step>
-      <mat-step label="Account">
-        <div class="stepper-content">
-          <h1>Finally create your account</h1>
+          <h1>Create your account</h1>
           <mat-form-field>
             <input matInput placeholder="Email" formControlName="email">
             <mat-error
@@ -109,10 +84,7 @@
               Password is <strong>required</strong>
             </mat-error>
           </mat-form-field>
-          <div class="stepper-buttons">
-            <button mat-flat-button matStepperPrevious color="accent" type="button">Back</button>
-            <button mat-flat-button matStepperNext color="accent" [disabled]="!signupBandForm.valid">Sign Up</button>
-          </div>
+          <button class="survey-button" mat-flat-button matStepperNext color="accent" type="submit" [disabled]="!signupBandForm.valid">Next</button>
         </div>
       </mat-step>
     </mat-horizontal-stepper>

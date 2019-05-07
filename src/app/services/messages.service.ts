@@ -14,7 +14,6 @@ export class MessagesService {
   ) {}
 
   sendMessage(convoId: string, msg: string) {
-    console.log('Logging: ', this.authSvc.currentUserID);
     const message: Message = {
       createdAt: Date.now(),
       senderId: this.authSvc.currentUserID,
@@ -38,7 +37,7 @@ export class MessagesService {
   }
 
   sendConsentToken(token: string) {
-    console.log('Logging: ', this.authSvc);
+    console.log('token: ', token);
     const uid = this.authSvc.currentUserID;
     return this.afDatabase.collection('Artists').doc(uid).get().pipe(
       mergeMap(doc => {

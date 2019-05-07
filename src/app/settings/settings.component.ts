@@ -27,8 +27,10 @@ export class SettingsComponent implements OnInit {
   }
 
   consent() {
-    this.afMessaging.requestPermission.pipe(mergeMapTo(this.afMessaging.tokenChanges))
+    this.afMessaging.requestToken
     .subscribe(token => this.msgSvc.sendConsentToken(token), console.log); // second log is for errors
+
+    this.afMessaging.messages.subscribe(val => console.log('subscribed: ', val));
   }
 
   logout() {

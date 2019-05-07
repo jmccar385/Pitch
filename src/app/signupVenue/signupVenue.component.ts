@@ -58,12 +58,10 @@ export class SignupVenueComponent {
       ProfileName: this.signupVenueForm.controls.name.value,
       ProfileBiography: this.signupVenueForm.controls.description.value,
       ProfilePictureUrl: '', // Gets added in authSvc
-      ProfileImageUrls: [],
       AvailableEquipment: this.availableEquipment,
       ProfileRating: 5,
       ProfileRatingCount: 0,
       ProfileReportCount: 0,
-      Reviews: []
     };
     this.authService
       .signupVenue(

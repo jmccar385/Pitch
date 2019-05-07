@@ -161,6 +161,8 @@ export class ProfileComponent implements OnInit {
   }
 
   reviewModal(): void {
+    console.log(this.profile.ProfileRating);
+    console.log(this.profile.ProfileRatingCount);
     const dialogRef = this.dialog.open(ReviewDialogComponent, {
       width: '300px',
       data: {
@@ -169,6 +171,12 @@ export class ProfileComponent implements OnInit {
         rating: this.profile.ProfileRating,
         ratingCount: this.profile.ProfileRatingCount
       }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      this.profile.ProfileRating = result.rating;
+      this.profile.ProfileRatingCount = result.ratingCount;
     });
   }
 

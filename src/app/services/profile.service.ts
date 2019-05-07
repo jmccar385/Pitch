@@ -114,16 +114,7 @@ export class ProfileService {
               id: snapshot.payload.doc.id,
               ...snapshot.payload.doc.data()
             };
-
             return [
-              this.afDatabase
-                .collection(`Venues/${record.id}/AvailableEquipment`)
-                .valueChanges()
-                .pipe(
-                  map(change => {
-                    return { ...record, SubCollection: change };
-                  })
-                ),
               this.afDatabase
                 .collection(`Venues/${record.id}/Events`)
                 .valueChanges()
@@ -132,22 +123,6 @@ export class ProfileService {
                     return { ...record, SubCollection: change };
                   })
                 ),
-              this.afDatabase
-                .collection(`Venues/${record.id}/Reviews`)
-                .valueChanges()
-                .pipe(
-                  map(change => {
-                    return { ...record, SubCollection: change };
-                  })
-                ),
-              this.afDatabase
-                .collection(`Venues/${record.id}/ProfileImageUrls`)
-                .valueChanges()
-                .pipe(
-                  map(change => {
-                    return { ...record, SubCollection: change };
-                  })
-                )
             ];
           });
         })
@@ -171,10 +146,9 @@ export class ProfileService {
             id: doc.id,
             ...doc.data()
           };
-
           return [
             this.afDatabase
-              .collection(`Venues/${record.id}/AvailableEquipment`)
+              .collection('Venues').doc(record.id).collection('Reviews')
               .valueChanges()
               .pipe(
                 map(change => {
@@ -190,7 +164,7 @@ export class ProfileService {
                 })
               ),
             this.afDatabase
-              .collection(`Venues/${record.id}/Reviews`)
+              .collection(`Venues/${record.id}/ProfileImageUrls`)
               .valueChanges()
               .pipe(
                 map(change => {

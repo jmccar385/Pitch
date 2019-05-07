@@ -48,6 +48,6 @@ export class ReviewDialogComponent {
       this.data.ratingCount,
       this.data.rating
     );
-    this.dialogRef.close();
+    this.dialogRef.close({rating: this.data.rating, ratingCount: this.data.ratingCount});
   }
 }

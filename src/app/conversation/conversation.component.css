@@ -1,3 +1,9 @@
+#conversation_container {
+	padding: 10px;
+  padding-top: 66px;
+  height: 100%;
+  }
+
 .conversation-input {
   position: absolute;
   bottom: 0;
@@ -37,7 +43,7 @@ mat-list-item {
 }
 
 .conversation-history {
-  height: calc(100% - 140px);
+  height: calc(100% - 66px);
   overflow-x: scroll;
   position: absolute;
   width: 100%;

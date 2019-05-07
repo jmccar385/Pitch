@@ -1,14 +1,14 @@
 <h1 mat-dialog-title>Change Email</h1>
 <form [formGroup]="newEmailForm" (ngSubmit)="newEmailForm.valid && send()">
   <mat-form-field>
-    <input matInput placeholder="Password" formControlName="password" cdkFocusInitial>
+    <input matInput placeholder="Password" type="password" formControlName="password" cdkFocusInitial>
     <mat-error *ngIf="newEmailForm.controls.password.errors?.required">
       Password is <strong>required</strong>
     </mat-error>
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput placeholder="Email" formControlName="email" cdkFocusInitial>
+    <input matInput placeholder="Email" formControlName="email">
     <mat-error *ngIf="newEmailForm.controls.email.errors?.email && !newEmailForm.controls.email.errors?.required">
       Invalid email address
     </mat-error>
@@ -18,7 +18,7 @@
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput placeholder="Confirm Email" formControlName="confirmEmail" cdkFocusInitial>
+    <input matInput placeholder="Confirm Email" formControlName="confirmEmail">
     <mat-error *ngIf="newEmailForm.controls.confirmEmail.value !== newEmailForm.controls.email.value">
       The entered values do not match
     </mat-error>

@@ -115,8 +115,8 @@ mat-slider {
   border-radius: 27px;
 }
 
-.no-round-corner {
-  border-radius: 0px;
+.no-round-top-corners {
+  border-radius: 0px 0px 4px 4px;
 }
 
 .shrink-bottom-border {

@@ -37,6 +37,7 @@ import {
 import { HttpClientModule } from '@angular/common/http';
 import { EventSchedulerComponent } from './event-scheduler/event-scheduler.component';
 import { SpotifyAlertDialog } from './signup/spotifyalert.component';
+import { NewEmailDialogComponent } from './settings/newemail.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { SpotifyAlertDialog } from './signup/spotifyalert.component';
     SettingsComponent,
     AccountSettingsComponent,
     NotificationSettingsComponent,
+    NewEmailDialogComponent,
     EventSchedulerComponent
   ],
   imports: [
@@ -77,7 +79,8 @@ import { SpotifyAlertDialog } from './signup/spotifyalert.component';
   entryComponents: [
     ForgotPasswordDialogComponent,
     ReviewDialogComponent,
-    SpotifyAlertDialog
+    SpotifyAlertDialog,
+    NewEmailDialogComponent
   ],
   bootstrap: [AppComponent]
 })

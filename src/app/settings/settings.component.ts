@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
+import { NewEmailDialogComponent } from './newemail.component';
 
 @Component({
   selector: 'app-settings',
@@ -27,6 +28,7 @@ export class SettingsComponent implements OnInit {
 export class AccountSettingsComponent implements OnInit {
   constructor(
     private authService: AuthService,
+    public dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
 
@@ -51,7 +53,10 @@ export class AccountSettingsComponent implements OnInit {
   }
 
   changeEmail() {
-    // TODO: Create change email dialog
+    this.dialog.open(NewEmailDialogComponent, {
+      width: '450px',
+      data: {}
+    });
   }
 }
 

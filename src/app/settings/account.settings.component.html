@@ -18,10 +18,13 @@
   </div>
 </div>
 
-<div class=""></div>
-
-<div class="custom-fab-container ">
-  <button *ngIf="!verified" mat-flat-button class="custom-fab-button no-round-corner" color="accent" (click)="verifyEmail">Resend Email</button>
-  <button *ngIf="verified" mat-flat-button class="custom-fab-button no-round-corner" color="accent" (click)="changeEmail">Change Email</button>
+<div style="width: 40%; left: 30%; position: relative;">
+  <button *ngIf="!verified" mat-flat-button class="custom-fab-button no-round-top-corners" color="accent"
+    (click)="verifyEmail()">Resend Email</button>
+  <button *ngIf="verified" mat-flat-button class="custom-fab-button no-round-top-corners" color="accent"
+    (click)="changeEmail()">Change Email</button>
 </div>
 
+<div class="custom-fab-container">
+  <button mat-flat-button class="custom-fab-button" color="warn" (click)="warnDelete()">Delete Account</button>
+</div>

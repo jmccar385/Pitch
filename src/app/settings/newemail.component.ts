@@ -4,9 +4,9 @@ import { MatSnackBar, MatDialogRef } from '@angular/material';
 import { AuthService } from '../services/auth.service';
 
 @Component({
-  selector: 'app-forgot-password-dialog',
-  templateUrl: './forgotpassword.component.html',
-  styleUrls: ['./forgotpassword.component.css']
+  selector: 'app-change-email-dialog',
+  templateUrl: './newemail.component.html',
+  styleUrls: ['./newemail.component.css']
 })
 export class NewEmailDialogComponent {
   constructor(
@@ -28,14 +28,14 @@ export class NewEmailDialogComponent {
         this.newEmailForm.controls.password.value
       )
       .then(() => {
-        const oldEmail = this.authService.currentUser.email;
         const newEmail = this.newEmailForm.controls.email.value;
 
         this.authService
           .changePassword(newEmail)
           .then(() => {
             this.dialogRef.close();
-            this.snackBar.open('Your email has been updated', 'close', {
+            this.authService.verification();
+            this.snackBar.open('A verification email has been sent to your new address.', 'close', {
               duration: 2000
             });
           })

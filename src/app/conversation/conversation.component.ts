@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
 import { MessagesService } from '../services/messages.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
@@ -9,7 +9,20 @@ import { AuthService } from '../services/auth.service';
   templateUrl: './conversation.component.html',
   styleUrls: ['./conversation.component.css']
 })
-export class ConversationComponent implements OnInit {
+export class ConversationComponent implements OnInit, AfterViewChecked  {
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+
+  ngAfterViewChecked(): void {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom(): void {
+    try {
+        console.log(this.myScrollContainer.nativeElement.scrollHeight)
+        //this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+        this.myScrollContainer.nativeElement.scrollIntoView(false);
+    } catch(err) { }                 
+}
 
   private messages;
   currentUserId: string;
@@ -47,6 +60,7 @@ export class ConversationComponent implements OnInit {
         })[0];
       }
     );
+    this.scrollToBottom();
   }
 
   sendMessage() {

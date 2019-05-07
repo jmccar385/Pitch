@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { ProfileService } from '../services/profile.service';
 import { MusicService } from '../services/music.service';
 import { ReviewDialogComponent } from './review.component';
+import { UploadDialogComponent } from './image-upload.component';
 import { Playlist, Equipment } from '../models';
 import { Observable } from 'rxjs';
 
@@ -17,6 +18,7 @@ import { Observable } from 'rxjs';
 export class ProfileComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
+    private snackBar: MatSnackBar,
     private profileService: ProfileService,
     private musicService: MusicService,
     private route: ActivatedRoute,
@@ -26,6 +28,7 @@ export class ProfileComponent implements OnInit {
   slideIndex = 1;
   userType: string;
   view: boolean;
+  seeView = false;
   playlists: Playlist[] = [];
   equipment: Observable<Equipment[]>;
   equipmentList: Equipment[] = [];
@@ -52,6 +55,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.userType = this.route.snapshot.params.userType;
+    this.view = (this.route.snapshot.params.id === this.authService.currentUserID);
     if (this.userType === 'venue') {
       this.equipment = this.profileService.getEquipmentList();
       this.equipment.subscribe(items => {
@@ -60,13 +64,11 @@ export class ProfileComponent implements OnInit {
           this.profileForm.addControl(item.Name.toLowerCase().replace(' ', '_').replace(' ', '/'), new FormControl());
         }
         this._setData(this.route.snapshot.params.id, this.userType);
-        this.view = (this.route.snapshot.params.id === this.authService.currentUserID);
         this.profileForm.disable();
       });
     } else {
       this._setData(this.route.snapshot.params.id, this.userType);
-      this.view = (this.route.snapshot.params.id === this.authService.currentUserID);
-      this.profileForm.disable();
+      // this.profileForm.disable();
     }
   }
 
@@ -80,7 +82,7 @@ export class ProfileComponent implements OnInit {
         this.profileForm.controls.playlist.setValue(this.profile.Playlist.TrackHref);
         this.playlists.push(this.profile.Playlist);
         this.profileImageUrls = this.profile.ProfileImageUrls;
-        this.profileImageUrls.push(this.profile.ProfilePictureUrl);
+        this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
       });
     } else if (userType === 'venue') {
       this.profileService.getVenueObserverById(uid).subscribe(record => {
@@ -117,7 +119,10 @@ export class ProfileComponent implements OnInit {
         this.profileForm.controls.biography.setValue(this.profile.ProfileBiography);
         this.availableEquipment = this.profile.AvailableEquipment;
         this.profileImageUrls = this.profile.ProfileImageUrls;
-        this.profileImageUrls.push(this.profile.ProfilePictureUrl);
+        this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
+        for (const review of this.profile.Reviews) {
+          review.CreationDate = new Date(review.CreationDate);
+        }
         for (const equipment of this.profile.AvailableEquipment) {
           this.profileForm.controls[equipment.Name.toLowerCase().replace(' ', '_').replace(' ', '/')].setValue(true);
         }
@@ -158,7 +163,12 @@ export class ProfileComponent implements OnInit {
   reviewModal(): void {
     const dialogRef = this.dialog.open(ReviewDialogComponent, {
       width: '300px',
-      data: {}
+      data: {
+        userId: this.route.snapshot.params.id,
+        userType: this.route.snapshot.params.userType,
+        rating: this.profile.ProfileRating,
+        ratingCount: this.profile.ProfileRatingCount
+      }
     });
   }
 
@@ -206,6 +216,36 @@ export class ProfileComponent implements OnInit {
   }
 
   viewProfile() {
+    this.seeView = !this.seeView;
     this.view = !this.view;
+  }
+
+  addPicture() {
+    const dialogRef = this.dialog.open(UploadDialogComponent, {
+      width: '90%',
+      maxWidth: '100vw',
+      height: '90%',
+      data: {
+        userId: this.route.snapshot.params.id,
+        userType: this.route.snapshot.params.userType,
+      },
+      autoFocus: false,
+    });
+  }
+
+  deletePicture(path: string) {
+    if (this.profile.ProfilePictureUrl === path) {
+      this.snackBar.open(
+        'You cannot delete your profile Picture without selecting a new one',
+        'close',
+        { duration: 2000 }
+      );
+    } else {
+      this.profileService.deteleImage(path);
+    }
+  }
+
+  makeProfilePicture(path: string) {
+    this.profileService.updateProfilePicture(this.authService.currentUserID, this.userType, path);
   }
 }

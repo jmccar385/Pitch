@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { flatten } from '@angular/compiler';
-import { Equipment, Playlist, Track } from '../models';
+import { Equipment, Playlist, Track, Review, Venue, Band } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +25,36 @@ export class ProfileService {
     return ref.put(file).then(() => {
       return ref.getDownloadURL().toPromise();
     });
+  }
+
+  deteleImage(filePath: string) {
+    filePath = filePath.split('/')[7];
+    filePath = filePath.substr(0, filePath.indexOf('?'));
+    const path = `${filePath}`;
+    this.afStorage.ref(path).delete();
+  }
+
+  updateProfileImageUrls(userId: string, userType: string, input: Blob) {
+    let collection: string;
+    if (userType === 'venue') {
+      collection = 'Venues';
+    } else {
+      collection = 'Artists';
+    }
+    this.uploadImage(input).then((url) => {
+      this.afDatabase.collection(collection).doc(userId).collection('ProfileImageUrls').add({url});
+    });
+  }
+
+  updateProfilePicture(userId: string, userType: string, path: string) {
+    console.log(path);
+    let collection: string;
+    if (userType === 'venue') {
+      collection = 'Venues';
+    } else {
+      collection = 'Artists';
+    }
+    this.afDatabase.collection(collection).doc(userId).update({ProfilePictureUrl: path});
   }
 
   getArtistObserver() {
@@ -53,6 +83,26 @@ export class ProfileService {
       .toPromise();
   }
 
+  createReview(review: Review, userId: string, userType: string, ratingCount: number, rating: number) {
+    let reviewCollection: string;
+    let userCollection: string;
+    if (userType === 'venue') {
+      reviewCollection = 'Venues';
+      userCollection = 'Artists';
+    } else {
+      reviewCollection = 'Artists';
+      userCollection = 'Venues';
+    }
+    this.afDatabase.collection(userCollection).doc<Band|Venue>(review.ReviewCreator).valueChanges().subscribe(response => {
+      review.ReviewCreatorName = response.ProfileName;
+      this.afDatabase.collection(reviewCollection).doc(userId).collection('Reviews').add(review);
+      this.afDatabase.collection(reviewCollection).doc(userId).update({
+        ProfileRatingCount: ratingCount,
+        ProfileRating: rating
+      });
+    });
+  }
+
   getVenueObserver() {
     return this.afDatabase
       .collection('Venues')
@@ -76,6 +126,22 @@ export class ProfileService {
                 ),
               this.afDatabase
                 .collection(`Venues/${record.id}/Events`)
+                .valueChanges()
+                .pipe(
+                  map(change => {
+                    return { ...record, SubCollection: change };
+                  })
+                ),
+              this.afDatabase
+                .collection(`Venues/${record.id}/Reviews`)
+                .valueChanges()
+                .pipe(
+                  map(change => {
+                    return { ...record, SubCollection: change };
+                  })
+                ),
+              this.afDatabase
+                .collection(`Venues/${record.id}/ProfileImageUrls`)
                 .valueChanges()
                 .pipe(
                   map(change => {
@@ -117,6 +183,14 @@ export class ProfileService {
               ),
             this.afDatabase
               .collection(`Venues/${record.id}/Events`)
+              .valueChanges()
+              .pipe(
+                map(change => {
+                  return { ...record, SubCollection: change };
+                })
+              ),
+            this.afDatabase
+              .collection(`Venues/${record.id}/Reviews`)
               .valueChanges()
               .pipe(
                 map(change => {

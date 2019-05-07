@@ -1,16 +1,14 @@
 <app-header></app-header>
+<div id="browse_container">
 <mat-card *ngFor="let card of profileCards" [routerLink]="['/profile', 'venue', card.profile_id]">
   <mat-card-header>
-    <img mat-card-avatar class="browse-header-image" src="{{ card.profile_image }}" />
+    <img mat-card-avatar class="browse-header-image" src="{{ card.profile_image }}"/>
     <mat-card-title> {{ card.profile_name }} </mat-card-title>
     <mat-card-subtitle>
-      <mat-icon>star</mat-icon>
-      {{card.rating}} ({{card.rating_count}} Ratings)
+      <mat-icon class="browse-star-image">star</mat-icon>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{card.rating | number}} ({{card.rating_count}} Ratings)<br>{{card.profile_address}}
     </mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content>
-    {{card.profile_address}}
-  </mat-card-content>
   <mat-card-actions>
     {{ card.upcoming_event_text }}
     <div class="equipment-icons">
@@ -18,3 +16,4 @@
     </div>
   </mat-card-actions>
 </mat-card>
+</div>

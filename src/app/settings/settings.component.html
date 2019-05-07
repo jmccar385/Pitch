@@ -8,7 +8,7 @@
   <div class="big-settings-buttons">
     <mat-grid-list cols="2" rowHeight="1:1" gutterSize="5vw">
       <mat-grid-tile>
-        <button mat-stroked-button class="block-icon-button">
+        <button mat-stroked-button class="block-icon-button" [routerLink]="['/profile', 'settings', 'account']">
           <svg class="icon-fill icon-vert-stretch">
             <image class="icon-fill icon-vert-stretch"
               xlink:href="https://material.io/tools/icons/static/icons/baseline-person-24px.svg"
@@ -18,7 +18,7 @@
         <span class="raised-button-label"><strong>Account</strong></span>
       </mat-grid-tile>
       <mat-grid-tile>
-        <button mat-stroked-button class="block-icon-button">
+        <button mat-stroked-button class="block-icon-button" [routerLink]="['/profile', 'settings', 'notifications']">
           <svg class="icon-fill">
             <image class="icon-fill"
               xlink:href="https://material.io/tools/icons/static/icons/baseline-notifications-24px.svg"
@@ -52,26 +52,6 @@
   </div>
 </div>
 
-<!-- TODO: Put FAB logout button -->
-<div class="custom-fab">
-
-</div>
-
-
-<!-- TODO: Move verified text to account page -->
-<div id="settings">
-  <div id="email-verification">
-    <div id="verified-icon-text">
-      verified:
-      <ng-template [ngIf]="verified" [ngIfElse]="unverified">
-        <mat-icon color="primary">check_circle</mat-icon>
-      </ng-template>
-      <ng-template #unverified>
-        <mat-icon color="warn">cancel_circle</mat-icon>
-      </ng-template>
-    </div>
-    <ng-template [ngIf]="!verified">
-      <button mat-flat-button color="primary" (click)="verify()">Resend Email</button>
-    </ng-template>
-  </div>
+<div class="custom-fab-container">
+  <button mat-flat-button class="custom-fab-button" color="accent" (click)="logout">Sign out</button>
 </div>

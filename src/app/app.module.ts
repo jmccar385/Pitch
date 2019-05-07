@@ -29,7 +29,11 @@ import { SignupVenueComponent } from './signupVenue/signupVenue.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ReviewDialogComponent } from './profile/review.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
-import { SettingsComponent } from './settings/settings.component';
+import {
+  SettingsComponent,
+  AccountSettingsComponent,
+  NotificationSettingsComponent
+} from './settings/settings.component';
 import { HttpClientModule } from '@angular/common/http';
 import { EventSchedulerComponent } from './event-scheduler/event-scheduler.component';
 import { SpotifyAlertDialog } from './signup/spotifyalert.component';
@@ -49,7 +53,9 @@ import { SpotifyAlertDialog } from './signup/spotifyalert.component';
     SignupBandComponent,
     ImageUploadComponent,
     SettingsComponent,
-    EventSchedulerComponent,
+    AccountSettingsComponent,
+    NotificationSettingsComponent,
+    EventSchedulerComponent
   ],
   imports: [
     BrowserModule,
@@ -65,10 +71,14 @@ import { SpotifyAlertDialog } from './signup/spotifyalert.component';
     NgxCroppieModule,
     BrowserAnimationsModule,
     FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
   ],
   providers: [AuthService, AuthGuard, VerifiedGuard, ProfileService],
-  entryComponents: [ForgotPasswordDialogComponent, ReviewDialogComponent, SpotifyAlertDialog],
+  entryComponents: [
+    ForgotPasswordDialogComponent,
+    ReviewDialogComponent,
+    SpotifyAlertDialog
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

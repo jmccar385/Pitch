@@ -1,20 +1,11 @@
-#settings {
-  font-size: 18px;
-  padding-top: 16px;
-  padding-left: 16px;
-  padding-right: 16px;
-  margin-top: 56px;
+mat-slider {
+  width: 100%;
 }
 
-#email-verification {
+.email-verification {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-#verified-icon-text {
-  display: flex;
-  align-items: center;
 }
 
 .big-settings-block {
@@ -100,16 +91,45 @@
   width: 95%;
 }
 
-
-.section-taller > .setting-section-top {
-	padding-bottom: calc((2em + 25px) / 2);
-	margin-top: calc((2em + 25px) / -2);
+.section-taller>.setting-section-top {
+  padding-bottom: calc((2em + 25px) / 2);
+  margin-top: calc((2em + 25px) / -2);
 }
 
 .section-taller {
-	height: calc(2em + 25px);
+  height: calc(2em + 25px);
 }
 
-mat-slider {
-	width: 100%;
+.custom-fab-container {
+  position: fixed;
+  width: 80%;
+  bottom: 5vw;
+  left: 10%;
+  height: 54px;
+}
+
+.custom-fab-button {
+  width: 100%;
+  height: 100%;
+  font-size: 18px;
+  border-radius: 27px;
+}
+
+.shrink-bottom-border {
+  height: calc(2em + 25px);
+  width: 80%;
+  margin-left: 7.5vw;
+  position: relative;
+}
+
+.shrink-bottom-border > .setting-section-title {
+  margin-left: -7.5%;
+}
+
+.shrink-bottom-border > .setting-section-top {
+  margin-right: -7.5%;
+}
+
+.shrink-bottom-border > .setting-section-bottom-right {
+  margin-right: -7.5%;
 }

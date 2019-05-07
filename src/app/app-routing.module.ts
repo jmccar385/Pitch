@@ -10,7 +10,11 @@ import { SignupComponent } from './signup/signup.component';
 import { SignupVenueComponent } from './signupVenue/signupVenue.component';
 import { SignupBandComponent } from './signupBand/signupBand.component';
 import { ProfileComponent } from './profile/profile.component';
-import { SettingsComponent } from './settings/settings.component';
+import {
+  SettingsComponent,
+  AccountSettingsComponent,
+  NotificationSettingsComponent
+} from './settings/settings.component';
 import { EventSchedulerComponent } from './event-scheduler/event-scheduler.component';
 
 const routes: Routes = [
@@ -26,6 +30,16 @@ const routes: Routes = [
   {
     path: 'profile/settings',
     component: SettingsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'profile/settings/account',
+    component: AccountSettingsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'profile/settings/notifications',
+    component: NotificationSettingsComponent,
     canActivate: [AuthGuard]
   },
   { path: 'login', component: LoginComponent },

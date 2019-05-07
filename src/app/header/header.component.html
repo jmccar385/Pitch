@@ -27,6 +27,24 @@
 				<mat-icon>power_settings_new</mat-icon>
 			</button>
 		</ng-template>
+		<ng-template [ngIf]="this.router.url == '/profile/settings/account'">
+			<button mat-icon-button [routerLink]="['/profile', 'settings']" color="accent">
+				<mat-icon>arrow_back_ios</mat-icon>
+			</button>
+			<h1>Account</h1>
+			<button mat-icon-button color="accent" [disabled]="true" >
+				<mat-icon></mat-icon>
+			</button>
+		</ng-template>
+		<ng-template [ngIf]="this.router.url == '/profile/settings/notifications'">
+			<button mat-icon-button [routerLink]="['/profile', 'settings']" color="accent">
+				<mat-icon>arrow_back_ios</mat-icon>
+			</button>
+			<h1>Notifications</h1>
+			<button mat-icon-button color="accent" [disabled]="true" >
+				<mat-icon></mat-icon>
+			</button>
+		</ng-template>
 		<ng-template [ngIf]="view && this.userType === 'band'">
 			<button mat-icon-button (click)="verified()" color="accent">
 				<mat-icon>list</mat-icon>

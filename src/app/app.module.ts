@@ -30,18 +30,15 @@ import { ProfileComponent } from './profile/profile.component';
 import { ReviewDialogComponent } from './profile/review.component';
 import { UploadDialogComponent } from './profile/image-upload.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
-import {
-  SettingsComponent,
-  AccountSettingsComponent,
-  NotificationSettingsComponent
-} from './settings/settings.component';
+import { SettingsComponent } from './settings/settings.component';
 import { HttpClientModule } from '@angular/common/http';
 import { EventSchedulerComponent } from './event-scheduler/event-scheduler.component';
 import { SpotifyAlertDialog } from './signup/spotifyalert.component';
 import { NewEmailDialogComponent } from './settings/newemail.component';
-import { MusicService } from './services/music.service';
 import { MessagesComponent } from './messages/messages.component';
 import { ConversationComponent } from './conversation/conversation.component';
+import { AccountSettingsComponent } from './settings/account.settings.component';
+import { NotificationSettingsComponent } from './settings/notifications.settings.component';
 
 @NgModule({
   declarations: [

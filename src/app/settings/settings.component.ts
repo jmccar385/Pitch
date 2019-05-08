@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
+
+  userType: string;
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {

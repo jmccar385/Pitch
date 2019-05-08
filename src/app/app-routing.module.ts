@@ -10,14 +10,12 @@ import { SignupComponent } from './signup/signup.component';
 import { SignupVenueComponent } from './signupVenue/signupVenue.component';
 import { SignupBandComponent } from './signupBand/signupBand.component';
 import { ProfileComponent } from './profile/profile.component';
-import {
-  SettingsComponent,
-  AccountSettingsComponent,
-  NotificationSettingsComponent
-} from './settings/settings.component';
+import { SettingsComponent } from './settings/settings.component';
 import { EventSchedulerComponent } from './event-scheduler/event-scheduler.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ConversationComponent } from './conversation/conversation.component';
+import { AccountSettingsComponent } from './settings/account.settings.component';
+import { NotificationSettingsComponent } from './settings/notifications.settings.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/browse', pathMatch: 'full' },

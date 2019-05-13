@@ -6,7 +6,7 @@
         <img class="slide-picture" [src]="image" (load)="jumpToSlide(0)">
         <div class="slide-counter">{{i+1}} / {{profile?.ProfileImageUrls.length + 1}}</div>
         <div *ngIf="profileForm.enabled" id="picture-icons">
-          <mat-icon id="photo-button" (click)="addPicture()">add_photo_alternate</mat-icon>
+          <mat-icon id="photo-button" (click)="addPicture()" >add_photo_alternate</mat-icon>
           <mat-icon id="delete-button" (click)="deletePicture(image)">delete</mat-icon>
           <mat-icon id="profile-picture" (click)="makeProfilePicture(image)">account_circle</mat-icon>
         </div>

@@ -150,6 +150,7 @@ export interface Venue {
   AvailableEquipment: Equipment[];
   Reviews?: Review[];
   Events?: Event[];
+  upcomingEvents?: number;
 }
 
 export interface Event {

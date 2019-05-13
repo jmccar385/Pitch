@@ -166,36 +166,8 @@ export class ProfileService {
       });
   }
 
-  getVenueObserver() {
-    return this.afDatabase
-      .collection('Venues')
-      .snapshotChanges()
-      .pipe(
-        map(item => {
-          return item.map(snapshot => {
-            const record = {
-              id: snapshot.payload.doc.id,
-              ...snapshot.payload.doc.data()
-            };
-            return [
-              this.afDatabase
-                .collection(`Venues/${record.id}/Events`)
-                .valueChanges()
-                .pipe(
-                  map(change => {
-                    return { ...record, SubCollection: change };
-                  })
-                )
-            ];
-          });
-        })
-      )
-      .pipe(
-        mergeMap(result => {
-          const flattened = flatten(result);
-          return combineLatest(flattened);
-        })
-      );
+  getVenuesObserver() {
+    return this.afDatabase.collection('Venues').valueChanges();
   }
 
   getVenueReviewsById(venueId: string) {
@@ -203,7 +175,7 @@ export class ProfileService {
       .collection('Venues')
       .doc(venueId)
       .collection('Reviews')
-      .valueChanges().toPromise();
+      .valueChanges();
   }
 
   getVenueEventsById(venueId: string) {

@@ -10,10 +10,81 @@ const client_secret = functions.config().spotify.client_secret;
 
 admin.initializeApp();
 
+export const updateUpcomingEvents =
+functions.pubsub.schedule('every 24 hours').onRun((context) => {
+    return admin.firestore().collection('Venues').listDocuments().then(venueRefs => {
+      venueRefs.forEach(venueRef => {
+        return venueRef.collection('Events').get().then(eventsQuerySnapshot => {
+          let upcomingEventCounter = 0;
+          eventsQuerySnapshot.docs.forEach(eventQueryDocumentSnapshot => {
+            const event = eventQueryDocumentSnapshot.data();
+            if (event.EventDateTime.toDate().getTime() > Date.now()) {
+              upcomingEventCounter++;
+            }
+          });
+          return venueRef.update({upcomingEvents: upcomingEventCounter});
+        });
+      });
+    });
+})
+
 export const lastMessageSentTrigger = functions.firestore.document('Conversations/{convoId}/Messages/{msgId}').onCreate((change, context) => {
   const msg = change.data();
   const conversationRef = admin.firestore().doc(`Conversations/${context.params.convoId}`);
   return conversationRef.update({lastMessage: msg});
+})
+
+export const newMessageNotificationTrigger = functions.firestore.document('Conversations/{convoId}/Messages/{msgId}').onCreate((change, context) => {
+  const msg = change.data();
+  if (!msg) return;
+
+  const sernderUid = msg.senderId;
+  const conversationRef = admin.firestore().doc(`Conversations/${context.params.convoId}`);
+
+  return conversationRef.get().then(doc => {
+    const conversation = doc.data();
+
+    const members = conversation ? conversation.members as Array<string> : null;
+    const recepientUid = members ? members.filter(uid => uid !== sernderUid) : null;
+
+    return admin.firestore().doc(`Artists/${recepientUid}`).get().then(userDoc => {
+      if (userDoc.exists) {
+        const userData = userDoc.data();
+        
+        const token = userData ? userData.messagingToken : null;
+        if (token) {
+          const message = {
+            data: {
+              message: 'New message received!'
+            },
+            token: token
+          }
+
+          return admin.messaging().send(message);
+        } else {
+          return "No token";
+        }
+      } else {
+        return admin.firestore().doc(`Venues/${recepientUid}`).get().then(venueDoc => {
+          const userData = venueDoc.data();
+          
+          const token = userData ? userData.messagingToken : null;
+          if (token) {
+            const message = {
+              data: {
+                message: 'New message received!'
+              },
+              token: token
+            }
+
+            return admin.messaging().send(message);
+          } else {
+            return "No token";
+          }
+        });
+      }
+    });
+  }).catch(console.log);
 })
 
 // <------------------------- Music Stuff ------------------------->

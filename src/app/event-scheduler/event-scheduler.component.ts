@@ -128,6 +128,7 @@ export class EventSchedulerComponent implements OnInit {
   // Create the event and return to the profile screen
   createEvent() {
     const event: Event = {
+      EventID: '',
       EventName: this.createEventForm.controls.name.value,
       EventDateTime: this.createEventForm.controls.eventDate.value,
       EventDescription: this.createEventForm.controls.description.value,

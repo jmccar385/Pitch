@@ -69,14 +69,12 @@ export class SignupBandComponent implements OnInit {
       ProfilePictureUrl: '', // Gets added in authSvc
       SearchRadius: this.signupBandForm.controls.radius.value,
       Playlist: {Name: PlaylistName, TrackHref: this.signupBandForm.controls.playlist.value, TrackCount: 0},
-      ProfileImageUrls: [],
       Tracks: [],
       AccessToken: this.accessToken,
       RefreshToken: this.refreshToken,
       ProfileRating: 5,
       ProfileRatingCount: 0,
       ProfileReportCount: 0,
-      Reviews: []
     };
 
     this.musicService.getPlaylistTracks(band.Playlist.TrackHref).subscribe(response => {

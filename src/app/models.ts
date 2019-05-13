@@ -5,7 +5,7 @@ export interface Band {
   ProfileName: string;
   ProfileBiography: string;
   ProfilePictureUrl: string;
-  ProfileImageUrls: string[];
+  ProfileImageUrls?: string[];
   SearchRadius: number;
   Playlist: Playlist;
   Tracks: Track[];
@@ -14,7 +14,7 @@ export interface Band {
   ProfileRating: number;
   ProfileRatingCount: number;
   ProfileReportCount: number;
-  Reviews: Review[];
+  Reviews?: Review[];
 }
 
 export interface Review {
@@ -141,12 +141,12 @@ export interface Venue {
   ProfileName: string;
   ProfileBiography: string;
   ProfilePictureUrl: string;
-  ProfileImageUrls: string[];
+  ProfileImageUrls?: string[];
   ProfileRating: number;
   ProfileRatingCount: number;
   ProfileReportCount: number;
   AvailableEquipment: Equipment[];
-  Reviews: Review[];
+  Reviews?: Review[];
 }
 
 export interface Event {

@@ -3,17 +3,16 @@ import { MatDialogRef } from '@angular/material';
 import { AuthService } from '../services/auth.service';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'spotify-alert-dialog',
+  selector: 'app-spotify-alert-dialog',
   templateUrl: './spotifyalert.component.html',
   styleUrls: ['./spotifyalert.component.css']
 })
 
 // tslint:disable-next-line: component-class-suffix
-export class SpotifyAlertDialog {
+export class SpotifyAlertDialogComponent {
 
   constructor(
-    public dialogRef: MatDialogRef<SpotifyAlertDialog>,
+    public dialogRef: MatDialogRef<SpotifyAlertDialogComponent>,
     private authService: AuthService,
   ) {}
 

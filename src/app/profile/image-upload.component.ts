@@ -30,7 +30,10 @@ export class UploadDialogComponent {
   imageUpload: ImageUploadComponent;
 
   upload(): void {
-    this.profileService.updateProfileImageUrls(this.data.userId, this.data.userType, this.imageUpload.CroppedImage);
-    this.dialogRef.close();
+    this.profileService.uploadImage(this.imageUpload.CroppedImage).then((url) => {
+      this.data.profileImageUrls.push(url);
+      this.profileService.updateProfileImageUrls(this.data.userId, this.data.userType, this.data.profileImageUrls);
+      this.dialogRef.close(url);
+    });
   }
 }

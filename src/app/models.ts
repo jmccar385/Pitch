@@ -39,6 +39,7 @@ export interface PitchDialogData {
 export interface UploadDialogData {
   userId: string;
   userType: string;
+  profileImageUrls: string[];
 }
 
 export interface Equipment {

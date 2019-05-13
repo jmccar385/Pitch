@@ -29,13 +29,14 @@ import { SignupVenueComponent } from './signupVenue/signupVenue.component';
 import { HeaderComponent } from './header/header.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ReviewDialogComponent } from './profile/review.component';
+import { ProfileImageDialogComponent } from './profile/profile-image.component';
 import { UploadDialogComponent } from './profile/image-upload.component';
 import { PitchDialogComponent } from './profile/pitch.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { SettingsComponent } from './settings/settings.component';
 import { HttpClientModule } from '@angular/common/http';
 import { EventSchedulerComponent } from './event-scheduler/event-scheduler.component';
-import { SpotifyAlertDialog } from './signup/spotifyalert.component';
+import { SpotifyAlertDialogComponent } from './signup/spotifyalert.component';
 import { NewEmailDialogComponent } from './settings/newemail.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ConversationComponent } from './conversation/conversation.component';
@@ -50,7 +51,8 @@ import { NotificationSettingsComponent } from './settings/notifications.settings
     ReviewDialogComponent,
     UploadDialogComponent,
     PitchDialogComponent,
-    SpotifyAlertDialog,
+    ProfileImageDialogComponent,
+    SpotifyAlertDialogComponent,
     BrowseComponent,
     SignupComponent,
     ProfileComponent,
@@ -92,10 +94,11 @@ import { NotificationSettingsComponent } from './settings/notifications.settings
   entryComponents: [
     ForgotPasswordDialogComponent,
     ReviewDialogComponent,
-    SpotifyAlertDialog,
+    SpotifyAlertDialogComponent,
     NewEmailDialogComponent,
     UploadDialogComponent,
-    PitchDialogComponent
+    PitchDialogComponent,
+    ProfileImageDialogComponent
   ],
   bootstrap: [AppComponent]
 })

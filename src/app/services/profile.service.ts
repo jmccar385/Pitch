@@ -27,35 +27,38 @@ export class ProfileService {
     });
   }
 
-  deteleImage(filePath: string) {
+  deteleImage(userId: string, userType: string, filePath: string, ProfileImageUrls: string[]) {
+    let collection: string;
+    if (userType === 'venue') {
+      collection = 'Venues';
+    } else {
+      collection = 'Artists';
+    }
     filePath = filePath.split('/')[7];
     filePath = filePath.substr(0, filePath.indexOf('?'));
     const path = `${filePath}`;
     this.afStorage.ref(path).delete();
+    this.afDatabase.collection(collection).doc(userId).update({ProfileImageUrls});
   }
 
-  updateProfileImageUrls(userId: string, userType: string, input: Blob) {
+  updateProfileImageUrls(userId: string, userType: string, ProfileImageUrls: string[]) {
     let collection: string;
     if (userType === 'venue') {
       collection = 'Venues';
     } else {
       collection = 'Artists';
     }
-    this.uploadImage(input).then((url) => {
-      this.afDatabase.collection(collection).doc(userId).collection('ProfileImageUrls').add({url});
-    });
+    this.afDatabase.collection(collection).doc(userId).update({ProfileImageUrls});
   }
 
-  updateProfilePicture(userId: string, userType: string, imagePath: string, imageDocId: string, currentProfileImage: string) {
+  updateProfilePicture(userId: string, userType: string, imagePath: string, profileImageUrls: string[]) {
     let collection: string;
     if (userType === 'venue') {
       collection = 'Venues';
     } else {
       collection = 'Artists';
     }
-    this.afDatabase.collection(collection).doc(userId).collection('ProfileImageUrls').add({currentProfileImage});
-    this.afDatabase.collection(collection).doc(userId).update({ProfilePictureUrl: imagePath});
-    this.afDatabase.collection(collection).doc(userId).collection('ProfileImageUrls').doc(imageDocId).delete();
+    this.afDatabase.collection(collection).doc(userId).update({ProfilePictureUrl: imagePath, ProfileImageUrls: profileImageUrls});
   }
 
   getArtistObserver() {

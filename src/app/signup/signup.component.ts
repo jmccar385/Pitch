@@ -3,7 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { MusicService } from '../services/music.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
-import { SpotifyAlertDialog } from './spotifyalert.component';
+import { SpotifyAlertDialogComponent } from './spotifyalert.component';
 
 @Component({
   selector: 'app-signup',
@@ -33,7 +33,7 @@ export class SignupComponent implements OnInit {
   }
 
   signupBand(): void {
-    const dialogRef = this.dialog.open(SpotifyAlertDialog, {
+    const dialogRef = this.dialog.open(SpotifyAlertDialogComponent, {
       width: '450px',
       data: {},
       autoFocus: false

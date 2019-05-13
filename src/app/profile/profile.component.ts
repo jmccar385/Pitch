@@ -25,6 +25,7 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService
   ) {}
+
   private profile: any = null;
   slideIndex = 1;
   userType: string;
@@ -181,7 +182,7 @@ export class ProfileComponent implements OnInit {
   saveProfile() {
     this.profileForm.disable();
     if (this.userType === 'venue') {
-      this.profileService.updateVenueById(this.route.snapshot.params.id ,
+      this.profileService.updateVenueById(this.route.snapshot.params.id,
         this.availableEquipment,
         this.profileForm.controls.address.value,
         this.profileForm.controls.biography.value
@@ -246,8 +247,17 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  makeProfilePicture(path: string) {
-    this.profileService.updateProfilePicture(this.authService.currentUserID, this.userType, path);
+  //imageDocId needs to be set
+  makeProfilePicture(imagePath: string) {
+
+    const imageDocId = '123';
+    this.profileService.updateProfilePicture(
+      this.authService.currentUserID,
+      this.userType,
+      imagePath,
+      imageDocId,
+      this.profile.ProfilePictureUrl
+    );
   }
 
   pitch() {
@@ -255,9 +265,9 @@ export class ProfileComponent implements OnInit {
       width: '90%',
       maxWidth: '100vw',
       height: '90%',
-      data: {
-        tracks: this.profile.Tracks,
-      },
       autoFocus: false,
+      data: {
+        events: this.profile.events
+      },
     });  }
 }

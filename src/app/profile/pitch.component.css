@@ -13,8 +13,16 @@ button {
 	color: white !important;
 }
 
-#submitReview {
-	float: right;
+#pitch {
+	position: absolute;
+	bottom: calc(5% + 10px);
+	right: calc(5% + 10px);
+}
+
+#close {
+	position: absolute;
+	bottom: calc(5% + 10px);
+	left: calc(5% + 10px);
 }
 
 .mat-dialog-title {

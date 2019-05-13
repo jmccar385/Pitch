@@ -46,15 +46,16 @@ export class ProfileService {
     });
   }
 
-  updateProfilePicture(userId: string, userType: string, path: string) {
-    console.log(path);
+  updateProfilePicture(userId: string, userType: string, imagePath: string, imageDocId: string, currentProfileImage: string) {
     let collection: string;
     if (userType === 'venue') {
       collection = 'Venues';
     } else {
       collection = 'Artists';
     }
-    this.afDatabase.collection(collection).doc(userId).update({ProfilePictureUrl: path});
+    this.afDatabase.collection(collection).doc(userId).collection('ProfileImageUrls').add({currentProfileImage});
+    this.afDatabase.collection(collection).doc(userId).update({ProfilePictureUrl: imagePath});
+    this.afDatabase.collection(collection).doc(userId).collection('ProfileImageUrls').doc(imageDocId).delete();
   }
 
   getArtistObserver() {

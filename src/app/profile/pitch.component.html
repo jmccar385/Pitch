@@ -1,20 +1,21 @@
-<h1 mat-dialog-title>Review</h1>
-<form [formGroup]="reviewForm" (ngSubmit)="reviewForm.valid && review()">
+<h1 mat-dialog-title>Pitch</h1>
+<form [formGroup]="pitchForm" (ngSubmit)="pitchForm.valid && pitch()">
 	<mat-form-field>
-		<input matInput type="number" placeholder="Rating" formControlName="rating" min="0" max="5">
-		<mat-error *ngIf="reviewForm.controls.rating.errors?.max || reviewForm.controls.rating.errors?.min">
-	      	A rating must be between <strong>0 and 5</strong>
-	    </mat-error>
-		<mat-error *ngIf="reviewForm.controls.rating.errors?.required">
-	      	A rating is <strong>required</strong>
-	    </mat-error>
-	</mat-form-field>
-	<mat-form-field>
-		<textarea matInput placeholder="Review" formControlName="review" matTextareaAutosize matAutosizeMinRows=5></textarea>
-		<mat-error *ngIf="reviewForm.controls.review.errors?.required">
-      		A review is <strong>required</strong>
+		<textarea matInput placeholder="Pitch" formControlName="pitch" matTextareaAutosize matAutosizeMinRows=5></textarea>
+		<mat-error *ngIf="pitchForm.controls.pitch.errors?.required">
+      		A Pitch is <strong>required</strong>
     	</mat-error>
 	</mat-form-field>
-	<button mat-flat-button color="primary" [mat-dialog-close] type="button">Cancel</button>
-	<button id="submitReview" mat-flat-button color="primary" type="submit">Submit</button>
+	<mat-form-field>
+		<mat-select disableOptionCentering placeholder="Track Selection" formControlName="tracks" multiple>
+			<mat-option *ngFor="let track of artist?.Tracks" value="{{track.Preview}}">{{track.Name}}</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<mat-form-field>
+		<mat-select disableOptionCentering placeholder="Event Selection" formControlName="events" multiple>
+			<mat-option *ngFor="let event of data.events" value="">{{event.Description}}</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<button id="close" mat-flat-button color="primary" [mat-dialog-close] type="button">Cancel</button>
+	<button id="pitch" mat-flat-button color="primary" type="submit">Submit</button>
 </form>

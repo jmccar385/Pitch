@@ -1,6 +1,7 @@
 import { Timestamp } from 'rxjs/internal/operators/timestamp';
 
 export interface Band {
+  id?: string;
   ProfileAddress: number;
   ProfileName: string;
   ProfileBiography: string;
@@ -137,6 +138,7 @@ export interface Track {
 }
 
 export interface Venue {
+  id?: string;
   ProfileAddress: string;
   ProfileName: string;
   ProfileBiography: string;
@@ -147,6 +149,7 @@ export interface Venue {
   ProfileReportCount: number;
   AvailableEquipment: Equipment[];
   Reviews?: Review[];
+  Events?: Event[];
 }
 
 export interface Event {

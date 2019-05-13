@@ -15,7 +15,6 @@ import { Location } from '@angular/common';
   encapsulation: ViewEncapsulation.None
 })
 export class EventSchedulerComponent implements OnInit {
-
   constructor(
     private router: Router,
     private authService: AuthService, // Will be needed after testing is complete
@@ -25,29 +24,12 @@ export class EventSchedulerComponent implements OnInit {
     private location: Location
   ) {
     this.profileService
-      .getVenueEventObserverById(this.authService.currentUserID)
-      .then(collection =>
-        collection.forEach(doc => {
-          if (!doc.exists) {
-            return;
-          }
-
-          const data = [doc.data()];
-          if (data === null || data.length === 0) {
-            return;
-          }
-
-          const record = data[0];
-          if (record === null) {
-            return;
-          }
-
-          try {
-            const eventDateTime = record.EventDateTime.toDate();
-            this.datesArray.push(eventDateTime);
-          } catch {}
-        }, this)
-      );
+      .getVenueEventsById(this.authService.currentUserID)
+      .subscribe(events => {
+        events.forEach((event: Event) => {
+          this.datesArray.push(event.EventDateTime);
+        });
+      });
   }
   private datesArray: Date[] = [];
 

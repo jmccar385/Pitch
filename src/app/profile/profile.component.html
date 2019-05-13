@@ -21,7 +21,7 @@
       <mat-card-subtitle>Rating: {{profile?.ProfileRating | number}}</mat-card-subtitle>
       <button *ngIf="!view && !seeView" mat-stroked-button id="review" color="accent" (click)="reviewModal()" type="button">Review</button>
       <mat-card-content>
-        <mat-card class="review-card" *ngFor="let review of profile?.Reviews">
+        <mat-card class="review-card" *ngFor="let review of profile?.SubCollection">
           <mat-card-title>{{review.ReviewCreatorName}}</mat-card-title>
           <mat-card-subtitle>
               <mat-icon class="star-image">star</mat-icon>

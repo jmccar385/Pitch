@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
 import { ProfileService } from '../services/profile.service';
-import { Router } from '@angular/router';
+import { Venue } from '../models';
 
 @Component({
   selector: 'app-browse',
@@ -9,66 +8,57 @@ import { Router } from '@angular/router';
   styleUrls: ['./browse.component.css']
 })
 export class BrowseComponent implements OnInit {
-  constructor(
-    private authService: AuthService,
-    private profileService: ProfileService,
-    private router: Router
-  ) {}
+  constructor(private profileService: ProfileService) {}
 
   private profileCards: any[] = [];
 
-  async _addProfileCard(venue) {
-    let equipmentList = [];
+  _addProfileCard(venue: Venue) {
+    const equipmentList = venue.AvailableEquipment;
     const equipmentIcons = [
       { IconUrl: 'assets/equipment/guitar.svg', owned: 0 },
       { IconUrl: 'assets/equipment/bass.svg', owned: 0 },
       { IconUrl: 'assets/equipment/drumset.svg', owned: 0 },
       { IconUrl: 'assets/equipment/microphone.svg', owned: 0 }
     ];
-    let events = [];
-    const now = new Date().getTime();
+    // let events = await this.profileService.getVenueEventsById(venue.id);
+    // console.log('Events: ' , events);
+    // const now = new Date().getTime();
 
-    if (venue.AvailableEquipment) {
-      equipmentList = venue.AvailableEquipment;
-
-      equipmentList.forEach(equipment => {
-        for (const equipmentIcon of equipmentIcons) {
-          if (equipmentIcon.IconUrl === equipment.IconUrl) {
-            equipmentIcon.owned = 1;
-          }
+    equipmentList.forEach(equipment => {
+      for (const equipmentIcon of equipmentIcons) {
+        if (equipmentIcon.IconUrl === equipment.IconUrl) {
+          equipmentIcon.owned = 1;
         }
-      });
-    }
+      }
+    });
 
-    if (venue.Events) {
-      events = venue.Events.filter(E => {
-        return E.EventDateTime.seconds * 1000.0 >= now;
-      });
-    }
-
-    const profileImage = venue.ProfilePictureUrl;
+    // if (venue.Events) {
+    //   events = venue.Events.filter(E => {
+    //     return E.EventDateTime.getSeconds() * 1000.0 >= now;
+    //   });
+    // }
 
     this.profileCards.push({
-      profile_image: profileImage,
+      profile_image: venue.ProfilePictureUrl,
       profile_name: venue.ProfileName,
       profile_address: venue.ProfileAddress,
       profile_id: venue.id,
       rating: venue.ProfileRating,
       rating_count: venue.ProfileRatingCount,
-
-      upcoming_event_text:
-        (events.length > 0 ? events.length : 'No') +
-        ' upcoming event' +
-        (events.length !== 1 ? 's' : ''),
+      upcoming_event_text: 'Doing stuff',
+      // upcoming_event_text:
+      //   (events.length > 0 ? events.length : 'No') +
+      //   ' upcoming event' +
+      //   (events.length !== 1 ? 's' : ''),
       equipment_icons: equipmentIcons
     });
   }
 
   ngOnInit() {
-    this.profileService.getVenueObserver().subscribe(observer => {
+    this.profileService.getVenueObserver().subscribe(doc => {
       const merged = [];
-
-      observer.forEach(venue => {
+      // console.log(doc);
+      doc.forEach(venue => {
         const index = merged.findIndex(X => X.id === venue.id);
         if (index >= 0) {
           if (venue.SubCollection.length > 0) {
@@ -92,6 +82,7 @@ export class BrowseComponent implements OnInit {
       });
 
       merged.forEach(venue => {
+        // console.log(venue);
         this._addProfileCard(venue);
       });
     });

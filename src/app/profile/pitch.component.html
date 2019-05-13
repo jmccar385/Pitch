@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Pitch</h1>
+<form [formGroup]="pitchForm" (ngSubmit)="pitchForm.valid && pitch()">
+	<mat-form-field>
+		<textarea matInput placeholder="Pitch" formControlName="pitch" matTextareaAutosize matAutosizeMinRows=5></textarea>
+		<mat-error *ngIf="pitchForm.controls.pitch.errors?.required">
+      		A Pitch is <strong>required</strong>
+    	</mat-error>
+	</mat-form-field>
+	<mat-form-field>
+		<mat-select disableOptionCentering placeholder="Track Selection" formControlName="tracks" multiple>
+			<mat-option *ngFor="let track of artist?.Tracks" value="{{track.Preview}}">{{track.Name}}</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<mat-form-field>
+		<mat-select disableOptionCentering placeholder="Event Selection" formControlName="events" multiple>
+			<mat-option *ngFor="let event of data.events" value="">{{event.Description}}</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<button id="close" mat-flat-button color="primary" [mat-dialog-close] type="button">Cancel</button>
+	<button id="pitch" mat-flat-button color="primary" type="submit">Submit</button>
+</form>

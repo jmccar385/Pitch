@@ -7,6 +7,7 @@ import { ProfileService } from '../services/profile.service';
 import { MusicService } from '../services/music.service';
 import { ReviewDialogComponent } from './review.component';
 import { UploadDialogComponent } from './image-upload.component';
+import { PitchDialogComponent } from './pitch.component';
 import { Playlist, Equipment } from '../models';
 import { Observable } from 'rxjs';
 
@@ -24,6 +25,7 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService
   ) {}
+
   private profile: any = null;
   slideIndex = 1;
   userType: string;
@@ -185,7 +187,7 @@ export class ProfileComponent implements OnInit {
   saveProfile() {
     this.profileForm.disable();
     if (this.userType === 'venue') {
-      this.profileService.updateVenueById(this.route.snapshot.params.id ,
+      this.profileService.updateVenueById(this.route.snapshot.params.id,
         this.availableEquipment,
         this.profileForm.controls.address.value,
         this.profileForm.controls.biography.value
@@ -250,7 +252,27 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  makeProfilePicture(path: string) {
-    this.profileService.updateProfilePicture(this.authService.currentUserID, this.userType, path);
+  //imageDocId needs to be set
+  makeProfilePicture(imagePath: string) {
+
+    const imageDocId = '123';
+    this.profileService.updateProfilePicture(
+      this.authService.currentUserID,
+      this.userType,
+      imagePath,
+      imageDocId,
+      this.profile.ProfilePictureUrl
+    );
   }
+
+  pitch() {
+    const dialogRef = this.dialog.open(PitchDialogComponent, {
+      width: '90%',
+      maxWidth: '100vw',
+      height: '90%',
+      autoFocus: false,
+      data: {
+        events: this.profile.events
+      },
+    });  }
 }

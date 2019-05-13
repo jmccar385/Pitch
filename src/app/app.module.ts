@@ -17,6 +17,7 @@ import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth.guard';
 import { VerifiedGuard } from './services/verified.guard';
 import { ProfileService } from './services/profile.service';
+import { MusicService } from './services/music.service';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -29,6 +30,7 @@ import { HeaderComponent } from './header/header.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ReviewDialogComponent } from './profile/review.component';
 import { UploadDialogComponent } from './profile/image-upload.component';
+import { PitchDialogComponent } from './profile/pitch.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { SettingsComponent } from './settings/settings.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -47,6 +49,7 @@ import { NotificationSettingsComponent } from './settings/notifications.settings
     ForgotPasswordDialogComponent,
     ReviewDialogComponent,
     UploadDialogComponent,
+    PitchDialogComponent,
     SpotifyAlertDialog,
     BrowseComponent,
     SignupComponent,
@@ -83,14 +86,16 @@ import { NotificationSettingsComponent } from './settings/notifications.settings
     AuthService,
     AuthGuard,
     VerifiedGuard,
-    ProfileService
+    ProfileService,
+    MusicService
   ],
   entryComponents: [
     ForgotPasswordDialogComponent,
     ReviewDialogComponent,
     SpotifyAlertDialog,
     NewEmailDialogComponent,
-    UploadDialogComponent
+    UploadDialogComponent,
+    PitchDialogComponent
   ],
   bootstrap: [AppComponent]
 })

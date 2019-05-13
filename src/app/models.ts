@@ -32,6 +32,10 @@ export interface ReviewDialogData {
   ratingCount: number;
 }
 
+export interface PitchDialogData {
+  events: Event[];
+}
+
 export interface UploadDialogData {
   userId: string;
   userType: string;

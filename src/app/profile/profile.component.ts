@@ -91,39 +91,39 @@ export class ProfileComponent implements OnInit {
         this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
       });
     } else if (userType === 'venue') {
-      this.profileService.getVenueObserverById(uid).subscribe(record => {
-        if (record == null || record.length <= 0) {
+      this.profileService.getVenueObserverById(uid).subscribe(venue => {
+        if (venue == null) {
           return;
         }
 
-        this.profile = record[0];
+        this.profile = venue;
         console.log(this.profile);
-        record.forEach(node => {
-          if (node.SubCollection == null || node.SubCollection.length === 0) {
-            return;
-          }
-          // revise profileService.getVenueObserverById with Claudio
-          // need to add event items at some point
+        // venue.forEach(node => {
+        //   if (node.SubCollection == null || node.SubCollection.length === 0) {
+        //     return;
+        //   }
+        //   // revise profileService.getVenueObserverById with Claudio
+        //   // need to add event items at some point
 
-          // if (node.SubCollection[0].EventDateTime) {
-          //   this.profile.events = this.profile.events || [];
-          //   node.SubCollection.forEach(event =>
-          //     this.profile.events.push(event)
-          //   );
-          // } else {
-          //   this.profile.equipment = this.profile.equipment || [];
-          //   node.SubCollection.forEach(equipment =>
-          //     this.profile.equipment.push(equipment)
-          //   );
-          // }
-          this.profile.events = this.profile.Events || [];
-          node.SubCollection.forEach(event => this.profile.events.push(event));
+        //   // if (node.SubCollection[0].EventDateTime) {
+        //   //   this.profile.events = this.profile.events || [];
+        //   //   node.SubCollection.forEach(event =>
+        //   //     this.profile.events.push(event)
+        //   //   );
+        //   // } else {
+        //   //   this.profile.equipment = this.profile.equipment || [];
+        //   //   node.SubCollection.forEach(equipment =>
+        //   //     this.profile.equipment.push(equipment)
+        //   //   );
+        //   // }
+        //   this.profile.events = this.profile.Events || [];
+        //   node.SubCollection.forEach(event => this.profile.events.push(event));
 
-          this.profile.equipment = this.profile.equipment || [];
-          node.SubCollection.forEach(equipment =>
-            this.profile.equipment.push(equipment)
-          );
-        });
+        //   this.profile.equipment = this.profile.equipment || [];
+        //   node.SubCollection.forEach(equipment =>
+        //     this.profile.equipment.push(equipment)
+        //   );
+        // });
 
         this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
         this.profileForm.controls.biography.setValue(

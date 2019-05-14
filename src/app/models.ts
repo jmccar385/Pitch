@@ -1,4 +1,4 @@
-import { Timestamp } from 'rxjs/internal/operators/timestamp';
+import { firestore } from 'firebase';
 
 export interface Band {
   id?: string;
@@ -157,7 +157,7 @@ export interface Venue {
 export interface Event {
   EventID: string;
   EventName: string;
-  EventDateTime: Date;
+  EventDateTime: firestore.Timestamp;
   EventDescription: string;
   EventRestricted: boolean;
   EventRestrictedAge: boolean;

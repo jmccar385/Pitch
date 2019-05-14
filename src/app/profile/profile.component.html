@@ -122,9 +122,9 @@
     <mat-card *ngIf="userType == 'venue' && view">
       <mat-card-title>Events</mat-card-title>
       <mat-card-content>
-        <ng-template [ngIf]="profile?.events?.length > 0" [ngIfElse]="noEventsTemplate">
+        <ng-template [ngIf]="profile?.Events?.length > 0" [ngIfElse]="noEventsTemplate">
           <ul>
-            <li *ngFor="let event of profile?.events">
+            <li *ngFor="let event of profile?.Events">
               {{ event.EventDateTime.toDate() | date: 'yyyy-MM-dd'}} - {{ event.EventName }}: {{ event.EventDescription}}
             </li>
           </ul>

@@ -7,6 +7,7 @@ import { Event } from '../models';
 import { Router } from '@angular/router';
 import { EventService } from '../services/event.service';
 import { Location } from '@angular/common';
+import { firestore } from 'firebase';
 
 @Component({
   selector: 'app-event-scheduler',
@@ -31,7 +32,7 @@ export class EventSchedulerComponent implements OnInit {
         });
       });
   }
-  private datesArray: Date[] = [];
+  private datesArray: firestore.Timestamp[] = [];
 
   today = new Date();
 
@@ -77,7 +78,7 @@ export class EventSchedulerComponent implements OnInit {
     // current venue) it will be provided a CSS class for highlighting it
     this.highlightEvents = (date: Date) => {
       if (this.datesArray !== undefined) {
-        const match = (x: Date) => x.toDateString() === date.toDateString();
+        const match = (x: firestore.Timestamp) => x.toDate().toDateString() === date.toDateString();
 
         if (this.datesArray.some(match)) {
           return 'eventDate';
@@ -97,7 +98,7 @@ export class EventSchedulerComponent implements OnInit {
     }
 
     const newVal: Date = event.value;
-    const match = (x: Date) => x.toDateString() === newVal.toDateString();
+    const match = (x: firestore.Timestamp) => x.toDate().toDateString() === newVal.toDateString();
     if (!this.datesArray.some(match)) {
       this.eventConflict = false;
       return;
@@ -109,10 +110,11 @@ export class EventSchedulerComponent implements OnInit {
 
   // Create the event and return to the profile screen
   createEvent() {
+    const timeAsStamp = firestore.Timestamp.fromDate(this.createEventForm.controls.eventDate.value);
     const event: Event = {
       EventID: '',
       EventName: this.createEventForm.controls.name.value,
-      EventDateTime: this.createEventForm.controls.eventDate.value,
+      EventDateTime: timeAsStamp,
       EventDescription: this.createEventForm.controls.description.value,
       EventRestricted: false,
       EventRestrictedAge: this.createEventForm.controls.ageRestriction.value
@@ -131,8 +133,8 @@ export class EventSchedulerComponent implements OnInit {
       inputHours = inputHours + 12;
     }
 
-    event.EventDateTime.setHours(inputHours);
-    event.EventDateTime.setMinutes(inputMinutes);
+    event.EventDateTime.toDate().setHours(inputHours);
+    event.EventDateTime.toDate().setMinutes(inputMinutes);
 
     this.eventService.createEvent(event).then(eventRef => {
       this.eventService

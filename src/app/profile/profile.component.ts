@@ -9,7 +9,7 @@ import { ReviewDialogComponent } from './review.component';
 import { UploadDialogComponent } from './image-upload.component';
 import { PitchDialogComponent } from './pitch.component';
 import { ProfileImageDialogComponent } from './profile-image.component';
-import { Playlist, Equipment, Venue, Band, Review } from '../models';
+import { Playlist, Equipment, Venue, Band, Review, Event } from '../models';
 import { Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
@@ -123,11 +123,17 @@ export class ProfileComponent implements OnInit {
               ].setValue(true);
             }
 
-            return this.profileService.getVenueReviewsById(uid);
-          })
+            return this.profileService.getVenueReviewsById(uid).pipe(
+              mergeMap((reviews: Array<Review>) => {
+                this.profile.Reviews = reviews;
+                return this.profileService.getVenueEventsById(uid);
+              })
+            );
+          }),
         )
-        .subscribe((reviews: Array<Review>) => {
-          this.profile.Reviews = reviews;
+        .subscribe((events: Array<Event>) => {
+          this.profile = this.profile as Venue;
+          this.profile.Events = events;
         });
     }
   }

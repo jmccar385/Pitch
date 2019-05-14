@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { combineLatest } from 'rxjs';
-import { map, mergeMap, tap, take } from 'rxjs/operators';
-import { flatten } from '@angular/compiler';
+import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
 import { Equipment, Playlist, Track, Review, Venue, Band } from '../models';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -29,57 +27,38 @@ export class ProfileService {
     });
   }
 
-  deteleImage(filePath: string) {
+  deteleImage(userId: string, userType: string, filePath: string, ProfileImageUrls: string[]) {
+    let collection: string;
+    if (userType === 'venue') {
+      collection = 'Venues';
+    } else {
+      collection = 'Artists';
+    }
     filePath = filePath.split('/')[7];
     filePath = filePath.substr(0, filePath.indexOf('?'));
     const path = `${filePath}`;
     this.afStorage.ref(path).delete();
+    this.afDatabase.collection(collection).doc(userId).update({ProfileImageUrls});
   }
 
-  updateProfileImageUrls(userId: string, userType: string, input: Blob) {
+  updateProfileImageUrls(userId: string, userType: string, ProfileImageUrls: string[]) {
     let collection: string;
     if (userType === 'venue') {
       collection = 'Venues';
     } else {
       collection = 'Artists';
     }
-    this.uploadImage(input).then(url => {
-      this.afDatabase
-        .collection(collection)
-        .doc(userId)
-        .collection('ProfileImageUrls')
-        .add({ url });
-    });
+    this.afDatabase.collection(collection).doc(userId).update({ProfileImageUrls});
   }
 
-  updateProfilePicture(
-    userId: string,
-    userType: string,
-    imagePath: string,
-    imageDocId: string,
-    currentProfileImage: string
-  ) {
+  updateProfilePicture(userId: string, userType: string, imagePath: string, profileImageUrls: string[]) {
     let collection: string;
     if (userType === 'venue') {
       collection = 'Venues';
     } else {
       collection = 'Artists';
     }
-    this.afDatabase
-      .collection(collection)
-      .doc(userId)
-      .collection('ProfileImageUrls')
-      .add({ currentProfileImage });
-    this.afDatabase
-      .collection(collection)
-      .doc(userId)
-      .update({ ProfilePictureUrl: imagePath });
-    this.afDatabase
-      .collection(collection)
-      .doc(userId)
-      .collection('ProfileImageUrls')
-      .doc(imageDocId)
-      .delete();
+    this.afDatabase.collection(collection).doc(userId).update({ProfilePictureUrl: imagePath, ProfileImageUrls: profileImageUrls});
   }
 
   getArtistObserver() {
@@ -167,7 +146,13 @@ export class ProfileService {
   }
 
   getVenuesObserver() {
-    return this.afDatabase.collection('Venues').valueChanges();
+    return this.afDatabase.collection('Venues').snapshotChanges().pipe(
+      map((changes: Array<DocumentChangeAction<{}>>) => {
+        return changes.map(change => {
+          return {id: change.payload.doc.id, ...change.payload.doc.data()} as Venue;
+        });
+      })
+    );
   }
 
   getVenueReviewsById(venueId: string) {

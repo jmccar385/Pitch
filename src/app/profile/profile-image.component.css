@@ -1,0 +1,22 @@
+button {
+	margin-top: 20px;
+	font-size: 18px;
+	color: white !important;
+}
+
+#keep {
+	float: right;
+}
+
+#delete {
+	float: left;
+}
+
+.mat-dialog-title {
+	text-align: center;
+	margin: 0;
+}
+
+div {
+	text-align: center;
+}

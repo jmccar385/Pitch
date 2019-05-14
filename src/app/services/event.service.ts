@@ -15,6 +15,8 @@ export class EventService {
   }
 
   linkEventWithVenue(ownerID: string, eventID: string, event: Event) {
+    event.EventID = eventID;
+
     return this.afStore
       .collection('Venues')
       .doc(ownerID)

@@ -8,13 +8,14 @@ import { MusicService } from '../services/music.service';
 import { ReviewDialogComponent } from './review.component';
 import { UploadDialogComponent } from './image-upload.component';
 import { PitchDialogComponent } from './pitch.component';
+import { ProfileImageDialogComponent } from './profile-image.component';
 import { Playlist, Equipment } from '../models';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
   constructor(
@@ -23,7 +24,7 @@ export class ProfileComponent implements OnInit {
     private profileService: ProfileService,
     private musicService: MusicService,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   private profile: any = null;
@@ -87,7 +88,7 @@ export class ProfileComponent implements OnInit {
           this.profile.Playlist.TrackHref
         );
         this.playlists.push(this.profile.Playlist);
-        this.profileImageUrls = this.profile.ProfileImageUrls;
+        this.profileImageUrls = [...this.profile.ProfileImageUrls];
         this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
       });
     } else if (userType === 'venue') {
@@ -130,7 +131,7 @@ export class ProfileComponent implements OnInit {
           this.profile.ProfileBiography
         );
         this.availableEquipment = this.profile.AvailableEquipment;
-        this.profileImageUrls = this.profile.ProfileImageUrls;
+        this.profileImageUrls = [...this.profile.ProfileImageUrls];
         this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
         for (const review of this.profile.SubCollection) {
           review.CreationDate = new Date(review.CreationDate);
@@ -177,8 +178,6 @@ export class ProfileComponent implements OnInit {
   }
 
   reviewModal(): void {
-    console.log(this.profile.ProfileRating);
-    console.log(this.profile.ProfileRatingCount);
     const dialogRef = this.dialog.open(ReviewDialogComponent, {
       width: '300px',
       data: {
@@ -190,7 +189,6 @@ export class ProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       this.profile.ProfileRating = result.rating;
       this.profile.ProfileRatingCount = result.ratingCount;
     });
@@ -268,34 +266,75 @@ export class ProfileComponent implements OnInit {
       height: '90%',
       data: {
         userId: this.route.snapshot.params.id,
-        userType: this.route.snapshot.params.userType
+        userType: this.route.snapshot.params.userType,
+        profileImageUrls: this.profile.ProfileImageUrls
       },
       autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.profileImageUrls.push(result);
     });
   }
 
   deletePicture(path: string) {
     if (this.profile.ProfilePictureUrl === path) {
       this.snackBar.open(
-        'You cannot delete your profile Picture without selecting a new one',
+        'You cannot delete your profile Picture without selecting a new one first',
         'close',
-        { duration: 2000 }
+        { duration: 5000 }
       );
     } else {
-      this.profileService.deteleImage(path);
+      this.profileImageUrls.splice(this.profileImageUrls.indexOf(path), 1);
+      this.jumpToSlide(0);
+      this.profile.ProfileImageUrls.splice(this.profile.ProfileImageUrls.indexOf(path), 1);
+      this.profileService.deteleImage(
+        this.authService.currentUserID,
+        this.userType,
+        path,
+        this.profile.ProfileImageUrls
+      );
     }
   }
 
-  // imageDocId needs to be set
   makeProfilePicture(imagePath: string) {
-    const imageDocId = '123';
-    this.profileService.updateProfilePicture(
-      this.authService.currentUserID,
-      this.userType,
-      imagePath,
-      imageDocId,
-      this.profile.ProfilePictureUrl
-    );
+    if (this.profile.ProfilePictureUrl === imagePath) {
+      this.snackBar.open(
+        'This is already your profile picture',
+        'close',
+        { duration: 5000 }
+      );
+    } else {
+      const dialogRef = this.dialog.open(ProfileImageDialogComponent, {
+        width: '450px',
+        data: {
+          userId: this.route.snapshot.params.id,
+          userType: this.route.snapshot.params.userType,
+          profilePictureUrl: this.profile.ProfilePictureUrl,
+          newProfilePictureUrl: imagePath,
+          profileImageUrls: this.profile.ProfileImageUrls
+        },
+        autoFocus: false,
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.profile.ProfileImageUrls.push(this.profile.ProfilePictureUrl);
+          this.profileImageUrls.push(this.profile.ProfilePictureUrl);
+        }
+        this.profile.ProfileImageUrls.splice(this.profile.ProfileImageUrls.indexOf(imagePath), 1);
+        this.profileImageUrls.splice(this.profileImageUrls.indexOf(imagePath), 1);
+        this.profileImageUrls.shift();
+        this.profileImageUrls.unshift(imagePath);
+        setTimeout(() => this.jumpToSlide(0));
+        this.profileService.updateProfilePicture(
+          this.authService.currentUserID,
+          this.userType,
+          imagePath,
+          this.profile.ProfileImageUrls
+        );
+      });
+    }
   }
 
   pitch() {

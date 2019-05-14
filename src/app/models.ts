@@ -40,6 +40,7 @@ export interface PitchDialogData {
 export interface UploadDialogData {
   userId: string;
   userType: string;
+  profileImageUrls: string[];
 }
 
 export interface Equipment {
@@ -154,6 +155,7 @@ export interface Venue {
 }
 
 export interface Event {
+  EventID: string;
   EventName: string;
   EventDateTime: Date;
   EventDescription: string;

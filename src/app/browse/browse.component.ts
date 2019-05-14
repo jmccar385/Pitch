@@ -47,7 +47,6 @@ export class BrowseComponent implements OnInit {
   ngOnInit() {
     this.profileService.getVenuesObserver().subscribe(venues => {
       venues.forEach((venue: Venue) => {
-        // console.log(venue);
         this._addProfileCard(venue);
       });
     });

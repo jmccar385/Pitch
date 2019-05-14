@@ -5,6 +5,8 @@ import { ProfileService } from '../services/profile.service';
 import { MessagesService } from '../services/messages.service';
 import { Observable, from, of, zip } from 'rxjs';
 import { mergeMap, map, tap, withLatestFrom, toArray } from 'rxjs/operators';
+import { AcceptanceModalComponent } from '../acceptance-modal/acceptance-modal.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-messages',
@@ -18,6 +20,7 @@ export class MessagesComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private messagesService: MessagesService,
+    public dialog: MatDialog,
   ) {}
 
   private conversationItems: Observable<any>;
@@ -48,4 +51,17 @@ export class MessagesComponent implements OnInit {
         )));
     this.conversationItems.subscribe(item => console.log(item));
   }
+  viewPitch(): void {
+    this.messagesService.getConversationsByUserId(this.currentUserId).subscribe(convo => {
+      console.log(convo);
+    this.dialog.open(AcceptanceModalComponent, {
+      width: '90%',
+      maxWidth: '100vw',
+      height: '90%',
+      autoFocus: false,
+      data: {convo}
+      });
+    });
+  }
+
 }

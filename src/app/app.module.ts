@@ -42,6 +42,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { ConversationComponent } from './conversation/conversation.component';
 import { AccountSettingsComponent } from './settings/account.settings.component';
 import { NotificationSettingsComponent } from './settings/notifications.settings.component';
+import { AcceptanceModalComponent } from './acceptance-modal/acceptance-modal.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { NotificationSettingsComponent } from './settings/notifications.settings
     EventSchedulerComponent,
     MessagesComponent,
     ConversationComponent,
+    AcceptanceModalComponent,
   ],
   imports: [
     BrowserModule,

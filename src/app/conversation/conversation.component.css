@@ -1,5 +1,4 @@
 #conversation_container {
-	padding: 10px;
   padding-top: 66px;
   height: 100%;
   }
@@ -23,6 +22,10 @@ mat-form-field {
 
 .mat-list-base[dense] .mat-list-item.mat-list-item-with-avatar {
   height: auto;
+}
+
+.mat-list-avatar {
+  padding: 5px;
 }
 
 mat-list {

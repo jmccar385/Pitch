@@ -34,6 +34,7 @@ export class PitchDialogComponent implements OnInit {
   private artist: any;
 
   ngOnInit() {
+    console.log(this.data);
     this.profileService.getArtistObserverById(this.authService.currentUserID).subscribe(artist => {
       this.artist = artist;
     });

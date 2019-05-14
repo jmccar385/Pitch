@@ -53,6 +53,7 @@ export class SignupBandComponent implements OnInit {
           TrackHref: item.tracks.href,
           TrackCount: item.tracks.total
         });
+        console.log(item);
       }
     });
     const tokens: string[] = this.musicService.getTokens();
@@ -78,13 +79,15 @@ export class SignupBandComponent implements OnInit {
     };
 
     this.musicService.getPlaylistTracks(band.Playlist.TrackHref).subscribe(response => {
+      console.log('getting tracks: ', response);
       for (let i = 0; i < response.items.length; i++) {
         if (i > 9) {
           break;
         }
-        if (response.items[i].track.is_playable) {
-          band.Tracks.push({Name: response.items[i].track.name, Preview: response.items[i].track.preview_url});
-        }
+        // if (response.items[i].track.is_playable) {
+        //   band.Tracks.push({Name: response.items[i].track.name, Preview: response.items[i].track.preview_url});
+        // }
+        band.Tracks.push({Name: response.items[i].track.name, Preview: response.items[i].track.preview_url});
       }
 
       band.Playlist.TrackCount = band.Tracks.length;

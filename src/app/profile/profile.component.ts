@@ -83,6 +83,7 @@ export class ProfileComponent implements OnInit {
         .subscribe((artist: Band) => {
           // tslint:disable-next-line:no-unused-expression
           this.profile = artist; // change to if statement
+          console.log(this.profile);
           this.profileForm.controls.address.setValue(
             this.profile.ProfileAddress
           );
@@ -93,7 +94,7 @@ export class ProfileComponent implements OnInit {
             this.profile.Playlist.TrackHref
           );
           this.playlists.push(this.profile.Playlist);
-          this.profileImageUrls = [...this.profile.ProfileImageUrls];
+          this.profileImageUrls = this.profile.ProfileImageUrls ? [...this.profile.ProfileImageUrls] : [this.profile.ProfilePictureUrl];
           this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
         });
     } else if (userType === 'venue') {
@@ -102,7 +103,6 @@ export class ProfileComponent implements OnInit {
         .pipe(
           mergeMap((venue: Venue) => {
             this.profile = venue;
-            console.log(this.profile);
             this.profileForm.controls.address.setValue(
               this.profile.ProfileAddress
             );
@@ -217,6 +217,7 @@ export class ProfileComponent implements OnInit {
         this.musicService
           .getPlaylistTracks(this.profile.Playlist.TrackHref)
           .subscribe(response => {
+            console.log(response);
             this.profile = this.profile as Band;
             this.profile.Tracks = [];
             for (let i = 0; i < response.items.length; i++) {
@@ -338,18 +339,18 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  async pitch() {
-    const events = await this.profileService
-      .getVenueEventsById(this.route.snapshot.params.id).toPromise();
-
-    this.dialog.open(PitchDialogComponent, {
-      width: '90%',
-      maxWidth: '100vw',
-      height: '90%',
-      autoFocus: false,
-      data: {
-        events
-      }
+  pitch() {
+    this.profileService.getVenueEventsById(this.route.snapshot.params.id).subscribe(events => {
+      console.log(events);
+      this.dialog.open(PitchDialogComponent, {
+        width: '90%',
+        maxWidth: '100vw',
+        height: '90%',
+        autoFocus: false,
+        data: {
+          events
+        }
+      });
     });
   }
 }

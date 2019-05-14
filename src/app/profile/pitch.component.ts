@@ -4,6 +4,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ProfileService } from '../services/profile.service';
 import { AuthService } from '../services/auth.service';
 import { PitchDialogData, Event } from '../models';
+import { MessagesService } from '../services/messages.service';
+import { tap } from 'rxjs/operators';
 
 
 @Component({
@@ -17,6 +19,7 @@ export class PitchDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<PitchDialogComponent>,
     private profileService: ProfileService,
     private authService: AuthService,
+    private messageService: MessagesService,
     @Inject(MAT_DIALOG_DATA) public data: PitchDialogData
   ) {}
 
@@ -34,14 +37,21 @@ export class PitchDialogComponent implements OnInit {
   private artist: any;
 
   ngOnInit() {
-    console.log(this.data);
     this.profileService.getArtistObserverById(this.authService.currentUserID).subscribe(artist => {
       this.artist = artist;
     });
   }
 
-  pitch(): void {
-    console.log(this.pitchForm.controls.tracks.value);
-    // this.dialogRef.close();
+  pitch() {
+    const pitch = {
+      message: this.pitchForm.controls.pitch.value,
+      tracks: this.pitchForm.controls.tracks.value,
+      events: this.pitchForm.controls.events.value
+    };
+    this.messageService.sendPitch(this.data.venueId, pitch).pipe(
+      tap(() => {
+        this.dialogRef.close();
+      })
+    ).subscribe();
   }
 }

@@ -348,7 +348,8 @@ export class ProfileComponent implements OnInit {
         height: '90%',
         autoFocus: false,
         data: {
-          events
+          events,
+          venueId: this.route.snapshot.params.id
         }
       });
     });

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { map, take, mergeMap } from 'rxjs/operators';
-import { Conversation, Band, Message, Venue } from '../models';
+import { Conversation, Band, Message, Venue, Pitch } from '../models';
 import { AuthService } from './auth.service';
+import { firestore } from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,25 @@ export class MessagesService {
       text: msg
     };
     return this.afDatabase.collection(`Conversations/${convoId}/Messages`).add(message);
+  }
+
+  sendPitch(venueId: string, pitch: Pitch) {
+    return this.afDatabase.doc(`Artists/${this.authSvc.currentUserID}`).valueChanges().pipe(
+      map((artist: Band | {}) => {
+        const band = artist as Band;
+        const name = band.ProfileName;
+        const conversation: Conversation = {
+          members: [venueId, this.authSvc.currentUserID],
+          pitchAccepted: false,
+          pitch,
+          lastMessage: {
+            createdAt: firestore.Timestamp.fromDate(new Date()),
+            text: 'New Pitch from ' + name
+          }
+        };
+        return this.afDatabase.collection('Conversations').add(conversation);
+      })
+    );
   }
 
   getConversationsByUserId(userId: string) {

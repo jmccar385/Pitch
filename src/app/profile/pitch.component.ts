@@ -34,10 +34,8 @@ export class PitchDialogComponent implements OnInit {
   private artist: any;
 
   ngOnInit() {
-    this.profileService.getArtistObserverById(this.authService.currentUserID).then(doc => {
-      // tslint:disable-next-line:no-unused-expression
-      doc.exists ? (this.artist = [doc.data()][0]) : [null]; // change to if statement
-      console.log(this.artist);
+    this.profileService.getArtistObserverById(this.authService.currentUserID).subscribe(artist => {
+      this.artist = artist;
     });
   }
 

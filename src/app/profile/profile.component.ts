@@ -9,13 +9,14 @@ import { ReviewDialogComponent } from './review.component';
 import { UploadDialogComponent } from './image-upload.component';
 import { PitchDialogComponent } from './pitch.component';
 import { ProfileImageDialogComponent } from './profile-image.component';
-import { Playlist, Equipment } from '../models';
+import { Playlist, Equipment, Venue, Band, Review } from '../models';
 import { Observable } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css'],
+  styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
   constructor(
@@ -24,10 +25,10 @@ export class ProfileComponent implements OnInit {
     private profileService: ProfileService,
     private musicService: MusicService,
     private route: ActivatedRoute,
-    private authService: AuthService,
+    private authService: AuthService
   ) {}
 
-  private profile: any = null;
+  private profile: Band | Venue = null;
   slideIndex = 1;
   userType: string;
   view: boolean;
@@ -77,73 +78,57 @@ export class ProfileComponent implements OnInit {
 
   private _setData(uid: string, userType: string) {
     if (userType === 'band') {
-      this.profileService.getArtistObserverById(uid).then(doc => {
-        // tslint:disable-next-line:no-unused-expression
-        doc.exists ? (this.profile = [doc.data()][0]) : [null]; // change to if statement
-        this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
-        this.profileForm.controls.biography.setValue(
-          this.profile.ProfileBiography
-        );
-        this.profileForm.controls.playlist.setValue(
-          this.profile.Playlist.TrackHref
-        );
-        this.playlists.push(this.profile.Playlist);
-        this.profileImageUrls = [...this.profile.ProfileImageUrls];
-        this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
-      });
+      this.profileService
+        .getArtistObserverById(uid)
+        .subscribe((artist: Band) => {
+          // tslint:disable-next-line:no-unused-expression
+          this.profile = artist; // change to if statement
+          this.profileForm.controls.address.setValue(
+            this.profile.ProfileAddress
+          );
+          this.profileForm.controls.biography.setValue(
+            this.profile.ProfileBiography
+          );
+          this.profileForm.controls.playlist.setValue(
+            this.profile.Playlist.TrackHref
+          );
+          this.playlists.push(this.profile.Playlist);
+          this.profileImageUrls = [...this.profile.ProfileImageUrls];
+          this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
+        });
     } else if (userType === 'venue') {
-      this.profileService.getVenueObserverById(uid).subscribe(venue => {
-        if (venue == null) {
-          return;
-        }
+      this.profileService
+        .getVenueObserverById(uid)
+        .pipe(
+          mergeMap((venue: Venue) => {
+            this.profile = venue;
+            console.log(this.profile);
+            this.profileForm.controls.address.setValue(
+              this.profile.ProfileAddress
+            );
+            this.profileForm.controls.biography.setValue(
+              this.profile.ProfileBiography
+            );
+            this.availableEquipment = this.profile.AvailableEquipment;
+            this.profileImageUrls = [...this.profile.ProfileImageUrls];
+            this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
+            // for (const review of this.profile.SubCollection) {
+            //   review.CreationDate = new Date(review.CreationDate);
+            // }
+            for (const equipment of this.profile.AvailableEquipment) {
+              this.profileForm.controls[
+                equipment.Name.toLowerCase()
+                  .replace(' ', '_')
+                  .replace(' ', '/')
+              ].setValue(true);
+            }
 
-        this.profile = venue;
-        console.log(this.profile);
-        // venue.forEach(node => {
-        //   if (node.SubCollection == null || node.SubCollection.length === 0) {
-        //     return;
-        //   }
-        //   // revise profileService.getVenueObserverById with Claudio
-        //   // need to add event items at some point
-
-        //   // if (node.SubCollection[0].EventDateTime) {
-        //   //   this.profile.events = this.profile.events || [];
-        //   //   node.SubCollection.forEach(event =>
-        //   //     this.profile.events.push(event)
-        //   //   );
-        //   // } else {
-        //   //   this.profile.equipment = this.profile.equipment || [];
-        //   //   node.SubCollection.forEach(equipment =>
-        //   //     this.profile.equipment.push(equipment)
-        //   //   );
-        //   // }
-        //   this.profile.events = this.profile.Events || [];
-        //   node.SubCollection.forEach(event => this.profile.events.push(event));
-
-        //   this.profile.equipment = this.profile.equipment || [];
-        //   node.SubCollection.forEach(equipment =>
-        //     this.profile.equipment.push(equipment)
-        //   );
-        // });
-
-        this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
-        this.profileForm.controls.biography.setValue(
-          this.profile.ProfileBiography
-        );
-        this.availableEquipment = this.profile.AvailableEquipment;
-        this.profileImageUrls = [...this.profile.ProfileImageUrls];
-        this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
-        for (const review of this.profile.SubCollection) {
-          review.CreationDate = new Date(review.CreationDate);
-        }
-        for (const equipment of this.profile.AvailableEquipment) {
-          this.profileForm.controls[
-            equipment.Name.toLowerCase()
-              .replace(' ', '_')
-              .replace(' ', '/')
-          ].setValue(true);
-        }
-      });
+            return this.profileService.getVenueReviewsById(uid);
+          })
+        )
+        .subscribe((reviews: Array<Review>) => {
+          this.profile.Reviews = reviews;
+        });
     }
   }
 
@@ -209,9 +194,11 @@ export class ProfileComponent implements OnInit {
         this.profileForm.controls.biography.value
       );
     } else {
+      this.profile = this.profile as Band;
       if (
         this.profile.Playlist.TrackHref !==
-        this.profileForm.controls.playlist.value
+          this.profileForm.controls.playlist.value &&
+        this.userType === 'band'
       ) {
         const PlaylistName = this.playlists.find(
           x => x.TrackHref === this.profileForm.controls.playlist.value
@@ -224,6 +211,7 @@ export class ProfileComponent implements OnInit {
         this.musicService
           .getPlaylistTracks(this.profile.Playlist.TrackHref)
           .subscribe(response => {
+            this.profile = this.profile as Band;
             this.profile.Tracks = [];
             for (let i = 0; i < response.items.length; i++) {
               if (i > 9) {
@@ -287,7 +275,10 @@ export class ProfileComponent implements OnInit {
     } else {
       this.profileImageUrls.splice(this.profileImageUrls.indexOf(path), 1);
       this.jumpToSlide(0);
-      this.profile.ProfileImageUrls.splice(this.profile.ProfileImageUrls.indexOf(path), 1);
+      this.profile.ProfileImageUrls.splice(
+        this.profile.ProfileImageUrls.indexOf(path),
+        1
+      );
       this.profileService.deteleImage(
         this.authService.currentUserID,
         this.userType,
@@ -299,11 +290,9 @@ export class ProfileComponent implements OnInit {
 
   makeProfilePicture(imagePath: string) {
     if (this.profile.ProfilePictureUrl === imagePath) {
-      this.snackBar.open(
-        'This is already your profile picture',
-        'close',
-        { duration: 5000 }
-      );
+      this.snackBar.open('This is already your profile picture', 'close', {
+        duration: 5000
+      });
     } else {
       const dialogRef = this.dialog.open(ProfileImageDialogComponent, {
         width: '450px',
@@ -314,7 +303,7 @@ export class ProfileComponent implements OnInit {
           newProfilePictureUrl: imagePath,
           profileImageUrls: this.profile.ProfileImageUrls
         },
-        autoFocus: false,
+        autoFocus: false
       });
 
       dialogRef.afterClosed().subscribe(result => {
@@ -322,8 +311,14 @@ export class ProfileComponent implements OnInit {
           this.profile.ProfileImageUrls.push(this.profile.ProfilePictureUrl);
           this.profileImageUrls.push(this.profile.ProfilePictureUrl);
         }
-        this.profile.ProfileImageUrls.splice(this.profile.ProfileImageUrls.indexOf(imagePath), 1);
-        this.profileImageUrls.splice(this.profileImageUrls.indexOf(imagePath), 1);
+        this.profile.ProfileImageUrls.splice(
+          this.profile.ProfileImageUrls.indexOf(imagePath),
+          1
+        );
+        this.profileImageUrls.splice(
+          this.profileImageUrls.indexOf(imagePath),
+          1
+        );
         this.profileImageUrls.shift();
         this.profileImageUrls.unshift(imagePath);
         setTimeout(() => this.jumpToSlide(0));
@@ -337,14 +332,17 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  pitch() {
-    const dialogRef = this.dialog.open(PitchDialogComponent, {
+  async pitch() {
+    const events = await this.profileService
+      .getVenueEventsById(this.route.snapshot.params.id).toPromise();
+
+    this.dialog.open(PitchDialogComponent, {
       width: '90%',
       maxWidth: '100vw',
       height: '90%',
       autoFocus: false,
       data: {
-        events: this.profile.events
+        events
       }
     });
   }

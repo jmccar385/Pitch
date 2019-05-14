@@ -36,33 +36,22 @@ export class MessagesService {
       );
   }
 
-  // getSenderDataById(userId: string) {
-  //   return this.afDatabase.collection('Artists').doc(userId).valueChanges().pipe(
-  //     map((artist: Band) => {
-  //       return {profileUrl: artist.ProfilePictureUrl, profileName: artist.ProfileName};
-  //     }),
-  //     take(1)
-  //   );
-  // }
-
   getSenderDataById(userId: string) {
     return this.afDatabase.collection('Artists').doc(userId).get().pipe(
       mergeMap(doc => {
         const type = doc.exists ? 'band' : 'venue';
-        console.log(type);
         if (type === 'band') {
-          console.log(1);
           return this.afDatabase.collection('Artists').doc(userId).valueChanges().pipe(
             map((artist: Band) => {
+              if (!artist) {return; }
               return {profileUrl: artist.ProfilePictureUrl, profileName: artist.ProfileName};
             }),
             take(1)
           );
         } else {
-          console.log(2);
           return this.afDatabase.collection('Venues').doc(userId).valueChanges().pipe(
             map((venue: Venue) => {
-              console.log(venue.ProfilePictureUrl);
+              if (!venue) {return; }
               return {profileUrl: venue.ProfilePictureUrl, profileName: venue.ProfileName};
             }),
             take(1)

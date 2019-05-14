@@ -21,13 +21,13 @@
       <mat-card-subtitle>Rating: {{profile?.ProfileRating | number}}</mat-card-subtitle>
       <button *ngIf="!view && !seeView" mat-stroked-button id="review" color="accent" (click)="reviewModal()" type="button">Review</button>
       <mat-card-content>
-        <mat-card class="review-card" *ngFor="let review of profile?.SubCollection">
+        <mat-card class="review-card" *ngFor="let review of profile?.Reviews">
           <mat-card-title>{{review.ReviewCreatorName}}</mat-card-title>
           <mat-card-subtitle>
               <mat-icon class="star-image">star</mat-icon>
               {{review.ReviewRating}}</mat-card-subtitle>
           <mat-card-content>{{review.ReviewText}}</mat-card-content>
-          <mat-card-actions>{{review.CreationDate.toLocaleDateString("en-US")}}</mat-card-actions>
+          <!-- <mat-card-actions>{{review.CreationDate.toLocaleDateString("en-US")}}</mat-card-actions> Uncomment when all reviews are consistent -->
         </mat-card>
       </mat-card-content>
     </mat-card>

@@ -1,5 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Conversation, AcceptanceDialogData } from '../models';
+import { MessagesService } from '../services/messages.service';
 
 @Component({
   selector: 'app-acceptance-modal',
@@ -7,12 +9,56 @@ import { MatDialogRef } from '@angular/material';
   styleUrls: ['./acceptance-modal.component.css']
 })
 export class AcceptanceModalComponent implements OnInit {
+  slideIndex = 1;
 
   constructor(
-    public dialogRef: MatDialogRef<AcceptanceModalComponent>
+    public dialogRef: MatDialogRef<AcceptanceModalComponent>,
+    private msgSvc: MessagesService,
+    @Inject(MAT_DIALOG_DATA) public data: AcceptanceDialogData
   ) { }
 
   ngOnInit() {
+    console.log(this.data);
+  }
+
+  async accept(){
+    await this.msgSvc.acceptPitch(this.data.convoId);
+    this.dialogRef.close();
+  }
+
+  decline() {
+    this.msgSvc.deleteConversation(this.data.convoId);
+    this.dialogRef.close();
+  }
+
+  changeSlideBy(delta) {
+    this.showSlides((this.slideIndex += delta));
+  }
+
+  jumpToSlide(target) {
+    this.showSlides((this.slideIndex = target + 1));
+  }
+
+  showSlides(index) {
+    const slides = document.getElementsByClassName('slide-image');
+
+    if (slides.length === 0) {
+      return;
+    }
+
+    if (index > slides.length) {
+      this.slideIndex = 1;
+    }
+    if (index < 1) {
+      this.slideIndex = slides.length;
+    }
+
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < slides.length; i++) {
+      slides[i].className = slides[i].className.replace(' slide-active', '');
+    }
+
+    slides[this.slideIndex - 1].className += ' slide-active';
   }
 
 }

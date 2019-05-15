@@ -82,10 +82,29 @@ export class MessagesService {
   }
 
   getMessagesByConversationId(convoId: string) {
-    return this.afDatabase.collection(`Conversations/${convoId}/Messages`, ref => ref.orderBy('createdAt')).valueChanges();
+    return this.afDatabase
+      .collection(`Conversations/${convoId}/Messages`, ref => ref.orderBy('createdAt'))
+      .valueChanges();
   }
 
   getConversationByConversationId(convoId: string) {
-    return this.afDatabase.collection('Conversations').doc(convoId).valueChanges();
+    return this.afDatabase
+      .collection('Conversations')
+      .doc(convoId)
+      .valueChanges();
+  }
+
+  acceptPitch(convoId: string) {
+    return this.afDatabase
+        .collection('Conversations')
+        .doc(convoId)
+        .update({ pitchAccepted: true });
+ }
+
+  deleteConversation(convoId: string) {
+    return this.afDatabase
+       .collection('Conversations')
+       .doc(convoId)
+       .delete();
   }
 }

@@ -1,4 +1,21 @@
 <h1 mat-dialog-title>Pitch</h1>
 <div mat-dialog-content>
-    <p>{{data.convo.conversation.pitch.message}}</p>
+    <p>{{data.convo.pitch?.message}}</p>
+    <mat-card class="slide-container">
+        <mat-card-content>
+            <div class="slide-image" *ngFor="let image of data.profileImageUrls; let i = index">
+            <img class="slide-picture" [src]="image" (load)="jumpToSlide(0)">
+            <div class="slide-counter">{{i+1}} / {{data.profileImageUrls.length}}</div>
+            </div>
+            <a class="slide-prev" (click)="changeSlideBy(-1)">&#10094;</a>
+            <a class="slide-next" (click)="changeSlideBy(1)">&#10095;</a>
+        </mat-card-content>
+    </mat-card>
+    <div class="track" *ngFor="let track of data.convo.pitch.tracks">
+        <audio controls>
+            <source src="{{track}}" type="audio/ogg">
+        </audio>
+     </div>
 </div>
+<button id="decline" mat-flat-button color="primary" (click)="decline()" [mat-dialog-close] type="button">Decline</button>
+<button id="accept" mat-flat-button color="primary" (click)="accept()" type="submit">Accept</button>

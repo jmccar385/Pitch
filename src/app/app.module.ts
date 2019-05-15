@@ -100,7 +100,8 @@ import { AcceptanceModalComponent } from './acceptance-modal/acceptance-modal.co
     NewEmailDialogComponent,
     UploadDialogComponent,
     PitchDialogComponent,
-    ProfileImageDialogComponent
+    ProfileImageDialogComponent,
+    AcceptanceModalComponent
   ],
   bootstrap: [AppComponent]
 })

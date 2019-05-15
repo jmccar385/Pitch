@@ -7,7 +7,7 @@
         <p matLine>
           {{convo.senderData.profileName}}: {{convo.conversation.lastMessage.text}}
         </p>
-        <ng-template [ngIf]="!convo.conversation.pitchAccepted"><button mat-flat-button color="primary" (click)="viewPitch()">View Pitch</button></ng-template>
+        <ng-template [ngIf]="!convo.conversation.pitchAccepted"><button mat-flat-button color="primary" (click)="viewPitch(convo.id)">View Pitch</button></ng-template>
       </mat-list-item>
     </mat-list>
   </div>

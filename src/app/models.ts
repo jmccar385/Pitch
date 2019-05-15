@@ -44,6 +44,12 @@ export interface PitchDialogData {
   venueId: string;
 }
 
+export interface AcceptanceDialogData {
+  convo: Conversation;
+  profileImageUrls: string[];
+  convoId: string;
+}
+
 export interface UploadDialogData {
   userId: string;
   userType: string;

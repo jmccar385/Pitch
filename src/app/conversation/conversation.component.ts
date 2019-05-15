@@ -33,7 +33,7 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
 
   scrollToBottom(): void {
     try {
-      console.log(this.myScrollContainer.nativeElement.scrollHeight);
+      //console.log(this.myScrollContainer.nativeElement.scrollHeight);
       // this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
       this.myScrollContainer.nativeElement.scrollIntoView(false);
     } catch (err) {}

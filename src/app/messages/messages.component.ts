@@ -36,16 +36,14 @@ export class MessagesComponent implements OnInit {
     this.currentUserId = this.authService.currentUserID;
     this.currentUserType = this.authService.userType;
     this.authService.currentUserObservable.pipe(
-      map(user => {
+      mergeMap(user => {
         return this.afStore.doc(`Artists/${user.uid}`).get()
       })
     ).subscribe(doc => {
-      console.log('up in this bitch')
-      //const type = doc.exists ? 'band' : 'venue';
-      //console.log('this type: ', type)
+      const type = doc.exists ? 'band' : 'venue';
+      this.currentUserType = type;
+      console.log('this type: ', type)
     })
-    console.log(this.currentUserId);
-    console.log(this.currentUserType);
 
     const getSenderDataByConvo = convo => {
       const id = convo.conversation.members.filter(i => {

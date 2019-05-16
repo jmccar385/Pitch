@@ -45,9 +45,10 @@ export interface PitchDialogData {
 }
 
 export interface AcceptanceDialogData {
-  convo: Conversation;
-  profileImageUrls: string[];
   convoId: string;
+  convo: Conversation;
+  bandId: string;
+  band: Band;
 }
 
 export interface UploadDialogData {

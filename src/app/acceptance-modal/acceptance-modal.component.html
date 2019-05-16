@@ -1,11 +1,11 @@
-<h1 mat-dialog-title>Pitch</h1>
+<h1 mat-dialog-title>{{data.band.ProfileName}}</h1>
 <div mat-dialog-content>
     <p>{{data.convo.pitch?.message}}</p>
     <mat-card class="slide-container">
         <mat-card-content>
-            <div class="slide-image" *ngFor="let image of data.profileImageUrls; let i = index">
+            <div class="slide-image" *ngFor="let image of data.band.ProfileImageUrls; let i = index">
             <img class="slide-picture" [src]="image" (load)="jumpToSlide(0)">
-            <div class="slide-counter">{{i+1}} / {{data.profileImageUrls.length}}</div>
+            <div class="slide-counter">{{i+1}} / {{data.band.ProfileImageUrls.length}}</div>
             </div>
             <a class="slide-prev" (click)="changeSlideBy(-1)">&#10094;</a>
             <a class="slide-next" (click)="changeSlideBy(1)">&#10095;</a>

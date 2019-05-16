@@ -75,7 +75,7 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
   sendMessage() {
     console.log(this.text);
     this.msgSvc
-      .sendMessage(this.conversationId, this.text)
+      .sendMessage(this.conversationId, this.text, this.authService.currentUserID)
       .then(() => {
         this.text = '';
       })

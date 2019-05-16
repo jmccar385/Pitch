@@ -14,10 +14,10 @@ export class MessagesService {
     private authSvc: AuthService
   ) {}
 
-  sendMessage(convoId: string, msg: string) {
+  sendMessage(convoId: string, msg: string, senderId: string) {
     const message: Message = {
       createdAt: Date.now(),
-      senderId: this.authSvc.currentUserID,
+      senderId: senderId,
       text: msg
     };
     return this.afDatabase.collection(`Conversations/${convoId}/Messages`).add(message);
@@ -27,7 +27,7 @@ export class MessagesService {
     return this.afDatabase.doc(`Artists/${this.authSvc.currentUserID}`).valueChanges().pipe(
       map((artist: Band | {}) => {
         const band = artist as Band;
-        const name = band.ProfileName;
+        const name = band.ProfileName; 
         const conversation: Conversation = {
           members: [venueId, this.authSvc.currentUserID],
           pitchAccepted: false,

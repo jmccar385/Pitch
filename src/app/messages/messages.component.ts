@@ -8,6 +8,7 @@ import { mergeMap, map, tap, withLatestFrom, toArray, take } from 'rxjs/operator
 import { AcceptanceModalComponent } from '../acceptance-modal/acceptance-modal.component';
 import { MatDialog } from '@angular/material';
 import { Conversation, Band } from '../models';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-messages',
@@ -16,20 +17,35 @@ import { Conversation, Band } from '../models';
 })
 export class MessagesComponent implements OnInit {
   currentUserId: string;
-  private profile: Band;
-  profileImageUrls: string[];
+  private band: Band;
+  //profileImageUrls: string[];
+  currentUserType: string;
+
 
   constructor(
     private router: Router,
     private authService: AuthService,
     private messagesService: MessagesService,
     public dialog: MatDialog,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private afStore: AngularFirestore
   ) { }
 
   private conversationItems: Observable<any>;
   ngOnInit() {
     this.currentUserId = this.authService.currentUserID;
+    this.currentUserType = this.authService.userType;
+    this.authService.currentUserObservable.pipe(
+      map(user => {
+        return this.afStore.doc(`Artists/${user.uid}`).get()
+      })
+    ).subscribe(doc => {
+      console.log('up in this bitch')
+      //const type = doc.exists ? 'band' : 'venue';
+      //console.log('this type: ', type)
+    })
+    console.log(this.currentUserId);
+    console.log(this.currentUserType);
 
     const getSenderDataByConvo = convo => {
       const id = convo.conversation.members.filter(i => {
@@ -72,13 +88,14 @@ export class MessagesComponent implements OnInit {
 
         return this.profileService.getArtistObserverById(id[0]).pipe(
           map((artist: Band) => {
-            this.profileImageUrls = artist.ProfileImageUrls;
+            //this.profileImageUrls = artist.ProfileImageUrls;
+            this.band = artist;
             this.dialog.open(AcceptanceModalComponent, {
               width: '90%',
               maxWidth: '100vw',
               height: '90%',
               autoFocus: false,
-              data: { convo, profileImageUrls: this.profileImageUrls, convoId: convoId }
+              data: { convoId: convoId, convo, bandId: id, band: this.band  }
             });
           })
         );

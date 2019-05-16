@@ -35,7 +35,7 @@ export interface ReviewDialogData {
 
 export interface Pitch {
   message: string;
-  tracks: string[];
+  tracks: Track[];
   events: Event[];
 }
 

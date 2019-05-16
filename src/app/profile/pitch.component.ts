@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ProfileService } from '../services/profile.service';
 import { AuthService } from '../services/auth.service';
-import { PitchDialogData, Event } from '../models';
+import { PitchDialogData, Event, Pitch } from '../models';
 import { MessagesService } from '../services/messages.service';
 import { tap } from 'rxjs/operators';
 
@@ -43,11 +43,13 @@ export class PitchDialogComponent implements OnInit {
   }
 
   pitch() {
-    const pitch = {
+    const pitch: Pitch = {
       message: this.pitchForm.controls.pitch.value,
       tracks: this.pitchForm.controls.tracks.value,
       events: this.pitchForm.controls.events.value
     };
+
+    console.log(pitch.tracks[0]);
     this.messageService.sendPitch(this.data.venueId, pitch).pipe(
       tap(() => {
         this.dialogRef.close();

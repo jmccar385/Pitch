@@ -12,7 +12,7 @@
         </mat-card-content>
     </mat-card>
     <div class="track" *ngFor="let track of data.convo.pitch.tracks">
-        <p>{{track.Name}}</p>
+        <div>{{track.Name}}:</div>
         <audio controls>
             <source src="{{track.Preview}}" type="audio/ogg">
         </audio>

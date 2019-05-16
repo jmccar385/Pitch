@@ -76,4 +76,22 @@ mat-form-field {
 	-webkit-animation-duration: 1.5s;
 	animation-name: fade;
 	animation-duration: 1.5s;
-  }
+	}
+	
+	#accept {
+		position: absolute;
+		bottom: calc(5% + 10px);
+		right: calc(5% + 10px);
+	}
+	
+	#decline {
+		position: absolute;
+		bottom: calc(5% + 10px);
+		left: calc(5% + 10px);
+	}
+
+	button {
+		margin-top: 20px;
+		font-size: 18px;
+		color: white !important;
+	}

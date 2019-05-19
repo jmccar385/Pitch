@@ -151,33 +151,26 @@ export class EventSchedulerComponent implements OnInit {
     event.EventDateTime.toDate().setHours(inputHours);
     event.EventDateTime.toDate().setMinutes(inputMinutes);
 
-    this.eventService.createEvent(event).then(eventRef => {
-      this.eventService
-        .linkEventWithVenue(this.authService.currentUserID, eventRef.id, event)
-        .then(() => {
-          this.router.navigate([
-            '/profile',
-            'venue',
-            this.authService.currentUserID
-          ]);
-        })
-        .catch(error => {
-          console.log(error);
+    this.eventService
+      .createEvent(event, this.authService.currentUserID)
+      .then(() => {
+        this.router.navigate([
+          '/profile',
+          'venue',
+          this.authService.currentUserID
+        ]);
+      })
+      .catch(error => {
+        console.log(error);
 
-          // Try to delete the event that was created, but don't worry too much
-          try {
-            eventRef.delete();
-          } catch {}
-
-          // Notify the user something went wrong
-          this.snackBar.open(
-            'Could not create event. Please try again.',
-            'close',
-            {
-              duration: 2000
-            }
-          );
-        });
-    });
+        // Notify the user something went wrong
+        this.snackBar.open(
+          'Could not create event. Please try again.',
+          'close',
+          {
+            duration: 2000
+          }
+        );
+      });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatDialog } from '@angular/material';
@@ -10,7 +10,7 @@ import { ForgotPasswordDialogComponent } from './forgotpassword.component';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   constructor(
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
@@ -23,6 +23,19 @@ export class LoginComponent {
 
     password: new FormControl('', [Validators.required])
   });
+
+  ngOnInit() {
+    this.authService.currentUserObservable.subscribe(user => {
+      if (user) {
+        const type = this.authService.userType;
+        if (type === 'band') {
+          this.router.navigate(['browse']);
+        } else {
+          this.router.navigate(['profile', 'venue', user.uid]);
+        }
+      }
+    });
+  }
 
   forgotPassword(): void {
     const dialogRef = this.dialog.open(ForgotPasswordDialogComponent, {

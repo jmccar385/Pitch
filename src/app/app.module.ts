@@ -43,6 +43,7 @@ import { ConversationComponent } from './conversation/conversation.component';
 import { AccountSettingsComponent } from './settings/account.settings.component';
 import { NotificationSettingsComponent } from './settings/notifications.settings.component';
 import { AcceptanceModalComponent } from './acceptance-modal/acceptance-modal.component';
+import { HeaderService } from './services/header.service';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { AcceptanceModalComponent } from './acceptance-modal/acceptance-modal.co
     AuthGuard,
     VerifiedGuard,
     ProfileService,
-    MusicService
+    MusicService,
+    HeaderService
   ],
   entryComponents: [
     ForgotPasswordDialogComponent,

@@ -1,136 +1,17 @@
 <mat-toolbar color="primary">
 	<div class="header">
-		<ng-template [ngIf]="this.router.url == '/browse'">
-			<button mat-icon-button [routerLink]="['/messages']" color="accent">
-				<mat-icon>forum</mat-icon>
-			</button>
-			<h1>Browse</h1>
-			<button mat-icon-button [routerLink]="['/profile', 'band', id]" color="accent">
-				<mat-icon>person</mat-icon>
-			</button>
-		</ng-template>
-		<ng-template [ngIf]="this.router.url == '/messages'">
-			<button mat-icon-button color="accent" [disabled]="true" >
-				<mat-icon></mat-icon>
-			</button>
-			<h1>Messages</h1>
-			<button mat-icon-button [routerLink]="['/browse']" color="accent">
-				<mat-icon>list</mat-icon>
-			</button>
-		</ng-template>
-		<ng-template [ngIf]="this.router.url.startsWith('/conversation')">
-			<button mat-icon-button [routerLink]="['/messages']" color="accent" >
-				<mat-icon>forum</mat-icon>
-			</button>
-			<h1>Conversation</h1>
-			<button mat-icon-button color="accent" [disabled]="true" >
-					<mat-icon></mat-icon>
-				</button>
-		</ng-template>
-		<ng-template [ngIf]="this.router.url == '/events/schedule'">
-			<button mat-icon-button [routerLink]="['/profile', 'venue', id]" color="accent">
-				<mat-icon>arrow_back_ios</mat-icon>
-			  </button>
-			<h1>New Event</h1>
-			<button mat-icon-button color="accent" [disabled]="true" >
-				<mat-icon></mat-icon>
-			  </button>
-		</ng-template>
-		<ng-template [ngIf]="this.router.url == '/profile/band/settings'">
-			<button mat-icon-button [routerLink]="['/profile', 'band', id]" color="accent">
-				<mat-icon>person</mat-icon>
-			</button>
-			<h1>Settings</h1>
-			<button mat-icon-button color="accent" [disabled]="true" >
-				<mat-icon></mat-icon>
-			</button>
-		</ng-template>
-		<ng-template [ngIf]="this.router.url == '/profile/venue/settings'">
-			<button mat-icon-button [routerLink]="['/profile', 'venue', id]" color="accent">
-				<mat-icon>person</mat-icon>
-			</button>
-			<h1>Settings</h1>
-			<button mat-icon-button color="accent" [disabled]="true" >
-				<mat-icon></mat-icon>
-			</button>
-		</ng-template>
-		<ng-template [ngIf]="this.router.url == '/profile/band/settings/account'">
-			<button mat-icon-button [routerLink]="['/profile', 'band', 'settings']" color="accent">
-				<mat-icon>arrow_back_ios</mat-icon>
-			</button>
-			<h1>Account</h1>
-			<button mat-icon-button color="accent" [disabled]="true" >
-				<mat-icon></mat-icon>
-			</button>
-		</ng-template>
-		<ng-template [ngIf]="this.router.url == '/profile/venue/settings/account'">
-			<button mat-icon-button [routerLink]="['/profile', 'venue', 'settings']" color="accent">
-				<mat-icon>arrow_back_ios</mat-icon>
-			</button>
-			<h1>Account</h1>
-			<button mat-icon-button color="accent" [disabled]="true" >
-				<mat-icon></mat-icon>
-			</button>
-		</ng-template>
-		<ng-template [ngIf]="this.router.url == '/profile/band/settings/notifications'">
-			<button mat-icon-button [routerLink]="['/profile', 'band', 'settings']" color="accent">
-				<mat-icon>arrow_back_ios</mat-icon>
-			</button>
-			<h1>Notifications</h1>
-			<button mat-icon-button color="accent" [disabled]="true" >
-				<mat-icon></mat-icon>
-			</button>
-		</ng-template>
-		<ng-template [ngIf]="this.router.url == '/profile/venue/settings/notifications'">
-			<button mat-icon-button [routerLink]="['/profile', 'venue', 'settings']" color="accent">
-				<mat-icon>arrow_back_ios</mat-icon>
-			</button>
-			<h1>Notifications</h1>
-			<button mat-icon-button color="accent" [disabled]="true" >
-				<mat-icon></mat-icon>
-			</button>
-		</ng-template>
-		<ng-template [ngIf]="this.router.url == '/events/schedule'">
-			<button mat-icon-button color="accent" [routerLink]="['/profile', 'venue', authService.currentUserID]">
-				<mat-icon>arrow_back</mat-icon>
-			</button>
-			<h1>Create Event</h1>
-		</ng-template>
-		<ng-template [ngIf]="(view || seeView) && userType === 'band'">
-			<button mat-icon-button (click)="verified()" color="accent">
-				<mat-icon>list</mat-icon>
-			</button>
-			<h1>Profile</h1>
-			<button mat-icon-button [routerLink]="['/profile/band/settings']" color="accent">
-				<mat-icon>settings</mat-icon>
-			</button>
-		</ng-template>
-		<ng-template [ngIf]="(view || seeView) && userType === 'venue'">
-			<button mat-icon-button (click)="verified()" color="accent">
-				<mat-icon>forum</mat-icon>
-			</button>
-			<h1>Profile</h1>
-			<button mat-icon-button [routerLink]="['/profile/venue/settings']" color="accent">
-				<mat-icon>settings</mat-icon>
-			</button>
-		</ng-template>
-		<ng-template [ngIf]="!view && !seeView && userType === 'band'">
-			<button mat-icon-button color="accent" [disabled]="true">
-				<mat-icon>forum</mat-icon>
-			</button>
-			<h1>{{profile?.ProfileName}}</h1>
-			<button mat-icon-button color="accent" [disabled]="true" >
-				<mat-icon></mat-icon>
-			</button>
-		</ng-template>
-		<ng-template [ngIf]="!view && !seeView && userType === 'venue'">
-			<button mat-icon-button color="accent" [routerLink]="['/browse']">
-				<mat-icon>list</mat-icon>
-			</button>
-			<h1>{{profile?.ProfileName}}</h1>
-			<button mat-icon-button color="accent" [disabled]="true" >
-				<mat-icon></mat-icon>
-			</button>
-		</ng-template>
+		<button *ngIf="!headerVals.iconStart" mat-icon-button color="accent" [disabled]="true" >
+			<mat-icon></mat-icon>
+		</button>
+		<button mat-icon-button [routerLink]="headerVals.startRouterlink" color="accent">
+			<mat-icon>{{headerVals.iconStart}}</mat-icon>
+		</button>
+		<h1>{{headerVals.title}}</h1>
+		<button mat-icon-button [routerLink]="headerVals.endRouterlink" color="accent">
+			<mat-icon>{{headerVals.iconEnd}}</mat-icon>
+		</button>
+		<button *ngIf="!headerVals.iconEnd" mat-icon-button color="accent" [disabled]="true" >
+			<mat-icon></mat-icon>
+		</button>
 	</div>
 </mat-toolbar>

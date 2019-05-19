@@ -10,7 +10,7 @@ import { mergeMap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  private authState: firebase.User = null;
+  private authState: firebase.User;
   private type: string;
 
   constructor(
@@ -21,16 +21,13 @@ export class AuthService {
   ) {
     this.afAuth.authState.pipe(
       mergeMap(user => {
-        if (!user) {return}
-        console.log('theres a user');
+        if (!user) {return; }
         this.authState = user;
         return this.afStore.doc(`Artists/${this.currentUserID}`).get();
       })
     ).subscribe(doc => {
       this.type = doc.exists ? 'band' : 'venue';
     });
-    // console.log(this.currentUserID);
-    // this.afStore.doc(`Artists/${this.currentUserID}`).get().subscribe();
   }
 
   requestAuthorizationSpotify() {

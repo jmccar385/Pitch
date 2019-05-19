@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../services/profile.service';
 import { Venue } from '../models';
+import { HeaderService } from '../services/header.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-browse',
@@ -8,7 +10,7 @@ import { Venue } from '../models';
   styleUrls: ['./browse.component.css']
 })
 export class BrowseComponent implements OnInit {
-  constructor(private profileService: ProfileService) {}
+  constructor(private profileService: ProfileService, private headerSvc: HeaderService, private authSvc: AuthService) {}
 
   private profileCards: any[] = [];
 
@@ -49,6 +51,15 @@ export class BrowseComponent implements OnInit {
       venues.forEach((venue: Venue) => {
         this._addProfileCard(venue);
       });
+    });
+
+    // Set header
+    this.headerSvc.setHeader({
+      title: 'Browse',
+      iconEnd: 'person',
+      iconStart: 'forum',
+      endRouterlink: ['/profile', 'band', this.authSvc.currentUserID],
+      startRouterlink: ['/messages']
     });
   }
 }

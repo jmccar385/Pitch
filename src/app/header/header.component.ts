@@ -2,7 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { AuthService } from '../services/auth.service';
-import { Band, Venue } from '../models';
+import { Band, Venue, HeaderValues } from '../models';
+import { HeaderService } from '../services/header.service';
 
 @Component({
   selector: 'app-header',
@@ -10,34 +11,31 @@ import { Band, Venue } from '../models';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  constructor(
+    private headerSvc: HeaderService
+  ) {}
 
-  @Input() profile: Band|Venue;
-  @Input() userType: string;
-  @Input() view: boolean;
-  @Input() seeView: boolean;
+  headerVals: HeaderValues;
 
-  constructor(private router: Router, private authService: AuthService, private snackBar: MatSnackBar) { }
-
-  private id: string;
-
-  ngOnInit() {
-    this.id = this.authService.currentUserID;
+  async ngOnInit() {
+    this.headerSvc.vals.subscribe(vals => {
+      this.headerVals = vals;
+    });
   }
 
-  verified(): void {
-    if (!this.authService.currentUser.emailVerified) {
-      this.snackBar.open('Please verify your email first. See settings.', 'close', {duration: 2000});
-    } else {
-      if (this.userType === 'venue') {
-        this.router.navigate(['/messages']);
-      } else {
-        this.router.navigate(['/browse']);
-      }
-    }
-  }
-
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
+  // verified(): void {
+  //   if (!this.authService.currentUser.emailVerified) {
+  //     this.snackBar.open(
+  //       'Please verify your email first. See settings.',
+  //       'close',
+  //       { duration: 2000 }
+  //     );
+  //   } else {
+  //     if (this.userType === 'venue') {
+  //       this.router.navigate(['/messages']);
+  //     } else {
+  //       this.router.navigate(['/browse']);
+  //     }
+  //   }
+  // }
 }

@@ -6,7 +6,7 @@ import {
   Router
 } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { map, take, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Injectable({

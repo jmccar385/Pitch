@@ -184,6 +184,14 @@ export interface Message {
   text: string;
 }
 
+export interface HeaderValues {
+  title: string;
+  iconStart: string;
+  iconEnd: string;
+  startRouterlink: string[];
+  endRouterlink: string[];
+}
+
 export interface Conversation {
   members: string[];
   pitchAccepted: boolean;

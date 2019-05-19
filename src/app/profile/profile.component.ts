@@ -30,7 +30,8 @@ export class ProfileComponent implements OnInit {
     private headerSvc: HeaderService
   ) {}
 
-  private profile: Band | Venue = null;
+  isEditing = false;
+  profile: Band | Venue = null;
   slideIndex = 1;
   userType: string;
   view: boolean;
@@ -215,10 +216,12 @@ export class ProfileComponent implements OnInit {
 
   editProfile() {
     // add logic for spotify refresh token
+    this.isEditing = true;
     this.profileForm.enable();
   }
 
   saveProfile() {
+    this.isEditing = false;
     this.profileForm.disable();
     if (this.userType === 'venue') {
       this.profileService.updateVenueById(

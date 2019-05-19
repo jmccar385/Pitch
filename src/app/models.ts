@@ -33,8 +33,22 @@ export interface ReviewDialogData {
   ratingCount: number;
 }
 
+export interface Pitch {
+  message: string;
+  tracks: Track[];
+  events: Event[];
+}
+
 export interface PitchDialogData {
   events: Event[];
+  venueId: string;
+}
+
+export interface AcceptanceDialogData {
+  convoId: string;
+  convo: Conversation;
+  bandId: string;
+  band: Band;
 }
 
 export interface UploadDialogData {
@@ -173,6 +187,11 @@ export interface Message {
 export interface Conversation {
   members: string[];
   pitchAccepted: boolean;
-  Messages: Message[];
+  Messages?: Message[];
+  lastMessage: {
+    createdAt: firestore.Timestamp,
+    text: string
+  };
+  pitch: Pitch;
 }
 

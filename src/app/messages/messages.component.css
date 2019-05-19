@@ -5,11 +5,20 @@
 
 mat-list {
 	margin: 0;
-	margin-top: 20px;
-	width: calc(95% - 32px);
+	/* margin-top: 20px; */
+	/* width: calc(95% - 32px); */
 	margin-left:2.5%;
 }
 
 .unopened{
 	font-weight: bolder !important;
+}
+
+button {
+	font-size: 12px;
+	color: white !important;
+}
+
+.mat-flat-button {
+	padding: 0px !important;
 }

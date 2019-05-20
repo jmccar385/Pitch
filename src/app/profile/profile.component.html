@@ -119,7 +119,7 @@
         </div>
       </mat-card-content>
     </mat-card>
-    <mat-card *ngIf="userType == 'venue' && view">
+    <mat-card>
       <mat-card-title>Events</mat-card-title>
       <mat-card-content>
         <ng-template [ngIf]="profile?.Events?.length > 0" [ngIfElse]="noEventsTemplate">

@@ -40,6 +40,8 @@ import { SpotifyAlertDialogComponent } from './signup/spotifyalert.component';
 import { NewEmailDialogComponent } from './settings/newemail.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ConversationComponent } from './conversation/conversation.component';
+import { AcceptanceModalComponent } from './acceptance-modal/acceptance-modal.component';
+import { HeaderService } from './services/header.service';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,7 @@ import { ConversationComponent } from './conversation/conversation.component';
     EventSchedulerComponent,
     MessagesComponent,
     ConversationComponent,
+    AcceptanceModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -85,7 +88,8 @@ import { ConversationComponent } from './conversation/conversation.component';
     AuthGuard,
     VerifiedGuard,
     ProfileService,
-    MusicService
+    MusicService,
+    HeaderService
   ],
   entryComponents: [
     ForgotPasswordDialogComponent,
@@ -94,7 +98,8 @@ import { ConversationComponent } from './conversation/conversation.component';
     NewEmailDialogComponent,
     UploadDialogComponent,
     PitchDialogComponent,
-    ProfileImageDialogComponent
+    ProfileImageDialogComponent,
+    AcceptanceModalComponent
   ],
   bootstrap: [AppComponent]
 })

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
+import { HeaderService } from '../services/header.service';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { NewEmailDialogComponent } from './newemail.component';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -11,15 +11,14 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-
   userType: string;
   verified = false;
-  userEmail = '';
+  userEmail: string;
 
   constructor(
     private authService: AuthService,
-    private router: Router,
     public dialog: MatDialog,
+    private headerSvc: HeaderService,
     private snackBar: MatSnackBar
   ) {}
 
@@ -31,6 +30,17 @@ export class SettingsComponent implements OnInit {
     this.userType = this.authService.userType;
     this.verified = this.authService.currentUser.emailVerified;
     this.userEmail = this.authService.currentUser.email;
+    const startRouterlink = (this.userType === 'band') ?
+    ['/profile', 'band', this.authService.currentUserID] :
+    ['/profile', 'venue', this.authService.currentUserID];
+    // Set header
+    this.headerSvc.setHeader({
+      title: 'Settings',
+      iconEnd: null,
+      iconStart: 'person',
+      endRouterlink: null,
+      startRouterlink
+    });
   }
 
   delete(): void {
@@ -46,10 +56,9 @@ export class SettingsComponent implements OnInit {
   }
 
   changeEmail() {
-    /*this.dialog.open(NewEmailDialogComponent, {
+    this.dialog.open(NewEmailDialogComponent, {
       width: '450px',
       data: {}
-    });*/
-    this.verified = !this.verified;
+    });
   }
 }

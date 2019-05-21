@@ -1,4 +1,4 @@
-<app-header [profile]="profile" [userType]="userType" [view]="view"></app-header>
+<app-header></app-header>
 <div id="profile-container">
   <ng-template [ngIf]="profileForm.disabled" [ngIfElse]="saveProfileTemplate">
       <button mat-mini-fab color="primary" class="edit_save" (click)="editProfile()" type="button">
@@ -131,7 +131,7 @@
         </div>
       </mat-card-content>
     </mat-card>
-    <mat-card *ngIf="userType == 'venue' && view">
+    <mat-card>
       <mat-card-title>Events</mat-card-title>
       <mat-card-content>
         <ng-template [ngIf]="profile?.Events?.length > 0" [ngIfElse]="noEventsTemplate">
@@ -143,7 +143,8 @@
         </ng-template>
         <ng-template #noEventsTemplate>
             <button mat-flat-button color="primary" [routerLink]="['/events/schedule']" routerLinkActive="router-link-active" >Create an event</button>
-         </ng-template>
+        </ng-template>
+        <button *ngIf="isEditing" mat-flat-button color="primary" [routerLink]="['/events/schedule']" routerLinkActive="router-link-active" >Create an event</button>
       </mat-card-content>
     </mat-card>
   </form>

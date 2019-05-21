@@ -4,8 +4,8 @@
     <mat-card>
       <mat-card-title>Account Settings</mat-card-title>
       <mat-card-subtitle>{{userEmail}}</mat-card-subtitle>
-      <button *ngIf="verified" mat-stroked-button class="email-button" color="accent" (click)="changeEmail()">Edit</button>
-      <button *ngIf="!verified" mat-stroked-button class="email-button" color="accent" (click)="verifyEmail()">Resend Email</button>
+      <button *ngIf="verified" mat-stroked-button class="email-button" color="accent" (click)="changeEmail()" type="button">Edit</button>
+      <button *ngIf="!verified" mat-stroked-button class="email-button" color="accent" (click)="verifyEmail()" type="button">Resend Email</button>
       <mat-card-content [formGroup]="settingsForm">
         <div class="verified-container">
           <ng-template [ngIf]="verified" [ngIfElse]="unverified">

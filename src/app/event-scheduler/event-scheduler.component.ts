@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { EventService } from '../services/event.service';
 import { Location } from '@angular/common';
 import { firestore } from 'firebase';
+import { HeaderService } from '../services/header.service';
 
 @Component({
   selector: 'app-event-scheduler',
@@ -22,7 +23,8 @@ export class EventSchedulerComponent implements OnInit {
     private profileService: ProfileService,
     private eventService: EventService,
     private snackBar: MatSnackBar,
-    private location: Location
+    private location: Location,
+    private headerSvc: HeaderService
   ) {
     this.profileService
       .getVenueEventsById(this.authService.currentUserID)
@@ -74,11 +76,21 @@ export class EventSchedulerComponent implements OnInit {
     this.location.back();
   }
   ngOnInit() {
+    // Set header
+    this.headerSvc.setHeader({
+      title: 'New Event',
+      iconEnd: null,
+      iconStart: 'arrow_back_ios',
+      endRouterlink: null,
+      startRouterlink: ['/profile', 'venue', this.authService.currentUserID]
+    });
+
     // If a date exists in the datesArray (populated using events for the
     // current venue) it will be provided a CSS class for highlighting it
     this.highlightEvents = (date: Date) => {
       if (this.datesArray !== undefined) {
-        const match = (x: firestore.Timestamp) => x.toDate().toDateString() === date.toDateString();
+        const match = (x: firestore.Timestamp) =>
+          x.toDate().toDateString() === date.toDateString();
 
         if (this.datesArray.some(match)) {
           return 'eventDate';
@@ -98,7 +110,8 @@ export class EventSchedulerComponent implements OnInit {
     }
 
     const newVal: Date = event.value;
-    const match = (x: firestore.Timestamp) => x.toDate().toDateString() === newVal.toDateString();
+    const match = (x: firestore.Timestamp) =>
+      x.toDate().toDateString() === newVal.toDateString();
     if (!this.datesArray.some(match)) {
       this.eventConflict = false;
       return;
@@ -110,7 +123,9 @@ export class EventSchedulerComponent implements OnInit {
 
   // Create the event and return to the profile screen
   createEvent() {
-    const timeAsStamp = firestore.Timestamp.fromDate(this.createEventForm.controls.eventDate.value);
+    const timeAsStamp = firestore.Timestamp.fromDate(
+      this.createEventForm.controls.eventDate.value
+    );
     const event: Event = {
       EventID: '',
       EventName: this.createEventForm.controls.name.value,
@@ -136,33 +151,26 @@ export class EventSchedulerComponent implements OnInit {
     event.EventDateTime.toDate().setHours(inputHours);
     event.EventDateTime.toDate().setMinutes(inputMinutes);
 
-    this.eventService.createEvent(event).then(eventRef => {
-      this.eventService
-        .linkEventWithVenue(this.authService.currentUserID, eventRef.id, event)
-        .then(() => {
-          this.router.navigate([
-            '/profile',
-            'venue',
-            this.authService.currentUserID
-          ]);
-        })
-        .catch(error => {
-          console.log(error);
+    this.eventService
+      .createEvent(event, this.authService.currentUserID)
+      .then(() => {
+        this.router.navigate([
+          '/profile',
+          'venue',
+          this.authService.currentUserID
+        ]);
+      })
+      .catch(error => {
+        console.log(error);
 
-          // Try to delete the event that was created, but don't worry too much
-          try {
-            eventRef.delete();
-          } catch {}
-
-          // Notify the user something went wrong
-          this.snackBar.open(
-            'Could not create event. Please try again.',
-            'close',
-            {
-              duration: 2000
-            }
-          );
-        });
-    });
+        // Notify the user something went wrong
+        this.snackBar.open(
+          'Could not create event. Please try again.',
+          'close',
+          {
+            duration: 2000
+          }
+        );
+      });
   }
 }

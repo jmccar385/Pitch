@@ -8,12 +8,12 @@
 	</mat-form-field>
 	<mat-form-field>
 		<mat-select disableOptionCentering placeholder="Track Selection" formControlName="tracks" multiple>
-			<mat-option *ngFor="let track of artist?.Tracks" value="{{track.Preview}}">{{track.Name}}</mat-option>
+			<mat-option *ngFor="let track of artist?.Tracks" [value]="track">{{track.Name}}</mat-option>
 		</mat-select>
 	</mat-form-field>
 	<mat-form-field>
 		<mat-select disableOptionCentering placeholder="Event Selection" formControlName="events" multiple>
-			<mat-option *ngFor="let event of data.events" value="">{{event.EventDescription}}</mat-option>
+			<mat-option *ngFor="let event of data.events" [value]="event">{{event.EventName}}</mat-option>
 		</mat-select>
 	</mat-form-field>
 	<button id="close" mat-flat-button color="primary" [mat-dialog-close] type="button">Cancel</button>

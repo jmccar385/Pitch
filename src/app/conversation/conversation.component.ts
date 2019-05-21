@@ -8,7 +8,7 @@ import {
 import { MessagesService } from '../services/messages.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-// import { currentId } from 'async_hooks';
+import { HeaderService } from '../services/header.service';
 
 @Component({
   selector: 'app-conversation',
@@ -33,8 +33,6 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
 
   scrollToBottom(): void {
     try {
-      console.log(this.myScrollContainer.nativeElement.scrollHeight);
-      // this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
       this.myScrollContainer.nativeElement.scrollIntoView(false);
     } catch (err) {}
   }
@@ -42,7 +40,8 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
   constructor(
     private msgSvc: MessagesService,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private headerSvc: HeaderService
   ) {}
 
   ngOnInit() {
@@ -51,6 +50,16 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
       this.messages = this.msgSvc.getMessagesByConversationId(params.id);
       this.conversationId = params.id;
     });
+
+    // Set header
+    this.headerSvc.setHeader({
+      title: 'Messages',
+      iconEnd: null,
+      iconStart: 'forum',
+      endRouterlink: null,
+      startRouterlink: ['/messages']
+    });
+
     this.msgSvc.getSenderDataById(this.currentUserId).subscribe(data => {
       this.currentUserData = data;
     });
@@ -75,7 +84,7 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
   sendMessage() {
     console.log(this.text);
     this.msgSvc
-      .sendMessage(this.conversationId, this.text)
+      .sendMessage(this.conversationId, this.text, this.authService.currentUserID)
       .then(() => {
         this.text = '';
       })

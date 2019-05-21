@@ -12,6 +12,7 @@ import { ProfileImageDialogComponent } from './profile-image.component';
 import { Playlist, Equipment, Venue, Band, Review, Event } from '../models';
 import { Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
+import { HeaderService } from '../services/header.service';
 
 @Component({
   selector: 'app-profile',
@@ -25,10 +26,12 @@ export class ProfileComponent implements OnInit {
     private profileService: ProfileService,
     private musicService: MusicService,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private headerSvc: HeaderService
   ) {}
 
-  private profile: Band | Venue = null;
+  isEditing = false;
+  profile: Band | Venue = null;
   slideIndex = 1;
   userType: string;
   view: boolean;
@@ -52,6 +55,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.userType = this.route.snapshot.params.userType;
+
     this.view =
       this.route.snapshot.params.id === this.authService.currentUserID;
     if (this.userType === 'venue') {
@@ -73,6 +77,29 @@ export class ProfileComponent implements OnInit {
       this._setData(this.route.snapshot.params.id, this.userType);
       this.profileForm.disable();
     }
+
+    let title;
+    if (!this.view && this.userType === 'band') {
+      title = this.profile.ProfileName;
+    } else {
+      title = 'Profile';
+    }
+    const startRouterlink =
+      this.userType === 'band' ? ['/browse'] : ['/messages'];
+    const endRouterlink =
+      this.userType === 'band'
+        ? ['/profile', 'band', 'settings']
+        : ['/profile', 'venue', 'settings'];
+    const iconStart = this.userType === 'band' ? 'list' : 'forum';
+
+    // Set header
+    this.headerSvc.setHeader({
+      title,
+      iconEnd: 'settings',
+      iconStart,
+      endRouterlink,
+      startRouterlink
+    });
   }
 
   private _setData(uid: string, userType: string) {
@@ -93,7 +120,9 @@ export class ProfileComponent implements OnInit {
             this.profile.Playlist.TrackHref
           );
           this.playlists.push(this.profile.Playlist);
-          this.profileImageUrls = this.profile.ProfileImageUrls ? [...this.profile.ProfileImageUrls] : [this.profile.ProfilePictureUrl];
+          this.profileImageUrls = this.profile.ProfileImageUrls
+            ? [...this.profile.ProfileImageUrls]
+            : [this.profile.ProfilePictureUrl];
           this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
         });
     } else if (userType === 'venue') {
@@ -128,7 +157,7 @@ export class ProfileComponent implements OnInit {
                 return this.profileService.getVenueEventsById(uid);
               })
             );
-          }),
+          })
         )
         .subscribe((events: Array<Event>) => {
           this.profile = this.profile as Venue;
@@ -186,10 +215,12 @@ export class ProfileComponent implements OnInit {
 
   editProfile() {
     // add logic for spotify refresh token
+    this.isEditing = true;
     this.profileForm.enable();
   }
 
   saveProfile() {
+    this.isEditing = false;
     this.profileForm.disable();
     if (this.userType === 'venue') {
       this.profileService.updateVenueById(
@@ -336,17 +367,20 @@ export class ProfileComponent implements OnInit {
   }
 
   pitch() {
-    this.profileService.getVenueEventsById(this.route.snapshot.params.id).subscribe(events => {
-      console.log(events);
-      this.dialog.open(PitchDialogComponent, {
-        width: '90%',
-        maxWidth: '100vw',
-        height: '90%',
-        autoFocus: false,
-        data: {
-          events
-        }
+    this.profileService
+      .getVenueEventsById(this.route.snapshot.params.id)
+      .subscribe(events => {
+        console.log(events);
+        this.dialog.open(PitchDialogComponent, {
+          width: '90%',
+          maxWidth: '100vw',
+          height: '90%',
+          autoFocus: false,
+          data: {
+            events,
+            venueId: this.route.snapshot.params.id
+          }
+        });
       });
-    });
   }
 }

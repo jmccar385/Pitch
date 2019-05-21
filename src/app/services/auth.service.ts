@@ -4,12 +4,13 @@ import { Band, Venue, SpotifyAccess } from '../models';
 import { ProfileService } from './profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { HttpClient } from '@angular/common/http';
+import { mergeMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private authState: firebase.User = null;
+  private authState: firebase.User;
   private type: string;
 
   constructor(
@@ -18,11 +19,13 @@ export class AuthService {
     private profileSvc: ProfileService,
     private http: HttpClient
   ) {
-    this.afAuth.authState.subscribe(user => {
-      this.authState = user;
-    });
-
-    this.afStore.doc(`Artists/${this.currentUserID}`).get().subscribe(doc => {
+    this.afAuth.authState.pipe(
+      mergeMap(user => {
+        if (!user) {return; }
+        this.authState = user;
+        return this.afStore.doc(`Artists/${this.currentUserID}`).get();
+      })
+    ).subscribe(doc => {
       this.type = doc.exists ? 'band' : 'venue';
     });
   }

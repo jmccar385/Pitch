@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ProfileService } from '../services/profile.service';
 import { MessagesService } from '../services/messages.service';
-import { Observable, from, of, zip } from 'rxjs';
-import { mergeMap, map, tap, withLatestFrom, toArray } from 'rxjs/operators';
+import { Observable, from, zip } from 'rxjs';
+import { mergeMap, map, toArray, take } from 'rxjs/operators';
+import { AcceptanceModalComponent } from '../acceptance-modal/acceptance-modal.component';
+import { MatDialog } from '@angular/material';
+import { Band } from '../models';
+import { HeaderService } from '../services/header.service';
 
 @Component({
   selector: 'app-messages',
@@ -13,39 +16,88 @@ import { mergeMap, map, tap, withLatestFrom, toArray } from 'rxjs/operators';
 })
 export class MessagesComponent implements OnInit {
   currentUserId: string;
+  private band: Band;
+  currentUserType: string;
+
 
   constructor(
-    private router: Router,
     private authService: AuthService,
+    private headerSvc: HeaderService,
     private messagesService: MessagesService,
-  ) {}
+    public dialog: MatDialog,
+    private profileService: ProfileService,
+  ) { }
 
   private conversationItems: Observable<any>;
   ngOnInit() {
     this.currentUserId = this.authService.currentUserID;
+    this.currentUserType = this.authService.userType;
+    const iconEnd = (this.currentUserType === 'band') ?
+      'list' : 'person';
+    const endRouterlink = (this.currentUserType === 'band') ?
+    ['/browse'] : ['/profile/' + this.currentUserType + '/' + this.currentUserId];
 
-    const getSenderDataByConvo = element => {
-      const id = element.conversation.members.filter(i => {
+    // Set header
+    this.headerSvc.setHeader({
+      title: 'Messages',
+      iconEnd,
+      iconStart: null,
+      endRouterlink,
+      startRouterlink: null
+    });
+
+    const getSenderDataByConvo = convo => {
+      const id = convo.conversation.members.filter(i => {
         if (i !== this.currentUserId) {
           return i;
         }
       })[0];
-      return this.messagesService.getSenderDataById(id);
+      return zip(from([convo]), this.messagesService.getSenderDataById(id));
     };
 
     const zipConvoData = (UrlConvo) => {
-      return {...UrlConvo[1], senderData: UrlConvo[0]};
+      return { ...UrlConvo[0], senderData: UrlConvo[1] };
     };
 
     this.conversationItems = this.messagesService
       .getConversationsByUserId(this.currentUserId)
       .pipe(
-        mergeMap(array => from(array).pipe(
-          mergeMap(getSenderDataByConvo),
-          withLatestFrom(array),
-          map(zipConvoData),
-          toArray()
-        )));
-    this.conversationItems.subscribe(item => console.log(item));
+        mergeMap(array => {
+          const convosObservable = from(array);
+          return convosObservable.pipe(
+            mergeMap(getSenderDataByConvo),
+            map(zipConvoData),
+            toArray()
+          );
+        }));
   }
+
+  viewPitch(convoId: string) {
+    this.messagesService.getConversationByConversationId(convoId).pipe(
+      mergeMap((convo: any) => {
+        console.log('convoId: ', convoId);
+        const id = convo.members.filter(i => {
+          if (i !== this.currentUserId) {
+            return i;
+          }
+        });
+
+        return this.profileService.getArtistObserverById(id[0]).pipe(
+          map((artist: Band) => {
+            this.band = artist;
+            this.dialog.open(AcceptanceModalComponent, {
+              width: '90%',
+              maxWidth: '100vw',
+              height: '90%',
+              autoFocus: false,
+              data: { convoId, convo, bandId: id, band: this.band  }
+            });
+          })
+        );
+
+      }),
+      take(1)
+    ).subscribe();
+  }
+
 }

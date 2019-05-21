@@ -19,7 +19,7 @@
     <mat-card>
       <mat-card-title>Reviews ({{profile?.ProfileRatingCount}})</mat-card-title>
       <mat-card-subtitle>Rating: {{profile?.ProfileRating | number}}</mat-card-subtitle>
-      <button *ngIf="!view && !seeView" mat-stroked-button id="review" color="accent" (click)="reviewModal()" type="button">Review</button>
+      <button *ngIf="!view" mat-stroked-button id="review" color="accent" (click)="reviewModal()" type="button">Review</button>
       <mat-card-content>
         <mat-card class="review-card" *ngFor="let review of profile?.Reviews">
           <mat-card-title>{{review.ReviewCreatorName}}</mat-card-title>
@@ -136,17 +136,19 @@
       </mat-card-content>
     </mat-card>
 
-    <div *ngIf="view || seeView" id="profile_buttons">
+    <div *ngIf="view" id="profile_buttons">
       <ng-template [ngIf]="profileForm.disabled" [ngIfElse]="saveProfileTemplate">
-        <button mat-raised-button color="primary" class="edit_save" (click)="editProfile()" type="button">Edit</button>
+        <button mat-mini-fab color="primary" class="edit_save" (click)="editProfile()" type="button">
+          <mat-icon>edit</mat-icon>
+        </button>
       </ng-template>
       <ng-template #saveProfileTemplate>
-        <button mat-raised-button color="primary" class="edit_save" (click)="saveProfile()" type="button">Save</button>
+        <button mat-mini-fab color="primary" class="edit_save" (click)="saveProfile()" type="button">
+          <mat-icon>save</mat-icon>
+        </button>
       </ng-template>
-      <button mat-raised-button color="primary" id="view" (click)="viewProfile()" type="button">View</button>
     </div>
   </form>
-  
-  <div id="spacer"></div>
-  <button *ngIf="userType == 'venue' && (!view && !seeView)" mat-raised-button id="pitch" color="primary" (click)="pitch()" type="button">Pitch</button>
+  <div *ngIf="!view" id="spacer"></div>
+  <button *ngIf="userType == 'venue' && !view" mat-raised-button id="pitch" color="primary" (click)="pitch()" type="button">Pitch</button>
 </div>

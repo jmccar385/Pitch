@@ -14,8 +14,6 @@ import { SettingsComponent } from './settings/settings.component';
 import { EventSchedulerComponent } from './event-scheduler/event-scheduler.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ConversationComponent } from './conversation/conversation.component';
-import { AccountSettingsComponent } from './settings/account.settings.component';
-import { NotificationSettingsComponent } from './settings/notifications.settings.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/browse', pathMatch: 'full' },
@@ -30,16 +28,6 @@ const routes: Routes = [
   {
     path: 'profile/:userType/settings',
     component: SettingsComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'profile/:userType/settings/account',
-    component: AccountSettingsComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'profile/:userType/settings/notifications',
-    component: NotificationSettingsComponent,
     canActivate: [AuthGuard]
   },
   { path: 'login', component: LoginComponent },

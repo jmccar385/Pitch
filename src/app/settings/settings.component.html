@@ -25,7 +25,7 @@
     </mat-card>
     <mat-card *ngIf="userType === 'band'">
       <mat-card-title>Browse Settings</mat-card-title>
-      <mat-card-subtitle>Zipcode: {{profile.ProfileAddress}}</mat-card-subtitle>
+      <mat-card-subtitle>Zipcode: {{profile?.ProfileAddress}}</mat-card-subtitle>
       <mat-card-content>
         <mat-form-field>
           <mat-select disableOptionCentering placeholder="Venue Search Radius" formControlName="radius">

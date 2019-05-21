@@ -40,7 +40,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.userType = this.route.snapshot.params.userType;
     this.verified = this.authService.currentUser.emailVerified;
     this.userEmail = this.authService.currentUser.email;
-    const iconEnd = 'settings_power_new';
+    const iconEnd = 'power_settings_new';
     const startRouterlink = this.userType === 'band' ?
     ['/profile', 'band', this.authService.currentUserID] :
     ['/profile', 'venue', this.authService.currentUserID];

@@ -90,6 +90,7 @@ export class MessagesComponent implements OnInit {
           return this.profileService.getArtistObserverById(id[0]).pipe(
             map((artist: Band) => {
               this.band = artist;
+              this.band.ProfileImageUrls.push(this.band.ProfilePictureUrl);
               this.dialog.open(AcceptanceModalComponent, {
                 width: '90%',
                 maxWidth: '100vw',

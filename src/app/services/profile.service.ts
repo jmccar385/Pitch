@@ -86,10 +86,11 @@ export class ProfileService {
     userId: string,
     address: string,
     biography: string,
-    playlist?: Playlist,
-    tracks?: Track[]
+    playlist: Playlist,
+    tracks: Track[],
+    radius: number
   ) {
-    const update = { ProfileAddress: address, ProfileBiography: biography };
+    const update = { ProfileAddress: address, ProfileBiography: biography,  Playlist: playlist, Tracks: tracks, SearchRadius: radius};
     this.afDatabase
       .collection('Artists')
       .doc(userId)

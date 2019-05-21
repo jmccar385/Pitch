@@ -46,12 +46,21 @@ export class ProfileComponent implements OnInit {
   });
 
   select(equip) {
-    this.availableEquipment.includes(equip)
-      ? this.availableEquipment.splice(this.availableEquipment.indexOf(equip))
+    let index = -1;
+// tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < this.availableEquipment.length; i++) {
+      if (this.availableEquipment[i].Name === equip.Name) {
+        index = i;
+      }
+    }
+    index > -1
+      ? this.availableEquipment.splice(index, 1)
       : this.availableEquipment.push(equip);
+    console.log(this.availableEquipment);
   }
 
   ngOnInit() {
+    this.view = this.route.snapshot.params.id === this.authService.currentUserID;
     this.userType = this.route.snapshot.params.userType;
     let profile$: Observable<Band | Venue>;
     if (this.userType === 'band') {
@@ -66,13 +75,7 @@ export class ProfileComponent implements OnInit {
 
     profile$.subscribe((profile: Band | Venue) => {
       this.profile = profile;
-      let title;
-      if (!this.view) {
-        title = this.profile.ProfileName;
-      } else {
-        title = 'Profile';
-      }
-
+      const title = this.profile.ProfileName;
       this.authService.userType.subscribe(doc => {
         const startRouterlink = doc.exists ? ['/browse'] : ['/messages'];
         let endRouterlink = null;
@@ -98,26 +101,6 @@ export class ProfileComponent implements OnInit {
 
       this._setData(this.route.snapshot.params.id, this.userType);
     });
-
-    this.view =
-      this.route.snapshot.params.id === this.authService.currentUserID;
-
-    if (this.userType === 'venue') {
-      this.equipment = this.profileService.getEquipmentList();
-      this.equipment.subscribe(items => {
-        for (const item of items) {
-          this.equipmentList.push(item);
-          this.profileForm.addControl(
-            item.Name.toLowerCase()
-              .replace(' ', '_')
-              .replace(' ', '/'),
-            new FormControl()
-          );
-        }
-      });
-    }
-
-    this.profileForm.disable();
   }
 
   private _setData(uid: string, userType: string) {
@@ -145,20 +128,36 @@ export class ProfileComponent implements OnInit {
       this.profileImageUrls = [...this.profile.ProfileImageUrls];
       this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
 
-      for (const equipment of this.profile.AvailableEquipment) {
-        const equipName = equipment.Name.toLowerCase()
-        .replace(' ', '_')
-        .replace(' ', '/');
-        if (this.profileForm.controls[equipName]) {
-          this.profileForm.controls[equipName].setValue(true);
+      this.equipment = this.profileService.getEquipmentList();
+      this.equipment.subscribe(items => {
+        if (this.equipmentList.length === 0) {
+          for (const item of items) {
+            this.equipmentList.push(item);
+            this.profileForm.addControl(
+              item.Name.toLowerCase()
+                .replace(' ', '_')
+                .replace(' ', '/'),
+              new FormControl()
+            );
+          }
         }
-      }
+        for (const equipment of this.profile.AvailableEquipment) {
+          const equipName = equipment.Name.toLowerCase()
+          .replace(' ', '_')
+          .replace(' ', '/');
+          if (this.profileForm.controls[equipName]) {
+            this.profileForm.controls[equipName].setValue(true);
+          }
+        }
+        this.profileForm.disable();
+      });
       this.profile.Reviews = this.profileService
         .getVenueReviewsById(uid) as Observable<Review[]>;
 
       this.profile.Events = this.profileService
         .getVenueEventsById(uid) as Observable<Event[]>;
     }
+    this.profileForm.disable();
   }
 
   private changeSlideBy(delta) {
@@ -252,20 +251,15 @@ export class ProfileComponent implements OnInit {
             }
             this.profile.Playlist.TrackCount = this.profile.Tracks.length;
           });
-        this.profileService.updateArtistById(
-          this.route.snapshot.params.id,
-          this.profileForm.controls.address.value,
-          this.profileForm.controls.biography.value,
-          this.profile.Playlist,
-          this.profile.Tracks
-        );
-      } else {
-        this.profileService.updateArtistById(
-          this.route.snapshot.params.id,
-          this.profileForm.controls.address.value,
-          this.profileForm.controls.biography.value
-        );
       }
+      this.profileService.updateArtistById(
+        this.route.snapshot.params.id,
+        this.profileForm.controls.address.value,
+        this.profileForm.controls.biography.value,
+        this.profile.Playlist,
+        this.profile.Tracks,
+        this.profile.SearchRadius,
+      );
     }
   }
 

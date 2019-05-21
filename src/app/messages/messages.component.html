@@ -2,12 +2,12 @@
 <div id="messages_container">
     <mat-list>
       <mat-list-item routerLink="{{convo.conversation.pitchAccepted ? '/conversation/' + convo.id: '/messages'}}" routerLinkActive="router-link-active"  *ngFor="let convo of conversationItems | async">
-        <img matListAvatar src="{{convo.senderData.profileUrl}}">
-        <h3 matLine>{{convo.senderData.profileName}}</h3>
+        <img matListAvatar src="{{convo.senderData?.profileUrl}}">
+        <h3 matLine>{{convo.senderData?.profileName}}</h3>
         <p matLine>
-          {{convo.senderData.profileName}}: {{convo.conversation.lastMessage.text}}
+          {{convo.senderData?.profileName}}: {{convo.conversation.lastMessage.text}}
         </p>
-        <ng-template [ngIf]="!convo.conversation.pitchAccepted && currentUserType== 'venue' ">
+        <ng-template [ngIf]="!convo.conversation.pitchAccepted && currentUserType == 'venue' ">
           <button mat-flat-button color="primary" (click)="viewPitch(convo.id)">View Pitch</button>
         </ng-template>
         <ng-template [ngIf]="!convo.conversation.pitchAccepted && currentUserType== 'band' ">

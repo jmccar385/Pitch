@@ -18,7 +18,11 @@ export class AuthService {
     private afStore: AngularFirestore,
     private profileSvc: ProfileService,
     private http: HttpClient
-  ) {}
+  ) {
+    this.afAuth.authState.subscribe(auth => {
+      this.authState = auth;
+    });
+  }
 
   requestAuthorizationSpotify() {
     const url = 'https://us-central1-pitch-9db22.cloudfunctions.net/authSpotify';

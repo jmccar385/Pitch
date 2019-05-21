@@ -42,6 +42,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { ConversationComponent } from './conversation/conversation.component';
 import { AcceptanceModalComponent } from './acceptance-modal/acceptance-modal.component';
 import { HeaderService } from './services/header.service';
+import { SaveAlertDialogComponent } from './settings/savealert.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { HeaderService } from './services/header.service';
     MessagesComponent,
     ConversationComponent,
     AcceptanceModalComponent,
+    SaveAlertDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -99,7 +101,8 @@ import { HeaderService } from './services/header.service';
     UploadDialogComponent,
     PitchDialogComponent,
     ProfileImageDialogComponent,
-    AcceptanceModalComponent
+    AcceptanceModalComponent,
+    SaveAlertDialogComponent
   ],
   bootstrap: [AppComponent]
 })

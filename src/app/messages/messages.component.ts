@@ -16,8 +16,9 @@ import { HeaderService } from '../services/header.service';
 })
 export class MessagesComponent implements OnInit {
   currentUserId: string;
+  currentUserType: string;
   private band: Band;
-
+  private conversationItems: Observable<any>;
 
   constructor(
     private authService: AuthService,
@@ -27,10 +28,10 @@ export class MessagesComponent implements OnInit {
     private profileService: ProfileService,
   ) { }
 
-  private conversationItems: Observable<any>;
   ngOnInit() {
     this.currentUserId = this.authService.currentUserID;
     this.authService.userType.subscribe(doc => {
+      this.currentUserType = doc.exists ? 'band' : 'venue';
       const iconEnd = doc.exists ? 'list' : 'person';
       const endRouterlink = doc.exists ?
       ['/browse'] : ['/profile/venue/' + this.currentUserId];
@@ -43,35 +44,37 @@ export class MessagesComponent implements OnInit {
         endRouterlink,
         startRouterlink: null
       });
+
+      const getSenderDataByConvo = convo => {
+        const id = convo.conversation.members.filter(i => {
+          if (i !== this.currentUserId) {
+            return i;
+          }
+        })[0];
+        return zip(from([convo]), this.messagesService.getSenderDataById(id));
+      };
+
+      const zipConvoData = (UrlConvo) => {
+        return { ...UrlConvo[0], senderData: UrlConvo[1] };
+      };
+
+      this.conversationItems = this.messagesService
+        .getConversationsByUserId(this.currentUserId)
+        .pipe(
+          mergeMap(array => {
+            const convosObservable = from(array);
+            return convosObservable.pipe(
+              mergeMap(getSenderDataByConvo),
+              map(zipConvoData),
+              toArray()
+            );
+          }));
+      this.conversationItems.subscribe((response) => {
+        console.log(response);
+      });
     });
-    
-
-    const getSenderDataByConvo = convo => {
-      const id = convo.conversation.members.filter(i => {
-        if (i !== this.currentUserId) {
-          return i;
-        }
-      })[0];
-      return zip(from([convo]), this.messagesService.getSenderDataById(id));
-    };
-
-    const zipConvoData = (UrlConvo) => {
-      return { ...UrlConvo[0], senderData: UrlConvo[1] };
-    };
-
-    this.conversationItems = this.messagesService
-      .getConversationsByUserId(this.currentUserId)
-      .pipe(
-        mergeMap(array => {
-          const convosObservable = from(array);
-          return convosObservable.pipe(
-            mergeMap(getSenderDataByConvo),
-            map(zipConvoData),
-            toArray()
-          );
-        }));
   }
-
+  
   viewPitch(convoId: string) {
     this.messagesService.getConversationByConversationId(convoId).pipe(
       mergeMap((convo: any) => {
@@ -85,6 +88,7 @@ export class MessagesComponent implements OnInit {
         return this.profileService.getArtistObserverById(id[0]).pipe(
           map((artist: Band) => {
             this.band = artist;
+            this.band.ProfileImageUrls.unshift(this.band.ProfilePictureUrl);
             this.dialog.open(AcceptanceModalComponent, {
               width: '90%',
               maxWidth: '100vw',

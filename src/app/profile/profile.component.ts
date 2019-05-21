@@ -11,7 +11,6 @@ import { PitchDialogComponent } from './pitch.component';
 import { ProfileImageDialogComponent } from './profile-image.component';
 import { Playlist, Equipment, Venue, Band, Review, Event } from '../models';
 import { Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
 import { HeaderService } from '../services/header.service';
 
 @Component({
@@ -55,9 +54,53 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.userType = this.route.snapshot.params.userType;
+    let profile$: Observable<Band | Venue>;
+    if (this.userType === 'band') {
+      profile$ = this.profileService.getArtistObserverById(
+        this.route.snapshot.params.id
+      ) as Observable<Band>;
+    } else {
+      profile$ = this.profileService.getVenueObserverById(
+        this.route.snapshot.params.id
+      ) as Observable<Venue>;
+    }
+
+    profile$.subscribe((profile: Band | Venue) => {
+      this.profile = profile;
+      let title;
+      if (!this.view) {
+        title = this.profile.ProfileName;
+      } else {
+        title = 'Profile';
+      }
+      const startRouterlink =
+        this.authService.userType === 'band' ? ['/browse'] : ['/messages'];
+      let endRouterlink = null;
+      let iconEnd = null;
+      if (this.view) {
+        endRouterlink =
+        (this.userType === 'band')
+          ? ['/profile', 'band', 'settings']
+          : ['/profile', 'venue', 'settings'];
+        iconEnd = 'settings';
+      }
+      const iconStart = this.authService.userType === 'band' ? 'list' : 'forum';
+
+      // Set header
+      this.headerSvc.setHeader({
+        title,
+        iconEnd,
+        iconStart,
+        endRouterlink,
+        startRouterlink
+      });
+
+      this._setData(this.route.snapshot.params.id, this.userType);
+    });
 
     this.view =
       this.route.snapshot.params.id === this.authService.currentUserID;
+
     if (this.userType === 'venue') {
       this.equipment = this.profileService.getEquipmentList();
       this.equipment.subscribe(items => {
@@ -70,97 +113,50 @@ export class ProfileComponent implements OnInit {
             new FormControl()
           );
         }
-        this._setData(this.route.snapshot.params.id, this.userType);
-        this.profileForm.disable();
       });
-    } else {
-      this._setData(this.route.snapshot.params.id, this.userType);
-      this.profileForm.disable();
     }
 
-    let title;
-    if (!this.view && this.userType === 'band') {
-      title = this.profile.ProfileName;
-    } else {
-      title = 'Profile';
-    }
-    const startRouterlink =
-      this.userType === 'band' ? ['/browse'] : ['/messages'];
-    const endRouterlink =
-      this.userType === 'band'
-        ? ['/profile', 'band', 'settings']
-        : ['/profile', 'venue', 'settings'];
-    const iconStart = this.userType === 'band' ? 'list' : 'forum';
-
-    // Set header
-    this.headerSvc.setHeader({
-      title,
-      iconEnd: 'settings',
-      iconStart,
-      endRouterlink,
-      startRouterlink
-    });
+    this.profileForm.disable();
   }
 
   private _setData(uid: string, userType: string) {
     if (userType === 'band') {
-      this.profileService
-        .getArtistObserverById(uid)
-        .subscribe((artist: Band) => {
-          // tslint:disable-next-line:no-unused-expression
-          this.profile = artist; // change to if statement
-          console.log(this.profile);
-          this.profileForm.controls.address.setValue(
-            this.profile.ProfileAddress
-          );
-          this.profileForm.controls.biography.setValue(
-            this.profile.ProfileBiography
-          );
-          this.profileForm.controls.playlist.setValue(
-            this.profile.Playlist.TrackHref
-          );
-          this.playlists.push(this.profile.Playlist);
-          this.profileImageUrls = this.profile.ProfileImageUrls
-            ? [...this.profile.ProfileImageUrls]
-            : [this.profile.ProfilePictureUrl];
-          this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
-        });
+      this.profile = this.profile as Band;
+      this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
+      this.profileForm.controls.biography.setValue(
+        this.profile.ProfileBiography
+      );
+      this.profileForm.controls.playlist.setValue(
+        this.profile.Playlist.TrackHref
+      );
+      this.playlists.push(this.profile.Playlist);
+      this.profileImageUrls = this.profile.ProfileImageUrls
+        ? [...this.profile.ProfileImageUrls]
+        : [this.profile.ProfilePictureUrl];
+      this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
     } else if (userType === 'venue') {
-      this.profileService
-        .getVenueObserverById(uid)
-        .pipe(
-          mergeMap((venue: Venue) => {
-            this.profile = venue;
-            this.profileForm.controls.address.setValue(
-              this.profile.ProfileAddress
-            );
-            this.profileForm.controls.biography.setValue(
-              this.profile.ProfileBiography
-            );
-            this.availableEquipment = this.profile.AvailableEquipment;
-            this.profileImageUrls = [...this.profile.ProfileImageUrls];
-            this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
+      this.profile = this.profile as Venue;
+      this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
+      this.profileForm.controls.biography.setValue(
+        this.profile.ProfileBiography
+      );
+      this.availableEquipment = this.profile.AvailableEquipment;
+      this.profileImageUrls = [...this.profile.ProfileImageUrls];
+      this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
 
-            for (const equipment of this.profile.AvailableEquipment) {
-              this.profileForm.controls[
-                equipment.Name.toLowerCase()
-                  .replace(' ', '_')
-                  .replace(' ', '/')
-              ].setValue(true);
-            }
+      for (const equipment of this.profile.AvailableEquipment) {
+        const equipName = equipment.Name.toLowerCase()
+        .replace(' ', '_')
+        .replace(' ', '/');
+        if (this.profileForm.controls[equipName]) {
+          this.profileForm.controls[equipName].setValue(true);
+        }
+      }
+      this.profile.Reviews = this.profileService
+        .getVenueReviewsById(uid) as Observable<Review[]>;
 
-            return this.profileService.getVenueReviewsById(uid).pipe(
-              mergeMap((reviews: Array<Review>) => {
-                this.profile.Reviews = reviews;
-                return this.profileService.getVenueEventsById(uid);
-              })
-            );
-          })
-        )
-        .subscribe((events: Array<Event>) => {
-          this.profile = this.profile as Venue;
-          this.profile.Events = events;
-        });
+      this.profile.Events = this.profileService
+        .getVenueEventsById(uid) as Observable<Event[]>;
     }
   }
 

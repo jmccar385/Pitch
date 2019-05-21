@@ -46,7 +46,7 @@
       <mat-card-title>About</mat-card-title>
       <mat-card-content>{{ profile?.ProfileBiography}}</mat-card-content>
     </mat-card>
-    <mat-card *ngIf="profileType == 'venue' && view">
+    <mat-card *ngIf="userType == 'venue' && view">
       <mat-card-title>Address</mat-card-title>
       <mat-card-content>
         <mat-form-field>
@@ -57,11 +57,11 @@
         </mat-form-field>
       </mat-card-content>
     </mat-card>
-    <mat-card *ngIf="profileType == 'venue' && !view">
+    <mat-card *ngIf="userType == 'venue' && !view">
       <mat-card-title>Address</mat-card-title>
       <mat-card-content>{{ profile?.ProfileAddress}}</mat-card-content>
     </mat-card>
-    <mat-card *ngIf="profileType == 'band' && view">
+    <mat-card *ngIf="userType == 'band' && view">
         <mat-card-title>Zipcode</mat-card-title>
         <mat-card-content>
             <mat-form-field>
@@ -73,7 +73,7 @@
             </mat-form-field>
         </mat-card-content>
       </mat-card>
-    <mat-card *ngIf="profileType == 'band' && view">
+    <mat-card *ngIf="userType == 'band' && view">
       <mat-card-title>Playlist</mat-card-title>
       <mat-card-content>
         <mat-form-field>
@@ -86,7 +86,7 @@
         </mat-form-field>
       </mat-card-content>
     </mat-card>
-    <mat-card *ngIf="profileType == 'band'">
+    <mat-card *ngIf="userType == 'band'">
       <mat-card-title>Tracks</mat-card-title>
       <mat-card-content>
         <div class="track" *ngFor="let track of profile?.Tracks">
@@ -97,7 +97,7 @@
         </div>
       </mat-card-content>
     </mat-card>
-    <mat-card *ngIf="profileType == 'venue' && view">
+    <mat-card *ngIf="userType == 'venue' && view">
       <mat-card-title>Equipment</mat-card-title>
       <mat-card-content>
           <div class="checkbox" [ngClass]="{'disabled': profileForm.controls.address.disabled}" *ngFor="let equipment of equipmentList">
@@ -106,7 +106,7 @@
           </div>
       </mat-card-content>
     </mat-card>
-    <mat-card *ngIf="profileType == 'venue' && !view">
+    <mat-card *ngIf="userType == 'venue' && !view">
       <mat-card-title>Equipment</mat-card-title>
       <mat-card-content>
         <div class="equipment-container">
@@ -135,7 +135,6 @@
         <button *ngIf="profileForm.enabled && view" mat-flat-button color="primary" [routerLink]="['/events/schedule']" routerLinkActive="router-link-active" >Create an event</button>
       </mat-card-content>
     </mat-card>
-    <div *ngIf="!view" id="spacer"></div>
   </form>
   <button *ngIf="profileForm.disabled && view" mat-mini-fab color="primary" class="edit_save" (click)="editProfile()" type="button">
     <mat-icon>edit</mat-icon>
@@ -144,5 +143,5 @@
     <mat-icon>save</mat-icon>
   </button>
   <div *ngIf="!view" id="spacer"></div>
-  <button *ngIf="profileType == 'venue' && !view" mat-raised-button id="pitch" color="primary" (click)="pitch()" type="button">Pitch</button>
+  <button *ngIf="userType == 'venue' && !view" mat-raised-button id="pitch" color="primary" (click)="pitch()" type="button">Pitch</button>
 </div>

@@ -17,7 +17,6 @@ import { HeaderService } from '../services/header.service';
 export class MessagesComponent implements OnInit {
   currentUserId: string;
   private band: Band;
-  currentUserType: string;
 
 
   constructor(
@@ -31,20 +30,21 @@ export class MessagesComponent implements OnInit {
   private conversationItems: Observable<any>;
   ngOnInit() {
     this.currentUserId = this.authService.currentUserID;
-    this.currentUserType = this.authService.userType;
-    const iconEnd = (this.currentUserType === 'band') ?
-      'list' : 'person';
-    const endRouterlink = (this.currentUserType === 'band') ?
-    ['/browse'] : ['/profile/' + this.currentUserType + '/' + this.currentUserId];
+    this.authService.userType.subscribe(doc => {
+      const iconEnd = doc.exists ? 'list' : 'person';
+      const endRouterlink = doc.exists ?
+      ['/browse'] : ['/profile/venue/' + this.currentUserId];
 
-    // Set header
-    this.headerSvc.setHeader({
-      title: 'Messages',
-      iconEnd,
-      iconStart: null,
-      endRouterlink,
-      startRouterlink: null
+      // Set header
+      this.headerSvc.setHeader({
+        title: 'Messages',
+        iconEnd,
+        iconStart: null,
+        endRouterlink,
+        startRouterlink: null
+      });
     });
+    
 
     const getSenderDataByConvo = convo => {
       const id = convo.conversation.members.filter(i => {

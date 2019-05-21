@@ -18,17 +18,7 @@ export class AuthService {
     private afStore: AngularFirestore,
     private profileSvc: ProfileService,
     private http: HttpClient
-  ) {
-    this.afAuth.authState.pipe(
-      mergeMap(user => {
-        if (!user) {return; }
-        this.authState = user;
-        return this.afStore.doc(`Artists/${this.currentUserID}`).get();
-      })
-    ).subscribe(doc => {
-      this.type = doc.exists ? 'band' : 'venue';
-    });
-  }
+  ) {}
 
   requestAuthorizationSpotify() {
     const url = 'https://us-central1-pitch-9db22.cloudfunctions.net/authSpotify';
@@ -64,7 +54,13 @@ export class AuthService {
   }
 
   get userType() {
-    return this.type ? this.type : null;
+    return this.afAuth.authState.pipe(
+      mergeMap(user => {
+        if (!user) {return; }
+        this.authState = user;
+        return this.afStore.doc(`Artists/${this.currentUserID}`).get();
+      })
+    );
   }
 
   get authenticated(): boolean {

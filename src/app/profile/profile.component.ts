@@ -141,9 +141,7 @@ export class ProfileComponent implements OnInit {
             this.availableEquipment = this.profile.AvailableEquipment;
             this.profileImageUrls = [...this.profile.ProfileImageUrls];
             this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
-            // for (const review of this.profile.SubCollection) {
-            //   review.CreationDate = new Date(review.CreationDate);
-            // }
+
             for (const equipment of this.profile.AvailableEquipment) {
               this.profileForm.controls[
                 equipment.Name.toLowerCase()

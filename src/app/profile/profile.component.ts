@@ -79,7 +79,7 @@ export class ProfileComponent implements OnInit {
     }
 
     let title;
-    if (!this.view && !this.seeView && this.userType === 'band') {
+    if (!this.view && this.userType === 'band') {
       title = this.profile.ProfileName;
     } else {
       title = 'Profile';

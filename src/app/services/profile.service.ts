@@ -51,7 +51,14 @@ export class ProfileService {
     this.afDatabase.collection(collection).doc(userId).update({ProfileImageUrls});
   }
 
-  updateProfilePicture(userId: string, userType: string, imagePath: string, profileImageUrls: string[]) {
+  updateProfilePicture(
+    userId: string,
+    userType: string,
+    imagePath: string,
+    profileImageUrls: string[],
+    keep: boolean,
+    oldProfileImage: string
+    ) {
     let collection: string;
     if (userType === 'venue') {
       collection = 'Venues';
@@ -59,6 +66,12 @@ export class ProfileService {
       collection = 'Artists';
     }
     this.afDatabase.collection(collection).doc(userId).update({ProfilePictureUrl: imagePath, ProfileImageUrls: profileImageUrls});
+    if (!keep) {
+      oldProfileImage = oldProfileImage.split('/')[7];
+      oldProfileImage = oldProfileImage.substr(0, oldProfileImage.indexOf('?'));
+      const path = `${oldProfileImage}`;
+      this.afStorage.ref(path).delete();
+    }
   }
 
   getArtistObserver() {

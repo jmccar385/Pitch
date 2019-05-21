@@ -35,7 +35,6 @@ export class ProfileComponent implements OnInit {
   slideIndex = 1;
   userType: string;
   view: boolean;
-  seeView = false;
   playlists: Playlist[] = [];
   equipment: Observable<Equipment[]>;
   equipmentList: Equipment[] = [];
@@ -280,11 +279,6 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  viewProfile() {
-    this.seeView = !this.seeView;
-    this.view = !this.view;
-  }
-
   addPicture() {
     const dialogRef = this.dialog.open(UploadDialogComponent, {
       width: '90%',
@@ -357,14 +351,16 @@ export class ProfileComponent implements OnInit {
           this.profileImageUrls.indexOf(imagePath),
           1
         );
-        this.profileImageUrls.shift();
+        const oldProfileImage = this.profileImageUrls.shift();
         this.profileImageUrls.unshift(imagePath);
         setTimeout(() => this.jumpToSlide(0));
         this.profileService.updateProfilePicture(
           this.authService.currentUserID,
           this.userType,
           imagePath,
-          this.profile.ProfileImageUrls
+          this.profile.ProfileImageUrls,
+          result,
+          oldProfileImage
         );
       });
     }

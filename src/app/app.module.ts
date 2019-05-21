@@ -40,8 +40,6 @@ import { SpotifyAlertDialogComponent } from './signup/spotifyalert.component';
 import { NewEmailDialogComponent } from './settings/newemail.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ConversationComponent } from './conversation/conversation.component';
-import { AccountSettingsComponent } from './settings/account.settings.component';
-import { NotificationSettingsComponent } from './settings/notifications.settings.component';
 import { AcceptanceModalComponent } from './acceptance-modal/acceptance-modal.component';
 import { HeaderService } from './services/header.service';
 
@@ -63,8 +61,6 @@ import { HeaderService } from './services/header.service';
     SignupBandComponent,
     ImageUploadComponent,
     SettingsComponent,
-    AccountSettingsComponent,
-    NotificationSettingsComponent,
     NewEmailDialogComponent,
     EventSchedulerComponent,
     MessagesComponent,

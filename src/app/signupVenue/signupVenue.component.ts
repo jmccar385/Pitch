@@ -59,6 +59,7 @@ export class SignupVenueComponent {
       ProfileBiography: this.signupVenueForm.controls.description.value,
       ProfilePictureUrl: '', // Gets added in authSvc
       AvailableEquipment: this.availableEquipment,
+      ProfileImageUrls: [],
       ProfileRating: 5,
       ProfileRatingCount: 0,
       ProfileReportCount: 0,

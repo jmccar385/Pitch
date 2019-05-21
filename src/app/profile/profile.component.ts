@@ -54,9 +54,7 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userType = this.authService.userType;
-    this.profileType = this.route.snapshot.params.userType;
-    this.userType = 'band';
+    this.userType = this.authService.userType
 
     this.view =
       this.route.snapshot.params.id === this.authService.currentUserID;

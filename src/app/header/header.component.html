@@ -41,8 +41,8 @@
 				<mat-icon>person</mat-icon>
 			</button>
 			<h1>Settings</h1>
-			<button mat-icon-button color="accent" [disabled]="true" >
-				<mat-icon></mat-icon>
+			<button mat-icon-button color="accent" (click)="logout()">
+				<mat-icon>power_settings_new</mat-icon>
 			</button>
 		</ng-template>
 		<ng-template [ngIf]="this.router.url == '/profile/venue/settings'">
@@ -50,44 +50,8 @@
 				<mat-icon>person</mat-icon>
 			</button>
 			<h1>Settings</h1>
-			<button mat-icon-button color="accent" [disabled]="true" >
-				<mat-icon></mat-icon>
-			</button>
-		</ng-template>
-		<ng-template [ngIf]="this.router.url == '/profile/band/settings/account'">
-			<button mat-icon-button [routerLink]="['/profile', 'band', 'settings']" color="accent">
-				<mat-icon>arrow_back_ios</mat-icon>
-			</button>
-			<h1>Account</h1>
-			<button mat-icon-button color="accent" [disabled]="true" >
-				<mat-icon></mat-icon>
-			</button>
-		</ng-template>
-		<ng-template [ngIf]="this.router.url == '/profile/venue/settings/account'">
-			<button mat-icon-button [routerLink]="['/profile', 'venue', 'settings']" color="accent">
-				<mat-icon>arrow_back_ios</mat-icon>
-			</button>
-			<h1>Account</h1>
-			<button mat-icon-button color="accent" [disabled]="true" >
-				<mat-icon></mat-icon>
-			</button>
-		</ng-template>
-		<ng-template [ngIf]="this.router.url == '/profile/band/settings/notifications'">
-			<button mat-icon-button [routerLink]="['/profile', 'band', 'settings']" color="accent">
-				<mat-icon>arrow_back_ios</mat-icon>
-			</button>
-			<h1>Notifications</h1>
-			<button mat-icon-button color="accent" [disabled]="true" >
-				<mat-icon></mat-icon>
-			</button>
-		</ng-template>
-		<ng-template [ngIf]="this.router.url == '/profile/venue/settings/notifications'">
-			<button mat-icon-button [routerLink]="['/profile', 'venue', 'settings']" color="accent">
-				<mat-icon>arrow_back_ios</mat-icon>
-			</button>
-			<h1>Notifications</h1>
-			<button mat-icon-button color="accent" [disabled]="true" >
-				<mat-icon></mat-icon>
+			<button mat-icon-button color="accent" (click)="logout()">
+				<mat-icon>power_settings_new</mat-icon>
 			</button>
 		</ng-template>
 		<ng-template [ngIf]="this.router.url == '/events/schedule'">
@@ -96,7 +60,7 @@
 			</button>
 			<h1>Create Event</h1>
 		</ng-template>
-		<ng-template [ngIf]="(view || seeView) && userType === 'band'">
+		<ng-template [ngIf]="view && userType === 'band'">
 			<button mat-icon-button (click)="verified()" color="accent">
 				<mat-icon>list</mat-icon>
 			</button>
@@ -105,7 +69,7 @@
 				<mat-icon>settings</mat-icon>
 			</button>
 		</ng-template>
-		<ng-template [ngIf]="(view || seeView) && userType === 'venue'">
+		<ng-template [ngIf]="view && userType === 'venue'">
 			<button mat-icon-button (click)="verified()" color="accent">
 				<mat-icon>forum</mat-icon>
 			</button>
@@ -114,21 +78,21 @@
 				<mat-icon>settings</mat-icon>
 			</button>
 		</ng-template>
-		<ng-template [ngIf]="!view && !seeView && userType === 'band'">
+		<ng-template [ngIf]="!view && userType === 'band'">
 			<button mat-icon-button color="accent" [disabled]="true">
 				<mat-icon>forum</mat-icon>
 			</button>
 			<h1>{{profile?.ProfileName}}</h1>
-			<button mat-icon-button color="accent" [disabled]="true" >
+			<button mat-icon-button color="accent" [disabled]="true">
 				<mat-icon></mat-icon>
 			</button>
 		</ng-template>
-		<ng-template [ngIf]="!view && !seeView && userType === 'venue'">
+		<ng-template [ngIf]="!view && userType === 'venue'">
 			<button mat-icon-button color="accent" [routerLink]="['/browse']">
 				<mat-icon>list</mat-icon>
 			</button>
 			<h1>{{profile?.ProfileName}}</h1>
-			<button mat-icon-button color="accent" [disabled]="true" >
+			<button mat-icon-button color="accent" [disabled]="true">
 				<mat-icon></mat-icon>
 			</button>
 		</ng-template>

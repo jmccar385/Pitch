@@ -1,5 +1,5 @@
 
-<app-header [profile]="profile" [userType]="userType" [view]="view" [seeView]="seeView"></app-header>
+<app-header [profile]="profile" [userType]="userType" [view]="view"></app-header>
 <div class='content'>
   <form [formGroup]="createEventForm" (ngSubmit)="createEventForm.valid && createEvent()">
     <mat-form-field>

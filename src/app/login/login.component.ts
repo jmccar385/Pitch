@@ -27,9 +27,8 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.authService.currentUserObservable.subscribe(user => {
       if (user) {
-        this.authService.userType.subscribe(doc => {
-          console.log(doc);
-          if (doc.exists) {
+        this.authService.getUserType().subscribe(type => {
+          if (type === 'band') {
             this.router.navigate(['browse']);
           } else {
             this.router.navigate(['profile', 'venue', user.uid]);

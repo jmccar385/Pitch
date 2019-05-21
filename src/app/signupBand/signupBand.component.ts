@@ -46,14 +46,13 @@ export class SignupBandComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.musicService.getUserPlaylists().subscribe(response => {
+    this.musicService.getUserPlaylists().then(response => {
       for (const item of response.items) {
         this.playlists.push({
           Name: item.name,
           TrackHref: item.tracks.href,
           TrackCount: item.tracks.total
         });
-        console.log(item);
       }
     });
     const tokens: string[] = this.musicService.getTokens();
@@ -85,9 +84,6 @@ export class SignupBandComponent implements OnInit {
         if (i > 9) {
           break;
         }
-        // if (response.items[i].track.is_playable) {
-        //   band.Tracks.push({Name: response.items[i].track.name, Preview: response.items[i].track.preview_url});
-        // }
         band.Tracks.push({Name: response.items[i].track.name, Preview: response.items[i].track.preview_url});
       }
 
@@ -99,6 +95,7 @@ export class SignupBandComponent implements OnInit {
         )
         .then((res) => {
           this.authService.verification();
+          this.musicService.setSpotifyTokens();
           this.router.navigate(['browse']);
         })
         .catch(error => {

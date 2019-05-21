@@ -25,16 +25,18 @@ export class MessagesComponent implements OnInit {
     private headerSvc: HeaderService,
     private messagesService: MessagesService,
     public dialog: MatDialog,
-    private profileService: ProfileService,
-  ) { }
+    private profileService: ProfileService
+  ) {}
 
   ngOnInit() {
     this.currentUserId = this.authService.currentUserID;
-    this.authService.userType.subscribe(doc => {
-      this.currentUserType = doc.exists ? 'band' : 'venue';
-      const iconEnd = doc.exists ? 'list' : 'person';
-      const endRouterlink = doc.exists ?
-      ['/browse'] : ['/profile/venue/' + this.currentUserId];
+    this.authService.getUserType().subscribe(type => {
+      this.currentUserType = type;
+      const iconEnd = this.currentUserType === 'band' ? 'list' : 'person';
+      const endRouterlink =
+        this.currentUserType === 'band'
+          ? ['/browse']
+          : ['/profile/' + this.currentUserType + '/' + this.currentUserId];
 
       // Set header
       this.headerSvc.setHeader({
@@ -54,7 +56,7 @@ export class MessagesComponent implements OnInit {
         return zip(from([convo]), this.messagesService.getSenderDataById(id));
       };
 
-      const zipConvoData = (UrlConvo) => {
+      const zipConvoData = UrlConvo => {
         return { ...UrlConvo[0], senderData: UrlConvo[1] };
       };
 
@@ -68,40 +70,38 @@ export class MessagesComponent implements OnInit {
               map(zipConvoData),
               toArray()
             );
-          }));
-      this.conversationItems.subscribe((response) => {
-        console.log(response);
-      });
-    });
-  }
-  
-  viewPitch(convoId: string) {
-    this.messagesService.getConversationByConversationId(convoId).pipe(
-      mergeMap((convo: any) => {
-        console.log('convoId: ', convoId);
-        const id = convo.members.filter(i => {
-          if (i !== this.currentUserId) {
-            return i;
-          }
-        });
-
-        return this.profileService.getArtistObserverById(id[0]).pipe(
-          map((artist: Band) => {
-            this.band = artist;
-            this.band.ProfileImageUrls.unshift(this.band.ProfilePictureUrl);
-            this.dialog.open(AcceptanceModalComponent, {
-              width: '90%',
-              maxWidth: '100vw',
-              height: '90%',
-              autoFocus: false,
-              data: { convoId, convo, bandId: id, band: this.band  }
-            });
           })
         );
-
-      }),
-      take(1)
-    ).subscribe();
+    });
   }
 
+  viewPitch(convoId: string) {
+    this.messagesService
+      .getConversationByConversationId(convoId)
+      .pipe(
+        mergeMap((convo: any) => {
+          console.log('convoId: ', convoId);
+          const id = convo.members.filter(i => {
+            if (i !== this.currentUserId) {
+              return i;
+            }
+          });
+
+          return this.profileService.getArtistObserverById(id[0]).pipe(
+            map((artist: Band) => {
+              this.band = artist;
+              this.dialog.open(AcceptanceModalComponent, {
+                width: '90%',
+                maxWidth: '100vw',
+                height: '90%',
+                autoFocus: false,
+                data: { convoId, convo, bandId: id, band: this.band }
+              });
+            })
+          );
+        }),
+        take(1)
+      )
+      .subscribe();
+  }
 }

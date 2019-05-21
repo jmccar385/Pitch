@@ -33,21 +33,21 @@ export class SettingsComponent implements OnInit, OnDestroy {
   ) {}
 
   settingsForm: FormGroup = new FormGroup({
-    radius: new FormControl(),
+    radius: new FormControl()
   });
 
   ngOnInit() {
     this.userType = this.route.snapshot.params.userType;
-    console.log(this.userType);
     this.verified = this.authService.currentUser.emailVerified;
     this.userEmail = this.authService.currentUser.email;
+    const iconEnd = 'settings_power_new';
     const startRouterlink = this.userType === 'band' ?
     ['/profile', 'band', this.authService.currentUserID] :
     ['/profile', 'venue', this.authService.currentUserID];
     // Set header
     this.headerSvc.setHeader({
       title: 'Settings',
-      iconEnd: null,
+      iconEnd,
       iconStart: 'person',
       endRouterlink: null,
       startRouterlink
@@ -101,6 +101,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.authService.logout().then(() => {
       this.router.navigateByUrl('login');
     });
+  }
+
+  signOut() {
+    this.authService.logout();
   }
 
   verifyEmail() {

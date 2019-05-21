@@ -12,6 +12,7 @@ import { ProfileImageDialogComponent } from './profile-image.component';
 import { Playlist, Equipment, Venue, Band, Review, Event } from '../models';
 import { Observable } from 'rxjs';
 import { HeaderService } from '../services/header.service';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
@@ -75,28 +76,39 @@ export class ProfileComponent implements OnInit {
 
     profile$.subscribe((profile: Band | Venue) => {
       this.profile = profile;
-      const title = this.profile.ProfileName;
-      this.authService.userType.subscribe(doc => {
-        const startRouterlink = doc.exists ? ['/browse'] : ['/messages'];
-        let endRouterlink = null;
-        let iconEnd = null;
-        if (this.view) {
-          endRouterlink =
-          (this.userType === 'band')
-            ? ['/profile', 'band', 'settings']
-            : ['/profile', 'venue', 'settings'];
-          iconEnd = 'settings';
-        }
-        const iconStart = doc.exists ? 'list' : 'forum';
+    });
 
-        // Set header
-        this.headerSvc.setHeader({
-          title,
-          iconEnd,
-          iconStart,
-          endRouterlink,
-          startRouterlink
-        });
+    profile$.pipe(
+      mergeMap((profile: Band | Venue) => {
+        this.profile = profile;
+        return this.authService.getUserType();
+      })
+    ).subscribe(type => {
+      let title;
+      if (!this.view) {
+        title = this.profile.ProfileName;
+      } else {
+        title = 'Profile';
+      }
+      const startRouterlink = type === 'band' ? ['/browse'] : ['/messages'];
+      let endRouterlink = null;
+      let iconEnd = null;
+      if (this.view) {
+        endRouterlink =
+        (this.userType === 'band')
+          ? ['/profile', 'band', 'settings']
+          : ['/profile', 'venue', 'settings'];
+        iconEnd = 'settings';
+      }
+      const iconStart = type === 'band' ? 'list' : 'forum';
+
+      // Set header
+      this.headerSvc.setHeader({
+        title,
+        iconEnd,
+        iconStart,
+        endRouterlink,
+        startRouterlink
       });
 
       this._setData(this.route.snapshot.params.id, this.userType);
@@ -130,6 +142,7 @@ export class ProfileComponent implements OnInit {
 
       this.equipment = this.profileService.getEquipmentList();
       this.equipment.subscribe(items => {
+        this.profile = this.profile as Venue;
         if (this.equipmentList.length === 0) {
           for (const item of items) {
             this.equipmentList.push(item);
@@ -207,8 +220,16 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  editProfile() {
-    // add logic for spotify refresh token
+  async editProfile() {
+    await this.musicService.renewAccessToken();
+    const playlists = await this.musicService.getUserPlaylists();
+    for (const item of playlists.items) {
+      this.playlists.push({
+        Name: item.name,
+        TrackHref: item.tracks.href,
+        TrackCount: item.tracks.total
+      });
+    }
     this.profileForm.enable();
   }
 
@@ -235,14 +256,13 @@ export class ProfileComponent implements OnInit {
         this.musicService
           .getPlaylistTracks(this.profile.Playlist.TrackHref)
           .subscribe(response => {
-            console.log(response);
             this.profile = this.profile as Band;
             this.profile.Tracks = [];
             for (let i = 0; i < response.items.length; i++) {
               if (i > 9) {
                 break;
               }
-              if (response.items[i].track.is_playable) {
+              if (true) {
                 this.profile.Tracks.push({
                   Name: response.items[i].track.name,
                   Preview: response.items[i].track.preview_url
@@ -354,7 +374,6 @@ export class ProfileComponent implements OnInit {
     this.profileService
       .getVenueEventsById(this.route.snapshot.params.id)
       .subscribe(events => {
-        console.log(events);
         this.dialog.open(PitchDialogComponent, {
           width: '90%',
           maxWidth: '100vw',

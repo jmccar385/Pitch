@@ -46,9 +46,10 @@ export class SettingsComponent implements OnInit {
   }
 
   changeEmail() {
-    this.dialog.open(NewEmailDialogComponent, {
+    /*this.dialog.open(NewEmailDialogComponent, {
       width: '450px',
       data: {}
-    });
+    });*/
+    this.verified = !this.verified;
   }
 }

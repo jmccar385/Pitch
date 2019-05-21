@@ -4,17 +4,17 @@
     <mat-card>
       <mat-card-title>Account Settings</mat-card-title>
       <mat-card-subtitle>{{userEmail}}</mat-card-subtitle>
-      <button mat-stroked-button id="email_change" color="accent" (click)="changeEmail()" type="button">Edit</button>
+      <button *ngIf="verified" mat-stroked-button class="email-button" color="accent" (click)="changeEmail()">Edit</button>
+      <button *ngIf="!verified" mat-stroked-button class="email-button" color="accent" (click)="verifyEmail()">Resend Email</button>
       <mat-card-content [formGroup]="settingsForm">
-        <span class="email-verification">
+        <div class="verified-container">
           <ng-template [ngIf]="verified" [ngIfElse]="unverified">
-            Verified <mat-icon color="primary">check_circle</mat-icon>
+            Verified: <mat-icon class="verified-icon" color="primary">check_circle</mat-icon>
           </ng-template>
           <ng-template #unverified>
-            Unverified <mat-icon color="warn">cancel_circle</mat-icon>
+            Verified: <mat-icon class="verified-icon" color="warn">cancel_circle</mat-icon>
           </ng-template>
-        </span>
-        <button *ngIf="!verified" mat-flat-button class="custom-fab-button no-round-top-corners" color="accent" (click)="verifyEmail()">Resend Email</button>
+        </div>
       </mat-card-content>
     </mat-card>
     <mat-card>

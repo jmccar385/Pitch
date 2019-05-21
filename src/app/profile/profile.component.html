@@ -21,7 +21,7 @@
       <mat-card-subtitle>Rating: {{profile?.ProfileRating | number}}</mat-card-subtitle>
       <button *ngIf="!view" mat-stroked-button id="review" color="accent" (click)="reviewModal()" type="button">Review</button>
       <mat-card-content>
-        <mat-card class="review-card" *ngFor="let review of profile?.Reviews">
+        <mat-card class="review-card" *ngFor="let review of profile?.Reviews | async">
           <mat-card-title>{{review.ReviewCreatorName}}</mat-card-title>
           <mat-card-subtitle>
               <mat-icon class="star-image">star</mat-icon>
@@ -119,22 +119,23 @@
         </div>
       </mat-card-content>
     </mat-card>
-    <mat-card *ngIf="profileType == 'venue'">
+    <mat-card *ngIf="(userType == 'venue')"> 
       <mat-card-title>Events</mat-card-title>
       <mat-card-content>
-        <ng-template [ngIf]="profile?.Events?.length > 0" [ngIfElse]="noEventsTemplate">
+        <div *ngIf="profile?.Events | async as events; else noEventsTemplate">
           <ul>
-            <li *ngFor="let event of profile?.Events">
+            <li *ngFor="let event of events">
               {{ event.EventDateTime.toDate() | date: 'yyyy-MM-dd'}} - {{ event.EventName }}: {{ event.EventDescription}}
             </li>
           </ul>
-        </ng-template>
+        </div>
         <ng-template #noEventsTemplate>
-            <button mat-flat-button color="primary" [routerLink]="['/events/schedule']" routerLinkActive="router-link-active" >Create an event</button>
+            No upcoming events.
         </ng-template>
         <button *ngIf="profileForm.enabled && view" mat-flat-button color="primary" [routerLink]="['/events/schedule']" routerLinkActive="router-link-active" >Create an event</button>
       </mat-card-content>
     </mat-card>
+    <div *ngIf="!view" id="spacer"></div>
   </form>
   <button *ngIf="profileForm.disabled && view" mat-mini-fab color="primary" class="edit_save" (click)="editProfile()" type="button">
     <mat-icon>edit</mat-icon>

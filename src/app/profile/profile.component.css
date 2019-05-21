@@ -127,6 +127,7 @@ button {
 .slide-container {
   padding: 0;
   padding-bottom: 32px;
+  width: 99.1%;
 }
 
 .slide-image {

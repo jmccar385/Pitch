@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
 import { Equipment, Playlist, Track, Review, Venue, Band } from '../models';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

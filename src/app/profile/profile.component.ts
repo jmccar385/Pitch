@@ -11,7 +11,6 @@ import { PitchDialogComponent } from './pitch.component';
 import { ProfileImageDialogComponent } from './profile-image.component';
 import { Playlist, Equipment, Venue, Band, Review, Event } from '../models';
 import { Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
 import { HeaderService } from '../services/header.service';
 
 @Component({
@@ -54,11 +53,55 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userType = this.authService.userType
+    this.userType = this.route.snapshot.params.userType;
+    let profile$: Observable<Band | Venue>;
+    if (this.userType === 'band') {
+      profile$ = this.profileService.getArtistObserverById(
+        this.route.snapshot.params.id
+      ) as Observable<Band>;
+    } else {
+      profile$ = this.profileService.getVenueObserverById(
+        this.route.snapshot.params.id
+      ) as Observable<Venue>;
+    }
+
+    profile$.subscribe((profile: Band | Venue) => {
+      this.profile = profile;
+      let title;
+      if (!this.view) {
+        title = this.profile.ProfileName;
+      } else {
+        title = 'Profile';
+      }
+      const startRouterlink =
+        this.authService.userType === 'band' ? ['/browse'] : ['/messages'];
+      let endRouterlink = null;
+      let iconEnd = null;
+      if (this.view) {
+        endRouterlink =
+        (this.userType === 'band')
+          ? ['/profile', 'band', 'settings']
+          : ['/profile', 'venue', 'settings'];
+        iconEnd = 'settings';
+      }
+      const iconStart = this.authService.userType === 'band' ? 'list' : 'forum';
+
+      // Set header
+      this.headerSvc.setHeader({
+        title,
+        iconEnd,
+        iconStart,
+        endRouterlink,
+        startRouterlink
+      });
+
+      this._setData(this.route.snapshot.params.id, this.userType);
+    });
 
     this.view =
       this.route.snapshot.params.id === this.authService.currentUserID;
-    if (this.profileType === 'venue') {
+
+    if (this.userType === 'venue') {
       this.equipment = this.profileService.getEquipmentList();
       this.equipment.subscribe(items => {
         for (const item of items) {
@@ -70,6 +113,7 @@ export class ProfileComponent implements OnInit {
             new FormControl()
           );
         }
+<<<<<<< HEAD
         this._setData(this.route.snapshot.params.id, this.profileType);
         this.profileForm.disable();
       });
@@ -190,6 +234,52 @@ export class ProfileComponent implements OnInit {
             startRouterlink
           });
         });
+=======
+      });
+    }
+
+    this.profileForm.disable();
+  }
+
+  private _setData(uid: string, userType: string) {
+    if (userType === 'band') {
+      this.profile = this.profile as Band;
+      this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
+      this.profileForm.controls.biography.setValue(
+        this.profile.ProfileBiography
+      );
+      this.profileForm.controls.playlist.setValue(
+        this.profile.Playlist.TrackHref
+      );
+      this.playlists.push(this.profile.Playlist);
+      this.profileImageUrls = this.profile.ProfileImageUrls
+        ? [...this.profile.ProfileImageUrls]
+        : [this.profile.ProfilePictureUrl];
+      this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
+    } else if (userType === 'venue') {
+      this.profile = this.profile as Venue;
+      this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
+      this.profileForm.controls.biography.setValue(
+        this.profile.ProfileBiography
+      );
+      this.availableEquipment = this.profile.AvailableEquipment;
+      this.profileImageUrls = [...this.profile.ProfileImageUrls];
+      this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
+
+      for (const equipment of this.profile.AvailableEquipment) {
+        const equipName = equipment.Name.toLowerCase()
+        .replace(' ', '_')
+        .replace(' ', '/');
+        if (this.profileForm.controls[equipName]) {
+          this.profileForm.controls[equipName].setValue(true);
+        }
+      }
+      this.profile.Reviews = this.profileService
+        .getVenueReviewsById(uid) as Observable<Review[]>;
+
+      this.profile.Events = this.profileService
+        .getVenueEventsById(uid) as Observable<Event[]>;
+>>>>>>> 966a0e5f307d47dddd5d631e0c2b1fcca6b4f27a
     }
   }
 

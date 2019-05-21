@@ -1,4 +1,5 @@
 import { firestore } from 'firebase';
+import { Observable } from 'rxjs';
 
 export interface Band {
   id?: string;
@@ -163,8 +164,8 @@ export interface Venue {
   ProfileRatingCount: number;
   ProfileReportCount: number;
   AvailableEquipment: Equipment[];
-  Reviews?: Review[];
-  Events?: Event[];
+  Reviews?: Observable<Review[]>;
+  Events?: Observable<Event[]>;
   upcomingEvents?: number;
 }
 

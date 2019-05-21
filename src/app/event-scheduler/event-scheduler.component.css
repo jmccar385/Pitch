@@ -13,20 +13,10 @@ mat-form-field.timeEntryWide {
 	margin: 5px;
 }
 
-form {
-	flex-direction: column;
-	align-items: center;
-	display: inline-flex;
-	width: 100%;
-}
-
 .content {
 	margin: 70px 0px 0px 0px;
 	width: 95%;
 	margin-left:2.5%;
-	display: flexbox;
-	flex-direction: column;
-	align-items: center;
 }
 
 .eventDate {

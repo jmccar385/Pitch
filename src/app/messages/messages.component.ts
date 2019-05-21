@@ -16,8 +16,8 @@ import { HeaderService } from '../services/header.service';
 })
 export class MessagesComponent implements OnInit {
   currentUserId: string;
+  currentUserType;
   private band: Band;
-  currentUserType: string;
 
   constructor(
     private authService: AuthService,

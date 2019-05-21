@@ -30,7 +30,6 @@ export class ProfileComponent implements OnInit {
     private headerSvc: HeaderService
   ) {}
 
-  isEditing = false;
   profile: Band | Venue = null;
   slideIndex = 1;
   userType: string;
@@ -203,7 +202,7 @@ export class ProfileComponent implements OnInit {
       width: '300px',
       data: {
         userId: this.route.snapshot.params.id,
-        userType: this.route.snapshot.params.userType,
+        userType: this.userType,
         rating: this.profile.ProfileRating,
         ratingCount: this.profile.ProfileRatingCount
       }
@@ -225,12 +224,10 @@ export class ProfileComponent implements OnInit {
         TrackCount: item.tracks.total
       });
     }
-    this.isEditing = true;
     this.profileForm.enable();
   }
 
   saveProfile() {
-    this.isEditing = false;
     this.profileForm.disable();
     if (this.userType === 'venue') {
       this.profileService.updateVenueById(
@@ -241,11 +238,7 @@ export class ProfileComponent implements OnInit {
       );
     } else {
       this.profile = this.profile as Band;
-      if (
-        this.profile.Playlist.TrackHref !==
-          this.profileForm.controls.playlist.value &&
-        this.userType === 'band'
-      ) {
+      if ( this.profile.Playlist.TrackHref !== this.profileForm.controls.playlist.value && this.userType === 'band') {
         const PlaylistName = this.playlists.find(
           x => x.TrackHref === this.profileForm.controls.playlist.value
         ).Name;
@@ -279,12 +272,13 @@ export class ProfileComponent implements OnInit {
           this.profile.Playlist,
           this.profile.Tracks
         );
+      } else {
+        this.profileService.updateArtistById(
+          this.route.snapshot.params.id,
+          this.profileForm.controls.address.value,
+          this.profileForm.controls.biography.value
+        );
       }
-      this.profileService.updateArtistById(
-        this.route.snapshot.params.id,
-        this.profileForm.controls.address.value,
-        this.profileForm.controls.biography.value
-      );
     }
   }
 
@@ -295,7 +289,7 @@ export class ProfileComponent implements OnInit {
       height: '90%',
       data: {
         userId: this.route.snapshot.params.id,
-        userType: this.route.snapshot.params.userType,
+        userType: this.userType,
         profileImageUrls: this.profile.ProfileImageUrls
       },
       autoFocus: false
@@ -339,7 +333,7 @@ export class ProfileComponent implements OnInit {
         width: '450px',
         data: {
           userId: this.route.snapshot.params.id,
-          userType: this.route.snapshot.params.userType,
+          userType: this.userType,
           profilePictureUrl: this.profile.ProfilePictureUrl,
           newProfilePictureUrl: imagePath,
           profileImageUrls: this.profile.ProfileImageUrls

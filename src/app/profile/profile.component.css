@@ -1,6 +1,6 @@
 #profile-container {
   padding: 2.5%;
-  padding-top: 56px;
+  padding-top: 66px;
   background: #f2f2f2;
 }
 
@@ -16,7 +16,6 @@
   bottom: 10px;
   left: 10px;
   height: 35px;
-  z-index: 100;
 }
 
 mat-card {
@@ -104,7 +103,6 @@ mat-form-field {
   bottom: 15px;
   right: 15px;
   color: white;
-  z-index: 100;
 }
 
 button {

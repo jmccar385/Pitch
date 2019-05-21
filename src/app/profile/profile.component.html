@@ -1,19 +1,5 @@
 <app-header></app-header>
 <div id="profile-container">
-  <ng-container *ngIf="view">
-    <ng-template [ngIf]="profileForm.disabled" [ngIfElse]="saveProfileTemplate">
-        <button mat-mini-fab color="primary" class="edit_save" (click)="editProfile()" type="button">
-          <mat-icon>edit</mat-icon>
-        </button>
-      </ng-template>
-      <ng-template #saveProfileTemplate>
-        <button mat-mini-fab color="primary" class="edit_save" (click)="saveProfile()" type="button">
-          <mat-icon>save</mat-icon>
-        </button>
-      </ng-template>
-  </ng-container>
-
-  <button *ngIf="userType == 'venue' && !view" mat-raised-button id="pitch" color="primary" (click)="pitch()" type="button">Pitch</button>
   <mat-card class="slide-container">
     <mat-card-content>
       <div class="slide-image" *ngFor="let image of profileImageUrls; let i = index">
@@ -146,9 +132,16 @@
         <ng-template #noEventsTemplate>
             No upcoming events.
         </ng-template>
-        <button *ngIf="isEditing" mat-flat-button color="primary" [routerLink]="['/events/schedule']" routerLinkActive="router-link-active" >Create an event</button>
+        <button *ngIf="profileForm.enabled && view" mat-flat-button color="primary" [routerLink]="['/events/schedule']" routerLinkActive="router-link-active" >Create an event</button>
       </mat-card-content>
     </mat-card>
-    <div *ngIf="!view" id="spacer"></div>
   </form>
+  <button *ngIf="profileForm.disabled && view" mat-mini-fab color="primary" class="edit_save" (click)="editProfile()" type="button">
+    <mat-icon>edit</mat-icon>
+  </button>
+  <button *ngIf="profileForm.enabled && view" mat-mini-fab color="primary" class="edit_save" (click)="saveProfile()" type="button">
+    <mat-icon>save</mat-icon>
+  </button>
+  <div *ngIf="!view" id="spacer"></div>
+  <button *ngIf="userType == 'venue' && !view" mat-raised-button id="pitch" color="primary" (click)="pitch()" type="button">Pitch</button>
 </div>

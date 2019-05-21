@@ -22,20 +22,4 @@ export class HeaderComponent implements OnInit {
       this.headerVals = vals;
     });
   }
-
-  // verified(): void {
-  //   if (!this.authService.currentUser.emailVerified) {
-  //     this.snackBar.open(
-  //       'Please verify your email first. See settings.',
-  //       'close',
-  //       { duration: 2000 }
-  //     );
-  //   } else {
-  //     if (this.userType === 'venue') {
-  //       this.router.navigate(['/messages']);
-  //     } else {
-  //       this.router.navigate(['/browse']);
-  //     }
-  //   }
-  // }
 }

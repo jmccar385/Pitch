@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
   }
 
   forgotPassword(): void {
-    const dialogRef = this.dialog.open(ForgotPasswordDialogComponent, {
+    this.dialog.open(ForgotPasswordDialogComponent, {
       width: '450px',
       data: {}
     });

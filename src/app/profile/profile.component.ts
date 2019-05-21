@@ -12,6 +12,7 @@ import { ProfileImageDialogComponent } from './profile-image.component';
 import { Playlist, Equipment, Venue, Band, Review, Event } from '../models';
 import { Observable } from 'rxjs';
 import { HeaderService } from '../services/header.service';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
@@ -67,14 +68,21 @@ export class ProfileComponent implements OnInit {
 
     profile$.subscribe((profile: Band | Venue) => {
       this.profile = profile;
+    });
+
+    profile$.pipe(
+      mergeMap((profile: Band | Venue) => {
+        this.profile = profile;
+        return this.authService.getUserType();
+      })
+    ).subscribe(type => {
       let title;
       if (!this.view) {
         title = this.profile.ProfileName;
       } else {
         title = 'Profile';
       }
-      const startRouterlink =
-        this.authService.userType === 'band' ? ['/browse'] : ['/messages'];
+      const startRouterlink = type === 'band' ? ['/browse'] : ['/messages'];
       let endRouterlink = null;
       let iconEnd = null;
       if (this.view) {
@@ -84,7 +92,7 @@ export class ProfileComponent implements OnInit {
           : ['/profile', 'venue', 'settings'];
         iconEnd = 'settings';
       }
-      const iconStart = this.authService.userType === 'band' ? 'list' : 'forum';
+      const iconStart = type === 'band' ? 'list' : 'forum';
 
       // Set header
       this.headerSvc.setHeader({
@@ -207,8 +215,16 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  editProfile() {
-    // add logic for spotify refresh token
+  async editProfile() {
+    await this.musicService.renewAccessToken();
+    const playlists = await this.musicService.getUserPlaylists();
+    for (const item of playlists.items) {
+      this.playlists.push({
+        Name: item.name,
+        TrackHref: item.tracks.href,
+        TrackCount: item.tracks.total
+      });
+    }
     this.isEditing = true;
     this.profileForm.enable();
   }
@@ -241,14 +257,13 @@ export class ProfileComponent implements OnInit {
         this.musicService
           .getPlaylistTracks(this.profile.Playlist.TrackHref)
           .subscribe(response => {
-            console.log(response);
             this.profile = this.profile as Band;
             this.profile.Tracks = [];
             for (let i = 0; i < response.items.length; i++) {
               if (i > 9) {
                 break;
               }
-              if (response.items[i].track.is_playable) {
+              if (true) {
                 this.profile.Tracks.push({
                   Name: response.items[i].track.name,
                   Preview: response.items[i].track.preview_url
@@ -364,7 +379,6 @@ export class ProfileComponent implements OnInit {
     this.profileService
       .getVenueEventsById(this.route.snapshot.params.id)
       .subscribe(events => {
-        console.log(events);
         this.dialog.open(PitchDialogComponent, {
           width: '90%',
           maxWidth: '100vw',

@@ -4,7 +4,7 @@ import { Band, Venue, SpotifyAccess } from '../models';
 import { ProfileService } from './profile.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { HttpClient } from '@angular/common/http';
-import { mergeMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -19,14 +19,8 @@ export class AuthService {
     private profileSvc: ProfileService,
     private http: HttpClient
   ) {
-    this.afAuth.authState.pipe(
-      mergeMap(user => {
-        if (!user) {return; }
-        this.authState = user;
-        return this.afStore.doc(`Artists/${this.currentUserID}`).get();
-      })
-    ).subscribe(doc => {
-      this.type = doc.exists ? 'band' : 'venue';
+    this.afAuth.authState.subscribe(auth => {
+      this.authState = auth;
     });
   }
 
@@ -63,8 +57,12 @@ export class AuthService {
     });
   }
 
-  get userType() {
-    return this.type ? this.type : null;
+  getUserType() {
+    return this.afStore.doc(`Artists/${this.currentUserID}`).get().pipe(
+      map(doc => {
+        return this.type = doc.exists ? 'band' : 'venue';
+      })
+    );
   }
 
   get authenticated(): boolean {

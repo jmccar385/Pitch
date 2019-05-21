@@ -99,6 +99,37 @@ function generateRandomString(length: number) {
   return text;
 }
 
+export const refreshToken = functions.https.onCall(async (data, context) => {
+  if (!context.auth) {return}
+  const uid = context.auth.uid;
+  const refresh_token = await admin.firestore().doc(`Artists/${uid}`).get().then(ref => {
+    const userData = ref.data();
+    if (!userData) {return}
+    return userData.spotifyTokens.refreshToken;
+  });
+  const url = 'https://accounts.spotify.com/api/token';
+
+  return new Promise((resolve, reject) => {
+    request.post(url, {
+      form: {
+        grant_type: 'refresh_token',
+        refresh_token
+      },
+      headers: {
+        Authorization:
+          'Basic ' +
+          Buffer.from(client_id + ':' + client_secret).toString('base64')
+      }
+    }, function(error, response, body) {
+      if (!error && response.statusCode === 200) {
+        resolve(body);
+      } else {
+        reject(response);
+      }
+    })
+  });
+})
+
 export const authSpotify = functions.https.onRequest((req, res) => {
   const state = generateRandomString(16);
 

@@ -23,28 +23,35 @@ export class SettingsComponent implements OnInit {
   ) {}
 
   settingsForm: FormGroup = new FormGroup({
-    radius: new FormControl(),
+    radius: new FormControl()
   });
 
   ngOnInit() {
-    this.userType = this.authService.userType;
-    this.verified = this.authService.currentUser.emailVerified;
-    this.userEmail = this.authService.currentUser.email;
-    const startRouterlink = (this.userType === 'band') ?
-    ['/profile', 'band', this.authService.currentUserID] :
-    ['/profile', 'venue', this.authService.currentUserID];
-    // Set header
-    this.headerSvc.setHeader({
-      title: 'Settings',
-      iconEnd: null,
-      iconStart: 'person',
-      endRouterlink: null,
-      startRouterlink
+    this.authService.getUserType().subscribe(type => {
+      this.userType = type;
+      this.verified = this.authService.currentUser.emailVerified;
+      this.userEmail = this.authService.currentUser.email;
+      const startRouterlink =
+        this.userType === 'band'
+          ? ['/profile', 'band', this.authService.currentUserID]
+          : ['/profile', 'venue', this.authService.currentUserID];
+      // Set header
+      this.headerSvc.setHeader({
+        title: 'Settings',
+        iconEnd: null,
+        iconStart: 'person',
+        endRouterlink: null,
+        startRouterlink
+      });
     });
   }
 
   delete(): void {
     // Todo: delete account
+  }
+
+  signOut() {
+    this.authService.logout();
   }
 
   verifyEmail() {

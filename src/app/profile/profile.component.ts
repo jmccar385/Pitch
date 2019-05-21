@@ -30,10 +30,10 @@ export class ProfileComponent implements OnInit {
     private headerSvc: HeaderService
   ) {}
 
-  isEditing = false;
   profile: Band | Venue = null;
   slideIndex = 1;
   userType: string;
+  profileType: string;
   view: boolean;
   playlists: Playlist[] = [];
   equipment: Observable<Equipment[]>;
@@ -54,11 +54,13 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userType = this.route.snapshot.params.userType;
+    this.userType = this.authService.userType;
+    this.profileType = this.route.snapshot.params.userType;
+    this.userType = 'band';
 
     this.view =
       this.route.snapshot.params.id === this.authService.currentUserID;
-    if (this.userType === 'venue') {
+    if (this.profileType === 'venue') {
       this.equipment = this.profileService.getEquipmentList();
       this.equipment.subscribe(items => {
         for (const item of items) {
@@ -70,40 +72,17 @@ export class ProfileComponent implements OnInit {
             new FormControl()
           );
         }
-        this._setData(this.route.snapshot.params.id, this.userType);
+        this._setData(this.route.snapshot.params.id, this.profileType);
         this.profileForm.disable();
       });
     } else {
-      this._setData(this.route.snapshot.params.id, this.userType);
+      this._setData(this.route.snapshot.params.id, this.profileType);
       this.profileForm.disable();
     }
-
-    let title;
-    if (!this.view && this.userType === 'band') {
-      title = this.profile.ProfileName;
-    } else {
-      title = 'Profile';
-    }
-    const startRouterlink =
-      this.userType === 'band' ? ['/browse'] : ['/messages'];
-    const endRouterlink =
-      this.userType === 'band'
-        ? ['/profile', 'band', 'settings']
-        : ['/profile', 'venue', 'settings'];
-    const iconStart = this.userType === 'band' ? 'list' : 'forum';
-
-    // Set header
-    this.headerSvc.setHeader({
-      title,
-      iconEnd: 'settings',
-      iconStart,
-      endRouterlink,
-      startRouterlink
-    });
   }
 
-  private _setData(uid: string, userType: string) {
-    if (userType === 'band') {
+  private _setData(uid: string, profileType: string) {
+    if (profileType === 'band') {
       this.profileService
         .getArtistObserverById(uid)
         .subscribe((artist: Band) => {
@@ -124,8 +103,33 @@ export class ProfileComponent implements OnInit {
             ? [...this.profile.ProfileImageUrls]
             : [this.profile.ProfilePictureUrl];
           this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
+
+          let title;
+          if (!this.view) {
+            title = this.profile.ProfileName;
+          } else {
+            title = 'Profile';
+          }
+
+          const startRouterlink =
+            this.userType === 'band' ? ['/browse'] : ['/messages'];
+          const endRouterlink =
+            this.userType === 'band'
+              ? ['/profile', 'band', 'settings']
+              : ['/profile', 'venue', 'settings'];
+          const iconStart = this.userType === 'band' ? 'list' : 'forum';
+          const iconEnd = this.view ? 'settings' : null;
+
+          // Set header
+          this.headerSvc.setHeader({
+            title,
+            iconEnd,
+            iconStart,
+            endRouterlink,
+            startRouterlink
+          });
         });
-    } else if (userType === 'venue') {
+    } else if (profileType === 'venue') {
       this.profileService
         .getVenueObserverById(uid)
         .pipe(
@@ -162,6 +166,31 @@ export class ProfileComponent implements OnInit {
         .subscribe((events: Array<Event>) => {
           this.profile = this.profile as Venue;
           this.profile.Events = events;
+
+          let title;
+          if (!this.view) {
+            title = this.profile.ProfileName;
+          } else {
+            title = 'Profile';
+          }
+
+          const startRouterlink =
+            this.userType === 'band' ? ['/browse'] : ['/messages'];
+          const endRouterlink =
+            this.userType === 'band'
+              ? ['/profile', 'band', 'settings']
+              : ['/profile', 'venue', 'settings'];
+          const iconStart = this.userType === 'band' ? 'list' : 'forum';
+          const iconEnd = this.view ? 'settings' : null;
+
+          // Set header
+          this.headerSvc.setHeader({
+            title,
+            iconEnd,
+            iconStart,
+            endRouterlink,
+            startRouterlink
+          });
         });
     }
   }
@@ -201,7 +230,7 @@ export class ProfileComponent implements OnInit {
       width: '300px',
       data: {
         userId: this.route.snapshot.params.id,
-        userType: this.route.snapshot.params.userType,
+        userType: this.profileType,
         rating: this.profile.ProfileRating,
         ratingCount: this.profile.ProfileRatingCount
       }
@@ -215,14 +244,12 @@ export class ProfileComponent implements OnInit {
 
   editProfile() {
     // add logic for spotify refresh token
-    this.isEditing = true;
     this.profileForm.enable();
   }
 
   saveProfile() {
-    this.isEditing = false;
     this.profileForm.disable();
-    if (this.userType === 'venue') {
+    if (this.profileType === 'venue') {
       this.profileService.updateVenueById(
         this.route.snapshot.params.id,
         this.availableEquipment,
@@ -231,11 +258,7 @@ export class ProfileComponent implements OnInit {
       );
     } else {
       this.profile = this.profile as Band;
-      if (
-        this.profile.Playlist.TrackHref !==
-          this.profileForm.controls.playlist.value &&
-        this.userType === 'band'
-      ) {
+      if ( this.profile.Playlist.TrackHref !== this.profileForm.controls.playlist.value && this.profileType === 'band') {
         const PlaylistName = this.playlists.find(
           x => x.TrackHref === this.profileForm.controls.playlist.value
         ).Name;
@@ -270,12 +293,13 @@ export class ProfileComponent implements OnInit {
           this.profile.Playlist,
           this.profile.Tracks
         );
+      } else {
+        this.profileService.updateArtistById(
+          this.route.snapshot.params.id,
+          this.profileForm.controls.address.value,
+          this.profileForm.controls.biography.value
+        );
       }
-      this.profileService.updateArtistById(
-        this.route.snapshot.params.id,
-        this.profileForm.controls.address.value,
-        this.profileForm.controls.biography.value
-      );
     }
   }
 
@@ -286,7 +310,7 @@ export class ProfileComponent implements OnInit {
       height: '90%',
       data: {
         userId: this.route.snapshot.params.id,
-        userType: this.route.snapshot.params.userType,
+        userType: this.profileType,
         profileImageUrls: this.profile.ProfileImageUrls
       },
       autoFocus: false
@@ -313,7 +337,7 @@ export class ProfileComponent implements OnInit {
       );
       this.profileService.deteleImage(
         this.authService.currentUserID,
-        this.userType,
+        this.profileType,
         path,
         this.profile.ProfileImageUrls
       );
@@ -330,7 +354,7 @@ export class ProfileComponent implements OnInit {
         width: '450px',
         data: {
           userId: this.route.snapshot.params.id,
-          userType: this.route.snapshot.params.userType,
+          userType: this.profileType,
           profilePictureUrl: this.profile.ProfilePictureUrl,
           newProfilePictureUrl: imagePath,
           profileImageUrls: this.profile.ProfileImageUrls

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatDialog } from '@angular/material';
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   }
 
   forgotPassword(): void {
-    const dialogRef = this.dialog.open(ForgotPasswordDialogComponent, {
+    this.dialog.open(ForgotPasswordDialogComponent, {
       width: '450px',
       data: {}
     });
@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
         this.loginForm.controls.email.value,
         this.loginForm.controls.password.value
       )
-      .then(res => {
+      .then(() => {
         this.router.navigate(['browse']);
       })
       .catch(error => {

@@ -6,7 +6,7 @@
     <mat-card-title> {{ card.profile_name }} </mat-card-title>
     <mat-card-subtitle>
       <mat-icon class="browse-star-image">star</mat-icon>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{card.rating | number}} ({{card.rating_count}} Ratings)<br>{{card.profile_address}}
+      {{card.rating | number}} ({{card.rating_count}} Ratings)<br>{{card.profile_address}}
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-actions>

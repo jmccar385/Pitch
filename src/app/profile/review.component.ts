@@ -39,8 +39,9 @@ export class ReviewDialogComponent {
       ReviewCreatorName: '',
       CreationDate: Date.now()
     };
+    this.data.rating = this.data.rating * this.data.ratingCount;
     this.data.ratingCount++;
-    this.data.rating = (this.data.rating + review.ReviewRating) / (this.data.ratingCount + 1);
+    this.data.rating = (this.data.rating + review.ReviewRating) / (this.data.ratingCount);
     this.profileService.createReview(
       review,
       this.data.userId,

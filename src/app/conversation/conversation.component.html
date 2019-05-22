@@ -11,12 +11,7 @@
   <div class="conversation-input">
     <mat-divider></mat-divider>
     <mat-form-field class="full-width">
-      <input
-        matInput
-        placeholder="Start chatting..."
-        [(ngModel)]="text"
-        #msgInput
-      />
+      <textarea matInput placeholder="Start chatting..." matAutosizeMaxRows=2 matTextareaAutosize [(ngModel)]="text" #msgInput ></textarea>
       <mat-icon matSuffix (click)="sendMessage()">send</mat-icon>
     </mat-form-field>
   </div>

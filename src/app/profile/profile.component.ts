@@ -57,7 +57,6 @@ export class ProfileComponent implements OnInit {
     index > -1
       ? this.availableEquipment.splice(index, 1)
       : this.availableEquipment.push(equip);
-    console.log(this.availableEquipment);
   }
 
   ngOnInit() {
@@ -84,12 +83,6 @@ export class ProfileComponent implements OnInit {
         return this.authService.getUserType();
       })
     ).subscribe(type => {
-      let title;
-      if (!this.view) {
-        title = this.profile.ProfileName;
-      } else {
-        title = 'Profile';
-      }
       const startRouterlink = type === 'band' ? ['/browse'] : ['/messages'];
       let endRouterlink = null;
       let iconEnd = null;
@@ -104,7 +97,7 @@ export class ProfileComponent implements OnInit {
 
       // Set header
       this.headerSvc.setHeader({
-        title,
+        title: this.profile.ProfileName,
         iconEnd,
         iconStart,
         endRouterlink,
@@ -221,14 +214,16 @@ export class ProfileComponent implements OnInit {
   }
 
   async editProfile() {
-    await this.musicService.renewAccessToken();
-    const playlists = await this.musicService.getUserPlaylists();
-    for (const item of playlists.items) {
-      this.playlists.push({
-        Name: item.name,
-        TrackHref: item.tracks.href,
-        TrackCount: item.tracks.total
-      });
+    if (this.userType === 'band') {
+      await this.musicService.renewAccessToken();
+      const playlists = await this.musicService.getUserPlaylists();
+      for (const item of playlists.items) {
+        this.playlists.push({
+          Name: item.name,
+          TrackHref: item.tracks.href,
+          TrackCount: item.tracks.total
+        });
+      }
     }
     this.profileForm.enable();
   }
@@ -284,7 +279,7 @@ export class ProfileComponent implements OnInit {
   }
 
   addPicture() {
-    const dialogRef = this.dialog.open(UploadDialogComponent, {
+    this.dialog.open(UploadDialogComponent, {
       width: '90%',
       maxWidth: '100vw',
       height: '90%',
@@ -294,10 +289,6 @@ export class ProfileComponent implements OnInit {
         profileImageUrls: this.profile.ProfileImageUrls
       },
       autoFocus: false
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.profileImageUrls.push(result);
     });
   }
 

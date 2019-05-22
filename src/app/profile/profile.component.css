@@ -64,6 +64,12 @@ mat-card-actions {
   justify-content: space-between;
 }
 
+mat-spinner {
+  width: 10px !important;
+  height: 10px !important;
+  color: white;
+}
+
 .disabled {
   color: #b0b0b0;
 }
@@ -156,6 +162,7 @@ button {
   transition: 0.6s ease;
   user-select: none;
   bottom: calc(50% - 16px);
+  outline: none;
 }
 
 .slide-next {

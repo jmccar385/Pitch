@@ -80,7 +80,6 @@ export class MessagesComponent implements OnInit {
       .getConversationByConversationId(convoId)
       .pipe(
         mergeMap((convo: any) => {
-          console.log('convoId: ', convoId);
           const id = convo.members.filter(i => {
             if (i !== this.currentUserId) {
               return i;
@@ -90,6 +89,7 @@ export class MessagesComponent implements OnInit {
           return this.profileService.getArtistObserverById(id[0]).pipe(
             map((artist: Band) => {
               this.band = artist;
+              this.band.ProfileImageUrls.push(this.band.ProfilePictureUrl);
               this.dialog.open(AcceptanceModalComponent, {
                 width: '90%',
                 maxWidth: '100vw',

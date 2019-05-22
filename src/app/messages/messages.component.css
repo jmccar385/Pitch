@@ -10,6 +10,10 @@ mat-list {
 	margin-left:2.5%;
 }
 
+mat-list-item {
+	outline: none;
+}
+
 .unopened{
 	font-weight: bolder !important;
 }

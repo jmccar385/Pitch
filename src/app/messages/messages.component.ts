@@ -95,7 +95,7 @@ export class MessagesComponent implements OnInit {
                 maxWidth: '100vw',
                 height: '90%',
                 autoFocus: false,
-                data: { convoId, convo, bandId: id, band: this.band }
+                data: { convoId: convoId, convo: convo, bandId: id.toString(), band: this.band }
               });
             })
           );

@@ -20,6 +20,7 @@ export class AcceptanceModalComponent {
   async accept() {
     await this.msgSvc.acceptPitch(this.data.convoId);
     this.msgSvc.sendMessage(this.data.convoId, this.data.convo.pitch.message, this.data.bandId);
+    console.log(this.data.bandId);
     this.dialogRef.close();
   }
 

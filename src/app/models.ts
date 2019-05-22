@@ -195,6 +195,7 @@ export interface HeaderValues {
 
 export interface Conversation {
   members: string[];
+  ConversationRead: boolean[];
   pitchAccepted: boolean;
   Messages?: Message[];
   lastMessage: {

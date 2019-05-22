@@ -26,6 +26,8 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
   correspondentId: string;
   correspondentData: any;
   conversationData: any;
+  conversationRead: boolean[];
+  members: string[];
 
   ngAfterViewChecked(): void {
     this.scrollToBottom();
@@ -66,7 +68,10 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
     this.conversationData = this.msgSvc.getConversationByConversationId(
       this.conversationId
     );
+
     this.conversationData.subscribe(element => {
+      this.conversationRead = element.ConversationRead;
+      this.members = element.members;
       const id = element.members.filter(i => {
         if (i !== this.currentUserId) {
           this.correspondentId = i;
@@ -82,9 +87,9 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
   }
 
   sendMessage() {
-    console.log(this.text);
+    this.conversationRead[this.members.indexOf(this.correspondentId)] = false;
     this.msgSvc
-      .sendMessage(this.conversationId, this.text, this.authService.currentUserID)
+      .sendMessage(this.conversationId, this.text, this.authService.currentUserID, this.conversationRead)
       .then(() => {
         this.text = '';
       })

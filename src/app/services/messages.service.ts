@@ -14,13 +14,19 @@ export class MessagesService {
     private authSvc: AuthService
   ) {}
 
-  sendMessage(convoId: string, msg: string, senderId: string) {
+  sendMessage(convoId: string, msg: string, senderId: string, read: boolean[]) {
     const message: Message = {
       createdAt: Date.now(),
-      senderId: senderId,
+      senderId,
       text: msg
     };
+
+    this.updateRead(convoId, read);
     return this.afDatabase.collection(`Conversations/${convoId}/Messages`).add(message);
+  }
+
+  updateRead(convoId: string, read: boolean[]) {
+    this.afDatabase.collection('Conversations').doc(convoId).update({ConversationRead: read});
   }
 
   sendPitch(venueId: string, pitch: Pitch) {
@@ -30,6 +36,7 @@ export class MessagesService {
         const name = band.ProfileName;
         const conversation: Conversation = {
           members: [venueId, this.authSvc.currentUserID],
+          ConversationRead: [false, true],
           pitchAccepted: false,
           pitch,
           lastMessage: {

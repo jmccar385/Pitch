@@ -19,6 +19,7 @@ export class MessagesComponent implements OnInit {
   currentUserType: string;
   private band: Band;
   private conversationItems: Observable<any>;
+  read: boolean;
 
   constructor(
     private authService: AuthService,
@@ -53,6 +54,7 @@ export class MessagesComponent implements OnInit {
             return i;
           }
         })[0];
+        this.read = convo.conversation.ConversationRead[convo.conversation.members.indexOf(this.currentUserId)];
         return zip(from([convo]), this.messagesService.getSenderDataById(id));
       };
 
@@ -103,5 +105,10 @@ export class MessagesComponent implements OnInit {
         take(1)
       )
       .subscribe();
+  }
+
+  updateRead(convoId: string, read: boolean[], members: string[]) {
+    read[members.indexOf(this.currentUserId)] = true;
+    this.messagesService.updateRead(convoId, read);
   }
 }

@@ -17,7 +17,7 @@ export class MessagesService {
   sendMessage(convoId: string, msg: string, senderId: string) {
     const message: Message = {
       createdAt: Date.now(),
-      senderId,
+      senderId: senderId,
       text: msg
     };
     return this.afDatabase.collection(`Conversations/${convoId}/Messages`).add(message);

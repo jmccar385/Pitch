@@ -20,6 +20,10 @@ mat-form-field {
   height: auto;
 }
 
+p {
+  text-align: left;
+}
+
 .mat-list-avatar {
   padding: 5px;
 }

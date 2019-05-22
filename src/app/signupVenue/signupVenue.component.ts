@@ -61,7 +61,7 @@ export class SignupVenueComponent {
       AvailableEquipment: this.availableEquipment,
       ProfileImageUrls: [],
       ProfileRating: 5,
-      ProfileRatingCount: 0,
+      ProfileRatingCount: 1,
       ProfileReportCount: 0,
     };
     this.authService

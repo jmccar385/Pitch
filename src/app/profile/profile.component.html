@@ -121,18 +121,18 @@
     </mat-card>
     <mat-card *ngIf="(userType == 'venue')"> 
       <mat-card-title>Events</mat-card-title>
-      <button *ngIf="profileForm.enabled && view" mat-stroked-button color="accent" class="card-button" [routerLink]="['/events/schedule']" routerLinkActive="router-link-active" >Create</button>
+      <button *ngIf="profileForm.enabled && view" mat-stroked-button color="accent" class="card-button" [routerLink]="['/events/schedule']" routerLinkActive="router-link-active">Create</button>
       <mat-card-content>
-        <div *ngIf="profile?.Events | async as events; else noEventsTemplate">
-          <ul>
-            <li *ngFor="let event of events">
-              {{ event.EventDateTime.toDate() | date: 'yyyy-MM-dd'}} - {{ event.EventName }}: {{ event.EventDescription}}
-            </li>
-          </ul>
+        <div *ngIf="profile.Events | async as events">
+          <ng-template [ngIf]="events.length > 0" [ngIfElse]="noEventsTemplate">
+            <ul>
+              <li *ngFor="let event of events">
+                {{ event.EventDateTime.toDate() | date: 'yyyy-MM-dd'}} - {{ event.EventName }}: {{ event.EventDescription}}
+              </li>
+            </ul>
+          </ng-template>
+          <ng-template #noEventsTemplate>No upcoming events.</ng-template>
         </div>
-        <ng-template #noEventsTemplate>
-            No upcoming events.
-        </ng-template>
       </mat-card-content>
     </mat-card>
   </form>

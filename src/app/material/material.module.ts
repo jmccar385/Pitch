@@ -21,6 +21,7 @@ import {
   MatStepperModule,
   MatToolbarModule,
   MatListModule,
+  MatProgressSpinnerModule,
 } from '@angular/material';
 
 @NgModule({
@@ -50,6 +51,7 @@ import {
     MatButtonToggleModule,
     MatCheckboxModule,
     MatListModule,
+    MatProgressSpinnerModule,
   ]
 })
 export class MaterialModule {}

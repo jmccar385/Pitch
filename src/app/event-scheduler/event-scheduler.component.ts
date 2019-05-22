@@ -51,7 +51,7 @@ export class EventSchedulerComponent implements OnInit {
 
   createEventForm: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    description: new FormControl('', [Validators.required]),
+    description: new FormControl('', [Validators.required,  Validators.maxLength(200)]),
 
     // TODO: Use this field
     ageRestriction: new FormControl(''),

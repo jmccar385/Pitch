@@ -49,7 +49,6 @@ export class PitchDialogComponent implements OnInit {
       events: this.pitchForm.controls.events.value
     };
 
-    console.log(pitch.tracks[0]);
     this.messageService.sendPitch(this.data.venueId, pitch).pipe(
       tap(() => {
         this.dialogRef.close();

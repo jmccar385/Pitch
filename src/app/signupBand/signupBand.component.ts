@@ -74,7 +74,7 @@ export class SignupBandComponent implements OnInit {
       AccessToken: this.accessToken,
       RefreshToken: this.refreshToken,
       ProfileRating: 5,
-      ProfileRatingCount: 0,
+      ProfileRatingCount: 1,
       ProfileReportCount: 0,
     };
 

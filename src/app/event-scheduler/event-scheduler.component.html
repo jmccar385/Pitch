@@ -9,7 +9,8 @@
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput placeholder="Description" formControlName="description">
+      <textarea matInput placeholder="Description" maxLength="200"  matAutosizeMaxRows=3 formControlName="description"></textarea>
+      <mat-hint align="end">{{createEventForm.controls.description.value.length}} / 200</mat-hint>
       <mat-error *ngIf="createEventForm.controls.description.errors?.required">
         A description is <strong>required</strong>
       </mat-error>

@@ -1,6 +1,6 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Conversation, AcceptanceDialogData } from '../models';
+import { AcceptanceDialogData } from '../models';
 import { MessagesService } from '../services/messages.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { MessagesService } from '../services/messages.service';
   templateUrl: './acceptance-modal.component.html',
   styleUrls: ['./acceptance-modal.component.css']
 })
-export class AcceptanceModalComponent implements OnInit {
+export class AcceptanceModalComponent {
   slideIndex = 1;
 
   constructor(
@@ -17,13 +17,9 @@ export class AcceptanceModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: AcceptanceDialogData
   ) { }
 
-  ngOnInit() {
-    console.log(this.data);
-  }
-
-  async accept(){
+  async accept() {
     await this.msgSvc.acceptPitch(this.data.convoId);
-    this.msgSvc.sendMessage(this.data.convoId, this.data.convo.pitch.message, this.data.bandId)
+    this.msgSvc.sendMessage(this.data.convoId, this.data.convo.pitch.message, this.data.bandId);
     this.dialogRef.close();
   }
 

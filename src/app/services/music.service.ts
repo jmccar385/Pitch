@@ -37,15 +37,16 @@ export class MusicService {
       this.accessToken = await this.afStore.doc(`Artists/${this.authSvc.currentUserID}`).get().toPromise().then(docRef => {
         return docRef.data().spotifyTokens.accessToken;
       });
-      const headers = new HttpHeaders().set(
-        'Authorization',
-        'Bearer ' + this.accessToken
-      );
-      return this.http.get<SpotifyPagingPlaylist>(
-        'https://api.spotify.com/v1/me/playlists',
-        { headers }
-      ).toPromise();
     }
+
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      'Bearer ' + this.accessToken
+    );
+    return this.http.get<SpotifyPagingPlaylist>(
+      'https://api.spotify.com/v1/me/playlists',
+      { headers }
+    ).toPromise();
   }
 
   setSpotifyTokens() {

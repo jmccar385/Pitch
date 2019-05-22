@@ -80,7 +80,6 @@ export class MessagesComponent implements OnInit {
       .getConversationByConversationId(convoId)
       .pipe(
         mergeMap((convo: any) => {
-          console.log('convoId: ', convoId);
           const id = convo.members.filter(i => {
             if (i !== this.currentUserId) {
               return i;

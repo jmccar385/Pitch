@@ -5,7 +5,7 @@
         <img matListAvatar src="{{convo.senderData?.profileUrl}}">
         <h3 matLine>{{convo.senderData?.profileName}}</h3>
         <p matLine>
-          {{convo.senderData?.profileName}}: {{convo.conversation.lastMessage.text}}
+            {{convo.conversation.lastMessage.text}}
         </p>
         <ng-template [ngIf]="!convo.conversation.pitchAccepted && currentUserType == 'venue' ">
           <button mat-flat-button color="primary" (click)="viewPitch(convo.id)">View Pitch</button>

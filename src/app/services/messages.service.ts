@@ -14,7 +14,7 @@ export class MessagesService {
     private authSvc: AuthService
   ) {}
 
-  sendMessage(convoId: string, msg: string, senderId: string, read: boolean[]) {
+  sendMessage(convoId: string, msg: string, senderId: string, read?: boolean[]) {
     const message: Message = {
       createdAt: Date.now(),
       senderId,

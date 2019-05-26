@@ -91,7 +91,7 @@ export class ProfileService {
     radius: number
   ) {
     const update = { ProfileAddress: address, ProfileBiography: biography,  Playlist: playlist, Tracks: tracks, SearchRadius: radius};
-    this.afDatabase
+    return this.afDatabase
       .collection('Artists')
       .doc(userId)
       .update(update);

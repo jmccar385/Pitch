@@ -1,8 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
-import { AuthService } from '../services/auth.service';
-import { Band, Venue, HeaderValues } from '../models';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { HeaderValues } from '../models';
 import { HeaderService } from '../services/header.service';
 
 @Component({
@@ -11,11 +8,21 @@ import { HeaderService } from '../services/header.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  @Output() startClick = new EventEmitter<string>();
+  @Output() endClick = new EventEmitter<string>();
   constructor(
     private headerSvc: HeaderService
   ) {}
 
   headerVals: HeaderValues;
+
+  functionCall(slot: string) {
+    if (slot === 'start') {
+      this.startClick.emit(slot);
+    } else {
+      this.endClick.emit(slot);
+    }
+  }
 
   async ngOnInit() {
     this.headerSvc.vals.subscribe(vals => {

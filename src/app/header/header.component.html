@@ -3,11 +3,11 @@
 		<button *ngIf="!headerVals.iconStart" mat-icon-button color="accent" [disabled]="true" >
 			<mat-icon></mat-icon>
 		</button>
-		<button *ngIf="headerVals.iconStart" mat-icon-button [routerLink]="headerVals.startRouterlink" color="accent">
+		<button (click)="functionCall('start')" *ngIf="headerVals.iconStart" mat-icon-button [routerLink]="headerVals.startRouterlink" color="accent">
 			<mat-icon>{{headerVals.iconStart}}</mat-icon>
 		</button>
 		<h1>{{headerVals.title}}</h1>
-		<button *ngIf="headerVals.iconEnd" mat-icon-button [routerLink]="headerVals.endRouterlink" color="accent">
+		<button (click)="functionCall('end')" *ngIf="headerVals.iconEnd" mat-icon-button [routerLink]="headerVals.endRouterlink" color="accent">
 			<mat-icon>{{headerVals.iconEnd}}</mat-icon>
 		</button>
 		<button *ngIf="!headerVals.iconEnd" mat-icon-button color="accent" [disabled]="true" >

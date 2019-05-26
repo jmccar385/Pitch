@@ -123,7 +123,7 @@
       <mat-card-title>Events</mat-card-title>
       <button *ngIf="profileForm.enabled && view" mat-stroked-button color="accent" class="card-button" [routerLink]="['/events/schedule']" routerLinkActive="router-link-active">Create</button>
       <mat-card-content>
-        <div *ngIf="profile.Events | async as events">
+        <div *ngIf="profile?.Events | async as events">
           <ng-template [ngIf]="events.length > 0" [ngIfElse]="noEventsTemplate">
             <ul>
               <li *ngFor="let event of events">

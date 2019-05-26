@@ -104,7 +104,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   signOut() {
-    this.authService.logout();
+    this.authService.logout().then(() => this.router.navigate(['/login']));
   }
 
   verifyEmail() {

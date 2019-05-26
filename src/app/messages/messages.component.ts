@@ -17,6 +17,7 @@ import { HeaderService } from '../services/header.service';
 export class MessagesComponent implements OnInit {
   currentUserId: string;
   currentUserType: string;
+  otherUserType: string;
   private band: Band;
   private conversationItems: Observable<any>;
 
@@ -32,6 +33,7 @@ export class MessagesComponent implements OnInit {
     this.currentUserId = this.authService.currentUserID;
     this.authService.getUserType().subscribe(type => {
       this.currentUserType = type;
+      this.otherUserType = this.currentUserType === 'band' ? 'venue' : 'band';
       const iconEnd = this.currentUserType === 'band' ? 'list' : 'person';
       const endRouterlink =
         this.currentUserType === 'band'

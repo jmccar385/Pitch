@@ -64,7 +64,7 @@ export class MessagesService {
           return this.afDatabase.collection('Artists').doc(userId).valueChanges().pipe(
             map((artist: Band) => {
               if (!artist) {return; }
-              return {profileUrl: artist.ProfilePictureUrl, profileName: artist.ProfileName};
+              return {id: userId, profileUrl: artist.ProfilePictureUrl, profileName: artist.ProfileName};
             }),
             take(1)
           );
@@ -72,7 +72,7 @@ export class MessagesService {
           return this.afDatabase.collection('Venues').doc(userId).valueChanges().pipe(
             map((venue: Venue) => {
               if (!venue) {return; }
-              return {profileUrl: venue.ProfilePictureUrl, profileName: venue.ProfileName};
+              return {id: userId, profileUrl: venue.ProfilePictureUrl, profileName: venue.ProfileName};
             }),
             take(1)
           );

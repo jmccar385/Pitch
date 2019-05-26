@@ -26,3 +26,8 @@ button {
 .mat-flat-button {
 	padding: 0px !important;
 }
+
+#profileLink {
+	display:block;
+	float: left;
+}

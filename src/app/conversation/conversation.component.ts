@@ -20,6 +20,8 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
 
   private messages: any;
   currentUserId: string;
+  currentUserType: string;
+  correspondentType: string;
   conversationId: string;
   text: string;
   currentUserData: any;
@@ -46,6 +48,10 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.currentUserId = this.authService.currentUserID;
+    this.authService.getUserType().subscribe(type => {
+      this.currentUserType = type;
+      this.correspondentType = this.currentUserType === 'band' ? 'venue' : 'band';
+    });
     this.route.params.subscribe(params => {
       this.messages = this.msgSvc.getMessagesByConversationId(params.id);
       this.conversationId = params.id;

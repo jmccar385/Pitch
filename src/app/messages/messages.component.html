@@ -2,7 +2,9 @@
 <div id="messages_container">
     <mat-list>
       <mat-list-item routerLink="{{convo.conversation.pitchAccepted ? '/conversation/' + convo.id: '/messages'}}" routerLinkActive="router-link-active"  *ngFor="let convo of conversationItems | async">
-        <img matListAvatar src="{{convo.senderData?.profileUrl}}">
+        <a matListAvatar id="profileLink" href="{{'profile/' + otherUserType + '/'+ convo.senderData?.id}}">
+          <img matListAvatar src="{{convo.senderData?.profileUrl}}">
+        </a>
         <h3 matLine>{{convo.senderData?.profileName}}</h3>
         <p matLine>
             {{convo.conversation.lastMessage.text}}

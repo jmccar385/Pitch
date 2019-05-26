@@ -95,3 +95,20 @@ mat-form-field {
 		font-size: 18px;
 		color: white !important;
 	}
+
+	mat-card {
+		margin-bottom: 10px;
+		box-sizing: border-box;
+	}
+	
+	mat-card:last-child {
+		margin-bottom: 0;
+	}
+	
+	mat-card-title {
+		font-size: 16px !important;
+	}
+	
+	mat-card-content {
+		margin-bottom: 0;
+	}

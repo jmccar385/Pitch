@@ -17,73 +17,174 @@ export class MessagesService {
   sendMessage(convoId: string, msg: string, senderId: string) {
     const message: Message = {
       createdAt: Date.now(),
-      senderId: senderId,
+      senderId,
       text: msg
     };
-    return this.afDatabase.collection(`Conversations/${convoId}/Messages`).add(message);
+    return this.afDatabase
+      .collection(`Conversations/${convoId}/Messages`)
+      .add(message);
+  }
+
+  sendConsentToken(token: string) {
+    const uid = this.authSvc.currentUserID;
+    return this.authSvc.getUserType().toPromise().then(type => {
+      if (type === 'band') {
+        return this.afDatabase
+          .collection('Artists')
+          .doc(uid)
+          .update({ messagingToken: token });
+      } else {
+        return this.afDatabase
+          .collection('Venues')
+          .doc(uid)
+          .update({ messagingToken: token });
+      }
+    });
+  }
+
+  getNotificationSetting() {
+    const uid = this.authSvc.currentUserID;
+    return this.authSvc.getUserType().pipe(
+      mergeMap(type => {
+        if (type === 'band') {
+          return this.afDatabase
+            .collection('Artists')
+            .doc(uid).get().pipe(
+              map(user => {
+                return user.data().messagingNotificationsEnabled;
+              })
+            );
+        } else {
+          return this.afDatabase
+            .collection('Venues')
+            .doc(uid).get().pipe(
+              map(user => {
+                return user.data().messagingNotificationsEnabled;
+              })
+            );
+        }
+      })
+    );
+  }
+
+  toggleNotifications() {
+    const uid = this.authSvc.currentUserID;
+    return this.authSvc.getUserType().toPromise().then(type => {
+      if (type === 'band') {
+        return this.afDatabase
+          .collection('Artists')
+          .doc(uid).get().toPromise().then(user => {
+            const isEnabled = user.data().messagingNotificationsEnabled;
+            return user.ref.update({ messagingNotificationsEnabled: !isEnabled });
+          });
+      } else {
+        return this.afDatabase
+          .collection('Venues')
+          .doc(uid)
+          .get().toPromise().then(user => {
+            const isEnabled = user.data().messagingNotificationsEnabled;
+            return user.ref.update({ messagingNotificationsEnabled: !isEnabled });
+          });
+      }
+    });
   }
 
   sendPitch(venueId: string, pitch: Pitch) {
-    return this.afDatabase.doc(`Artists/${this.authSvc.currentUserID}`).valueChanges().pipe(
-      map((artist: Band | {}) => {
-        const band = artist as Band;
-        const name = band.ProfileName;
-        const conversation: Conversation = {
-          members: [venueId, this.authSvc.currentUserID],
-          pitchAccepted: false,
-          pitch,
-          lastMessage: {
-            createdAt: firestore.Timestamp.fromDate(new Date()),
-            text: 'New Pitch from ' + name
-          }
-        };
-        return this.afDatabase.collection('Conversations').add(conversation);
-      })
-    );
+    return this.afDatabase
+      .doc(`Artists/${this.authSvc.currentUserID}`)
+      .valueChanges()
+      .pipe(
+        map((artist: Band | {}) => {
+          const band = artist as Band;
+          const name = band.ProfileName;
+          const conversation: Conversation = {
+            members: [venueId, this.authSvc.currentUserID],
+            pitchAccepted: false,
+            pitch,
+            lastMessage: {
+              createdAt: firestore.Timestamp.fromDate(new Date()),
+              text: 'New Pitch from ' + name
+            }
+          };
+          return this.afDatabase.collection('Conversations').add(conversation);
+        })
+      );
   }
 
   getConversationsByUserId(userId: string) {
     return this.afDatabase
       .collection('Conversations', ref =>
-        ref.where('members', 'array-contains', userId).orderBy('lastMessage.createdAt', 'desc')
+        ref
+          .where('members', 'array-contains', userId)
+          .orderBy('lastMessage.createdAt', 'desc')
       )
-      .snapshotChanges().pipe(
+      .snapshotChanges()
+      .pipe(
         map(snaps => {
           return snaps.map(snap => {
-            return {id: snap.payload.doc.id, conversation: snap.payload.doc.data() as Conversation};
+            return {
+              id: snap.payload.doc.id,
+              conversation: snap.payload.doc.data() as Conversation
+            };
           });
         })
       );
   }
 
   getSenderDataById(userId: string) {
-    return this.afDatabase.collection('Artists').doc(userId).get().pipe(
-      mergeMap(doc => {
-        const type = doc.exists ? 'band' : 'venue';
-        if (type === 'band') {
-          return this.afDatabase.collection('Artists').doc(userId).valueChanges().pipe(
-            map((artist: Band) => {
-              if (!artist) {return; }
-              return {id: userId, profileUrl: artist.ProfilePictureUrl, profileName: artist.ProfileName};
-            }),
-            take(1)
-          );
-        } else {
-          return this.afDatabase.collection('Venues').doc(userId).valueChanges().pipe(
-            map((venue: Venue) => {
-              if (!venue) {return; }
-              return {id: userId, profileUrl: venue.ProfilePictureUrl, profileName: venue.ProfileName};
-            }),
-            take(1)
-          );
-        }
-      })
-    );
+    return this.afDatabase
+      .collection('Artists')
+      .doc(userId)
+      .get()
+      .pipe(
+        mergeMap(doc => {
+          const type = doc.exists ? 'band' : 'venue';
+          if (type === 'band') {
+            return this.afDatabase
+              .collection('Artists')
+              .doc(userId)
+              .valueChanges()
+              .pipe(
+                map((artist: Band) => {
+                  if (!artist) {
+                    return;
+                  }
+                  return {
+                    id: userId,
+                    profileUrl: artist.ProfilePictureUrl,
+                    profileName: artist.ProfileName
+                  };
+                }),
+                take(1)
+              );
+          } else {
+            return this.afDatabase
+              .collection('Venues')
+              .doc(userId)
+              .valueChanges()
+              .pipe(
+                map((venue: Venue) => {
+                  if (!venue) {
+                    return;
+                  }
+                  return {
+                    id: userId,
+                    profileUrl: venue.ProfilePictureUrl,
+                    profileName: venue.ProfileName
+                  };
+                }),
+                take(1)
+              );
+          }
+        })
+      );
   }
 
   getMessagesByConversationId(convoId: string) {
     return this.afDatabase
-      .collection(`Conversations/${convoId}/Messages`, ref => ref.orderBy('createdAt'))
+      .collection(`Conversations/${convoId}/Messages`, ref =>
+        ref.orderBy('createdAt')
+      )
       .valueChanges();
   }
 
@@ -96,15 +197,15 @@ export class MessagesService {
 
   acceptPitch(convoId: string) {
     return this.afDatabase
-        .collection('Conversations')
-        .doc(convoId)
-        .update({ pitchAccepted: true });
- }
+      .collection('Conversations')
+      .doc(convoId)
+      .update({ pitchAccepted: true });
+  }
 
   deleteConversation(convoId: string) {
     return this.afDatabase
-       .collection('Conversations')
-       .doc(convoId)
-       .delete();
+      .collection('Conversations')
+      .doc(convoId)
+      .delete();
   }
 }

@@ -18,7 +18,7 @@ import { HeaderService } from '../services/header.service';
 export class ConversationComponent implements OnInit, AfterViewChecked {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
-  private messages: any;
+  messages: any;
   currentUserId: string;
   currentUserType: string;
   correspondentType: string;

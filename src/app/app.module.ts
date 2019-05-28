@@ -11,7 +11,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
-import { environment } from 'src/environments/environment';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
 
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth.guard';
@@ -43,6 +43,9 @@ import { ConversationComponent } from './conversation/conversation.component';
 import { AcceptanceModalComponent } from './acceptance-modal/acceptance-modal.component';
 import { HeaderService } from './services/header.service';
 import { SaveAlertDialogComponent } from './settings/savealert.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -78,14 +81,17 @@ import { SaveAlertDialogComponent } from './settings/savealert.component';
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireFunctionsModule,
+    AngularFireMessagingModule,
     HttpClientModule,
     MaterialModule,
     NgxCroppieModule,
     BrowserAnimationsModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ServiceWorkerModule.register('/firebase-messaging-sw.js', { enabled: environment.production })
   ],
   providers: [
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
     AuthService,
     AuthGuard,
     VerifiedGuard,

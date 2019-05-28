@@ -7,6 +7,19 @@ p {
 	margin-top: 0;
 }
 
+#events-label {
+	margin: 0;
+}
+
+mat-list {
+	padding: 0;
+	margin-bottom: 20px;
+}
+
+mat-list-item {
+	height: 16px !important;
+}
+
 .slide-container {
 	padding: 0;
 	padding-bottom: 32px;

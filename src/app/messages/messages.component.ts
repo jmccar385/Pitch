@@ -99,10 +99,9 @@ export class MessagesComponent implements OnInit {
               this.band = artist;
               this.band.ProfileImageUrls.push(this.band.ProfilePictureUrl);
               this.dialog.open(AcceptanceDialogComponent, {
-                width: '90%',
-                maxWidth: '100vw',
+                width: '80vw',
                 autoFocus: false,
-                panelClass: 'pitch-acceptance',
+                panelClass: '',
                 data: { convoId, convo, bandId: id.toString(), band: this.band }
               });
             })

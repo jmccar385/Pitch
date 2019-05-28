@@ -40,7 +40,7 @@ import { SpotifyAlertDialogComponent } from './signup/spotifyalert.component';
 import { NewEmailDialogComponent } from './settings/newemail.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ConversationComponent } from './conversation/conversation.component';
-import { AcceptanceModalComponent } from './acceptance-modal/acceptance-modal.component';
+import { AcceptanceDialogComponent } from './messages/acceptance-modal.component';
 import { HeaderService } from './services/header.service';
 import { SaveAlertDialogComponent } from './settings/savealert.component';
 
@@ -66,7 +66,7 @@ import { SaveAlertDialogComponent } from './settings/savealert.component';
     EventSchedulerComponent,
     MessagesComponent,
     ConversationComponent,
-    AcceptanceModalComponent,
+    AcceptanceDialogComponent,
     SaveAlertDialogComponent,
   ],
   imports: [
@@ -101,7 +101,7 @@ import { SaveAlertDialogComponent } from './settings/savealert.component';
     UploadDialogComponent,
     PitchDialogComponent,
     ProfileImageDialogComponent,
-    AcceptanceModalComponent,
+    AcceptanceDialogComponent,
     SaveAlertDialogComponent
   ],
   bootstrap: [AppComponent]

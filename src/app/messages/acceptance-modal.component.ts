@@ -8,11 +8,11 @@ import { MessagesService } from '../services/messages.service';
   templateUrl: './acceptance-modal.component.html',
   styleUrls: ['./acceptance-modal.component.css']
 })
-export class AcceptanceModalComponent {
+export class AcceptanceDialogComponent {
   slideIndex = 1;
 
   constructor(
-    public dialogRef: MatDialogRef<AcceptanceModalComponent>,
+    public dialogRef: MatDialogRef<AcceptanceDialogComponent>,
     private msgSvc: MessagesService,
     @Inject(MAT_DIALOG_DATA) public data: AcceptanceDialogData
   ) { }

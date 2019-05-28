@@ -2,6 +2,7 @@ button {
 	margin-top: 20px;
 	font-size: 18px;
 	color: white !important;
+	text-align: center;
 }
 
 .mat-dialog-title {
@@ -12,6 +13,8 @@ button {
 	position: absolute;
 	bottom: calc(5% + 10px);
 	right: calc(5% + 10px);
+	height: 36px;
+	width: 88.35px;
 }
 
 #close {
@@ -22,4 +25,26 @@ button {
 
 .picture-upload-field {
 	display: block;
+}
+
+.loader {
+	border: 4px solid #00c853;
+	border-radius: 50%;
+	border-top: 4px solid white;
+	width: 20px;
+	height: 20px;
+	-webkit-animation: spin 2s linear infinite; /* Safari */
+	animation: spin 2s linear infinite;
+	display: inline-block;
+}
+  
+  /* Safari */
+@-webkit-keyframes spin {
+	0% { -webkit-transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); }
+}
+  
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
 }

@@ -53,15 +53,6 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
       this.conversationId = params.id;
     });
 
-    // Set header
-    this.headerSvc.setHeader({
-      title: 'Messages',
-      iconEnd: null,
-      iconStart: 'forum',
-      endRouterlink: null,
-      startRouterlink: ['/messages']
-    });
-
     this.msgSvc.getSenderDataById(this.currentUserId).subscribe(data => {
       this.currentUserData = data;
     });
@@ -79,6 +70,15 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
             .getSenderDataById(this.correspondentId)
             .subscribe(data => {
               this.correspondentData = data;
+
+              // Set header
+              this.headerSvc.setHeader({
+                title: data.profileName,
+                iconEnd: null,
+                iconStart: 'forum',
+                endRouterlink: null,
+                startRouterlink: ['/messages']
+              });
             });
         }
       })[0];

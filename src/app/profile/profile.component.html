@@ -123,7 +123,7 @@
       <mat-card-title>Events</mat-card-title>
       <button *ngIf="profileForm.enabled && view" mat-stroked-button color="accent" class="card-button" [routerLink]="['/events/schedule']" routerLinkActive="router-link-active">Create</button>
       <mat-card-content>
-        <div *ngIf="profile.Events | async as events">
+        <div *ngIf="profile?.Events | async as events">
           <ng-template [ngIf]="events.length > 0" [ngIfElse]="noEventsTemplate">
             <ul>
               <li *ngFor="let event of events">
@@ -137,7 +137,8 @@
     </mat-card>
   </form>
   <button *ngIf="profileForm.disabled && view" mat-mini-fab color="primary" class="edit_save" (click)="editProfile()" type="button">
-    <mat-icon>edit</mat-icon>
+      <mat-icon *ngIf="!loading">edit</mat-icon>
+      <div class="loader" *ngIf="loading"></div>
   </button>
   <button *ngIf="profileForm.enabled && view" mat-mini-fab color="primary" class="edit_save" (click)="saveProfile()" type="button">
     <mat-icon>save</mat-icon>

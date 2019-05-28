@@ -6,6 +6,9 @@
 			A profile image is <strong>required</strong> to be an <strong>image</strong>
 		</mat-error>
 	</div>
-	<button  id="close" mat-flat-button color="primary" [mat-dialog-close] type="button">Cancel</button>
-	<button id="uploadImage" mat-flat-button color="primary" type="submit">Upload</button>
+	<button id="close" mat-flat-button color="primary" [mat-dialog-close] type="button">Cancel</button>
+	<button id="uploadImage" mat-flat-button color="primary" type="submit">
+		<div *ngIf="!loading">Upload</div>
+		<div class="loader" *ngIf="loading"></div>
+	</button>
 </form>

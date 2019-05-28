@@ -1,10 +1,10 @@
 <app-header></app-header>
 <div id="messages_container">
-    <mat-list>
+    <mat-list *ngIf="!noMessages">
       <mat-list-item routerLink="{{convo.conversation.pitchAccepted ? '/conversation/' + convo.id: '/messages'}}" (click)="updateRead(convo.id, convo.conversation.ConversationRead, convo.conversation.members)" routerLinkActive="router-link-active"  *ngFor="let convo of conversationItems | async">
         <img matListAvatar src="{{convo.senderData?.profileUrl}}">
-        <h3 matLine [ngClass]="{'bold': !read}">{{convo.senderData?.profileName}}</h3>
-        <p matLine [ngClass]="{'bold': !read}">
+        <h3 matLine [ngClass]="{'bold': ((!convo.conversation.ConversationRead[0] && currentUserType === 'venue') || (!convo.conversation.ConversationRead[1] && currentUserType === 'band'))}">{{convo.senderData?.profileName}}</h3>
+        <p matLine [ngClass]="{'bold': ((!convo.conversation.ConversationRead[0] && currentUserType === 'venue') || (!convo.conversation.ConversationRead[1] && currentUserType === 'band'))}">
             {{convo.conversation.lastMessage.text}}
         </p>
         <ng-template [ngIf]="!convo.conversation.pitchAccepted && currentUserType == 'venue' ">
@@ -15,4 +15,6 @@
         </ng-template>
       </mat-list-item>
     </mat-list>
+    <p *ngIf="currentUserType == 'band' && noMessages" class="no_messages">Send a pitch to begin messaging a venue...</p>
+    <p *ngIf="currentUserType == 'venue' && noMessages" class="no_messages">Wait for a pitch from a band...</p>
   </div>

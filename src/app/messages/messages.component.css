@@ -30,3 +30,7 @@ button {
 .mat-flat-button {
 	padding: 0px !important;
 }
+
+.no_messages {
+	text-align: center;
+}

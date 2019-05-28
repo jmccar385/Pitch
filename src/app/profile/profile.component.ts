@@ -39,6 +39,7 @@ export class ProfileComponent implements OnInit {
   equipmentList: Equipment[] = [];
   availableEquipment: Equipment[] = [];
   profileImageUrls: string[];
+  loading = false;
 
   profileForm: FormGroup = new FormGroup({
     address: new FormControl({ value: '' }, [Validators.required]),
@@ -214,6 +215,7 @@ export class ProfileComponent implements OnInit {
   }
 
   async editProfile() {
+    this.loading = true;
     if (this.userType === 'band') {
       await this.musicService.renewAccessToken();
       const playlists = await this.musicService.getUserPlaylists();
@@ -226,6 +228,7 @@ export class ProfileComponent implements OnInit {
       }
     }
     this.profileForm.enable();
+    this.loading = false;
   }
 
   saveProfile() {
@@ -295,7 +298,7 @@ export class ProfileComponent implements OnInit {
   deletePicture(path: string) {
     if (this.profile.ProfilePictureUrl === path) {
       this.snackBar.open(
-        'You cannot delete your profile Picture without selecting a new one first',
+        'Select a new profile picture first',
         'close',
         { duration: 5000 }
       );

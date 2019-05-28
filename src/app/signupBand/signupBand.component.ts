@@ -27,6 +27,7 @@ export class SignupBandComponent implements OnInit {
   private accessToken: string;
   private refreshToken: string;
   private playlists: Playlist[] = [];
+  loading = false;
 
   signupBandForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -61,6 +62,7 @@ export class SignupBandComponent implements OnInit {
   }
 
   signupBand() {
+    this.loading = true;
     const PlaylistName = this.playlists.find(x => x.TrackHref === this.signupBandForm.controls.playlist.value).Name;
     const band: Band = {
       ProfileAddress: this.signupBandForm.controls.zip.value,

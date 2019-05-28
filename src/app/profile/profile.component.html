@@ -137,7 +137,8 @@
     </mat-card>
   </form>
   <button *ngIf="profileForm.disabled && view" mat-mini-fab color="primary" class="edit_save" (click)="editProfile()" type="button">
-    <mat-icon>edit</mat-icon>
+      <mat-icon *ngIf="!loading">edit</mat-icon>
+      <div class="loader" *ngIf="loading"></div>
   </button>
   <button *ngIf="profileForm.enabled && view" mat-mini-fab color="primary" class="edit_save" (click)="saveProfile()" type="button">
     <mat-icon>save</mat-icon>

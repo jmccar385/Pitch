@@ -4,7 +4,7 @@ import { ProfileService } from '../services/profile.service';
 import { MessagesService } from '../services/messages.service';
 import { Observable, from, zip } from 'rxjs';
 import { mergeMap, map, toArray, take } from 'rxjs/operators';
-import { AcceptanceModalComponent } from '../acceptance-modal/acceptance-modal.component';
+import { AcceptanceDialogComponent } from './acceptance-modal.component';
 import { MatDialog } from '@angular/material';
 import { Band } from '../models';
 import { HeaderService } from '../services/header.service';
@@ -20,6 +20,7 @@ export class MessagesComponent implements OnInit {
   otherUserType: string;
   private band: Band;
   private conversationItems: Observable<any>;
+  noMessages = false;
 
   constructor(
     private authService: AuthService,
@@ -74,6 +75,11 @@ export class MessagesComponent implements OnInit {
             );
           })
         );
+      this.conversationItems.subscribe((response) => {
+        if (!response.length) {
+          this.noMessages = true;
+        }
+      });
     });
   }
 
@@ -92,12 +98,12 @@ export class MessagesComponent implements OnInit {
             map((artist: Band) => {
               this.band = artist;
               this.band.ProfileImageUrls.push(this.band.ProfilePictureUrl);
-              this.dialog.open(AcceptanceModalComponent, {
+              this.dialog.open(AcceptanceDialogComponent, {
                 width: '90%',
                 maxWidth: '100vw',
-                height: '90%',
                 autoFocus: false,
-                data: { convoId: convoId, convo: convo, bandId: id.toString(), band: this.band }
+                panelClass: 'pitch-acceptance',
+                data: { convoId, convo, bandId: id.toString(), band: this.band }
               });
             })
           );
@@ -105,5 +111,10 @@ export class MessagesComponent implements OnInit {
         take(1)
       )
       .subscribe();
+  }
+
+  updateRead(convoId: string, read: boolean[], members: string[]) {
+    read[members.indexOf(this.currentUserId)] = true;
+    this.messagesService.updateRead(convoId, read);
   }
 }

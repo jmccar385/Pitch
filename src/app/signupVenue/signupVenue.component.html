@@ -86,7 +86,10 @@
               Password is <strong>required</strong>
             </mat-error>
           </mat-form-field>
-          <button class="survey-button" mat-flat-button color="accent" type="submit" [disabled]="!signupVenueForm.valid">Next</button>
+          <button class="survey-button" mat-flat-button color="accent" type="submit" [disabled]="!signupVenueForm.valid">
+            <div *ngIf="!loading">Next</div>
+            <div class="loader" *ngIf="loading"></div>
+          </button>
         </div>
       </mat-step>
     </mat-horizontal-stepper>

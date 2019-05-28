@@ -13,6 +13,8 @@ import { UploadDialogData } from '../models';
 
 export class UploadDialogComponent {
 
+  loading = false;
+
   constructor(
     public dialogRef: MatDialogRef<UploadDialogComponent>,
     private profileService: ProfileService,
@@ -30,6 +32,7 @@ export class UploadDialogComponent {
   imageUpload: ImageUploadComponent;
 
   upload(): void {
+    this.loading = true;
     this.profileService.uploadImage(this.imageUpload.CroppedImage).then((url) => {
       this.data.profileImageUrls.push(url);
       this.profileService.updateProfileImageUrls(this.data.userId, this.data.userType, this.data.profileImageUrls);

@@ -10,6 +10,10 @@ mat-list {
 	margin-left:2.5%;
 }
 
+.bold {
+	font-weight: bold !important;
+}
+
 mat-list-item {
 	outline: none;
 }
@@ -30,4 +34,8 @@ button {
 #profileLink {
 	display:block;
 	float: left;
+}
+
+.no_messages {
+	text-align: center;
 }

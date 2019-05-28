@@ -32,6 +32,7 @@ export class SignupVenueComponent {
 
   equipment: Observable<Array<{}>>;
   availableEquipment: Equipment[] = [];
+  loading = false;
 
   @ViewChild(ImageUploadComponent)
   imageUpload: ImageUploadComponent;
@@ -52,6 +53,7 @@ export class SignupVenueComponent {
   }
 
   signupVenue() {
+    this.loading = true;
     const venue: Venue = {
       // tslint:disable-next-line: max-line-length
       ProfileAddress: this.signupVenueForm.controls.address.value + ', ' + this.signupVenueForm.controls.city.value + ', ' + this.signupVenueForm.controls.state.value + ' ' + this.signupVenueForm.controls.zip.value,

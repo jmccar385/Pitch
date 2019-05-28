@@ -14,52 +14,32 @@ mat-form-field.timeEntryWide {
 }
 
 .content {
-	margin: 70px 0px 0px 0px;
-	width: 95%;
-	margin-left:2.5%;
+	padding: 2.5%;
+	padding-top: 66px;
 }
 
-.eventDate {
-    background: #00c85359;
-	border-radius: 100%;
+#create-event-button {
+	position: fixed;
+	width: calc(100% - 20px);
+  	bottom: 10px;
+  	left: 10px;
+	height: 35px;
 }
 
 .eventFormGroup {
 	display: flex;
-	flex-direction: column;
-    align-content: space-around;
-	align-self: flex-start;
-	padding-top: 10px;
-	padding-left: 5%;
-}
-
-.eventFormRow {
-	display: inline-flex;
 	flex-direction: row;
-    align-content: space-around;
-	align-items: left;
-	padding-top: 10px;
+	justify-content: space-between;
+	align-items: center;
+	margin: 5px;
+	width: 90%;
+	min-height: 60px;
 }
-
-.eventFormRow > mat-slide-toggle {
-	margin-top: 15px;
-}
-
-.eventFormLabel {
-	position: absolute;
-	padding-left: calc(1em /3);
-	pointer-events: none;
-	width: 100%;
-	text-overflow: clip;
-	overflow: hidden;
-	color: #0000008A
-}
-
 .warningMessage {
 	color: #FFDE03FF;
-	display: inline-flex;
+	display: flex;
 	flex-direction: row;
-	align-content: space-around;
+	align-content: flex-start;
     align-items: center;
 }
 

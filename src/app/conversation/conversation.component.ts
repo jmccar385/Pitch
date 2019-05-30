@@ -20,13 +20,13 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
 
   messages: any;
   currentUserId: string;
-  currentUserType: string;
-  correspondentType: string;
+  currentUserType = '';
+  correspondentType = '';
   conversationId: string;
   text: string;
-  currentUserData: any;
+  currentUserData = {};
   correspondentId: string;
-  correspondentData: any;
+  correspondentData = {};
   conversationData: any;
   conversationRead: boolean[];
   members: string[];
@@ -52,7 +52,7 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
     this.currentUserId = this.authService.currentUserID;
     this.authService.getUserType().subscribe(type => {
       this.currentUserType = type;
-      this.correspondentType = this.currentUserType === 'band' ? 'venue' : 'band';
+      this.correspondentType = type === 'band' ? 'venue' : 'band';
     });
     this.route.params.subscribe(params => {
       this.messages = this.msgSvc.getMessagesByConversationId(params.id);

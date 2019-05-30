@@ -114,16 +114,8 @@ export class SettingsComponent implements OnInit {
 
   consent() {
     this.afMessaging.requestToken
-    .subscribe(token => this.msgService.sendConsentToken(token)); // second log is for errors
+    .subscribe(token => this.msgService.sendConsentToken(token));
     this.msgService.toggleNotifications();
-
-    // this.afMessaging.messages.subscribe(val => console.log('subscribed: ', val));
-  }
-
-  delete() {
-    this.authService.logout().then(() => {
-      this.router.navigateByUrl('login');
-    });
   }
 
   signOut() {

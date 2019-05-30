@@ -18,8 +18,8 @@ export class MessagesComponent implements OnInit {
   currentUserId: string;
   currentUserType: string;
   otherUserType: string;
-  private band: Band;
-  private conversationItems: Observable<any>;
+  band: Band;
+  conversationItems: Observable<any>;
   noMessages = false;
 
   constructor(

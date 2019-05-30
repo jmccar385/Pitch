@@ -167,15 +167,15 @@ export class ProfileComponent implements OnInit {
     this.profileForm.disable();
   }
 
-  private changeSlideBy(delta) {
+  changeSlideBy(delta) {
     this.showSlides((this.slideIndex += delta));
   }
 
-  private jumpToSlide(target) {
+  jumpToSlide(target) {
     this.showSlides((this.slideIndex = target + 1));
   }
 
-  private showSlides(index) {
+  showSlides(index) {
     const slides = document.getElementsByClassName('slide-image');
 
     if (slides.length === 0) {

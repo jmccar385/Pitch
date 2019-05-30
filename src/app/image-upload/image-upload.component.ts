@@ -32,8 +32,8 @@ export class ImageUploadComponent
 
   constructor() {}
   // tslint:disable-next-line:variable-name
-  private _sourceImage: any;
-  private croppedImage: any;
+  _sourceImage: any;
+  croppedImage: any;
   public formatOptions: ResultOptions = { type: 'blob', size: 'original' };
   public cropOptions: CroppieOptions = {
     viewport: { width: 250, height: 250 },

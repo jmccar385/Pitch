@@ -2,7 +2,7 @@
 <div id="messages_container">
   <mat-list *ngIf="!noMessages">
     <mat-list-item routerLink="{{convo.conversation.pitchAccepted ? '/conversation/' + convo.id: '/messages'}}" routerLinkActive="router-link-active"  *ngFor="let convo of conversationItems | async">
-      <a matListAvatar id="profileLink" href="{{'profile/' + otherUserType + '/'+ convo.senderData?.id}}">
+      <a matListAvatar id="profileLink" [routerLink]="['/profile', otherUserType, convo.senderData?.id]">
         <img matListAvatar src="{{convo.senderData?.profileUrl}}">
       </a>
       <h3 matLine [ngClass]="{'bold': ((!convo.conversation.ConversationRead[0] && currentUserType === 'venue') || (!convo.conversation.ConversationRead[1] && currentUserType === 'band'))}">{{convo.senderData?.profileName}}</h3>

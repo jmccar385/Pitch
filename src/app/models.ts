@@ -1,6 +1,11 @@
 import { firestore } from 'firebase';
 import { Observable } from 'rxjs';
 
+export interface Location {
+  latitude: number;
+  longitude: number;
+}
+
 export interface Band {
   id?: string;
   ProfileAddress: number;

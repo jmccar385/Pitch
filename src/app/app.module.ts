@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './material/material.module';
+import { AgmCoreModule } from '@agm-preview/core';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
@@ -43,6 +44,7 @@ import { ConversationComponent } from './conversation/conversation.component';
 import { AcceptanceDialogComponent } from './messages/acceptance-modal.component';
 import { HeaderService } from './services/header.service';
 import { SaveAlertDialogComponent } from './settings/savealert.component';
+import { DistanceService } from './services/distance.service';
 
 @NgModule({
   declarations: [
@@ -67,9 +69,12 @@ import { SaveAlertDialogComponent } from './settings/savealert.component';
     MessagesComponent,
     ConversationComponent,
     AcceptanceDialogComponent,
-    SaveAlertDialogComponent,
+    SaveAlertDialogComponent
   ],
   imports: [
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBMSPY6k6aBeb9Lwf7h9JiSSknFe64twQ8'
+    }),
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
@@ -91,7 +96,8 @@ import { SaveAlertDialogComponent } from './settings/savealert.component';
     VerifiedGuard,
     ProfileService,
     MusicService,
-    HeaderService
+    HeaderService,
+    DistanceService
   ],
   entryComponents: [
     ForgotPasswordDialogComponent,

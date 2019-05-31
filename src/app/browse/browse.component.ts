@@ -12,7 +12,7 @@ import { AuthService } from '../services/auth.service';
 export class BrowseComponent implements OnInit {
   constructor(private profileService: ProfileService, private headerSvc: HeaderService, private authSvc: AuthService) {}
 
-  private profileCards: any[] = [];
+  profileCards: any[] = [];
 
   _addProfileCard(venue: Venue) {
     const equipmentList = venue.AvailableEquipment;

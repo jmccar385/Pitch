@@ -24,9 +24,9 @@ export class SignupBandComponent implements OnInit {
   @ViewChild(ImageUploadComponent)
   imageUpload: ImageUploadComponent;
 
-  private accessToken: string;
-  private refreshToken: string;
-  private playlists: Playlist[] = [];
+  accessToken: string;
+  refreshToken: string;
+  playlists: Playlist[] = [];
   loading = false;
 
   signupBandForm: FormGroup = new FormGroup({

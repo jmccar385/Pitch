@@ -19,9 +19,14 @@
     </mat-card>
     <mat-card>
       <mat-card-title>Notification Settings</mat-card-title>
-      <mat-card-content>
-        Notification settings to go here.
+      <mat-card-subtitle>New Message Notifications</mat-card-subtitle>
+      <mat-card-content *ngIf="notificationsEnabled | async as isEnabled; else elseBlock">
+        <button *ngIf="!isEnabled" mat-stroked-button color="accent" (click)="consent()" type="button">Enable</button>
+        <button *ngIf="isEnabled" mat-stroked-button color="warn" (click)="consent()" type="button">Disable</button>
       </mat-card-content>
+      <ng-template #elseBlock>
+        <button mat-stroked-button color="accent" (click)="consent()" type="button">Enable</button>
+      </ng-template>
     </mat-card>
     <mat-card *ngIf="userType === 'band'">
       <mat-card-title>Browse Settings</mat-card-title>
@@ -43,5 +48,4 @@
       </mat-card-content>
     </mat-card>
   </form>
-  <button mat-raised-button id="delete" color="warn" (click)="delete()">Delete Account</button>
 </div>

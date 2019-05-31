@@ -52,10 +52,12 @@ export const newMessageNotificationTrigger = functions.firestore.document('Conve
         const userData = userDoc.data();
         
         const token = userData ? userData.messagingToken : null;
-        if (token) {
+        const enabled = userData ? userData.messagingNotificationsEnabled : null;
+        if (token && enabled) {
           const message = {
-            data: {
-              message: 'New message received!'
+            notification: {
+              title: 'New message received!',
+              body: 'A venue sent you a message.'
             },
             token: token
           }
@@ -69,10 +71,12 @@ export const newMessageNotificationTrigger = functions.firestore.document('Conve
           const userData = venueDoc.data();
           
           const token = userData ? userData.messagingToken : null;
-          if (token) {
+          const enabled = userData ? userData.messagingNotificationsEnabled : null;
+          if (token && enabled) {
             const message = {
-              data: {
-                message: 'New message received!'
+              notification: {
+                title: 'New message received!',
+                body: 'A band sent you a message.'
               },
               token: token
             }

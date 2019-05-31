@@ -3,9 +3,14 @@
   <mat-list dense class="conversation-history mat-typography">
     <div #scrollMe>
       <mat-list-item *ngFor="let message of messages | async" [dir]="message.senderId == currentUserId ? 'rtl' : 'ltr'">
-      <a matListAvatar [href]="message.senderId == currentUserId ? 'profile/' + currentUserType + '/'+ currentUserData?.id : 'profile/' + correspondentType + '/'+ correspondentData?.id">
-        <img matListAvatar matTooltip="name" [src]=" message.senderId == currentUserId ? currentUserData?.profileUrl : correspondentData?.profileUrl"/>
+      <a matListAvatar *ngIf="message.senderId === currentUserId; else elseAvatar" [routerLink]="['/profile', currentUserType, currentUserData?.id]">
+        <img matListAvatar matTooltip="name" [src]="currentUserData?.profileUrl"/>
       </a>
+      <ng-template #elseAvatar>
+        <a matListAvatar [routerLink]="['/profile', correspondentType, correspondentData?.id]">
+          <img matListAvatar matTooltip="name" [src]="correspondentData?.profileUrl"/>
+        </a>
+      </ng-template>
         <p [ngClass]="message.senderId == currentUserId ? 'speech-bubble-right' : 'speech-bubble-left'">{{message.text}}&lrm;</p>
       </mat-list-item>
     </div>

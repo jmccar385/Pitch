@@ -1,30 +1,35 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { HeaderService } from '../services/header.service';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { NewEmailDialogComponent } from './newemail.component';
 import { SaveAlertDialogComponent } from './savealert.component';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProfileService } from '../services/profile.service';
 import { Observable } from 'rxjs';
 import { Band, Venue } from '../models';
+import { AngularFireMessaging } from '@angular/fire/messaging';
+import { MessagesService } from '../services/messages.service';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })
-export class SettingsComponent implements OnInit, OnDestroy {
+export class SettingsComponent implements OnInit {
   verified = false;
   userEmail: string;
   settingsChange = false;
   profile: any;
   userType: string;
   startRouterlink;
+  notificationsEnabled;
 
   constructor(
     private authService: AuthService,
+    private msgService: MessagesService,
+    private afMessaging: AngularFireMessaging,
     public dialog: MatDialog,
     private headerSvc: HeaderService,
     private snackBar: MatSnackBar,
@@ -78,6 +83,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.settingsForm.valueChanges.subscribe(() => {
       this.settingsChange = true;
     });
+
+    this.notificationsEnabled = this.msgService.getNotificationSetting();
   }
 
   goBack() {
@@ -105,33 +112,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    if (this.settingsChange) {
-      const dialogRef = this.dialog.open(SaveAlertDialogComponent, {
-        width: '450px',
-        data: {},
-        autoFocus: false
-      });
-
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.profileService.updateArtistById(
-            this.authService.currentUserID,
-            this.profile.ProfileAddress,
-            this.profile.ProfileBiography,
-            this.profile.Playlist,
-            this.profile.Tracks,
-            this.settingsForm.controls.radius.value
-          );
-        }
-      });
-    }
-  }
-
-  delete() {
-    this.authService.logout().then(() => {
-      this.router.navigateByUrl('login');
-    });
+  consent() {
+    this.afMessaging.requestToken
+    .subscribe(token => this.msgService.sendConsentToken(token));
+    this.msgService.toggleNotifications();
   }
 
   signOut() {

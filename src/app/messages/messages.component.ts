@@ -16,10 +16,10 @@ import { HeaderService } from '../services/header.service';
 })
 export class MessagesComponent implements OnInit {
   currentUserId: string;
-  currentUserType: string;
-  otherUserType: string;
-  private band: Band;
-  private conversationItems: Observable<any>;
+  currentUserType = '';
+  otherUserType = '';
+  band: Band;
+  conversationItems: Observable<any>;
   noMessages = false;
 
   constructor(
@@ -112,8 +112,8 @@ export class MessagesComponent implements OnInit {
       .subscribe();
   }
 
-  updateRead(convoId: string, read: boolean[], members: string[]) {
-    read[members.indexOf(this.currentUserId)] = true;
-    this.messagesService.updateRead(convoId, read);
-  }
+  // updateRead(convoId: string, read: boolean[], members: string[]) {
+  //   read[members.indexOf(this.currentUserId)] = true;
+  //   this.messagesService.updateRead(convoId, read);
+  // }
 }

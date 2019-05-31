@@ -17,6 +17,7 @@ export interface Band {
   ProfileRatingCount: number;
   ProfileReportCount: number;
   Reviews?: Observable<Review[]>;
+  MessagingToken?: string;
 }
 
 export interface Review {
@@ -152,6 +153,11 @@ export interface Track {
   Preview: string;
 }
 
+export enum NotificationTypes {
+  'newMessage',
+  'newPitch'
+}
+
 export interface Venue {
   id?: string;
   ProfileAddress: string;
@@ -166,6 +172,7 @@ export interface Venue {
   Reviews?: Observable<Review[]>;
   Events?: Observable<Event[]>;
   upcomingEvents?: number;
+  MessagingToken?: string;
 }
 
 export interface Event {

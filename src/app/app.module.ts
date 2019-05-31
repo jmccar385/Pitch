@@ -46,6 +46,7 @@ import { SaveAlertDialogComponent } from './settings/savealert.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { SettingsService } from './services/settings.service';
 
 @NgModule({
   declarations: [
@@ -97,7 +98,8 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
     VerifiedGuard,
     ProfileService,
     MusicService,
-    HeaderService
+    HeaderService,
+    SettingsService
   ],
   entryComponents: [
     ForgotPasswordDialogComponent,

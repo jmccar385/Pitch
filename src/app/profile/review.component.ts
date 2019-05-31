@@ -3,7 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ProfileService } from '../services/profile.service';
 import { AuthService } from '../services/auth.service';
-import { Review, ReviewDialogData } from '../models';
+import { Review, ReviewDialogData, Venue, Band } from '../models';
+import { map, mergeMap, tap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-review-dialog',
@@ -31,23 +32,26 @@ export class ReviewDialogComponent {
     ]),
   });
 
-  review(): void {
+  async review() {
+    const creatorName$ = this.authService.getUserType().pipe(
+      mergeMap(type => {
+        return type === 'band' ?
+        this.profileService.getArtistObserverById(this.authService.currentUserID) :
+        this.profileService.getVenueObserverById(this.authService.currentUserID);
+      }),
+      map((profile: Band | Venue) => profile.ProfileName),
+      take(1)
+    );
     const review: Review = {
       ReviewText: this.reviewForm.controls.review.value,
       ReviewRating: this.reviewForm.controls.rating.value,
-      ReviewCreator: this.authService.currentUserID,
-      ReviewCreatorName: '',
+      ReviewCreator: await creatorName$.toPromise(),
       CreationDate: Date.now()
     };
-    this.data.rating = this.data.rating * this.data.ratingCount;
-    this.data.ratingCount++;
-    this.data.rating = (this.data.rating + review.ReviewRating) / (this.data.ratingCount);
     this.profileService.createReview(
       review,
       this.data.userId,
       this.data.userType,
-      this.data.ratingCount,
-      this.data.rating
     );
     this.dialogRef.close({rating: this.data.rating, ratingCount: this.data.ratingCount});
   }

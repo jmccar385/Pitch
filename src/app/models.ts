@@ -16,14 +16,13 @@ export interface Band {
   ProfileRating: number;
   ProfileRatingCount: number;
   ProfileReportCount: number;
-  Reviews?: Review[];
+  Reviews?: Observable<Review[]>;
 }
 
 export interface Review {
   ReviewText: string;
   ReviewRating: number;
   ReviewCreator: string;
-  ReviewCreatorName: string;
   CreationDate: number;
 }
 

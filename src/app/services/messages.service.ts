@@ -101,6 +101,7 @@ export class MessagesService {
             members: [venueId, this.authSvc.currentUserID],
             pitchAccepted: false,
             pitch,
+            ConversationRead: [], // Might have to set default values
             lastMessage: {
               createdAt: firestore.Timestamp.fromDate(new Date()),
               text: 'New Pitch from ' + name

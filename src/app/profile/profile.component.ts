@@ -12,7 +12,7 @@ import { ProfileImageDialogComponent } from './profile-image.component';
 import { Playlist, Equipment, Venue, Band, Review, Event } from '../models';
 import { Observable } from 'rxjs';
 import { HeaderService } from '../services/header.service';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
@@ -30,7 +30,7 @@ export class ProfileComponent implements OnInit {
     private headerSvc: HeaderService
   ) {}
 
-  profile: Band | Venue = null;
+  profile: Band | Venue;
   slideIndex = 1;
   userType: string;
   view: boolean;
@@ -40,6 +40,7 @@ export class ProfileComponent implements OnInit {
   availableEquipment: Equipment[] = [];
   profileImageUrls: string[];
   loading = false;
+  profileReviews;
 
   profileForm: FormGroup = new FormGroup({
     address: new FormControl({ value: '' }, [Validators.required]),
@@ -49,7 +50,7 @@ export class ProfileComponent implements OnInit {
 
   select(equip) {
     let index = -1;
-// tslint:disable-next-line: prefer-for-of
+    // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.availableEquipment.length; i++) {
       if (this.availableEquipment[i].Name === equip.Name) {
         index = i;
@@ -61,7 +62,8 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.view = this.route.snapshot.params.id === this.authService.currentUserID;
+    this.view =
+      this.route.snapshot.params.id === this.authService.currentUserID;
     this.userType = this.route.snapshot.params.userType;
     let profile$: Observable<Band | Venue>;
     if (this.userType === 'band') {
@@ -78,35 +80,36 @@ export class ProfileComponent implements OnInit {
       this.profile = profile;
     });
 
-    profile$.pipe(
-      mergeMap((profile: Band | Venue) => {
-        this.profile = profile;
-        return this.authService.getUserType();
-      })
-    ).subscribe(type => {
-      const startRouterlink = type === 'band' ? ['/browse'] : ['/messages'];
-      let endRouterlink = null;
-      let iconEnd = null;
-      if (this.view) {
-        endRouterlink =
-        (this.userType === 'band')
-          ? ['/profile', 'band', 'settings']
-          : ['/profile', 'venue', 'settings'];
-        iconEnd = 'settings';
-      }
-      const iconStart = type === 'band' ? 'list' : 'forum';
+    profile$
+      .pipe(
+        switchMap((profile: Band | Venue) => {
+          return this.authService.getUserType();
+        })
+      )
+      .subscribe(type => {
+        const startRouterlink = type === 'band' ? ['/browse'] : ['/messages'];
+        let endRouterlink = null;
+        let iconEnd = null;
+        if (this.view) {
+          endRouterlink =
+            this.userType === 'band'
+              ? ['/profile', 'band', 'settings']
+              : ['/profile', 'venue', 'settings'];
+          iconEnd = 'settings';
+        }
+        const iconStart = type === 'band' ? 'list' : 'forum';
 
-      // Set header
-      this.headerSvc.setHeader({
-        title: this.profile.ProfileName,
-        iconEnd,
-        iconStart,
-        endRouterlink,
-        startRouterlink
+        // Set header
+        this.headerSvc.setHeader({
+          title: this.profile.ProfileName,
+          iconEnd,
+          iconStart,
+          endRouterlink,
+          startRouterlink
+        });
+
+        this._setData(this.route.snapshot.params.id, this.userType);
       });
-
-      this._setData(this.route.snapshot.params.id, this.userType);
-    });
   }
 
   private _setData(uid: string, userType: string) {
@@ -124,6 +127,10 @@ export class ProfileComponent implements OnInit {
         ? [...this.profile.ProfileImageUrls]
         : [this.profile.ProfilePictureUrl];
       this.profileImageUrls.unshift(this.profile.ProfilePictureUrl);
+      this.profile.Reviews = this.profileService.getReviewsByIdAndType(
+        uid,
+        userType
+      );
     } else if (userType === 'venue') {
       this.profile = this.profile as Venue;
       this.profileForm.controls.address.setValue(this.profile.ProfileAddress);
@@ -150,21 +157,28 @@ export class ProfileComponent implements OnInit {
         }
         for (const equipment of this.profile.AvailableEquipment) {
           const equipName = equipment.Name.toLowerCase()
-          .replace(' ', '_')
-          .replace(' ', '/');
+            .replace(' ', '_')
+            .replace(' ', '/');
           if (this.profileForm.controls[equipName]) {
             this.profileForm.controls[equipName].setValue(true);
           }
         }
         this.profileForm.disable();
       });
-      this.profile.Reviews = this.profileService
-        .getVenueReviewsById(uid) as Observable<Review[]>;
+      this.profile.Reviews = this.profileService.getReviewsByIdAndType(
+        uid,
+        userType
+      ) as Observable<Review[]>;
 
-      this.profile.Events = this.profileService
-        .getVenueEventsById(uid) as Observable<Event[]>;
+      this.profile.Events = this.profileService.getVenueEventsById(
+        uid
+      ) as Observable<Event[]>;
     }
     this.profileForm.disable();
+  }
+
+  dateToString(millis) {
+    return new Date(millis).toDateString();
   }
 
   changeSlideBy(delta) {
@@ -242,7 +256,11 @@ export class ProfileComponent implements OnInit {
       );
     } else {
       this.profile = this.profile as Band;
-      if ( this.profile.Playlist.TrackHref !== this.profileForm.controls.playlist.value && this.userType === 'band') {
+      if (
+        this.profile.Playlist.TrackHref !==
+          this.profileForm.controls.playlist.value &&
+        this.userType === 'band'
+      ) {
         const PlaylistName = this.playlists.find(
           x => x.TrackHref === this.profileForm.controls.playlist.value
         ).Name;
@@ -276,7 +294,7 @@ export class ProfileComponent implements OnInit {
         this.profileForm.controls.biography.value,
         this.profile.Playlist,
         this.profile.Tracks,
-        this.profile.SearchRadius,
+        this.profile.SearchRadius
       );
     }
   }
@@ -297,11 +315,9 @@ export class ProfileComponent implements OnInit {
 
   deletePicture(path: string) {
     if (this.profile.ProfilePictureUrl === path) {
-      this.snackBar.open(
-        'Select a new profile picture first',
-        'close',
-        { duration: 5000 }
-      );
+      this.snackBar.open('Select a new profile picture first', 'close', {
+        duration: 5000
+      });
     } else {
       this.profileImageUrls.splice(this.profileImageUrls.indexOf(path), 1);
       this.jumpToSlide(0);
@@ -309,7 +325,7 @@ export class ProfileComponent implements OnInit {
         this.profile.ProfileImageUrls.indexOf(path),
         1
       );
-      this.profileService.deteleImage(
+      this.profileService.deleteImage(
         this.authService.currentUserID,
         this.userType,
         path,

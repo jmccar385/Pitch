@@ -17,7 +17,7 @@ mat-list {
 }
 
 mat-list-item {
-	height: 16px !important;
+	height: auto !important;
 }
 
 .slide-container {
@@ -93,4 +93,8 @@ mat-card {
 
 .track {
   margin-bottom: 15px;
+}
+
+.track audio {
+	width: 100%;
 }

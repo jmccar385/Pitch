@@ -20,9 +20,15 @@ export class MessagesService {
       senderId,
       text: msg
     };
+
+    this.updateRead(convoId, read);
     return this.afDatabase
       .collection(`Conversations/${convoId}/Messages`)
       .add(message);
+  }
+
+  updateRead(convoId: string, conversationRead: boolean[]) {
+    this.afDatabase.collection('Conversations').doc(convoId).update({ConversationRead: conversationRead});
   }
 
   sendPitch(venueId: string, pitch: Pitch) {
@@ -37,7 +43,7 @@ export class MessagesService {
             members: [venueId, this.authSvc.currentUserID],
             pitchAccepted: false,
             pitch,
-            ConversationRead: [], // Might have to set default values
+            ConversationRead: [false, true],
             lastMessage: {
               createdAt: firestore.Timestamp.fromDate(new Date()),
               text: 'New Pitch from ' + name

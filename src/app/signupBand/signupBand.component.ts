@@ -81,7 +81,6 @@ export class SignupBandComponent implements OnInit {
     };
 
     this.musicService.getPlaylistTracks(band.Playlist.TrackHref).subscribe(response => {
-      console.log('getting tracks: ', response);
       for (let i = 0; i < response.items.length; i++) {
         if (i > 9) {
           break;

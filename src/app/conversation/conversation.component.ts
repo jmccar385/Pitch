@@ -94,6 +94,7 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
 
   sendMessage() {
     this.conversationRead[this.members.indexOf(this.correspondentId)] = false;
+    console.log(this.conversationRead);
     this.msgSvc
       .sendMessage(this.conversationId, this.text, this.authService.currentUserID, this.conversationRead)
       .then(() => {

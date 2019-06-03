@@ -122,7 +122,6 @@ export class SettingsService {
                 .pipe(
                   map(user => {
                     const isEnabled = user.data().notificationSettings[notification];
-                    console.log(isEnabled);
                     user.ref.set({
                       notificationSettings: {
                         [notification]: !isEnabled

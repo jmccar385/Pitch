@@ -3,7 +3,7 @@
   <mat-list *ngIf="!noMessages">
 
     <ng-container *ngFor="let convo of conversationItems | async">
-        <mat-list-item routerLink="{{ convo.conversation.pitchAccepted ? '/conversation/' + convo?.id : '/messages'}}">
+        <mat-list-item routerLink="{{ convo.conversation.pitchAccepted ? '/conversation/' + convo?.id : '/messages'}}" (click)="updateRead(convo?.id, convo.conversation.ConversationRead, convo.conversation.members)">
           <a matListAvatar id="profileLink" [routerLink]="['/profile', otherUserType, convo.senderData?.id]">
             <img matListAvatar [src]="convo.senderData?.profileUrl">
           </a>

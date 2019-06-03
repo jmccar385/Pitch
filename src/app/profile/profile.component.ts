@@ -316,7 +316,8 @@ export class ProfileComponent implements OnInit {
   deletePicture(path: string) {
     if (this.profile.ProfilePictureUrl === path) {
       this.snackBar.open('Select a new profile picture first', 'close', {
-        duration: 5000
+        duration: 5000,
+        verticalPosition: 'top'
       });
     } else {
       this.profileImageUrls.splice(this.profileImageUrls.indexOf(path), 1);
@@ -337,7 +338,8 @@ export class ProfileComponent implements OnInit {
   makeProfilePicture(imagePath: string) {
     if (this.profile.ProfilePictureUrl === imagePath) {
       this.snackBar.open('This is already your profile picture', 'close', {
-        duration: 5000
+        duration: 5000,
+        verticalPosition: 'top'
       });
     } else {
       const dialogRef = this.dialog.open(ProfileImageDialogComponent, {

@@ -141,7 +141,8 @@ export class SettingsComponent implements OnInit {
   verifyEmail() {
     this.authService.verification().then(() => {
       this.snackBar.open('A new email has been sent.', 'close', {
-        duration: 2000
+        duration: 2000,
+        verticalPosition: 'top'
       });
     });
   }

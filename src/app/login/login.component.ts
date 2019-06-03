@@ -63,7 +63,10 @@ export class LoginComponent implements OnInit {
           this.snackBar.open(
             'You have entered incorrect credentials',
             'close',
-            { duration: 2000 }
+            {
+              duration: 2000,
+              verticalPosition: 'top'
+            }
           );
         }
       });

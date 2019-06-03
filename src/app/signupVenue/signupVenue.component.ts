@@ -81,17 +81,20 @@ export class SignupVenueComponent {
         console.log(error);
         if (error.code === 'auth/weak-password') {
           this.snackBar.open('Your password is too short', 'close', {
-            duration: 2000
+            duration: 2000,
+            verticalPosition: 'top'
           });
         }
         if (error.code === 'auth/invalid-email') {
           this.snackBar.open('Please enter a valid email address', 'close', {
-            duration: 2000
+            duration: 2000,
+            verticalPosition: 'top'
           });
         }
         if (error.code === 'auth/email-already-in-use') {
           this.snackBar.open('This email is already taken', 'close', {
-            duration: 2000
+            duration: 2000,
+            verticalPosition: 'top'
           });
         }
       });

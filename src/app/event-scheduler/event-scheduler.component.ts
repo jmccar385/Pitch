@@ -168,7 +168,8 @@ export class EventSchedulerComponent implements OnInit {
           'Could not create event. Please try again.',
           'close',
           {
-            duration: 2000
+            duration: 2000,
+            verticalPosition: 'top'
           }
         );
       });

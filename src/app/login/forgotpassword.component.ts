@@ -27,7 +27,10 @@ export class ForgotPasswordDialogComponent {
         this.snackBar.open(
           'Please check your email to reset your password',
           'close',
-          { duration: 2000 }
+          {
+            duration: 2000,
+            verticalPosition: 'top'
+          }
         );
       })
       .catch(error => {
@@ -36,7 +39,8 @@ export class ForgotPasswordDialogComponent {
           error.code === 'auth/invalid-email'
         ) {
           this.snackBar.open('We dont recognize this email', 'close', {
-            duration: 2000
+            duration: 2000,
+            verticalPosition: 'top'
           });
         }
       });

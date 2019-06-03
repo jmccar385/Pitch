@@ -20,14 +20,16 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
 
   messages: any;
   currentUserId: string;
-  currentUserType: string;
-  correspondentType: string;
+  currentUserType = '';
+  correspondentType = '';
   conversationId: string;
   text: string;
-  currentUserData: any;
+  currentUserData = {};
   correspondentId: string;
-  correspondentData: any;
+  correspondentData = {};
   conversationData: any;
+  conversationRead: boolean[];
+  members: string[];
 
   ngAfterViewChecked(): void {
     this.scrollToBottom();
@@ -50,20 +52,11 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
     this.currentUserId = this.authService.currentUserID;
     this.authService.getUserType().subscribe(type => {
       this.currentUserType = type;
-      this.correspondentType = this.currentUserType === 'band' ? 'venue' : 'band';
+      this.correspondentType = type === 'band' ? 'venue' : 'band';
     });
     this.route.params.subscribe(params => {
       this.messages = this.msgSvc.getMessagesByConversationId(params.id);
       this.conversationId = params.id;
-    });
-
-    // Set header
-    this.headerSvc.setHeader({
-      title: 'Messages',
-      iconEnd: null,
-      iconStart: 'forum',
-      endRouterlink: null,
-      startRouterlink: ['/messages']
     });
 
     this.msgSvc.getSenderDataById(this.currentUserId).subscribe(data => {
@@ -72,7 +65,10 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
     this.conversationData = this.msgSvc.getConversationByConversationId(
       this.conversationId
     );
+
     this.conversationData.subscribe(element => {
+      this.conversationRead = element.ConversationRead;
+      this.members = element.members;
       const id = element.members.filter(i => {
         if (i !== this.currentUserId) {
           this.correspondentId = i;
@@ -80,6 +76,15 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
             .getSenderDataById(this.correspondentId)
             .subscribe(data => {
               this.correspondentData = data;
+
+              // Set header
+              this.headerSvc.setHeader({
+                title: data.profileName,
+                iconEnd: null,
+                iconStart: 'forum',
+                endRouterlink: null,
+                startRouterlink: ['/messages']
+              });
             });
         }
       })[0];
@@ -88,9 +93,9 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
   }
 
   sendMessage() {
-    console.log(this.text);
+    this.conversationRead[this.members.indexOf(this.correspondentId)] = false;
     this.msgSvc
-      .sendMessage(this.conversationId, this.text, this.authService.currentUserID)
+      .sendMessage(this.conversationId, this.text, this.authService.currentUserID, this.conversationRead)
       .then(() => {
         this.text = '';
       })

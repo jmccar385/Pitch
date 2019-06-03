@@ -10,86 +10,183 @@ const client_secret = functions.config().spotify.client_secret;
 
 admin.initializeApp();
 
-export const updateUpcomingEvents =
-functions.pubsub.schedule('every 24 hours').onRun((context) => {
-    return admin.firestore().collection('Venues').listDocuments().then(venueRefs => {
-      venueRefs.forEach(venueRef => {
-        return venueRef.collection('Events').get().then(eventsQuerySnapshot => {
-          let upcomingEventCounter = 0;
-          eventsQuerySnapshot.docs.forEach(eventQueryDocumentSnapshot => {
-            const event = eventQueryDocumentSnapshot.data();
-            if (event.EventDateTime.toDate().getTime() > Date.now()) {
-              upcomingEventCounter++;
-            }
-          });
-          return venueRef.update({upcomingEvents: upcomingEventCounter});
+export const updateUpcomingEvents = functions.pubsub
+  .schedule('every 24 hours')
+  .onRun(context => {
+    return admin
+      .firestore()
+      .collection('Venues')
+      .listDocuments()
+      .then(venueRefs => {
+        venueRefs.forEach(venueRef => {
+          return venueRef
+            .collection('Events')
+            .get()
+            .then(eventsQuerySnapshot => {
+              let upcomingEventCounter = 0;
+              eventsQuerySnapshot.docs.forEach(eventQueryDocumentSnapshot => {
+                const event = eventQueryDocumentSnapshot.data();
+                if (event.EventDateTime.toDate().getTime() > Date.now()) {
+                  upcomingEventCounter++;
+                }
+              });
+              return venueRef.update({ upcomingEvents: upcomingEventCounter });
+            });
         });
       });
-    });
-})
+  });
 
-export const lastMessageSentTrigger = functions.firestore.document('Conversations/{convoId}/Messages/{msgId}').onCreate((change, context) => {
-  const msg = change.data();
-  const conversationRef = admin.firestore().doc(`Conversations/${context.params.convoId}`);
-  return conversationRef.update({lastMessage: msg});
-})
+export const lastMessageSentTrigger = functions.firestore
+  .document('Conversations/{convoId}/Messages/{msgId}')
+  .onCreate((change, context) => {
+    const msg = change.data();
+    const conversationRef = admin
+      .firestore()
+      .doc(`Conversations/${context.params.convoId}`);
+    return conversationRef.update({ lastMessage: msg });
+  });
 
-export const newMessageNotificationTrigger = functions.firestore.document('Conversations/{convoId}/Messages/{msgId}').onCreate((change, context) => {
-  const msg = change.data();
-  if (!msg) return;
+export const newMessageNotificationTrigger = functions.firestore
+  .document('Conversations/{convoId}/Messages/{msgId}')
+  .onCreate((change, context) => {
+    const msg = change.data();
+    if (!msg) return;
 
-  const sernderUid = msg.senderId;
-  const conversationRef = admin.firestore().doc(`Conversations/${context.params.convoId}`);
+    const sernderUid = msg.senderId;
+    const conversationRef = admin
+      .firestore()
+      .doc(`Conversations/${context.params.convoId}`);
 
-  return conversationRef.get().then(doc => {
-    const conversation = doc.data();
+    return conversationRef
+      .get()
+      .then(doc => {
+        const conversation = doc.data();
 
-    const members = conversation ? conversation.members as Array<string> : null;
-    const recepientUid = members ? members.filter(uid => uid !== sernderUid) : null;
+        const members = conversation
+          ? (conversation.members as Array<string>)
+          : null;
+        const recepientUid = members
+          ? members.filter(uid => uid !== sernderUid)
+          : null;
 
-    return admin.firestore().doc(`Artists/${recepientUid}`).get().then(userDoc => {
-      if (userDoc.exists) {
-        const userData = userDoc.data();
-        
-        const token = userData ? userData.messagingToken : null;
-        const enabled = userData ? userData.messagingNotificationsEnabled : null;
-        if (token && enabled) {
-          const message = {
-            notification: {
-              title: 'New message received!',
-              body: 'A venue sent you a message.'
-            },
-            token: token
-          }
+        return admin
+          .firestore()
+          .doc(`Artists/${recepientUid}`)
+          .get()
+          .then(userDoc => {
+            if (userDoc.exists) {
+              const userData = userDoc.data();
 
-          return admin.messaging().send(message);
-        } else {
-          return "No token";
-        }
-      } else {
-        return admin.firestore().doc(`Venues/${recepientUid}`).get().then(venueDoc => {
-          const userData = venueDoc.data();
-          
-          const token = userData ? userData.messagingToken : null;
-          const enabled = userData ? userData.messagingNotificationsEnabled : null;
+              const token = userData ? userData.MessagingToken : null;
+              const enabled = userData
+                ? userData.notificationSettings.newMessage
+                : null;
+              if (token && enabled) {
+                const message = {
+                  notification: {
+                    title: 'New message received!',
+                    body: 'A venue sent you a message.'
+                  },
+                  token: token
+                };
+
+                return admin.messaging().send(message);
+              } else {
+                return 'No token';
+              }
+            } else {
+              return admin
+                .firestore()
+                .doc(`Venues/${recepientUid}`)
+                .get()
+                .then(venueDoc => {
+                  const userData = venueDoc.data();
+
+                  const token = userData ? userData.MessagingToken : null;
+                  const enabled = userData
+                    ? userData.notificationSettings.newMessage
+                    : null;
+                  if (token && enabled) {
+                    const message = {
+                      notification: {
+                        title: 'New message received!',
+                        body: 'A band sent you a message.'
+                      },
+                      token: token
+                    };
+
+                    return admin.messaging().send(message);
+                  } else {
+                    return 'No token';
+                  }
+                });
+            }
+          });
+      })
+      .catch(console.log);
+  });
+
+export const newPitchNotificationTrigger = functions.firestore
+  .document('Conversations/{convoId}')
+  .onCreate(async (change, context) => {
+    const convo = change.data();
+    if (!convo) return;
+
+    await admin
+      .firestore()
+      .doc(`Venues/${convo.members[0]}`)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          const userData = doc.data();
+
+          const token = userData ? userData.MessagingToken : null;
+          const enabled = userData
+            ? userData.notificationSettings.newPitch
+            : null;
           if (token && enabled) {
             const message = {
               notification: {
                 title: 'New message received!',
-                body: 'A band sent you a message.'
+                body: 'A band sent you a pitch.'
               },
               token: token
-            }
+            };
 
             return admin.messaging().send(message);
-          } else {
-            return "No token";
+          }  else {
+            return 'No token';
           }
-        });
-      }
-    });
-  }).catch(console.log);
-})
+        } else {
+          return admin
+            .firestore()
+            .doc(`Venues/${convo.members[1]}`)
+            .get()
+            .then(doc1 => {
+              const userData = doc1.data();
+
+              const token = userData ? userData.MessagingToken : null;
+              const enabled = userData
+                ? userData.notificationSettings.newPitch
+                : null;
+              if (token && enabled) {
+                const message = {
+                  notification: {
+                    title: 'New pitch received!',
+                    body: 'A band sent you a pitch.'
+                  },
+                  token: token
+                };
+
+                return admin.messaging().send(message);
+              } else {
+                return 'No token';
+              }
+            });
+        }
+      })
+      .catch(console.log);
+  });
 
 // <------------------------- Music Stuff ------------------------->
 function generateRandomString(length: number) {
@@ -104,35 +201,47 @@ function generateRandomString(length: number) {
 }
 
 export const refreshToken = functions.https.onCall(async (data, context) => {
-  if (!context.auth) {return}
+  if (!context.auth) {
+    return;
+  }
   const uid = context.auth.uid;
-  const refresh_token = await admin.firestore().doc(`Artists/${uid}`).get().then(ref => {
-    const userData = ref.data();
-    if (!userData) {return}
-    return userData.spotifyTokens.refreshToken;
-  });
+  const refresh_token = await admin
+    .firestore()
+    .doc(`Artists/${uid}`)
+    .get()
+    .then(ref => {
+      const userData = ref.data();
+      if (!userData) {
+        return;
+      }
+      return userData.spotifyTokens.refreshToken;
+    });
   const url = 'https://accounts.spotify.com/api/token';
 
   return new Promise((resolve, reject) => {
-    request.post(url, {
-      form: {
-        grant_type: 'refresh_token',
-        refresh_token
+    request.post(
+      url,
+      {
+        form: {
+          grant_type: 'refresh_token',
+          refresh_token
+        },
+        headers: {
+          Authorization:
+            'Basic ' +
+            Buffer.from(client_id + ':' + client_secret).toString('base64')
+        }
       },
-      headers: {
-        Authorization:
-          'Basic ' +
-          Buffer.from(client_id + ':' + client_secret).toString('base64')
+      function(error, response, body) {
+        if (!error && response.statusCode === 200) {
+          resolve(body);
+        } else {
+          reject(response);
+        }
       }
-    }, function(error, response, body) {
-      if (!error && response.statusCode === 200) {
-        resolve(body);
-      } else {
-        reject(response);
-      }
-    })
+    );
   });
-})
+});
 
 export const authSpotify = functions.https.onRequest((req, res) => {
   const state = generateRandomString(16);

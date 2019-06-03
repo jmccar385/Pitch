@@ -8,9 +8,10 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProfileService } from '../services/profile.service';
 import { Observable } from 'rxjs';
-import { Band, Venue } from '../models';
+import { Band, Venue, NotificationTypes } from '../models';
 import { AngularFireMessaging } from '@angular/fire/messaging';
 import { MessagesService } from '../services/messages.service';
+import { SettingsService } from '../services/settings.service';
 
 @Component({
   selector: 'app-settings',
@@ -26,10 +27,12 @@ export class SettingsComponent implements OnInit {
   startRouterlink;
   notificationsEnabled;
 
+  notificationSettings = [];
+  notificationSettings$;
+
   constructor(
     private authService: AuthService,
-    private msgService: MessagesService,
-    private afMessaging: AngularFireMessaging,
+    private settingsSvc: SettingsService,
     public dialog: MatDialog,
     private headerSvc: HeaderService,
     private snackBar: MatSnackBar,
@@ -44,6 +47,27 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
     this.userType = this.route.snapshot.params.userType;
+    this.notificationSettings = this.userType === 'band' ? [
+      {
+        type: 'newMessage',
+        label: 'New Messages',
+        value: false
+      }
+    ] :
+    [
+      {
+        type: 'newMessage',
+        label: 'New Messages',
+        value: false
+      },
+      {
+        type: 'newPitch',
+        label: 'New Pitch',
+        value: false
+      }
+    ];
+
+    this.notificationSettings$ = this.settingsSvc.getNotificationSettings(this.notificationSettings);
     this.verified = this.authService.currentUser.emailVerified;
     this.userEmail = this.authService.currentUser.email;
     const iconEnd = 'power_settings_new';
@@ -83,8 +107,6 @@ export class SettingsComponent implements OnInit {
     this.settingsForm.valueChanges.subscribe(() => {
       this.settingsChange = true;
     });
-
-    this.notificationsEnabled = this.msgService.getNotificationSetting();
   }
 
   goBack() {
@@ -110,20 +132,6 @@ export class SettingsComponent implements OnInit {
     } else {
       this.router.navigate(this.startRouterlink);
     }
-  }
-
-  consent() {
-    this.afMessaging.requestToken
-    .subscribe(token => this.msgService.sendConsentToken(token)); // second log is for errors
-    this.msgService.toggleNotifications();
-
-    // this.afMessaging.messages.subscribe(val => console.log('subscribed: ', val));
-  }
-
-  delete() {
-    this.authService.logout().then(() => {
-      this.router.navigateByUrl('login');
-    });
   }
 
   signOut() {

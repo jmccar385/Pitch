@@ -4,7 +4,7 @@ import { ProfileService } from '../services/profile.service';
 import { MessagesService } from '../services/messages.service';
 import { Observable, from, zip } from 'rxjs';
 import { mergeMap, map, toArray, take } from 'rxjs/operators';
-import { AcceptanceModalComponent } from '../acceptance-modal/acceptance-modal.component';
+import { AcceptanceDialogComponent } from './acceptance-modal.component';
 import { MatDialog } from '@angular/material';
 import { Band } from '../models';
 import { HeaderService } from '../services/header.service';
@@ -16,10 +16,11 @@ import { HeaderService } from '../services/header.service';
 })
 export class MessagesComponent implements OnInit {
   currentUserId: string;
-  currentUserType: string;
-  otherUserType: string;
+  currentUserType = '';
+  otherUserType = '';
   band: Band;
   conversationItems: Observable<any>;
+  noMessages = false;
 
   constructor(
     private authService: AuthService,
@@ -74,6 +75,11 @@ export class MessagesComponent implements OnInit {
             );
           })
         );
+      this.conversationItems.subscribe((response) => {
+        if (!response.length) {
+          this.noMessages = true;
+        }
+      });
     });
   }
 
@@ -92,12 +98,11 @@ export class MessagesComponent implements OnInit {
             map((artist: Band) => {
               this.band = artist;
               this.band.ProfileImageUrls.push(this.band.ProfilePictureUrl);
-              this.dialog.open(AcceptanceModalComponent, {
-                width: '90%',
-                maxWidth: '100vw',
-                height: '90%',
+              this.dialog.open(AcceptanceDialogComponent, {
+                width: '80vw',
                 autoFocus: false,
-                data: { convoId: convoId, convo: convo, bandId: id.toString(), band: this.band }
+                panelClass: '',
+                data: { convoId, convo, bandId: id.toString(), band: this.band }
               });
             })
           );
@@ -106,4 +111,9 @@ export class MessagesComponent implements OnInit {
       )
       .subscribe();
   }
+
+  // updateRead(convoId: string, read: boolean[], members: string[]) {
+  //   read[members.indexOf(this.currentUserId)] = true;
+  //   this.messagesService.updateRead(convoId, read);
+  // }
 }

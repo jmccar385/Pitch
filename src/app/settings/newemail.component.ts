@@ -35,7 +35,7 @@ export class NewEmailDialogComponent {
           .then(() => {
             this.dialogRef.close();
             this.authService.verification();
-            this.snackBar.open('A verification email has been sent to your new address.', 'close', {
+            this.snackBar.open('A verification email has been sent', 'close', {
               duration: 2000
             });
           })
@@ -51,7 +51,7 @@ export class NewEmailDialogComponent {
       })
       .catch(error => {
         this.snackBar.open(
-          'You have entered incorrect credentials. Cannot update email.',
+          'You have entered incorrect credentials',
           'close',
           { duration: 2000 }
         );

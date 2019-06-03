@@ -40,12 +40,13 @@ import { SpotifyAlertDialogComponent } from './signup/spotifyalert.component';
 import { NewEmailDialogComponent } from './settings/newemail.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ConversationComponent } from './conversation/conversation.component';
-import { AcceptanceModalComponent } from './acceptance-modal/acceptance-modal.component';
+import { AcceptanceDialogComponent } from './messages/acceptance-modal.component';
 import { HeaderService } from './services/header.service';
 import { SaveAlertDialogComponent } from './settings/savealert.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { SettingsService } from './services/settings.service';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,7 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
     EventSchedulerComponent,
     MessagesComponent,
     ConversationComponent,
-    AcceptanceModalComponent,
+    AcceptanceDialogComponent,
     SaveAlertDialogComponent,
   ],
   imports: [
@@ -97,7 +98,8 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
     VerifiedGuard,
     ProfileService,
     MusicService,
-    HeaderService
+    HeaderService,
+    SettingsService
   ],
   entryComponents: [
     ForgotPasswordDialogComponent,
@@ -107,7 +109,7 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
     UploadDialogComponent,
     PitchDialogComponent,
     ProfileImageDialogComponent,
-    AcceptanceModalComponent,
+    AcceptanceDialogComponent,
     SaveAlertDialogComponent
   ],
   bootstrap: [AppComponent]

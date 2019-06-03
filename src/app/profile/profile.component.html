@@ -20,16 +20,16 @@
       <mat-card-title>Reviews ({{profile?.ProfileRatingCount}})</mat-card-title>
       <mat-card-subtitle>Rating: {{profile?.ProfileRating | number}}</mat-card-subtitle>
       <button *ngIf="!view" mat-stroked-button class="card-button" color="accent" (click)="reviewModal()" type="button">Review</button>
-      <mat-card-content>
-        <mat-card class="review-card" *ngFor="let review of profile?.Reviews | async">
-          <mat-card-title>{{review.ReviewCreatorName}}</mat-card-title>
-          <mat-card-subtitle>
+        <mat-card-content *ngIf="profile">
+          <mat-card class="review-card" *ngFor="let review of profile.Reviews | async">
+            <mat-card-title>{{review.ReviewCreatorName}}</mat-card-title>
+            <mat-card-subtitle>
               <mat-icon class="star-image">star</mat-icon>
               {{review.ReviewRating}}</mat-card-subtitle>
-          <mat-card-content>{{review.ReviewText}}</mat-card-content>
-          <!-- <mat-card-actions>{{review.CreationDate.toLocaleDateString("en-US")}}</mat-card-actions> Uncomment when all reviews are consistent -->
-        </mat-card>
-      </mat-card-content>
+            <mat-card-content>{{review.ReviewText}}</mat-card-content>
+            <mat-card-actions>{{dateToString(review.CreationDate)}}</mat-card-actions>
+          </mat-card>
+        </mat-card-content>
     </mat-card>
     <mat-card *ngIf="view">
       <mat-card-title>About</mat-card-title>
@@ -137,7 +137,8 @@
     </mat-card>
   </form>
   <button *ngIf="profileForm.disabled && view" mat-mini-fab color="primary" class="edit_save" (click)="editProfile()" type="button">
-    <mat-icon>edit</mat-icon>
+      <mat-icon *ngIf="!loading">edit</mat-icon>
+      <div class="loader" *ngIf="loading"></div>
   </button>
   <button *ngIf="profileForm.enabled && view" mat-mini-fab color="primary" class="edit_save" (click)="saveProfile()" type="button">
     <mat-icon>save</mat-icon>

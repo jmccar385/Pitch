@@ -16,14 +16,14 @@ export interface Band {
   ProfileRating: number;
   ProfileRatingCount: number;
   ProfileReportCount: number;
-  Reviews?: Review[];
+  Reviews?: Observable<Review[]>;
+  MessagingToken?: string;
 }
 
 export interface Review {
   ReviewText: string;
   ReviewRating: number;
   ReviewCreator: string;
-  ReviewCreatorName: string;
   CreationDate: number;
 }
 
@@ -153,6 +153,11 @@ export interface Track {
   Preview: string;
 }
 
+export enum NotificationTypes {
+  'newMessage',
+  'newPitch'
+}
+
 export interface Venue {
   id?: string;
   ProfileAddress: string;
@@ -167,6 +172,7 @@ export interface Venue {
   Reviews?: Observable<Review[]>;
   Events?: Observable<Event[]>;
   upcomingEvents?: number;
+  MessagingToken?: string;
 }
 
 export interface Event {
@@ -195,6 +201,7 @@ export interface HeaderValues {
 
 export interface Conversation {
   members: string[];
+  ConversationRead: boolean[];
   pitchAccepted: boolean;
   Messages?: Message[];
   lastMessage: {

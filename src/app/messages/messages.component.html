@@ -1,20 +1,25 @@
 <app-header></app-header>
 <div id="messages_container">
-    <mat-list>
-      <mat-list-item routerLink="{{convo.conversation.pitchAccepted ? '/conversation/' + convo.id: '/messages'}}" routerLinkActive="router-link-active"  *ngFor="let convo of conversationItems | async">
-        <a matListAvatar id="profileLink" href="{{'profile/' + otherUserType + '/'+ convo.senderData?.id}}">
-          <img matListAvatar src="{{convo.senderData?.profileUrl}}">
-        </a>
-        <h3 matLine>{{convo.senderData?.profileName}}</h3>
-        <p matLine>
-            {{convo.conversation.lastMessage.text}}
-        </p>
-        <ng-template [ngIf]="!convo.conversation.pitchAccepted && currentUserType == 'venue' ">
-          <button mat-flat-button color="primary" (click)="viewPitch(convo.id)">View Pitch</button>
-        </ng-template>
-        <ng-template [ngIf]="!convo.conversation.pitchAccepted && currentUserType== 'band' ">
-          <button mat-flat-button color="primary">Pending</button>
-        </ng-template>
-      </mat-list-item>
-    </mat-list>
-  </div>
+  <mat-list *ngIf="!noMessages">
+
+    <ng-container *ngFor="let convo of conversationItems | async">
+        <mat-list-item routerLink="{{ convo.conversation.pitchAccepted ? '/conversation/' + convo?.id : '/messages'}}">
+          <a matListAvatar id="profileLink" [routerLink]="['/profile', otherUserType, convo.senderData?.id]">
+            <img matListAvatar [src]="convo.senderData?.profileUrl">
+          </a>
+          <h3 matLine [ngClass]="{'bold': ((!convo.conversation.ConversationRead[0] && currentUserType === 'venue') || (!convo.conversation.ConversationRead[1] && currentUserType === 'band'))}">{{convo.senderData?.profileName}}</h3>
+          <p matLine [ngClass]="{'bold': ((!convo.conversation.ConversationRead[0] && currentUserType === 'venue') || (!convo.conversation.ConversationRead[1] && currentUserType === 'band'))}">
+              {{convo.conversation.lastMessage.text}}
+          </p>
+          <ng-template [ngIf]="!convo.conversation.pitchAccepted && currentUserType == 'venue' ">
+            <button mat-flat-button color="primary" (click)="viewPitch(convo.id)">View Pitch</button>
+          </ng-template>
+          <ng-template [ngIf]="!convo.conversation.pitchAccepted && currentUserType== 'band' ">
+            <button mat-flat-button color="primary">Pending</button>
+          </ng-template>
+        </mat-list-item>
+    </ng-container>
+  </mat-list>
+  <p *ngIf="currentUserType == 'band' && noMessages" class="no_messages">Send a pitch to begin messaging a venue...</p>
+  <p *ngIf="currentUserType == 'venue' && noMessages" class="no_messages">Wait for a pitch from a band...</p>
+</div>

@@ -14,7 +14,7 @@ export class MessagesService {
     private authSvc: AuthService
   ) {}
 
-  sendMessage(convoId: string, msg: string, senderId: string) {
+  sendMessage(convoId: string, msg: string, senderId: string, read?: boolean[]) {
     const message: Message = {
       createdAt: Date.now(),
       senderId,
@@ -23,70 +23,6 @@ export class MessagesService {
     return this.afDatabase
       .collection(`Conversations/${convoId}/Messages`)
       .add(message);
-  }
-
-  sendConsentToken(token: string) {
-    const uid = this.authSvc.currentUserID;
-    return this.authSvc.getUserType().toPromise().then(type => {
-      if (type === 'band') {
-        return this.afDatabase
-          .collection('Artists')
-          .doc(uid)
-          .update({ messagingToken: token });
-      } else {
-        return this.afDatabase
-          .collection('Venues')
-          .doc(uid)
-          .update({ messagingToken: token });
-      }
-    });
-  }
-
-  getNotificationSetting() {
-    const uid = this.authSvc.currentUserID;
-    return this.authSvc.getUserType().pipe(
-      mergeMap(type => {
-        if (type === 'band') {
-          return this.afDatabase
-            .collection('Artists')
-            .doc(uid).get().pipe(
-              map(user => {
-                return user.data().messagingNotificationsEnabled;
-              })
-            );
-        } else {
-          return this.afDatabase
-            .collection('Venues')
-            .doc(uid).get().pipe(
-              map(user => {
-                return user.data().messagingNotificationsEnabled;
-              })
-            );
-        }
-      })
-    );
-  }
-
-  toggleNotifications() {
-    const uid = this.authSvc.currentUserID;
-    return this.authSvc.getUserType().toPromise().then(type => {
-      if (type === 'band') {
-        return this.afDatabase
-          .collection('Artists')
-          .doc(uid).get().toPromise().then(user => {
-            const isEnabled = user.data().messagingNotificationsEnabled;
-            return user.ref.update({ messagingNotificationsEnabled: !isEnabled });
-          });
-      } else {
-        return this.afDatabase
-          .collection('Venues')
-          .doc(uid)
-          .get().toPromise().then(user => {
-            const isEnabled = user.data().messagingNotificationsEnabled;
-            return user.ref.update({ messagingNotificationsEnabled: !isEnabled });
-          });
-      }
-    });
   }
 
   sendPitch(venueId: string, pitch: Pitch) {
@@ -101,6 +37,7 @@ export class MessagesService {
             members: [venueId, this.authSvc.currentUserID],
             pitchAccepted: false,
             pitch,
+            ConversationRead: [], // Might have to set default values
             lastMessage: {
               createdAt: firestore.Timestamp.fromDate(new Date()),
               text: 'New Pitch from ' + name

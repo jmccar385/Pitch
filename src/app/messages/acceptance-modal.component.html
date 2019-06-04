@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>{{data.band.ProfileName}}</h1>
 <div mat-dialog-content>
     <p>{{data.convo.pitch?.message}}</p>
-    <p id="events-label">We are interest in performing at:</p>
+    <p id="events-label">We are interested in performing at:</p>
     <mat-list>
         <mat-list-item *ngFor="let event of data.convo.pitch.events">{{event.EventName}}</mat-list-item>
     </mat-list>
